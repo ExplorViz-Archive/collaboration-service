@@ -1,10 +1,5 @@
 package net.explorviz.extension.vr.messages;
 
-import java.util.Arrays;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class AppReleasedMessage extends VRMessage {
 
     public static final String EVENT = "app_released";
@@ -12,15 +7,6 @@ public class AppReleasedMessage extends VRMessage {
     private String id;
     private double[] position;
     private double[] quaternion;
-
-    @JsonCreator
-    public AppReleasedMessage(@JsonProperty("id") String id, @JsonProperty("position") double[] position,
-            @JsonProperty("quaternion") double[] quaternion) {
-        super(EVENT);
-        this.id = id;
-        this.position = position;
-        this.quaternion = quaternion;
-    }
 
     public String getId() {
         return id;
@@ -44,43 +30,5 @@ public class AppReleasedMessage extends VRMessage {
 
     public void setQuaternion(double[] quaternion) {
         this.quaternion = quaternion;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + Arrays.hashCode(position);
-        result = prime * result + Arrays.hashCode(quaternion);
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!super.equals(obj)) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        AppReleasedMessage other = (AppReleasedMessage) obj;
-        if (id == null) {
-            if (other.id != null) {
-                return false;
-            }
-        } else if (!id.equals(other.id)) {
-            return false;
-        }
-        if (!Arrays.equals(position, other.position)) {
-            return false;
-        }
-        if (!Arrays.equals(quaternion, other.quaternion)) {
-            return false;
-        }
-        return true;
     }
 }

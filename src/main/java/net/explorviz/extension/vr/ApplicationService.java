@@ -30,20 +30,20 @@ public class ApplicationService {
         appModel.setQuaternion(message.getQuaternion());
 
     }
-    
+
     public void onAppClosed(final AppClosedMessage message) {
         this.apps.remove(message.getAppID());
     }
-    
+
     public boolean onAppGrabbed(final AppGrabbedMessage message, String userId) {
         ApplicationModel appModel = this.apps.get(message.getAppID());
-        if (appModel == null || appModel.isGrabbed()) return false;
+        if (appModel == null || appModel.isGrabbed())
+            return false;
         appModel.setGrabbed(true);
         appModel.setGrabbedByUser(userId);
         return true;
     }
-    
+
     // TODO onAppReleased, onAppTranslated
 
-    
 }

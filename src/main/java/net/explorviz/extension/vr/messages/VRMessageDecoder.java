@@ -26,7 +26,8 @@ public class VRMessageDecoder implements Decoder.TextStream<List<VRMessage>> {
     @Override
     public void init(EndpointConfig config) {
         objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, true);
+        objectMapper.enable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES);
+        objectMapper.enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
     }
 
     @Override

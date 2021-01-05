@@ -43,7 +43,7 @@ public class VRSocket {
             onMessage(message);
         }
     }
-    
+
     private void onMessage(VRMessage message) {
         LOGGER.debug("received message: {}", message);
     }
