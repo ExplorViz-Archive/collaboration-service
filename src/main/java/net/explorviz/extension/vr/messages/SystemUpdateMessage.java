@@ -12,7 +12,7 @@ public class SystemUpdateMessage extends VRMessage {
 
     @JsonCreator
     public SystemUpdateMessage(@JsonProperty("id") String id, @JsonProperty("isOpen") Boolean isOpen) {
-        super();
+        super(EVENT);
         this.id = id;
         this.isOpen = isOpen;
     }

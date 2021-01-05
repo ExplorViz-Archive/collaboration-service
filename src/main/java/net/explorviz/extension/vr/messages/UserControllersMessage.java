@@ -15,7 +15,7 @@ public class UserControllersMessage extends VRMessage {
     @JsonCreator
     public UserControllersMessage(@JsonProperty("connect") String[] connect,
             @JsonProperty("disconnect") String[] disconnect) {
-        super();
+        super(EVENT);
         this.connect = connect;
         this.disconnect = disconnect;
     }

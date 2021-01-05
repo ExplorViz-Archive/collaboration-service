@@ -77,7 +77,7 @@ public class UserPositionsMessage extends VRMessage {
     public UserPositionsMessage(@JsonProperty("controller1") Pose controller1,
             @JsonProperty("controller2") Pose controller2, @JsonProperty("camera") Pose camera,
             @JsonProperty("time") Date time) {
-        super();
+        super(EVENT);
         this.controller1 = controller1;
         this.controller2 = controller2;
         this.camera = camera;

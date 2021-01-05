@@ -11,7 +11,7 @@ public class AppClosedMessage extends VRMessage {
 
     @JsonCreator
     public AppClosedMessage(@JsonProperty("appID") String appID) {
-        super();
+        super(EVENT);
         this.appID = appID;
     }
 

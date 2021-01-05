@@ -16,7 +16,7 @@ public class AppOpenedMessage extends VRMessage {
     @JsonCreator
     public AppOpenedMessage(@JsonProperty("id") String id, @JsonProperty("position") double[] position,
             @JsonProperty("quaternion") double[] quaternion) {
-        super();
+        super(EVENT);
         this.id = id;
         this.position = position;
         this.quaternion = quaternion;

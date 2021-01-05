@@ -15,7 +15,7 @@ public class AppTranslatedMessage extends VRMessage {
     
     @JsonCreator
     public AppTranslatedMessage(@JsonProperty("appId") String appId, @JsonProperty("direction") double[] direction, @JsonProperty("length") double length) {
-        super();
+        super(EVENT);
         this.appId = appId;
         this.direction = direction;
         this.length = length;

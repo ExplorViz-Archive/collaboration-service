@@ -17,7 +17,7 @@ public class LandscapePositionMessage extends VRMessage {
     @JsonCreator
     public LandscapePositionMessage(@JsonProperty("deltaPosition") double[] deltaPosition,
             @JsonProperty("offset") double[] offset, @JsonProperty("quaternion") double[] quaternion) {
-        super();
+        super(EVENT);
         this.deltaPosition = deltaPosition;
         this.offset = offset;
         this.quaternion = quaternion;

@@ -54,7 +54,7 @@ public class VRMessageDecoderTest {
 
     @Test
     public void testAppClosesdMessage() throws DecodeException, IOException {
-        String json = "{\"event\": \"app_closed\", \"appId\": \"test\"}";
+        String json = "{\"event\": \"app_closed\", \"appID\": \"test\"}";
         VRMessage message = decoder.decodeMessage(json);
         assertEquals(message, new AppClosedMessage("test"));
     }

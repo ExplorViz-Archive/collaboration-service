@@ -14,7 +14,7 @@ public class SpectatingUpdateMessage extends VRMessage {
     @JsonCreator
     public SpectatingUpdateMessage(@JsonProperty("userID") String userID,
             @JsonProperty("isSpectating") boolean isSpectating, @JsonProperty("spectatedUser") String spectatedUser) {
-        super();
+        super(EVENT);
         this.userID = userID;
         this.isSpectating = isSpectating;
         this.spectatedUser = spectatedUser;

@@ -15,7 +15,7 @@ public class ComponentUpdateMessage extends VRMessage {
     @JsonCreator
     public ComponentUpdateMessage(@JsonProperty("appID") String appID, @JsonProperty("componentID") String componentID,
             @JsonProperty("isOpened") boolean isOpened, @JsonProperty("isFoundation") boolean isFoundation) {
-        super();
+        super(EVENT);
         this.appID = appID;
         this.componentID = componentID;
         this.isOpened = isOpened;

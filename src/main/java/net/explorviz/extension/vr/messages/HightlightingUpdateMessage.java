@@ -16,7 +16,7 @@ public class HightlightingUpdateMessage extends VRMessage {
     public HightlightingUpdateMessage(@JsonProperty("appID") String appID,
             @JsonProperty("entityType") String entityType, @JsonProperty("entityID") String entityID,
             @JsonProperty("isHighlighted") boolean isHighlighted) {
-        super();
+        super(EVENT);
         this.appID = appID;
         this.entityType = entityType;
         this.entityID = entityID;

@@ -21,6 +21,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @Type(value = UserPositionsMessage.class, name = UserPositionsMessage.EVENT)})
 public abstract class VRMessage {
     private String event;
+    
+    public VRMessage(String event) {
+        this.event = event;
+    }
 
     public String getEvent() {
         return event;

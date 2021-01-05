@@ -12,7 +12,7 @@ public class NodegroupUpdateMessage extends VRMessage {
 
     @JsonCreator
     public NodegroupUpdateMessage(@JsonProperty("id") String id,  @JsonProperty("isOpen") boolean isOpen) {
-        super();
+        super(EVENT);
         this.id = id;
         this.isOpen = isOpen;
     }

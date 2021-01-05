@@ -22,7 +22,7 @@ public class AppGrabbedMessage extends VRMessage {
             @JsonProperty("isGrabbedByController1") boolean isGrabbedByController1,
             @JsonProperty("controllerPosition") double[] controllerPosition,
             @JsonProperty("controllerQuaternion") double[] controllerQuaternion) {
-        super();
+        super(EVENT);
         this.appID = appID;
         this.appPosition = appPosition;
         this.appQuaternion = appQuaternion;
