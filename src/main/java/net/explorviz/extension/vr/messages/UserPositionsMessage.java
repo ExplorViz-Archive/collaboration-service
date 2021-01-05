@@ -50,6 +50,22 @@ public class UserPositionsMessage extends VRMessage {
             }
             return true;
         }
+
+        public double[] getPosition() {
+            return position;
+        }
+
+        public void setPosition(double[] position) {
+            this.position = position;
+        }
+
+        public double[] getQuaternion() {
+            return quaternion;
+        }
+
+        public void setQuaternion(double[] quaternion) {
+            this.quaternion = quaternion;
+        }
     }
 
     private Pose controller1;
