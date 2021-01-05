@@ -9,10 +9,43 @@ public class UserPositionsMessage extends VRMessage {
     public static class Controller {
         private double[] position;
         private double[] quaternion;
+
+        public double[] getPosition() {
+            return position;
+        }
+
+        public void setPosition(double[] position) {
+            this.position = position;
+        }
+
+        public double[] getQuaternion() {
+            return quaternion;
+        }
+
+        public void setQuaternion(double[] quaternion) {
+            this.quaternion = quaternion;
+        }
     }
 
     public static class Camera {
         private double[] positon;
+
+        public double[] getPositon() {
+            return positon;
+        }
+
+        public void setPositon(double[] positon) {
+            this.positon = positon;
+        }
+
+        public double[] getQuaternion() {
+            return quaternion;
+        }
+
+        public void setQuaternion(double[] quaternion) {
+            this.quaternion = quaternion;
+        }
+
         private double[] quaternion;
     }
 
