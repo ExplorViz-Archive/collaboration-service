@@ -16,12 +16,12 @@ import org.slf4j.LoggerFactory;
 import net.explorviz.extension.vr.messages.VRMessage;
 import net.explorviz.extension.vr.messages.VRMessageDecoder;
 
-@ServerEndpoint(value = "/v2/vr", decoders = {VRMessageDecoder.class})
+@ServerEndpoint(value = "/v2/vr", decoders = { VRMessageDecoder.class })
 @ApplicationScoped
 public class VRSocket {
-    
+
     private final Logger LOGGER = LoggerFactory.getLogger(VRSocket.class);
-    
+
     @OnOpen
     public void onOpen(Session session) {
         LOGGER.debug("opened websocket");
