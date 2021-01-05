@@ -19,9 +19,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class VRMessageDecoder implements Decoder.TextStream<List<VRMessage>> {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(VRMessageDecoder.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VRMessageDecoder.class);
 
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
 
     @Override
     public void init(EndpointConfig config) {
@@ -42,5 +42,21 @@ public class VRMessageDecoder implements Decoder.TextStream<List<VRMessage>> {
             LOGGER.error("Failed to decode message: {}", e.getMessage());
             throw e;
         }
+    }
+
+    /**
+     * Decodes the given JSON string as a single {@link VRMessage}.
+     * 
+     * This method is intended for testing purposes only.
+     * 
+     * @param json A JSON object.
+     * @return The parsed message.
+     * @throws IOException     When there is an error parsing the message. See also
+     *                         {@link JsonParseException} and
+     *                         {@link JsonMappingException}.
+     * @throws DecodeException This exception should never be thrown.
+     */
+    public VRMessage decodeMessage(String json) throws DecodeException, IOException {
+        return objectMapper.readValue(json, VRMessage.class);
     }
 }

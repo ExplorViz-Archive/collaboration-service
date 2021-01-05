@@ -20,7 +20,7 @@ import net.explorviz.extension.vr.messages.VRMessageDecoder;
 @ApplicationScoped
 public class VRSocket {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(VRSocket.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VRSocket.class);
 
     @OnOpen
     public void onOpen(Session session) {
@@ -38,7 +38,13 @@ public class VRSocket {
     }
 
     @OnMessage
-    public void onMessage(List<VRMessage> messages) {
-        LOGGER.debug("received message: {}", messages);
+    public void onMessageList(List<VRMessage> messages) {
+        for (VRMessage message : messages) {
+            onMessage(message);
+        }
+    }
+    
+    private void onMessage(VRMessage message) {
+        LOGGER.debug("received message: {}", message);
     }
 }
