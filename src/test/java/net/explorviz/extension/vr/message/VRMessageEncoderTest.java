@@ -1,4 +1,4 @@
-package net.explorviz.extension.vr.messages;
+package net.explorviz.extension.vr.message;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,6 +19,19 @@ import javax.websocket.EndpointConfig;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
+import net.explorviz.extension.vr.message.receivable.AppGrabbedMessage;
+import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
+import net.explorviz.extension.vr.message.receivable.AppReleasedMessage;
+import net.explorviz.extension.vr.message.receivable.AppTranslatedMessage;
+import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.LandscapePositionMessage;
+import net.explorviz.extension.vr.message.receivable.NodegroupUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.SystemUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
+import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
 
 public class VRMessageEncoderTest {
     /**
@@ -58,6 +71,20 @@ public class VRMessageEncoderTest {
     void destroyDecoder() {
         encoder.destroy();
         encoder = null;
+    }
+
+    @Test
+    public void testForwardedMessage() throws EncodeException, IOException {
+        final var originalMessage = new AppClosedMessage();
+        originalMessage.setEvent("app_closed");
+        originalMessage.setAppID("bar");
+        final var message = new ForwardedMessage();
+        message.setEvent("forward");
+        message.setUserID("foo");
+        message.setOriginalMessage(originalMessage);
+        final var actual = encoder.encodeMessage(message);
+        final var expected = "{ \"event\": \"forward\", \"userID\": \"foo\", \"originalMessage\": { \"event\": \"app_closed\", \"appID\": \"bar\" } }";
+        assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
     @Test

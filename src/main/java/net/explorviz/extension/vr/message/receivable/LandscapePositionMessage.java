@@ -1,6 +1,9 @@
-package net.explorviz.extension.vr.messages;
+package net.explorviz.extension.vr.message.receivable;
 
-public class LandscapePositionMessage extends VRMessage {
+import net.explorviz.extension.vr.message.ReceivedMessage;
+import net.explorviz.extension.vr.message.ReceivedMessageHandler;
+
+public class LandscapePositionMessage extends ReceivedMessage {
 
     public static final String EVENT = "landscape_position";
 
@@ -34,7 +37,7 @@ public class LandscapePositionMessage extends VRMessage {
     }
 
     @Override
-    public <T> T handleWith(VRMessageHandler<T> handler) {
+    public <T> T handleWith(ReceivedMessageHandler<T> handler) {
         return handler.handleLandscapePositionMessage(this);
     }
 }

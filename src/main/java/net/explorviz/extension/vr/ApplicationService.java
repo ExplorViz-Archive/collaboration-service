@@ -2,9 +2,9 @@ package net.explorviz.extension.vr;
 
 import java.util.HashMap;
 
-import net.explorviz.extension.vr.messages.AppClosedMessage;
-import net.explorviz.extension.vr.messages.AppGrabbedMessage;
-import net.explorviz.extension.vr.messages.AppOpenedMessage;
+import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
+import net.explorviz.extension.vr.message.receivable.AppGrabbedMessage;
+import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
 import net.explorviz.extension.vr.model.ApplicationModel;
 
 public class ApplicationService {

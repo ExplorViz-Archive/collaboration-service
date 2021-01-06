@@ -1,4 +1,4 @@
-package net.explorviz.extension.vr.messages;
+package net.explorviz.extension.vr.message;
 
 import java.io.IOException;
 import java.io.StringWriter;

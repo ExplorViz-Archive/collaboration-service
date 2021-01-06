@@ -1,6 +1,9 @@
-package net.explorviz.extension.vr.messages;
+package net.explorviz.extension.vr.message.receivable;
 
-public class UserControllersMessage extends VRMessage {
+import net.explorviz.extension.vr.message.ReceivedMessage;
+import net.explorviz.extension.vr.message.ReceivedMessageHandler;
+
+public class UserControllersMessage extends ReceivedMessage {
 
     public static final String EVENT = "user_controllers";
 
@@ -24,7 +27,7 @@ public class UserControllersMessage extends VRMessage {
     }
 
     @Override
-    public <T> T handleWith(VRMessageHandler<T> handler) {
+    public <T> T handleWith(ReceivedMessageHandler<T> handler) {
         return handler.handleUserControllersMessage(this);
     }
 }

@@ -1,6 +1,9 @@
-package net.explorviz.extension.vr.messages;
+package net.explorviz.extension.vr.message.receivable;
 
-public class AppReleasedMessage extends VRMessage {
+import net.explorviz.extension.vr.message.ReceivedMessage;
+import net.explorviz.extension.vr.message.ReceivedMessageHandler;
+
+public class AppReleasedMessage extends ReceivedMessage {
 
     public static final String EVENT = "app_released";
 
@@ -33,7 +36,7 @@ public class AppReleasedMessage extends VRMessage {
     }
 
     @Override
-    public <T> T handleWith(VRMessageHandler<T> handler) {
+    public <T> T handleWith(ReceivedMessageHandler<T> handler) {
         return handler.handleAppReleasedMessage(this);
     }
 }

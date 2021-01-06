@@ -1,8 +1,11 @@
-package net.explorviz.extension.vr.messages;
+package net.explorviz.extension.vr.message.receivable;
 
 import java.util.Date;
 
-public class UserPositionsMessage extends VRMessage {
+import net.explorviz.extension.vr.message.ReceivedMessage;
+import net.explorviz.extension.vr.message.ReceivedMessageHandler;
+
+public class UserPositionsMessage extends ReceivedMessage {
 
     public static final String EVENT = "user_positions";
 
@@ -65,7 +68,7 @@ public class UserPositionsMessage extends VRMessage {
     }
 
     @Override
-    public <T> T handleWith(VRMessageHandler<T> handler) {
+    public <T> T handleWith(ReceivedMessageHandler<T> handler) {
         return handler.handleUserPositionsMessage(this);
     }
 }

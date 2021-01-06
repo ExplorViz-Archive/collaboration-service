@@ -1,4 +1,4 @@
-package net.explorviz.extension.vr.messages;
+package net.explorviz.extension.vr.message;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -23,6 +23,19 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+
+import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
+import net.explorviz.extension.vr.message.receivable.AppGrabbedMessage;
+import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
+import net.explorviz.extension.vr.message.receivable.AppReleasedMessage;
+import net.explorviz.extension.vr.message.receivable.AppTranslatedMessage;
+import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.LandscapePositionMessage;
+import net.explorviz.extension.vr.message.receivable.NodegroupUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.SystemUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
+import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
 
 public class VRMessageDecoderTest {
     private VRMessageDecoder decoder;
@@ -80,6 +93,20 @@ public class VRMessageDecoderTest {
     public void testExtraField() throws DecodeException, IOException {
         final var json = "{ \"event\": \"app_closed\", \"appID\": \"foo\", \"foo\": \"bar\" }";
         assertThrows(UnrecognizedPropertyException.class, () -> decoder.decodeMessage(json));
+    }
+
+    @Test
+    public void testForwardedMessage() throws DecodeException, IOException {
+        final var json = "{ \"event\": \"forward\", \"userID\": \"foo\", \"originalMessage\": { \"event\": \"app_closed\", \"appID\": \"bar\" } }";
+        final var actual = decoder.decodeMessage(json);
+        final var originalMessage = new AppClosedMessage();
+        originalMessage.setEvent("app_closed");
+        originalMessage.setAppID("bar");
+        final var expected = new ForwardedMessage();
+        expected.setEvent("forward");
+        expected.setUserID("foo");
+        expected.setOriginalMessage(originalMessage);
+        assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test

@@ -3,6 +3,7 @@ package net.explorviz.extension.vr;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -13,30 +14,39 @@ import javax.websocket.server.ServerEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.explorviz.extension.vr.messages.AppClosedMessage;
-import net.explorviz.extension.vr.messages.AppGrabbedMessage;
-import net.explorviz.extension.vr.messages.AppOpenedMessage;
-import net.explorviz.extension.vr.messages.AppReleasedMessage;
-import net.explorviz.extension.vr.messages.AppTranslatedMessage;
-import net.explorviz.extension.vr.messages.ComponentUpdateMessage;
-import net.explorviz.extension.vr.messages.HightlightingUpdateMessage;
-import net.explorviz.extension.vr.messages.LandscapePositionMessage;
-import net.explorviz.extension.vr.messages.NodegroupUpdateMessage;
-import net.explorviz.extension.vr.messages.SpectatingUpdateMessage;
-import net.explorviz.extension.vr.messages.SystemUpdateMessage;
-import net.explorviz.extension.vr.messages.UserControllersMessage;
-import net.explorviz.extension.vr.messages.UserPositionsMessage;
-import net.explorviz.extension.vr.messages.VRMessage;
-import net.explorviz.extension.vr.messages.VRMessageDecoder;
-import net.explorviz.extension.vr.messages.VRMessageEncoder;
-import net.explorviz.extension.vr.messages.VRMessageHandler;
+import net.explorviz.extension.vr.message.ReceivedMessage;
+import net.explorviz.extension.vr.message.ReceivedMessageHandler;
+import net.explorviz.extension.vr.message.VRMessage;
+import net.explorviz.extension.vr.message.VRMessageDecoder;
+import net.explorviz.extension.vr.message.VRMessageEncoder;
+import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
+import net.explorviz.extension.vr.message.receivable.AppGrabbedMessage;
+import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
+import net.explorviz.extension.vr.message.receivable.AppReleasedMessage;
+import net.explorviz.extension.vr.message.receivable.AppTranslatedMessage;
+import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.HightlightingUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.LandscapePositionMessage;
+import net.explorviz.extension.vr.message.receivable.NodegroupUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.SystemUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
+import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
+import net.explorviz.extension.vr.service.BroadcastService;
+import net.explorviz.extension.vr.service.SessionRegistry;
 
 @ServerEndpoint(value = "/v2/vr", decoders = { VRMessageDecoder.class }, encoders = { VRMessageEncoder.class })
 @ApplicationScoped
-public class VRSocket implements VRMessageHandler<Void> {
+public class VRSocket implements ReceivedMessageHandler<Boolean> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VRSocket.class);
-
+    
+    @Inject
+    BroadcastService broadcastService;
+    
+    @Inject
+    SessionRegistry sessionRegistry;
+    
     @OnOpen
     public void onOpen(Session session) {
         LOGGER.debug("opened websocket");
@@ -49,16 +59,21 @@ public class VRSocket implements VRMessageHandler<Void> {
 
     @OnError
     public void onError(Session session, Throwable throwable) {
-        LOGGER.error("websocket error: {}", throwable.getMessage());
+        LOGGER.error("websocket error", throwable);
     }
 
     @OnMessage
-    public void onMessageList(List<VRMessage> messages) {
+    public void onMessageList(List<VRMessage> messages, Session senderSession) {
         if (messages == null)
             return;
 
+        // Handle all messages that are receivable.
         for (VRMessage message : messages) {
-            handleMessage(message);
+            if (message instanceof ReceivedMessage) {
+                handleMessage((ReceivedMessage) message, senderSession);
+            } else {
+                LOGGER.debug("received message of forbidden type: {}", message);
+            }
         }
     }
 
@@ -66,92 +81,99 @@ public class VRSocket implements VRMessageHandler<Void> {
      * Called for each message that is received.
      * 
      * The received message is logged and the corresponding method from
-     * {@link VRMessageHandler} is invoked.
+     * {@link ReceivedMessageHandler} is invoked.
      * 
      * @param message The received message.
+     * @param senderSession The websocket connection of the client that sent the message.
      */
-    public void handleMessage(VRMessage message) {
+    public void handleMessage(ReceivedMessage message, Session senderSession) {
         if (message == null)
             return;
 
+        // Process the message.
         LOGGER.debug("received message: {}", message);
-        message.handleWith(null);
+        final var shouldForward = message.handleWith(this);
+        
+        // Optionally forward the message.
+        if (Boolean.TRUE.equals(shouldForward)) {
+            broadcastService.broadcastExcept(message, senderSession);
+        }
     }
 
     @Override
-    public Void handleAppClosedMessage(AppClosedMessage message) {
+    public Boolean handleAppClosedMessage(AppClosedMessage message) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Void handleAppGrabbedMessage(AppGrabbedMessage message) {
+    public Boolean handleAppGrabbedMessage(AppGrabbedMessage message) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Void handleAppOpenedMessage(AppOpenedMessage message) {
+    public Boolean handleAppOpenedMessage(AppOpenedMessage message) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Void handleAppReleasedMessage(AppReleasedMessage message) {
+    public Boolean handleAppReleasedMessage(AppReleasedMessage message) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Void handleAppTranslatedMessage(AppTranslatedMessage message) {
+    public Boolean handleAppTranslatedMessage(AppTranslatedMessage message) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Void handleComponentUpdateMessage(ComponentUpdateMessage message) {
+    public Boolean handleComponentUpdateMessage(ComponentUpdateMessage message) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Void handleHightlightingUpdateMessage(HightlightingUpdateMessage message) {
+    public Boolean handleHightlightingUpdateMessage(HightlightingUpdateMessage message) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Void handleLandscapePositionMessage(LandscapePositionMessage message) {
+    public Boolean handleLandscapePositionMessage(LandscapePositionMessage message) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Void handleNodegroupUpdateMessage(NodegroupUpdateMessage message) {
+    public Boolean handleNodegroupUpdateMessage(NodegroupUpdateMessage message) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Void handleSpectatingUpdateMessage(SpectatingUpdateMessage message) {
+    public Boolean handleSpectatingUpdateMessage(SpectatingUpdateMessage message) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Void handleSystemUpdateMessage(SystemUpdateMessage message) {
+    public Boolean handleSystemUpdateMessage(SystemUpdateMessage message) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Void handleUserControllersMessage(UserControllersMessage message) {
+    public Boolean handleUserControllersMessage(UserControllersMessage message) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Void handleUserPositionsMessage(UserPositionsMessage message) {
+    public Boolean handleUserPositionsMessage(UserPositionsMessage message) {
         // TODO Auto-generated method stub
         return null;
     }
