@@ -14,6 +14,7 @@ import javax.websocket.server.ServerEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.explorviz.extension.vr.message.ForwardedMessage;
 import net.explorviz.extension.vr.message.ReceivedMessage;
 import net.explorviz.extension.vr.message.ReceivedMessageHandler;
 import net.explorviz.extension.vr.message.VRMessage;
@@ -35,7 +36,9 @@ import net.explorviz.extension.vr.message.receivable.SystemUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
 import net.explorviz.extension.vr.service.BroadcastService;
+import net.explorviz.extension.vr.service.EntityService;
 import net.explorviz.extension.vr.service.SessionRegistry;
+import net.explorviz.extension.vr.service.UserService;
 
 @ServerEndpoint(value = "/v2/vr", decoders = { VRMessageDecoder.class }, encoders = { VRMessageEncoder.class })
 @ApplicationScoped
@@ -49,14 +52,27 @@ public class VRSocket implements ReceivedMessageHandler<Boolean, Session> {
     @Inject
     SessionRegistry sessionRegistry;
 
+    @Inject
+    UserService userService;
+
+    @Inject
+    EntityService entityService;
+
     @OnOpen
     public void onOpen(Session session) {
         LOGGER.debug("opened websocket");
+        final String userId = this.userService.addUser();
+        this.sessionRegistry.register(userId, session);
     }
 
     @OnClose
     public void onClose(Session session) {
         LOGGER.debug("closed websocket");
+        final String userId = this.sessionRegistry.lookupId(session);
+        if (userId != null) {
+            this.userService.removeUser(userId);
+            this.sessionRegistry.unregister(userId);
+        }
     }
 
     @OnError
@@ -73,7 +89,7 @@ public class VRSocket implements ReceivedMessageHandler<Boolean, Session> {
         for (VRMessage message : messages) {
             if (message instanceof ReceivedMessage) {
                 handleMessage((ReceivedMessage) message, senderSession);
-            } else {
+            } else if (message != null) {
                 LOGGER.debug("received message of forbidden type: {}", message);
             }
         }
@@ -90,94 +106,95 @@ public class VRSocket implements ReceivedMessageHandler<Boolean, Session> {
      *                      message.
      */
     public void handleMessage(ReceivedMessage message, Session senderSession) {
-        if (message == null)
-            return;
-
         // Process the message.
         LOGGER.debug("received message: {}", message);
         final var shouldForward = message.handleWith(this, senderSession);
 
         // Optionally forward the message.
         if (Boolean.TRUE.equals(shouldForward)) {
-            broadcastService.broadcastExcept(message, senderSession);
+            final var userId = sessionRegistry.lookupId(senderSession);
+            final var forwardedMessage = new ForwardedMessage(userId, message);
+            broadcastService.broadcastExcept(forwardedMessage, senderSession);
         }
     }
 
     @Override
     public Boolean handleAppClosedMessage(AppClosedMessage message, Session senderSession) {
-        // TODO Auto-generated method stub
+        this.entityService.closeApp(message.getAppID());
         return null;
     }
 
     @Override
     public Boolean handleAppGrabbedMessage(AppGrabbedMessage message, Session senderSession) {
-        // TODO Auto-generated method stub
+        this.entityService.grabbApp(message.getAppID(), ""); // TODO userId
         return null;
     }
 
     @Override
     public Boolean handleAppOpenedMessage(AppOpenedMessage message, Session senderSession) {
-        // TODO Auto-generated method stub
+        this.entityService.openApp(message.getId(), message.getPosition(), message.getQuaternion());
         return null;
     }
 
     @Override
     public Boolean handleAppReleasedMessage(AppReleasedMessage message, Session senderSession) {
-        // TODO Auto-generated method stub
+        this.entityService.releaseApp(message.getId(), message.getPosition(), message.getQuaternion());
         return null;
     }
 
     @Override
     public Boolean handleAppTranslatedMessage(AppTranslatedMessage message, Session senderSession) {
-        // TODO Auto-generated method stub
+        this.entityService.translateApp();
         return null;
     }
 
     @Override
     public Boolean handleComponentUpdateMessage(ComponentUpdateMessage message, Session senderSession) {
-        // TODO Auto-generated method stub
+        this.entityService.updateComponent(message.getComponentID(), message.getAppID(), message.getIsFoundation(),
+                message.getIsOpened());
         return null;
     }
 
     @Override
     public Boolean handleHightlightingUpdateMessage(HightlightingUpdateMessage message, Session senderSession) {
-        // TODO Auto-generated method stub
+        this.userService.updateHighlighting("", message.getAppID(), message.getEntityID(), message.getEntityType(),
+                message.getIsHighlighted()); // TODO userId
         return null;
     }
 
     @Override
     public Boolean handleLandscapePositionMessage(LandscapePositionMessage message, Session senderSession) {
-        // TODO Auto-generated method stub
+        this.entityService.updateLandscapePosition(message.getOffset(), message.getQuaternion());
         return null;
     }
 
     @Override
     public Boolean handleNodegroupUpdateMessage(NodegroupUpdateMessage message, Session senderSession) {
-        // TODO Auto-generated method stub
+        this.entityService.updateNodegroup(message.getId(), message.getIsOpen());
         return null;
     }
 
     @Override
     public Boolean handleSpectatingUpdateMessage(SpectatingUpdateMessage message, Session senderSession) {
-        // TODO Auto-generated method stub
+        this.userService.updateSpectating("", message.getIsSpectating()); // TODO userId
         return null;
     }
 
     @Override
     public Boolean handleSystemUpdateMessage(SystemUpdateMessage message, Session senderSession) {
-        // TODO Auto-generated method stub
+        this.entityService.updateSystem(message.getId(), message.getIsOpen());
         return null;
     }
 
     @Override
     public Boolean handleUserControllersMessage(UserControllersMessage message, Session senderSession) {
-        // TODO Auto-generated method stub
+        this.userService.updateUserControllers("", message.getConnect(), message.getDisconnect()); // TODO userId
         return null;
     }
 
     @Override
     public Boolean handleUserPositionsMessage(UserPositionsMessage message, Session senderSession) {
-        // TODO Auto-generated method stub
+        this.userService.updateUserPosition();
         return null;
     }
 
@@ -192,4 +209,5 @@ public class VRSocket implements ReceivedMessageHandler<Boolean, Session> {
         // TODO Auto-generated method stub
         return null;
     }
+
 }

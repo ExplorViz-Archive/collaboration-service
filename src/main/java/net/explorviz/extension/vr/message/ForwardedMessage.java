@@ -1,7 +1,7 @@
 package net.explorviz.extension.vr.message;
 
 /**
- * A message that was received from the frontend and is forwared to all other
+ * A message that was received from the frontend and is forwarded to all other
  * users.
  */
 public class ForwardedMessage extends VRMessage {
@@ -17,6 +17,24 @@ public class ForwardedMessage extends VRMessage {
      * other users.
      */
     private ReceivedMessage originalMessage;
+
+    /**
+     * The default constructor used for decoding messages of this type.
+     */
+    public ForwardedMessage() {
+    }
+
+    /**
+     * A regular constructor that should be used instead of the default constructor
+     * to construct a message of this type manually.
+     * 
+     * @param userID         The id of the user that sent the original message.
+     * @param originaMessage The original message that is forwarded by this message.
+     */
+    public ForwardedMessage(String userID, ReceivedMessage originalMessage) {
+        this.userID = userID;
+        this.originalMessage = originalMessage;
+    }
 
     public String getUserID() {
         return userID;
