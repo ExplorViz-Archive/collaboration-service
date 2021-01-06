@@ -33,7 +33,7 @@ public class SessionRegistry {
      * association is overwritten.
      * 
      * @param username The ID of the user.
-     * @param session  The webdocket connection.
+     * @param session  The websocket connection.
      */
     public void register(String userID, Session session) {
         sessions.put(userID, session);
