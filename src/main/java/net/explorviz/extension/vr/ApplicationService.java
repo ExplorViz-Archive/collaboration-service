@@ -4,11 +4,6 @@ import java.util.HashMap;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import net.explorviz.extension.vr.messages.AppClosedMessage;
-import net.explorviz.extension.vr.messages.AppGrabbedMessage;
-import net.explorviz.extension.vr.messages.AppOpenedMessage;
-import net.explorviz.extension.vr.messages.AppReleasedMessage;
-import net.explorviz.extension.vr.messages.AppTranslatedMessage;
 import net.explorviz.extension.vr.model.ApplicationModel;
 
 @ApplicationScoped
@@ -17,31 +12,30 @@ public class ApplicationService {
     private final HashMap<String, ApplicationModel> apps = new HashMap<>(); // maps applicationID to the application
                                                                             // model
 
-    public void onAppOpened(final AppOpenedMessage message) {
-        ApplicationModel appModel;
-        String id = message.getId();
+    public void openApp(String appId, double[] position, double[] quaternion) {
+        ApplicationModel appModel;;
 
         // add app to hash map or get app from hash map
-        if (this.apps.containsKey(id)) {
-            appModel = this.apps.get(id);
+        if (this.apps.containsKey(appId)) {
+            appModel = this.apps.get(appId);
         } else {
             appModel = new ApplicationModel();
-            appModel.setId(id);
-            this.apps.put(id, appModel);
+            appModel.setId(appId);
+            this.apps.put(appId, appModel);
         }
 
         appModel.setOpen(true);
-        appModel.setPosition(message.getPosition());
-        appModel.setQuaternion(message.getQuaternion());
+        appModel.setPosition(position);
+        appModel.setQuaternion(quaternion);
 
     }
 
-    public void onAppClosed(final AppClosedMessage message) {
-        this.apps.remove(message.getAppID());
+    public void closeApp(String appId) {
+        this.apps.remove(appId);
     }
 
-    public boolean onAppGrabbed(final AppGrabbedMessage message, String userId) {
-        ApplicationModel appModel = this.apps.get(message.getAppID());
+    public boolean grabbApp(String appId, String userId) {
+        ApplicationModel appModel = this.apps.get(appId);
         if (appModel == null || appModel.isGrabbed())
             return false;
         appModel.setGrabbed(true);
@@ -49,26 +43,25 @@ public class ApplicationService {
         return true;
     }
 
-    public void onAppReleased(final AppReleasedMessage message) {
+    public void releaseApp(String appId, double[] position, double[] quaternion) {
         ApplicationModel appModel;
-        String id = message.getId();
 
         // add app to hash map or get app from hash map
-        if (this.apps.containsKey(id)) {
-            appModel = this.apps.get(id);
+        if (this.apps.containsKey(appId)) {
+            appModel = this.apps.get(appId);
         } else {
             appModel = new ApplicationModel();
-            appModel.setId(id);
-            this.apps.put(id, appModel);
+            appModel.setId(appId);
+            this.apps.put(appId, appModel);
         }
 
         appModel.setOpen(true);
-        appModel.setPosition(message.getPosition());
-        appModel.setQuaternion(message.getQuaternion());
+        appModel.setPosition(position);
+        appModel.setQuaternion(quaternion);
         appModel.setGrabbed(false);
     }
     
-    public void onAppTranslated(final AppTranslatedMessage message) {
+    public void translateApp() {
     	
     }
 
