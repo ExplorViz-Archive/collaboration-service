@@ -22,4 +22,9 @@ public class NodegroupUpdateMessage extends VRMessage {
     public void setIsOpen(boolean isOpen) {
         this.isOpen = isOpen;
     }
+
+    @Override
+    public <T> T handleWith(VRMessageHandler<T> handler) {
+        return handler.handleNodegroupUpdateMessage(this);
+    }
 }

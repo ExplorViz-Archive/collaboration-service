@@ -40,4 +40,9 @@ public class HightlightingUpdateMessage extends VRMessage {
     public void setIsHighlighted(boolean isHighlighted) {
         this.isHighlighted = isHighlighted;
     }
+
+    @Override
+    public <T> T handleWith(VRMessageHandler<T> handler) {
+        return handler.handleHightlightingUpdateMessage(this);
+    }
 }

@@ -63,4 +63,9 @@ public class UserPositionsMessage extends VRMessage {
     public void setTime(Date time) {
         this.time = time;
     }
+
+    @Override
+    public <T> T handleWith(VRMessageHandler<T> handler) {
+        return handler.handleUserPositionsMessage(this);
+    }
 }

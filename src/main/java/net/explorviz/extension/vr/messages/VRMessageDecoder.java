@@ -2,6 +2,7 @@ package net.explorviz.extension.vr.messages;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
 import java.util.List;
 
 import javax.websocket.DecodeException;
@@ -36,13 +37,8 @@ public class VRMessageDecoder implements Decoder.TextStream<List<VRMessage>> {
 
     @Override
     public List<VRMessage> decode(Reader reader) throws DecodeException, IOException {
-        try {
-            return objectMapper.readValue(reader, new TypeReference<List<VRMessage>>() {
-            });
-        } catch (JsonParseException | JsonMappingException e) {
-            LOGGER.error("Failed to decode message: {}", e.getMessage());
-            throw e;
-        }
+        return decodeObject(reader, new TypeReference<List<VRMessage>>() {
+        });
     }
 
     /**
@@ -52,12 +48,36 @@ public class VRMessageDecoder implements Decoder.TextStream<List<VRMessage>> {
      * 
      * @param json A JSON object.
      * @return The parsed message.
+     * @throws DecodeException This exception should never be thrown.
      * @throws IOException     When there is an error parsing the message. See also
      *                         {@link JsonParseException} and
      *                         {@link JsonMappingException}.
-     * @throws DecodeException This exception should never be thrown.
      */
     public VRMessage decodeMessage(String json) throws DecodeException, IOException {
-        return objectMapper.readValue(json, VRMessage.class);
+        Reader reader = new StringReader(json);
+        return decodeObject(reader, new TypeReference<VRMessage>() {
+        });
+    }
+
+    /**
+     * Common implementation of {@link decode} and {@link decodeMessage}.
+     * 
+     * @param <T>            The type of the object to read.
+     * @param reader         The reader to read the object's JSON representation
+     *                       from.
+     * @param typeRefernence Full generic type information for the object to read.
+     * @return The decoded object.
+     * @throws DecodeException This exception should never be thrown.
+     * @throws IOException     When there is an error parsing the message. See also
+     *                         {@link JsonParseException} and
+     *                         {@link JsonMappingException}.
+     */
+    private <T> T decodeObject(Reader reader, TypeReference<T> typeRefernence) throws DecodeException, IOException {
+        try {
+            return objectMapper.readValue(reader, typeRefernence);
+        } catch (JsonParseException | JsonMappingException e) {
+            LOGGER.error("Failed to decode message: {}", e.getMessage());
+            throw e;
+        }
     }
 }

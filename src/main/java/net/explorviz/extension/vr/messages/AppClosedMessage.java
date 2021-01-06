@@ -13,4 +13,9 @@ public class AppClosedMessage extends VRMessage {
     public void setAppID(String appID) {
         this.appID = appID;
     }
+    
+    @Override
+    public <T> T handleWith(VRMessageHandler<T> handler) {
+        return handler.handleAppClosedMessage(this);
+    }
 }

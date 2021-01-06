@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 
 public class VRMessageDecoderTest {
-    VRMessageDecoder decoder;
+    private VRMessageDecoder decoder;
 
     @BeforeEach
     void initDecoder() {
@@ -95,6 +95,7 @@ public class VRMessageDecoderTest {
     @Test
     public void testAppGrabbedMessage() throws DecodeException, IOException {
         final var json = "{ \"event\": \"app_grabbed\", \"appID\": \"foo\", \"appPosition\": [1.0, 2.0, 3.0],"
+                + "  \"appQuaternion\": [1.0, 2.0, 3.0, 4.0],"
                 + "  \"isGrabbedByController1\": true, \"controllerPosition\": [1.0, 2.0, 3.0],"
                 + "  \"controllerQuaternion\": [1.0, 2.0, 3.0, 4.0] }";
         final var actual = decoder.decodeMessage(json);
@@ -102,6 +103,7 @@ public class VRMessageDecoderTest {
         expected.setEvent("app_grabbed");
         expected.setAppID("foo");
         expected.setAppPosition(new double[] { 1.0, 2.0, 3.0 });
+        expected.setAppQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
         expected.setIsGrabbedByController1(true);
         expected.setControllerPosition(new double[] { 1.0, 2.0, 3.0 });
         expected.setControllerQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
@@ -159,10 +161,11 @@ public class VRMessageDecoderTest {
 
     @Test
     public void testNodegroupUpdateMessage() throws DecodeException, IOException {
-        final var json = "{ \"event\": \"nodegroup_update\", \"isOpen\": true }";
+        final var json = "{ \"event\": \"nodegroup_update\", \"id\": \"foo\", \"isOpen\": true }";
         final var actual = decoder.decodeMessage(json);
         final var expected = new NodegroupUpdateMessage();
         expected.setEvent("nodegroup_update");
+        expected.setId("foo");
         expected.setIsOpen(true);
         assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
     }

@@ -40,4 +40,9 @@ public class ComponentUpdateMessage extends VRMessage {
     public void setIsFoundation(boolean isFoundation) {
         this.isFoundation = isFoundation;
     }
+
+    @Override
+    public <T> T handleWith(VRMessageHandler<T> handler) {
+        return handler.handleComponentUpdateMessage(this);
+    }
 }

@@ -31,4 +31,9 @@ public class SpectatingUpdateMessage extends VRMessage {
     public void setSpectatedUser(String spectatedUser) {
         this.spectatedUser = spectatedUser;
     }
+
+    @Override
+    public <T> T handleWith(VRMessageHandler<T> handler) {
+        return handler.handleSpectatingUpdateMessage(this);
+    }
 }
