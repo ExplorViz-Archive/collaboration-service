@@ -2,6 +2,7 @@ package net.explorviz.extension.vr.messages;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "event", visible = true)
@@ -19,13 +20,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @Type(value = UserControllersMessage.class, name = UserControllersMessage.EVENT),
         @Type(value = UserPositionsMessage.class, name = UserPositionsMessage.EVENT) })
 public abstract class VRMessage {
+    @JsonTypeId
     private String event;
 
     public VRMessage() {
-    }
-
-    public VRMessage(String event) {
-        this.event = event;
     }
 
     public String getEvent() {

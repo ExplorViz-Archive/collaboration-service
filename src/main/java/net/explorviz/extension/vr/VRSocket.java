@@ -15,8 +15,9 @@ import org.slf4j.LoggerFactory;
 
 import net.explorviz.extension.vr.messages.VRMessage;
 import net.explorviz.extension.vr.messages.VRMessageDecoder;
+import net.explorviz.extension.vr.messages.VRMessageEncoder;
 
-@ServerEndpoint(value = "/v2/vr", decoders = { VRMessageDecoder.class })
+@ServerEndpoint(value = "/v2/vr", decoders = { VRMessageDecoder.class }, encoders = { VRMessageEncoder.class })
 @ApplicationScoped
 public class VRSocket {
 
