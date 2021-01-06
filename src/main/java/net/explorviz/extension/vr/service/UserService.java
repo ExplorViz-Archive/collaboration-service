@@ -1,6 +1,7 @@
-package net.explorviz.extension.vr;
+package net.explorviz.extension.vr.service;
 
-import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -11,7 +12,7 @@ import net.explorviz.extension.vr.model.UserModel.State;
 @ApplicationScoped
 public class UserService {
 
-    private final HashMap<String, UserModel> users = new HashMap<>();
+    private final Map<String, UserModel> users = new ConcurrentHashMap<>();
 
     public void updateUserPosition() {
 
@@ -65,8 +66,10 @@ public class UserService {
         user.setHighlightedEntity(isHighlighted, appId, entityType, entityId);
     }
 
-    public void addUser(String userId) {
-        this.users.put(userId, new UserModel(userId));
+    public String addUser() {
+    	UserModel userModel = new UserModel();
+        this.users.put(userModel.getId(), userModel);
+        return userModel.getId();
     }
 
     public void removeUser(String userId) {
