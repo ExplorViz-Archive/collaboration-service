@@ -2,24 +2,46 @@ package net.explorviz.extension.vr.messages;
 
 public class UserControllersMessage extends VRMessage {
 
-    public static final String EVENT = "user_controllers";
+	public static final String EVENT = "user_controllers";
 
-    private String[] connect;
-    private String[] disconnect;
+	public static class Controllers {
+		private String controller1;
+		private String controller2;
 
-    public String[] getConnect() {
-        return connect;
-    }
+		public String getController1() {
+			return controller1;
+		}
 
-    public void setConnect(String[] connect) {
-        this.connect = connect;
-    }
+		public void setController1(String controller1) {
+			this.controller1 = controller1;
+		}
 
-    public String[] getDisconnect() {
-        return disconnect;
-    }
+		public String getController2() {
+			return controller2;
+		}
 
-    public void setDisconnect(String[] disconnect) {
-        this.disconnect = disconnect;
-    }
+		public void setController2(String controller2) {
+			this.controller2 = controller2;
+		}
+
+	}
+
+	private Controllers connect;
+	private Controllers disconnect;
+
+	public Controllers getConnect() {
+		return connect;
+	}
+
+	public void setConnect(Controllers connect) {
+		this.connect = connect;
+	}
+
+	public Controllers getDisconnect() {
+		return disconnect;
+	}
+
+	public void setDisconnect(Controllers disconnect) {
+		this.disconnect = disconnect;
+	}
 }
