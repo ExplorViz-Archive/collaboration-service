@@ -21,5 +21,7 @@ public interface VRMessageHandler<T> {
     T handleSystemUpdateMessage(SystemUpdateMessage message);
     T handleUserControllersMessage(UserControllersMessage message);
     T handleUserPositionsMessage(UserPositionsMessage message);
+    T handleConnectRequestMessage(ConnectRequestMessage message);
+    T handleDisconnectRequestMessage(DisconnectRequestMessage message);
     
 }

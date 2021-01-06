@@ -14,4 +14,9 @@ public class DisconnectRequestMessage extends VRMessage {
 		this.name = name;
 	}
 
+	@Override
+	public <T> T handleWith(VRMessageHandler<T> handler) {
+		return handler.handleDisconnectRequestMessage(this);
+	}
+
 }

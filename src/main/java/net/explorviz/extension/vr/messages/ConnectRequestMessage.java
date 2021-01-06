@@ -13,4 +13,9 @@ public class ConnectRequestMessage extends VRMessage {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	@Override
+	public <T> T handleWith(VRMessageHandler<T> handler) {
+		return handler.handleConnectRequestMessage(this);
+	}
 }
