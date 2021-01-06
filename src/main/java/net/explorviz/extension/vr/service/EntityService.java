@@ -1,6 +1,7 @@
-package net.explorviz.extension.vr;
+package net.explorviz.extension.vr.service;
 
-import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -11,13 +12,12 @@ import net.explorviz.extension.vr.model.BaseModel;
 public class EntityService {
 
     private final BaseModel landscape = new BaseModel(); // only containing positional information about landscape
-    private boolean landscapePosChanged = false; // tells whether a user already manipulated
-                                                 // landscape
-    private final HashMap<String, Boolean> systemState = new HashMap<>(); // tells if a system (systemID) is
+
+    private final Map<String, Boolean> systemState = new ConcurrentHashMap<>(); // tells if a system (systemID) is
     // opened/closed
-    private final HashMap<String, Boolean> nodeGroupState = new HashMap<>(); // tells if a nodegroup (nodegroupID) is
+    private final Map<String, Boolean> nodeGroupState = new ConcurrentHashMap<>(); // tells if a nodegroup (nodegroupID) is
     // opened/closed
-    private final HashMap<String, ApplicationModel> apps = new HashMap<>(); // maps applicationID to the application
+    private final Map<String, ApplicationModel> apps = new ConcurrentHashMap<>(); // maps applicationID to the application
                                                                             // model
 
     public void openApp(String appId, double[] position, double[] quaternion) {
@@ -90,7 +90,6 @@ public class EntityService {
     }
 
     public void updateLandscapePosition(double[] offset, double[] quaternion) {
-        this.landscapePosChanged = true;
         landscape.setPosition(offset);
         landscape.setQuaternion(quaternion);
     }
