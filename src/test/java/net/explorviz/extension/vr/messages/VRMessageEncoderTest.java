@@ -20,6 +20,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import net.explorviz.extension.vr.messages.UserControllersMessage.Controllers;
+
 public class VRMessageEncoderTest {
     /**
      * A custom comparator for strings that
@@ -187,10 +189,16 @@ public class VRMessageEncoderTest {
     public void testUserControllersMessage() throws EncodeException, IOException {
         final var message = new UserControllersMessage();
         message.setEvent("user_controllers");
-        message.setConnect(new String[] { "foo" });
-        message.setDisconnect(new String[] { "bar" });
+        message.setConnect(new Controllers());
+        message.getConnect().setController1("oculus-left");
+        message.getConnect().setController2("oculus-right");
+        message.setDisconnect(new Controllers());
+        message.getDisconnect().setController1("vive-left");
+        message.getDisconnect().setController2("vive-right");
         final var actual = encoder.encodeMessage(message);
-        final var expected = "{ \"event\": \"user_controllers\", \"connect\": [\"foo\"], \"disconnect\": [\"bar\"] }";
+        final var expected = "{ \"event\": \"user_controllers\", "
+        		+ "\"connect\": {\"controller1\": \"oculus-left\", \"controller2\": \"oculus-right\"}, "
+        		+ "\"disconnect\": {\"controller1\": \"vive-left\", \"controller2\": \"vive-right\"} }";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
