@@ -58,4 +58,9 @@ public class AppGrabbedMessage extends VRMessage {
     public void setControllerQuaternion(double[] controllerQuaternion) {
         this.controllerQuaternion = controllerQuaternion;
     }
+
+    @Override
+    public <T> T handleWith(VRMessageHandler<T> handler) {
+        return handler.handleAppGrabbedMessage(this);
+    }
 }

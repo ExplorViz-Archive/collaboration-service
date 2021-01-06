@@ -32,4 +32,9 @@ public class LandscapePositionMessage extends VRMessage {
     public void setQuaternion(double[] quaternion) {
         this.quaternion = quaternion;
     }
+
+    @Override
+    public <T> T handleWith(VRMessageHandler<T> handler) {
+        return handler.handleLandscapePositionMessage(this);
+    }
 }

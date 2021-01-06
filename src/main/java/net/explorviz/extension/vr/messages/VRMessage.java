@@ -5,6 +5,10 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+/**
+ * Base class for all messages that are exchanged via the websocket connection
+ * between the frontend and VR service.
+ */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "event", visible = true)
 @JsonSubTypes({ @Type(value = AppClosedMessage.class, name = AppClosedMessage.EVENT),
         @Type(value = AppGrabbedMessage.class, name = AppGrabbedMessage.EVENT),
@@ -33,4 +37,13 @@ public abstract class VRMessage {
     public void setEvent(String event) {
         this.event = event;
     }
+
+    /**
+     * Invokes the correct {@code handle*} method of the given handler.
+     * 
+     * @param <T> The return type of the handeler's {@code handle*} methods.
+     * @param handler The handler whose {@code handle*} method to invoke..
+     * @return The return value of the {@code handle*} method.
+     */
+    public abstract <T> T handleWith(VRMessageHandler<T> handler);
 }

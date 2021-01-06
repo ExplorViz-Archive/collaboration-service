@@ -31,4 +31,9 @@ public class AppTranslatedMessage extends VRMessage {
     public void setLength(double length) {
         this.length = length;
     }
+
+    @Override
+    public <T> T handleWith(VRMessageHandler<T> handler) {
+        return handler.handleAppTranslatedMessage(this);
+    }
 }

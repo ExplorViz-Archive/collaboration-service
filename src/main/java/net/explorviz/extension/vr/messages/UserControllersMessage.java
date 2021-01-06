@@ -22,4 +22,9 @@ public class UserControllersMessage extends VRMessage {
     public void setDisconnect(String[] disconnect) {
         this.disconnect = disconnect;
     }
+
+    @Override
+    public <T> T handleWith(VRMessageHandler<T> handler) {
+        return handler.handleUserControllersMessage(this);
+    }
 }
