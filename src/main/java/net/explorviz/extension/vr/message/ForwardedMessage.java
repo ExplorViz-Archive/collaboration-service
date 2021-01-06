@@ -8,6 +8,11 @@ public class ForwardedMessage extends VRMessage {
     public static final String EVENT = "forward";
 
     /**
+     * Type for flags that are used to indicate whether a message should be forwarded or not.
+     */
+    public static enum ShouldForward { FORWARD, NO_FORWARD }
+    
+    /**
      * The ID of the user that sent the original message.
      */
     private String userID;

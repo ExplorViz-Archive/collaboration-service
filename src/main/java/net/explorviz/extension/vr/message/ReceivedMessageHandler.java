@@ -6,8 +6,6 @@ import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
 import net.explorviz.extension.vr.message.receivable.AppReleasedMessage;
 import net.explorviz.extension.vr.message.receivable.AppTranslatedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
-import net.explorviz.extension.vr.message.receivable.ConnectRequestMessage;
-import net.explorviz.extension.vr.message.receivable.DisconnectRequestMessage;
 import net.explorviz.extension.vr.message.receivable.HightlightingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.LandscapePositionMessage;
 import net.explorviz.extension.vr.message.receivable.NodegroupUpdateMessage;
@@ -36,10 +34,6 @@ public interface ReceivedMessageHandler<R, A> {
     R handleAppTranslatedMessage(AppTranslatedMessage message, A arg);
 
     R handleComponentUpdateMessage(ComponentUpdateMessage message, A arg);
-
-    R handleConnectRequestMessage(ConnectRequestMessage message, A arg);
-
-    R handleDisconnectRequestMessage(DisconnectRequestMessage message, A arg);
 
     R handleHightlightingUpdateMessage(HightlightingUpdateMessage message, A arg);
 

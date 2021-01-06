@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.explorviz.extension.vr.message.ForwardedMessage;
+import net.explorviz.extension.vr.message.ForwardedMessage.ShouldForward;
 import net.explorviz.extension.vr.message.ReceivedMessage;
 import net.explorviz.extension.vr.message.ReceivedMessageHandler;
 import net.explorviz.extension.vr.message.VRMessage;
@@ -26,8 +27,6 @@ import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
 import net.explorviz.extension.vr.message.receivable.AppReleasedMessage;
 import net.explorviz.extension.vr.message.receivable.AppTranslatedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
-import net.explorviz.extension.vr.message.receivable.ConnectRequestMessage;
-import net.explorviz.extension.vr.message.receivable.DisconnectRequestMessage;
 import net.explorviz.extension.vr.message.receivable.HightlightingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.LandscapePositionMessage;
 import net.explorviz.extension.vr.message.receivable.NodegroupUpdateMessage;
@@ -42,7 +41,7 @@ import net.explorviz.extension.vr.service.UserService;
 
 @ServerEndpoint(value = "/v2/vr", decoders = { VRMessageDecoder.class }, encoders = { VRMessageEncoder.class })
 @ApplicationScoped
-public class VRSocket implements ReceivedMessageHandler<Boolean, Session> {
+public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VRSocket.class);
 
@@ -82,9 +81,6 @@ public class VRSocket implements ReceivedMessageHandler<Boolean, Session> {
 
     @OnMessage
     public void onMessageList(List<VRMessage> messages, Session senderSession) {
-        if (messages == null)
-            return;
-
         // Handle all messages that are receivable.
         for (VRMessage message : messages) {
             if (message instanceof ReceivedMessage) {
@@ -111,7 +107,7 @@ public class VRSocket implements ReceivedMessageHandler<Boolean, Session> {
         final var shouldForward = message.handleWith(this, senderSession);
 
         // Optionally forward the message.
-        if (Boolean.TRUE.equals(shouldForward)) {
+        if (ShouldForward.FORWARD.equals(shouldForward)) {
             final var userId = sessionRegistry.lookupId(senderSession);
             final var forwardedMessage = new ForwardedMessage(userId, message);
             broadcastService.broadcastExcept(forwardedMessage, senderSession);
@@ -119,95 +115,82 @@ public class VRSocket implements ReceivedMessageHandler<Boolean, Session> {
     }
 
     @Override
-    public Boolean handleAppClosedMessage(AppClosedMessage message, Session senderSession) {
+    public ShouldForward handleAppClosedMessage(AppClosedMessage message, Session senderSession) {
         this.entityService.closeApp(message.getAppID());
-        return null;
+        return ShouldForward.FORWARD;
     }
 
     @Override
-    public Boolean handleAppGrabbedMessage(AppGrabbedMessage message, Session senderSession) {
+    public ShouldForward handleAppGrabbedMessage(AppGrabbedMessage message, Session senderSession) {
         this.entityService.grabbApp(message.getAppID(), ""); // TODO userId
-        return null;
+        return ShouldForward.FORWARD;
     }
 
     @Override
-    public Boolean handleAppOpenedMessage(AppOpenedMessage message, Session senderSession) {
+    public ShouldForward handleAppOpenedMessage(AppOpenedMessage message, Session senderSession) {
         this.entityService.openApp(message.getId(), message.getPosition(), message.getQuaternion());
-        return null;
+        return ShouldForward.FORWARD;
     }
 
     @Override
-    public Boolean handleAppReleasedMessage(AppReleasedMessage message, Session senderSession) {
+    public ShouldForward handleAppReleasedMessage(AppReleasedMessage message, Session senderSession) {
         this.entityService.releaseApp(message.getId(), message.getPosition(), message.getQuaternion());
-        return null;
+        return ShouldForward.FORWARD;
     }
 
     @Override
-    public Boolean handleAppTranslatedMessage(AppTranslatedMessage message, Session senderSession) {
+    public ShouldForward handleAppTranslatedMessage(AppTranslatedMessage message, Session senderSession) {
         this.entityService.translateApp();
-        return null;
+        return ShouldForward.FORWARD;
     }
 
     @Override
-    public Boolean handleComponentUpdateMessage(ComponentUpdateMessage message, Session senderSession) {
+    public ShouldForward handleComponentUpdateMessage(ComponentUpdateMessage message, Session senderSession) {
         this.entityService.updateComponent(message.getComponentID(), message.getAppID(), message.getIsFoundation(),
                 message.getIsOpened());
-        return null;
+        return ShouldForward.FORWARD;
     }
 
     @Override
-    public Boolean handleHightlightingUpdateMessage(HightlightingUpdateMessage message, Session senderSession) {
+    public ShouldForward handleHightlightingUpdateMessage(HightlightingUpdateMessage message, Session senderSession) {
         this.userService.updateHighlighting("", message.getAppID(), message.getEntityID(), message.getEntityType(),
                 message.getIsHighlighted()); // TODO userId
-        return null;
+        return ShouldForward.FORWARD;
     }
 
     @Override
-    public Boolean handleLandscapePositionMessage(LandscapePositionMessage message, Session senderSession) {
+    public ShouldForward handleLandscapePositionMessage(LandscapePositionMessage message, Session senderSession) {
         this.entityService.updateLandscapePosition(message.getOffset(), message.getQuaternion());
-        return null;
+        return ShouldForward.FORWARD;
     }
 
     @Override
-    public Boolean handleNodegroupUpdateMessage(NodegroupUpdateMessage message, Session senderSession) {
+    public ShouldForward handleNodegroupUpdateMessage(NodegroupUpdateMessage message, Session senderSession) {
         this.entityService.updateNodegroup(message.getId(), message.getIsOpen());
-        return null;
+        return ShouldForward.FORWARD;
     }
 
     @Override
-    public Boolean handleSpectatingUpdateMessage(SpectatingUpdateMessage message, Session senderSession) {
+    public ShouldForward handleSpectatingUpdateMessage(SpectatingUpdateMessage message, Session senderSession) {
         this.userService.updateSpectating("", message.getIsSpectating()); // TODO userId
-        return null;
+        return ShouldForward.FORWARD;
     }
 
     @Override
-    public Boolean handleSystemUpdateMessage(SystemUpdateMessage message, Session senderSession) {
+    public ShouldForward handleSystemUpdateMessage(SystemUpdateMessage message, Session senderSession) {
         this.entityService.updateSystem(message.getId(), message.getIsOpen());
-        return null;
+        return ShouldForward.FORWARD;
     }
 
     @Override
-    public Boolean handleUserControllersMessage(UserControllersMessage message, Session senderSession) {
+    public ShouldForward handleUserControllersMessage(UserControllersMessage message, Session senderSession) {
         this.userService.updateUserControllers("", message.getConnect(), message.getDisconnect()); // TODO userId
-        return null;
+        return ShouldForward.FORWARD;
     }
 
     @Override
-    public Boolean handleUserPositionsMessage(UserPositionsMessage message, Session senderSession) {
+    public ShouldForward handleUserPositionsMessage(UserPositionsMessage message, Session senderSession) {
         this.userService.updateUserPosition();
-        return null;
+        return ShouldForward.FORWARD;
     }
-
-    @Override
-    public Boolean handleConnectRequestMessage(ConnectRequestMessage message, Session senderSession) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Boolean handleDisconnectRequestMessage(DisconnectRequestMessage message, Session senderSession) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }
