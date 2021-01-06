@@ -14,6 +14,7 @@ import javax.websocket.server.ServerEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.explorviz.extension.vr.message.ForwardedMessage;
 import net.explorviz.extension.vr.message.ReceivedMessage;
 import net.explorviz.extension.vr.message.ReceivedMessageHandler;
 import net.explorviz.extension.vr.message.VRMessage;
@@ -89,7 +90,7 @@ public class VRSocket implements ReceivedMessageHandler<Boolean, Session> {
         for (VRMessage message : messages) {
             if (message instanceof ReceivedMessage) {
                 handleMessage((ReceivedMessage) message, senderSession);
-            } else {
+            } else if (message != null) {
                 LOGGER.debug("received message of forbidden type: {}", message);
             }
         }
@@ -106,16 +107,15 @@ public class VRSocket implements ReceivedMessageHandler<Boolean, Session> {
      *                      message.
      */
     public void handleMessage(ReceivedMessage message, Session senderSession) {
-        if (message == null)
-            return;
-
         // Process the message.
         LOGGER.debug("received message: {}", message);
         final var shouldForward = message.handleWith(this, senderSession);
 
         // Optionally forward the message.
         if (Boolean.TRUE.equals(shouldForward)) {
-            broadcastService.broadcastExcept(message, senderSession);
+            final var userId = sessionRegistry.lookupId(senderSession);
+            final var forwardedMessage = new ForwardedMessage(userId, message);
+            broadcastService.broadcastExcept(forwardedMessage, senderSession);
         }
     }
 

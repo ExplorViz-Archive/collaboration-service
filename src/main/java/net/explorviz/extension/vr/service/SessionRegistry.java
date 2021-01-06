@@ -20,7 +20,7 @@ public class SessionRegistry {
 
 	/**
 	 * Gets all currently open sessions.
-	 * 
+	 *
 	 * @return A collection of open sessions.
 	 */
 	public Collection<Session> getSessions() {
@@ -29,12 +29,12 @@ public class SessionRegistry {
 
 	/**
 	 * Associates the given user ID with the given websocket connection.
-	 * 
+	 *
 	 * If the user ID is associated with another session already, the existing
 	 * association is overwritten.
-	 * 
-	 * @param username The ID of the user.
-	 * @param session  The webdocket connection.
+	 *
+	 * @param userID   The ID of the user.
+	 * @param session  The websocket connection.
 	 */
 	public void register(String userID, Session session) {
 		sessions.put(userID, session);
@@ -44,10 +44,10 @@ public class SessionRegistry {
 	/**
 	 * Removes the association with a websocket connection for the user with the
 	 * given ID.
-	 * 
+	 *
 	 * Does nothing if the user ID is not associated with any websocket connection.
-	 * 
-	 * @param username The name of the user whose websocket connection to forget.
+	 *
+	 * @param userID The name of the user whose websocket connection to forget.
 	 */
 	public void unregister(String userID) {
 		final Session session = sessions.get(userID);
@@ -58,7 +58,7 @@ public class SessionRegistry {
 
 	/**
 	 * Looks up the associated user id for a given websocket connection.
-	 * 
+	 *
 	 * @param session The websocket connection.
 	 * @return The user ID or null if websocket connection does not exist.
 	 */
