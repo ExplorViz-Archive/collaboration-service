@@ -27,28 +27,27 @@ public class SessionRegistry {
     }
 
     /**
-     * Associates the given user name with the given websocket connection.
+     * Associates the given user ID with the given websocket connection.
      * 
-     * If the user name is associated with another session already, the existing
+     * If the user ID is associated with another session already, the existing
      * association is overwritten.
      * 
-     * @param username The name of the user.
+     * @param username The ID of the user.
      * @param session  The webdocket connection.
      */
-    public void register(String username, Session session) {
-        sessions.put(username, session);
+    public void register(String userID, Session session) {
+        sessions.put(userID, session);
     }
 
     /**
-     * Removes the association with a websocket connection for the user user with
-     * the given name.
+     * Removes the association with a websocket connection for the user with the
+     * given ID.
      * 
-     * Does nothing if the user name is not associated with any websocket
-     * connection.
+     * Does nothing if the user ID is not associated with any websocket connection.
      * 
      * @param username The name of the user whose websocket connection to forget.
      */
-    public void unregister(String username) {
-        sessions.remove(username);
+    public void unregister(String userID) {
+        sessions.remove(userID);
     }
 }
