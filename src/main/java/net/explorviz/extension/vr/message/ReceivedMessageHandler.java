@@ -21,36 +21,37 @@ import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
  * 
  * Provides a double dispatch mechanism (visitor pattern) for messages.
  *
- * @param <T> The return type of the handler methods.
+ * @param <R> The return type of the handler methods.
+ * @param <A> Type for additional arguments of the handler methods.
  */
-public interface ReceivedMessageHandler<T> {
-    T handleAppClosedMessage(AppClosedMessage message);
+public interface ReceivedMessageHandler<R, A> {
+    R handleAppClosedMessage(AppClosedMessage message, A arg);
 
-    T handleAppGrabbedMessage(AppGrabbedMessage message);
+    R handleAppGrabbedMessage(AppGrabbedMessage message, A arg);
 
-    T handleAppOpenedMessage(AppOpenedMessage message);
+    R handleAppOpenedMessage(AppOpenedMessage message, A arg);
 
-    T handleAppReleasedMessage(AppReleasedMessage message);
+    R handleAppReleasedMessage(AppReleasedMessage message, A arg);
 
-    T handleAppTranslatedMessage(AppTranslatedMessage message);
+    R handleAppTranslatedMessage(AppTranslatedMessage message, A arg);
 
-    T handleComponentUpdateMessage(ComponentUpdateMessage message);
+    R handleComponentUpdateMessage(ComponentUpdateMessage message, A arg);
 
-    T handleConnectRequestMessage(ConnectRequestMessage message);
+    R handleConnectRequestMessage(ConnectRequestMessage message, A arg);
 
-    T handleDisconnectRequestMessage(DisconnectRequestMessage message);
+    R handleDisconnectRequestMessage(DisconnectRequestMessage message, A arg);
 
-    T handleHightlightingUpdateMessage(HightlightingUpdateMessage message);
+    R handleHightlightingUpdateMessage(HightlightingUpdateMessage message, A arg);
 
-    T handleLandscapePositionMessage(LandscapePositionMessage message);
+    R handleLandscapePositionMessage(LandscapePositionMessage message, A arg);
 
-    T handleNodegroupUpdateMessage(NodegroupUpdateMessage message);
+    R handleNodegroupUpdateMessage(NodegroupUpdateMessage message, A arg);
 
-    T handleSpectatingUpdateMessage(SpectatingUpdateMessage message);
+    R handleSpectatingUpdateMessage(SpectatingUpdateMessage message, A arg);
 
-    T handleSystemUpdateMessage(SystemUpdateMessage message);
+    R handleSystemUpdateMessage(SystemUpdateMessage message, A arg);
     
-    T handleUserControllersMessage(UserControllersMessage message);
+    R handleUserControllersMessage(UserControllersMessage message, A arg);
     
-    T handleUserPositionsMessage(UserPositionsMessage message);
+    R handleUserPositionsMessage(UserPositionsMessage message, A arg);
 }

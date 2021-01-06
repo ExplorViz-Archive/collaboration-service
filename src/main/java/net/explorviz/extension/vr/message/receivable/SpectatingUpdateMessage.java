@@ -36,7 +36,7 @@ public class SpectatingUpdateMessage extends ReceivedMessage {
     }
 
     @Override
-    public <T> T handleWith(ReceivedMessageHandler<T> handler) {
-        return handler.handleSpectatingUpdateMessage(this);
+    public <R, A> R handleWith(ReceivedMessageHandler<R, A> handler, A arg) {
+        return handler.handleSpectatingUpdateMessage(this, arg);
     }
 }

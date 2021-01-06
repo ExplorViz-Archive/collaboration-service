@@ -39,7 +39,7 @@ import net.explorviz.extension.vr.service.SessionRegistry;
 
 @ServerEndpoint(value = "/v2/vr", decoders = { VRMessageDecoder.class }, encoders = { VRMessageEncoder.class })
 @ApplicationScoped
-public class VRSocket implements ReceivedMessageHandler<Boolean> {
+public class VRSocket implements ReceivedMessageHandler<Boolean, Session> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VRSocket.class);
 
@@ -95,7 +95,7 @@ public class VRSocket implements ReceivedMessageHandler<Boolean> {
 
         // Process the message.
         LOGGER.debug("received message: {}", message);
-        final var shouldForward = message.handleWith(this);
+        final var shouldForward = message.handleWith(this, senderSession);
 
         // Optionally forward the message.
         if (Boolean.TRUE.equals(shouldForward)) {
@@ -104,91 +104,91 @@ public class VRSocket implements ReceivedMessageHandler<Boolean> {
     }
 
     @Override
-    public Boolean handleAppClosedMessage(AppClosedMessage message) {
+    public Boolean handleAppClosedMessage(AppClosedMessage message, Session senderSession) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Boolean handleAppGrabbedMessage(AppGrabbedMessage message) {
+    public Boolean handleAppGrabbedMessage(AppGrabbedMessage message, Session senderSession) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Boolean handleAppOpenedMessage(AppOpenedMessage message) {
+    public Boolean handleAppOpenedMessage(AppOpenedMessage message, Session senderSession) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Boolean handleAppReleasedMessage(AppReleasedMessage message) {
+    public Boolean handleAppReleasedMessage(AppReleasedMessage message, Session senderSession) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Boolean handleAppTranslatedMessage(AppTranslatedMessage message) {
+    public Boolean handleAppTranslatedMessage(AppTranslatedMessage message, Session senderSession) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Boolean handleComponentUpdateMessage(ComponentUpdateMessage message) {
+    public Boolean handleComponentUpdateMessage(ComponentUpdateMessage message, Session senderSession) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Boolean handleHightlightingUpdateMessage(HightlightingUpdateMessage message) {
+    public Boolean handleHightlightingUpdateMessage(HightlightingUpdateMessage message, Session senderSession) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Boolean handleLandscapePositionMessage(LandscapePositionMessage message) {
+    public Boolean handleLandscapePositionMessage(LandscapePositionMessage message, Session senderSession) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Boolean handleNodegroupUpdateMessage(NodegroupUpdateMessage message) {
+    public Boolean handleNodegroupUpdateMessage(NodegroupUpdateMessage message, Session senderSession) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Boolean handleSpectatingUpdateMessage(SpectatingUpdateMessage message) {
+    public Boolean handleSpectatingUpdateMessage(SpectatingUpdateMessage message, Session senderSession) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Boolean handleSystemUpdateMessage(SystemUpdateMessage message) {
+    public Boolean handleSystemUpdateMessage(SystemUpdateMessage message, Session senderSession) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Boolean handleUserControllersMessage(UserControllersMessage message) {
+    public Boolean handleUserControllersMessage(UserControllersMessage message, Session senderSession) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Boolean handleUserPositionsMessage(UserPositionsMessage message) {
+    public Boolean handleUserPositionsMessage(UserPositionsMessage message, Session senderSession) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Boolean handleConnectRequestMessage(ConnectRequestMessage message) {
+    public Boolean handleConnectRequestMessage(ConnectRequestMessage message, Session senderSession) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Boolean handleDisconnectRequestMessage(DisconnectRequestMessage message) {
+    public Boolean handleDisconnectRequestMessage(DisconnectRequestMessage message, Session senderSession) {
         // TODO Auto-generated method stub
         return null;
     }

@@ -7,9 +7,13 @@ public abstract class ReceivedMessage extends VRMessage {
     /**
      * Invokes the correct {@code handle*} method of the given handler.
      * 
-     * @param <T>     The return type of the handeler's {@code handle*} methods.
-     * @param handler The handler whose {@code handle*} method to invoke..
+     * @param <R>     The return type of the handeler's {@code handle*} methods.
+     * @param <A>     The type for additional arguments of the handeler's
+     *                {@code handle*} methods.
+     * @param handler The handler whose {@code handle*} method to invoke.
+     * @param arg     An additional argument to pass to the handlers {@code handle*}
+     *                method.
      * @return The return value of the {@code handle*} method.
      */
-    public abstract <T> T handleWith(ReceivedMessageHandler<T> handler);
+    public abstract <R, A> R handleWith(ReceivedMessageHandler<R, A> handler, A arg);
 }

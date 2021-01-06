@@ -49,7 +49,7 @@ public class UserControllersMessage extends ReceivedMessage {
     }
 
     @Override
-    public <T> T handleWith(ReceivedMessageHandler<T> handler) {
-        return handler.handleUserControllersMessage(this);
+    public <R, A> R handleWith(ReceivedMessageHandler<R, A> handler, A arg) {
+        return handler.handleUserControllersMessage(this, arg);
     }
 }

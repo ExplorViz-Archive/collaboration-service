@@ -27,7 +27,7 @@ public class NodegroupUpdateMessage extends ReceivedMessage {
     }
 
     @Override
-    public <T> T handleWith(ReceivedMessageHandler<T> handler) {
-        return handler.handleNodegroupUpdateMessage(this);
+    public <R, A> R handleWith(ReceivedMessageHandler<R, A> handler, A arg) {
+        return handler.handleNodegroupUpdateMessage(this, arg);
     }
 }

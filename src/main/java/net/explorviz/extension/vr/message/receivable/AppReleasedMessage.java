@@ -36,7 +36,7 @@ public class AppReleasedMessage extends ReceivedMessage {
     }
 
     @Override
-    public <T> T handleWith(ReceivedMessageHandler<T> handler) {
-        return handler.handleAppReleasedMessage(this);
+    public <R, A> R handleWith(ReceivedMessageHandler<R, A> handler, A arg) {
+        return handler.handleAppReleasedMessage(this, arg);
     }
 }

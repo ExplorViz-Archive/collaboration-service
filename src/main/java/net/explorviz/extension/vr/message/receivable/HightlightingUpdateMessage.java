@@ -45,7 +45,7 @@ public class HightlightingUpdateMessage extends ReceivedMessage {
     }
 
     @Override
-    public <T> T handleWith(ReceivedMessageHandler<T> handler) {
-        return handler.handleHightlightingUpdateMessage(this);
+    public <R, A> R handleWith(ReceivedMessageHandler<R, A> handler, A arg) {
+        return handler.handleHightlightingUpdateMessage(this, arg);
     }
 }
