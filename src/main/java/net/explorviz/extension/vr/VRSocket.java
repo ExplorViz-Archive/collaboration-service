@@ -53,25 +53,26 @@ public class VRSocket implements ReceivedMessageHandler<Boolean, Session> {
 
     @Inject
     UserService userService;
-    
+
     @Inject
     EntityService entityService;
-    
+
     @OnOpen
     public void onOpen(Session session) {
         LOGGER.debug("opened websocket");
         final String userId = this.userService.addUser();
         this.sessionRegistry.register(userId, session);
+        // sendLandscape
+        // connect
     }
 
     @OnClose
     public void onClose(Session session) {
         LOGGER.debug("closed websocket");
         final String userId = this.sessionRegistry.lookupId(session);
-        if (userId != null) {
-        	this.userService.removeUser(userId);
-        	this.sessionRegistry.unregister(userId);
-        }
+        this.userService.removeUser(userId);
+        this.sessionRegistry.unregister(userId);
+        // disonnect
     }
 
     @OnError
@@ -118,96 +119,97 @@ public class VRSocket implements ReceivedMessageHandler<Boolean, Session> {
         }
     }
 
-	@Override
-	public Boolean handleAppClosedMessage(AppClosedMessage message, Session senderSession) {
-		this.entityService.closeApp(message.getAppID());
-		return null;
-	}
+    @Override
+    public Boolean handleAppClosedMessage(AppClosedMessage message, Session senderSession) {
+        this.entityService.closeApp(message.getAppID());
+        return null;
+    }
 
-	@Override
-	public Boolean handleAppGrabbedMessage(AppGrabbedMessage message, Session senderSession) {
-		this.entityService.grabbApp(message.getAppID(), ""); // TODO userId
-		return null;
-	}
+    @Override
+    public Boolean handleAppGrabbedMessage(AppGrabbedMessage message, Session senderSession) {
+        this.entityService.grabbApp(message.getAppID(), this.sessionRegistry.lookupId(senderSession));
+        return null;
+    }
 
-	@Override
-	public Boolean handleAppOpenedMessage(AppOpenedMessage message, Session senderSession) {
-		this.entityService.openApp(message.getId(), message.getPosition(), message.getQuaternion());
-		return null;
-	}
+    @Override
+    public Boolean handleAppOpenedMessage(AppOpenedMessage message, Session senderSession) {
+        this.entityService.openApp(message.getId(), message.getPosition(), message.getQuaternion());
+        return null;
+    }
 
-	@Override
-	public Boolean handleAppReleasedMessage(AppReleasedMessage message, Session senderSession) {
-		this.entityService.releaseApp(message.getId(), message.getPosition(), message.getQuaternion());
-		return null;
-	}
+    @Override
+    public Boolean handleAppReleasedMessage(AppReleasedMessage message, Session senderSession) {
+        this.entityService.releaseApp(message.getId(), message.getPosition(), message.getQuaternion());
+        return null;
+    }
 
-	@Override
-	public Boolean handleAppTranslatedMessage(AppTranslatedMessage message, Session senderSession) {
-		this.entityService.translateApp();
-		return null;
-	}
+    @Override
+    public Boolean handleAppTranslatedMessage(AppTranslatedMessage message, Session senderSession) {
+        this.entityService.translateApp();
+        return null;
+    }
 
-	@Override
-	public Boolean handleComponentUpdateMessage(ComponentUpdateMessage message, Session senderSession) {
-		this.entityService.updateComponent(message.getComponentID(), message.getAppID(), message.getIsFoundation(),
-				message.getIsOpened());
-		return null;
-	}
+    @Override
+    public Boolean handleComponentUpdateMessage(ComponentUpdateMessage message, Session senderSession) {
+        this.entityService.updateComponent(message.getComponentID(), message.getAppID(), message.getIsFoundation(),
+                message.getIsOpened());
+        return null;
+    }
 
-	@Override
-	public Boolean handleHightlightingUpdateMessage(HightlightingUpdateMessage message, Session senderSession) {
-		this.userService.updateHighlighting("", message.getAppID(), message.getEntityID(), message.getEntityType(),
-				message.getIsHighlighted()); //TODO userId
-		return null;
-	}
+    @Override
+    public Boolean handleHightlightingUpdateMessage(HightlightingUpdateMessage message, Session senderSession) {
+        this.userService.updateHighlighting(this.sessionRegistry.lookupId(senderSession), message.getAppID(),
+                message.getEntityID(), message.getEntityType(), message.getIsHighlighted());
+        return null;
+    }
 
-	@Override
-	public Boolean handleLandscapePositionMessage(LandscapePositionMessage message, Session senderSession) {
-		this.entityService.updateLandscapePosition(message.getOffset(), message.getQuaternion());
-		return null;
-	}
+    @Override
+    public Boolean handleLandscapePositionMessage(LandscapePositionMessage message, Session senderSession) {
+        this.entityService.updateLandscapePosition(message.getOffset(), message.getQuaternion());
+        return null;
+    }
 
-	@Override
-	public Boolean handleNodegroupUpdateMessage(NodegroupUpdateMessage message, Session senderSession) {
-		this.entityService.updateNodegroup(message.getId(), message.getIsOpen());
-		return null;
-	}
+    @Override
+    public Boolean handleNodegroupUpdateMessage(NodegroupUpdateMessage message, Session senderSession) {
+        this.entityService.updateNodegroup(message.getId(), message.getIsOpen());
+        return null;
+    }
 
-	@Override
-	public Boolean handleSpectatingUpdateMessage(SpectatingUpdateMessage message, Session senderSession) {
-		this.userService.updateSpectating("", message.getIsSpectating()); //TODO userId
-		return null;
-	}
+    @Override
+    public Boolean handleSpectatingUpdateMessage(SpectatingUpdateMessage message, Session senderSession) {
+        this.userService.updateSpectating(this.sessionRegistry.lookupId(senderSession), message.getIsSpectating());
+        return null;
+    }
 
-	@Override
-	public Boolean handleSystemUpdateMessage(SystemUpdateMessage message, Session senderSession) {
-		this.entityService.updateSystem(message.getId(), message.getIsOpen());
-		return null;
-	}
+    @Override
+    public Boolean handleSystemUpdateMessage(SystemUpdateMessage message, Session senderSession) {
+        this.entityService.updateSystem(message.getId(), message.getIsOpen());
+        return null;
+    }
 
-	@Override
-	public Boolean handleUserControllersMessage(UserControllersMessage message, Session senderSession) {
-		this.userService.updateUserControllers("", message.getConnect(), message.getDisconnect()); //TODO userId
-		return null;
-	}
+    @Override
+    public Boolean handleUserControllersMessage(UserControllersMessage message, Session senderSession) {
+        this.userService.updateUserControllers(this.sessionRegistry.lookupId(senderSession), message.getConnect(),
+                message.getDisconnect());
+        return null;
+    }
 
-	@Override
-	public Boolean handleUserPositionsMessage(UserPositionsMessage message, Session senderSession) {
-		this.userService.updateUserPosition();
-		return null;
-	}
+    @Override
+    public Boolean handleUserPositionsMessage(UserPositionsMessage message, Session senderSession) {
+        this.userService.updateUserPosition();
+        return null;
+    }
 
-	@Override
-	public Boolean handleConnectRequestMessage(ConnectRequestMessage message, Session senderSession) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Boolean handleConnectRequestMessage(ConnectRequestMessage message, Session senderSession) {
+        // TODO remove additional connect and disconnect request (frontend)
+        return null;
+    }
 
-	@Override
-	public Boolean handleDisconnectRequestMessage(DisconnectRequestMessage message, Session senderSession) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Boolean handleDisconnectRequestMessage(DisconnectRequestMessage message, Session senderSession) {
+        // TODO remove additional connect and disconnect request (frontend)
+        return null;
+    }
 
 }

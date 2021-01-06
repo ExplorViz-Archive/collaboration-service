@@ -63,6 +63,8 @@ public class SessionRegistry {
 	 * @return The user ID or null if websocket connection does not exist.
 	 */
 	public String lookupId(Session session) {
-		return this.userIDs.get(session);
+		final String userID = this.userIDs.get(session);
+		if (userID == null) throw new IllegalStateException("Session not found");
+		return userID;
 	}
 }
