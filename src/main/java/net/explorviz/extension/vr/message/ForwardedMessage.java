@@ -1,7 +1,8 @@
 package net.explorviz.extension.vr.message;
 
 /**
- * A message that was received from the frontend and is forwared to all other users.
+ * A message that was received from the frontend and is forwared to all other
+ * users.
  */
 public class ForwardedMessage extends VRMessage {
     public static final String EVENT = "forward";
@@ -10,9 +11,10 @@ public class ForwardedMessage extends VRMessage {
      * The ID of the user that sent the original message.
      */
     private String userID;
-    
+
     /**
-     * A message that was received from the frontend and should be forwarded to all other users.
+     * A message that was received from the frontend and should be forwarded to all
+     * other users.
      */
     private ReceivedMessage originalMessage;
 

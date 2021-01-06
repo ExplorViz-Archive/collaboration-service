@@ -25,6 +25,8 @@ import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
 import net.explorviz.extension.vr.message.receivable.AppReleasedMessage;
 import net.explorviz.extension.vr.message.receivable.AppTranslatedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.ConnectRequestMessage;
+import net.explorviz.extension.vr.message.receivable.DisconnectRequestMessage;
 import net.explorviz.extension.vr.message.receivable.HightlightingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.LandscapePositionMessage;
 import net.explorviz.extension.vr.message.receivable.NodegroupUpdateMessage;
@@ -40,13 +42,13 @@ import net.explorviz.extension.vr.service.SessionRegistry;
 public class VRSocket implements ReceivedMessageHandler<Boolean> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VRSocket.class);
-    
+
     @Inject
     BroadcastService broadcastService;
-    
+
     @Inject
     SessionRegistry sessionRegistry;
-    
+
     @OnOpen
     public void onOpen(Session session) {
         LOGGER.debug("opened websocket");
@@ -79,12 +81,13 @@ public class VRSocket implements ReceivedMessageHandler<Boolean> {
 
     /**
      * Called for each message that is received.
-     * 
+     *
      * The received message is logged and the corresponding method from
      * {@link ReceivedMessageHandler} is invoked.
-     * 
-     * @param message The received message.
-     * @param senderSession The websocket connection of the client that sent the message.
+     *
+     * @param message       The received message.
+     * @param senderSession The websocket connection of the client that sent the
+     *                      message.
      */
     public void handleMessage(ReceivedMessage message, Session senderSession) {
         if (message == null)
@@ -93,7 +96,7 @@ public class VRSocket implements ReceivedMessageHandler<Boolean> {
         // Process the message.
         LOGGER.debug("received message: {}", message);
         final var shouldForward = message.handleWith(this);
-        
+
         // Optionally forward the message.
         if (Boolean.TRUE.equals(shouldForward)) {
             broadcastService.broadcastExcept(message, senderSession);
@@ -174,6 +177,18 @@ public class VRSocket implements ReceivedMessageHandler<Boolean> {
 
     @Override
     public Boolean handleUserPositionsMessage(UserPositionsMessage message) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Boolean handleConnectRequestMessage(ConnectRequestMessage message) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Boolean handleDisconnectRequestMessage(DisconnectRequestMessage message) {
         // TODO Auto-generated method stub
         return null;
     }

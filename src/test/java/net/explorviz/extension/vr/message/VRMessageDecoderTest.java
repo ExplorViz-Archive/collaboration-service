@@ -35,6 +35,7 @@ import net.explorviz.extension.vr.message.receivable.NodegroupUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.SystemUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
+import net.explorviz.extension.vr.message.receivable.UserControllersMessage.Controllers;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
 
 public class VRMessageDecoderTest {
@@ -234,12 +235,18 @@ public class VRMessageDecoderTest {
 
     @Test
     public void testUserControllersMessage() throws DecodeException, IOException {
-        final var json = "{ \"event\": \"user_controllers\", \"connect\": [\"foo\"], \"disconnect\": [\"bar\"] }";
+        final var json = "{ \"event\": \"user_controllers\", "
+                + "\"connect\": {\"controller1\": \"oculus-left\", \"controller2\": \"oculus-right\"}, "
+                + "\"disconnect\": {\"controller1\": \"vive-left\", \"controller2\": \"vive-right\"} }";
         final var actual = decoder.decodeMessage(json);
         final var expected = new UserControllersMessage();
         expected.setEvent("user_controllers");
-        expected.setConnect(new String[] { "foo" });
-        expected.setDisconnect(new String[] { "bar" });
+        expected.setConnect(new Controllers());
+        expected.getConnect().setController1("oculus-left");
+        expected.getConnect().setController2("oculus-right");
+        expected.setDisconnect(new Controllers());
+        expected.getDisconnect().setController1("vive-left");
+        expected.getDisconnect().setController2("vive-right");
         assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
     }
 

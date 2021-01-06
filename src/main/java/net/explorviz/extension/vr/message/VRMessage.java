@@ -1,8 +1,8 @@
 package net.explorviz.extension.vr.message;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
@@ -40,8 +40,7 @@ import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
         @Type(value = UserControllersMessage.class, name = UserControllersMessage.EVENT),
         @Type(value = UserPositionsMessage.class, name = UserPositionsMessage.EVENT),
         // Forwarded messages.
-        @Type(value = ForwardedMessage.class, name = ForwardedMessage.EVENT)
-        })
+        @Type(value = ForwardedMessage.class, name = ForwardedMessage.EVENT) })
 public abstract class VRMessage {
     @JsonTypeId
     private String event;

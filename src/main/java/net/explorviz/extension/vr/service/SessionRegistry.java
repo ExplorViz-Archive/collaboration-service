@@ -38,11 +38,13 @@ public class SessionRegistry {
     public void register(String username, Session session) {
         sessions.put(username, session);
     }
-    
+
     /**
-     * Removes the association with a websocket connection for the user user with the given name.
+     * Removes the association with a websocket connection for the user user with
+     * the given name.
      * 
-     * Does nothing if the user name is not associated with any websocket connection.
+     * Does nothing if the user name is not associated with any websocket
+     * connection.
      * 
      * @param username The name of the user whose websocket connection to forget.
      */

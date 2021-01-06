@@ -16,7 +16,7 @@ public class AppClosedMessage extends ReceivedMessage {
     public void setAppID(String appID) {
         this.appID = appID;
     }
-    
+
     @Override
     public <T> T handleWith(ReceivedMessageHandler<T> handler) {
         return handler.handleAppClosedMessage(this);

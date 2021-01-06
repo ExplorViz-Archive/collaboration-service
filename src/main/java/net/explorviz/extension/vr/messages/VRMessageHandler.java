@@ -1,5 +1,6 @@
-package net.explorviz.extension.vr.message;
+package net.explorviz.extension.vr.messages;
 
+import net.explorviz.extension.vr.message.VRMessage;
 import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
 import net.explorviz.extension.vr.message.receivable.AppGrabbedMessage;
 import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
@@ -23,7 +24,7 @@ import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
  *
  * @param <T> The return type of the handler methods.
  */
-public interface ReceivedMessageHandler<T> {
+public interface VRMessageHandler<T> {
     T handleAppClosedMessage(AppClosedMessage message);
 
     T handleAppGrabbedMessage(AppGrabbedMessage message);
@@ -36,10 +37,6 @@ public interface ReceivedMessageHandler<T> {
 
     T handleComponentUpdateMessage(ComponentUpdateMessage message);
 
-    T handleConnectRequestMessage(ConnectRequestMessage message);
-
-    T handleDisconnectRequestMessage(DisconnectRequestMessage message);
-
     T handleHightlightingUpdateMessage(HightlightingUpdateMessage message);
 
     T handleLandscapePositionMessage(LandscapePositionMessage message);
@@ -49,8 +46,13 @@ public interface ReceivedMessageHandler<T> {
     T handleSpectatingUpdateMessage(SpectatingUpdateMessage message);
 
     T handleSystemUpdateMessage(SystemUpdateMessage message);
-    
+
     T handleUserControllersMessage(UserControllersMessage message);
-    
+
     T handleUserPositionsMessage(UserPositionsMessage message);
+
+    T handleConnectRequestMessage(ConnectRequestMessage message);
+
+    T handleDisconnectRequestMessage(DisconnectRequestMessage message);
+
 }

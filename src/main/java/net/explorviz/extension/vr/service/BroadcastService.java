@@ -13,7 +13,8 @@ import javax.websocket.Session;
 import net.explorviz.extension.vr.message.VRMessage;
 
 /**
- * A service that can be used to broadcast messages to all connected clients that are registered to the {@link SessionRegistry}.
+ * A service that can be used to broadcast messages to all connected clients
+ * that are registered to the {@link SessionRegistry}.
  */
 @ApplicationScoped
 public class BroadcastService {
@@ -30,11 +31,12 @@ public class BroadcastService {
     public Future<Void> broadcast(VRMessage message) {
         return broadcastWhere(message, (session) -> true);
     }
-    
+
     /**
-     * Broadcasts a message to all connected clients except for the given websocket connections.
+     * Broadcasts a message to all connected clients except for the given websocket
+     * connections.
      * 
-     * @param message The message to broadcast.
+     * @param message          The message to broadcast.
      * @param excludedSessions
      * @return
      */
