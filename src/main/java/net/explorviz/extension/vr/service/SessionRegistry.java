@@ -1,8 +1,8 @@
 package net.explorviz.extension.vr.service;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.websocket.Session;
@@ -15,7 +15,8 @@ public class SessionRegistry {
     /**
      * Maps user names to the corresponding websocket sessions.
      */
-    private final Map<String, Session> sessions = new HashMap<>();
+    private final Map<String, Session> sessions = new ConcurrentHashMap<>();
+    private final Map<Session, String> userIds = new ConcurrentHashMap<>();
 
     /**
      * Gets all currently open sessions.
@@ -37,6 +38,7 @@ public class SessionRegistry {
      */
     public void register(String username, Session session) {
         sessions.put(username, session);
+        userIds.put(session, username);
     }
 
     /**
@@ -49,6 +51,18 @@ public class SessionRegistry {
      * @param username The name of the user whose websocket connection to forget.
      */
     public void unregister(String username) {
+    	final Session session = sessions.get(username);
+    	if (session != null) userIds.remove(session);
         sessions.remove(username);
+    }
+    
+    /**
+     * Looks up the associated user id for a given websocket connection.
+     * 
+     * @param session The websocket connection.
+     * @return The user id or null if websocket connection does not exist.
+     */
+    public String lookupId(Session session) {
+    	return this.userIds.get(session);
     }
 }
