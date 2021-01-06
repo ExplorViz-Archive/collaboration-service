@@ -36,7 +36,7 @@ public class AppTranslatedMessage extends ReceivedMessage {
     }
 
     @Override
-    public <T> T handleWith(ReceivedMessageHandler<T> handler) {
-        return handler.handleAppTranslatedMessage(this);
+    public <R, A> R handleWith(ReceivedMessageHandler<R, A> handler, A arg) {
+        return handler.handleAppTranslatedMessage(this, arg);
     }
 }

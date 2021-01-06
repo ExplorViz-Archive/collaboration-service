@@ -18,8 +18,8 @@ public class DisconnectRequestMessage extends ReceivedMessage {
     }
 
     @Override
-    public <T> T handleWith(ReceivedMessageHandler<T> handler) {
-        return handler.handleDisconnectRequestMessage(this);
+    public <R, A> R handleWith(ReceivedMessageHandler<R, A> handler, A arg) {
+        return handler.handleDisconnectRequestMessage(this, arg);
     }
 
 }

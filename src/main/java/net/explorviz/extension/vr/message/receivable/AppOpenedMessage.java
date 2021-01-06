@@ -36,7 +36,7 @@ public class AppOpenedMessage extends ReceivedMessage {
     }
 
     @Override
-    public <T> T handleWith(ReceivedMessageHandler<T> handler) {
-        return handler.handleAppOpenedMessage(this);
+    public <R, A> R handleWith(ReceivedMessageHandler<R, A> handler, A arg) {
+        return handler.handleAppOpenedMessage(this, arg);
     }
 }

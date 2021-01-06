@@ -12,57 +12,57 @@ import javax.websocket.Session;
  */
 @ApplicationScoped
 public class SessionRegistry {
-    /**
-     * Maps user names to the corresponding websocket sessions.
-     */
-    private final Map<String, Session> sessions = new ConcurrentHashMap<>();
-    private final Map<Session, String> userIds = new ConcurrentHashMap<>();
+	/**
+	 * Maps user names to the corresponding websocket sessions.
+	 */
+	private final Map<String, Session> sessions = new ConcurrentHashMap<>();
+	private final Map<Session, String> userIDs = new ConcurrentHashMap<>();
 
-    /**
-     * Gets all currently open sessions.
-     * 
-     * @return A collection of open sessions.
-     */
-    public Collection<Session> getSessions() {
-        return sessions.values();
-    }
+	/**
+	 * Gets all currently open sessions.
+	 * 
+	 * @return A collection of open sessions.
+	 */
+	public Collection<Session> getSessions() {
+		return sessions.values();
+	}
 
-    /**
-     * Associates the given user name with the given websocket connection.
-     * 
-     * If the user name is associated with another session already, the existing
-     * association is overwritten.
-     * 
-     * @param username The name of the user.
-     * @param session  The webdocket connection.
-     */
-    public void register(String username, Session session) {
-        sessions.put(username, session);
-        userIds.put(session, username);
-    }
+	/**
+	 * Associates the given user ID with the given websocket connection.
+	 * 
+	 * If the user ID is associated with another session already, the existing
+	 * association is overwritten.
+	 * 
+	 * @param username The ID of the user.
+	 * @param session  The webdocket connection.
+	 */
+	public void register(String userID, Session session) {
+		sessions.put(userID, session);
+		userIDs.put(session, userID);
+	}
 
-    /**
-     * Removes the association with a websocket connection for the user user with
-     * the given name.
-     * 
-     * Does nothing if the user name is not associated with any websocket
-     * connection.
-     * 
-     * @param username The name of the user whose websocket connection to forget.
-     */
-    public void unregister(String username) {
-    	final Session session = sessions.get(username);
-    	if (session != null) userIds.remove(session);
-        sessions.remove(username);
-    }
-    
-    /**
-     * Looks up the associated user id for a given websocket connection.
-     * 
-     * @param session The websocket connection.
-     * @return The user id or null if websocket connection does not exist.
-     */
-    public String lookupId(Session session) {
-    	return this.userIds.get(session);
-    }
+	/**
+	 * Removes the association with a websocket connection for the user with the
+	 * given ID.
+	 * 
+	 * Does nothing if the user ID is not associated with any websocket connection.
+	 * 
+	 * @param username The name of the user whose websocket connection to forget.
+	 */
+	public void unregister(String userID) {
+		final Session session = sessions.get(userID);
+		if (session != null)
+			userIDs.remove(session);
+		sessions.remove(userID);
+	}
+
+	/**
+	 * Looks up the associated user id for a given websocket connection.
+	 * 
+	 * @param session The websocket connection.
+	 * @return The user ID or null if websocket connection does not exist.
+	 */
+	public String lookupId(Session session) {
+		return this.userIDs.get(session);
+	}
 }

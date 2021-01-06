@@ -36,12 +36,17 @@ public class BroadcastService {
      * Broadcasts a message to all connected clients except for the given websocket
      * connections.
      * 
+     * This method is used for example to forward a message to all other clients
+     * except for the original sender of the message.
+     * 
      * @param message          The message to broadcast.
-     * @param excludedSessions
-     * @return
+     * @param excludedSessions The web socket connections to exclude from the
+     *                         broadcast.
+     * @return A future that completes when the message has been send to all other
+     *         websockets.
      */
     public Future<Void> broadcastExcept(VRMessage message, Session... excludedSessions) {
-        return broadcastWhere(message, (session) -> Arrays.stream(excludedSessions).anyMatch(session::equals));
+        return broadcastWhere(message, (session) -> !Arrays.stream(excludedSessions).anyMatch(session::equals));
     }
 
     /**
