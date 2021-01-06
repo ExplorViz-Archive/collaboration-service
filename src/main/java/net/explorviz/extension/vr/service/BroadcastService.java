@@ -41,7 +41,7 @@ public class BroadcastService {
      * @return
      */
     public Future<Void> broadcastExcept(VRMessage message, Session... excludedSessions) {
-        return broadcastWhere(message, (session) -> Arrays.stream(excludedSessions).anyMatch(session::equals));
+        return broadcastWhere(message, (session) -> !Arrays.stream(excludedSessions).anyMatch(session::equals));
     }
 
     /**
