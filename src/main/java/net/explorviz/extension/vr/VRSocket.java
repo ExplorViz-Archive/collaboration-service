@@ -19,6 +19,8 @@ import net.explorviz.extension.vr.messages.AppOpenedMessage;
 import net.explorviz.extension.vr.messages.AppReleasedMessage;
 import net.explorviz.extension.vr.messages.AppTranslatedMessage;
 import net.explorviz.extension.vr.messages.ComponentUpdateMessage;
+import net.explorviz.extension.vr.messages.ConnectRequestMessage;
+import net.explorviz.extension.vr.messages.DisconnectRequestMessage;
 import net.explorviz.extension.vr.messages.HightlightingUpdateMessage;
 import net.explorviz.extension.vr.messages.LandscapePositionMessage;
 import net.explorviz.extension.vr.messages.NodegroupUpdateMessage;
@@ -155,4 +157,16 @@ public class VRSocket implements VRMessageHandler<Void> {
         // TODO Auto-generated method stub
         return null;
     }
+
+	@Override
+	public Void handleConnectRequestMessage(ConnectRequestMessage message) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Void handleDisconnectRequestMessage(DisconnectRequestMessage message) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
