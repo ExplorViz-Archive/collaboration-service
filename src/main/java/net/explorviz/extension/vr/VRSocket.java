@@ -49,7 +49,7 @@ import net.explorviz.extension.vr.service.EntityService;
 import net.explorviz.extension.vr.service.SessionRegistry;
 import net.explorviz.extension.vr.service.UserService;
 
-@ServerEndpoint(value = "/v2/vr/{username}", decoders = { VRMessageDecoder.class }, encoders = {
+@ServerEndpoint(value = "/v2/vr/", decoders = { VRMessageDecoder.class }, encoders = {
         VRMessageEncoder.class })
 @ApplicationScoped
 public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> {
@@ -81,9 +81,9 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
     SendLandscapeMessageFactory sendLandscapeMessageFactory;
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("username") String username) {
+    public void onOpen(Session session) {
         LOGGER.debug("opened websocket");
-        final String userId = this.userService.addUser(username);
+        final String userId = this.userService.addUser();
         this.sessionRegistry.register(userId, session);
     }
 
