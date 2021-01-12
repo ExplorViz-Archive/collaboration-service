@@ -1,5 +1,6 @@
 package net.explorviz.extension.vr.service;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -75,6 +76,10 @@ public class UserService {
 
     public void removeUser(String userId) {
         this.users.remove(userId);
+    }
+    
+    public Collection<UserModel> getUsers() {
+        return this.users.values();
     }
 
 }

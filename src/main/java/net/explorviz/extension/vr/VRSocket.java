@@ -9,6 +9,7 @@ import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 import org.slf4j.Logger;
@@ -34,12 +35,13 @@ import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.SystemUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
+import net.explorviz.extension.vr.message.sendable.factory.SendLandscapeMessageFactory;
 import net.explorviz.extension.vr.service.BroadcastService;
 import net.explorviz.extension.vr.service.EntityService;
 import net.explorviz.extension.vr.service.SessionRegistry;
 import net.explorviz.extension.vr.service.UserService;
 
-@ServerEndpoint(value = "/v2/vr", decoders = { VRMessageDecoder.class }, encoders = { VRMessageEncoder.class })
+@ServerEndpoint(value = "/v2/vr/{username}", decoders = { VRMessageDecoder.class }, encoders = { VRMessageEncoder.class })
 @ApplicationScoped
 public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> {
 
@@ -56,13 +58,16 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
 
     @Inject
     EntityService entityService;
+    
+    @Inject
+    SendLandscapeMessageFactory sendLandscapeMessageFactory;
 
     @OnOpen
-    public void onOpen(Session session) {
+    public void onOpen(Session session, @PathParam ("username") String username) {
         LOGGER.debug("opened websocket");
-        final String userId = this.userService.addUser();
+        final String userId = this.userService.addUser(username);
         this.sessionRegistry.register(userId, session);
-        // sendLandscape
+        this.sendLandscape(session);
         // connect
     }
 
@@ -194,5 +199,9 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
     public ShouldForward handleUserPositionsMessage(UserPositionsMessage message, Session senderSession) {
         this.userService.updateUserPosition();
         return ShouldForward.FORWARD;
+    }
+    
+    public void sendLandscape(Session session) {
+        this.broadcastService.sendTo(this.sendLandscapeMessageFactory.makeMessage(), session);
     }
 }
