@@ -28,9 +28,7 @@ import net.explorviz.extension.vr.message.receivable.AppReleasedMessage;
 import net.explorviz.extension.vr.message.receivable.AppTranslatedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.LandscapePositionMessage;
-import net.explorviz.extension.vr.message.receivable.NodegroupUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
-import net.explorviz.extension.vr.message.receivable.SystemUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage.Controllers;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
@@ -157,17 +155,6 @@ public class SendableMessageEncoderTest {
     }
 
     @Test
-    public void testForwardedNodegroupUpdateMessage() throws EncodeException, IOException {
-        final var message = new NodegroupUpdateMessage();
-        message.setId("foo");
-        message.setIsOpen(true);
-        final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
-        final var expected = "{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
-                + "{ \"event\": \"nodegroup_update\", \"id\": \"foo\", \"isOpen\": true }}";
-        assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
-    }
-
-    @Test
     public void testForwardedLandscapePositionMessage() throws EncodeException, IOException {
         final var message = new LandscapePositionMessage();
         message.setPosition(new double[] { 1.0, 2.0, 3.0 });
@@ -187,17 +174,6 @@ public class SendableMessageEncoderTest {
         final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
         final var expected = "{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
                 + "{ \"event\": \"spectating_update\", \"userID\": \"foo\", \"isSpectating\": true, \"spectatedUser\": \"bar\" }}";
-        assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
-    }
-
-    @Test
-    public void testForwardedSystemUpdateMessage() throws EncodeException, IOException {
-        final var message = new SystemUpdateMessage();
-        message.setId("foo");
-        message.setIsOpen(true);
-        final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
-        final var expected = "{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
-                + "{ \"event\": \"system_update\", \"id\": \"foo\", \"isOpen\": true }}";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
@@ -294,17 +270,6 @@ public class SendableMessageEncoderTest {
     public void testSendLandscapeMessage() throws EncodeException, IOException {
         final var message = new SendLandscapeMessage();
 
-        // Create a test system.
-        message.setSystems(new SendLandscapeMessage.LandscapeEntity[] { new SendLandscapeMessage.LandscapeEntity() });
-        message.getSystems()[0].setId("foo");
-        message.getSystems()[0].setOpened(true);
-
-        // Create a test node group.
-        message.setNodeGroups(
-                new SendLandscapeMessage.LandscapeEntity[] { new SendLandscapeMessage.LandscapeEntity() });
-        message.getNodeGroups()[0].setId("bar");
-        message.getNodeGroups()[0].setOpened(true);
-
         // Create a test app.
         message.setOpenApps(new SendLandscapeMessage.App[] { new SendLandscapeMessage.App() });
         message.getOpenApps()[0].setId("baz");
@@ -327,8 +292,7 @@ public class SendableMessageEncoderTest {
         message.getLandscape().setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
 
         final var actual = encoder.encodeMessage(message);
-        final var expected = "{ \"event\": \"landscape\", \"systems\": [{\"id\": \"foo\", \"opened\": true}], "
-                + " \"nodeGroups\": [{\"id\": \"bar\", \"opened\": true}], "
+        final var expected = "{ \"event\": \"landscape\", "
                 + " \"openApps\": [{\"id\": \"baz\", \"position\": [1.0, 2.0, 3.0], "
                 + "    \"quaternion\": [1.0, 2.0, 3.0, 4.0], \"openComponents\": [\"x\", \"y\", \"z\"], "
                 + "    \"highlightedComponents\": [{"

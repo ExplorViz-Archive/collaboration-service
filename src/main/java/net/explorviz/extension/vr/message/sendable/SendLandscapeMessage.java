@@ -6,28 +6,6 @@ public class SendLandscapeMessage extends SendableMessage {
 
     public static final String EVENT = "landscape";
 
-    public static class LandscapeEntity {
-        private String id;
-        private boolean opened;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public boolean isOpened() {
-            return opened;
-        }
-
-        public void setOpened(boolean opened) {
-            this.opened = opened;
-        }
-
-    }
-
     public static class LandscapePosition {
         private double[] position;
         private double[] quaternion;
@@ -148,29 +126,11 @@ public class SendLandscapeMessage extends SendableMessage {
 
     }
 
-    private LandscapeEntity[] systems;
-    private LandscapeEntity[] nodeGroups;
     private App[] openApps;
     private LandscapePosition landscape;
 
     public SendLandscapeMessage() {
         super(EVENT);
-    }
-
-    public LandscapeEntity[] getSystems() {
-        return systems;
-    }
-
-    public void setSystems(LandscapeEntity[] systems) {
-        this.systems = systems;
-    }
-
-    public LandscapeEntity[] getNodeGroups() {
-        return nodeGroups;
-    }
-
-    public void setNodeGroups(LandscapeEntity[] nodeGroups) {
-        this.nodeGroups = nodeGroups;
     }
 
     public App[] getOpenApps() {

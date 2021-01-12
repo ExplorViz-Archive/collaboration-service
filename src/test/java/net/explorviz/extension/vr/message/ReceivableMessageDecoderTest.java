@@ -31,9 +31,7 @@ import net.explorviz.extension.vr.message.receivable.AppReleasedMessage;
 import net.explorviz.extension.vr.message.receivable.AppTranslatedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.LandscapePositionMessage;
-import net.explorviz.extension.vr.message.receivable.NodegroupUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
-import net.explorviz.extension.vr.message.receivable.SystemUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage.Controllers;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
@@ -168,16 +166,6 @@ public class ReceivableMessageDecoderTest {
     }
 
     @Test
-    public void testNodegroupUpdateMessage() throws DecodeException, IOException {
-        final var json = "{ \"event\": \"nodegroup_update\", \"id\": \"foo\", \"isOpen\": true }";
-        final var actual = decoder.decodeMessage(json);
-        final var expected = new NodegroupUpdateMessage();
-        expected.setId("foo");
-        expected.setIsOpen(true);
-        assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
-    }
-
-    @Test
     public void testLandscapePositionMessage() throws DecodeException, IOException {
         final var json = "{ \"event\": \"landscape_position\", \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }";
         final var actual = decoder.decodeMessage(json);
@@ -195,16 +183,6 @@ public class ReceivableMessageDecoderTest {
         expected.setUserID("foo");
         expected.setIsSpectating(true);
         expected.setSpectatedUser("bar");
-        assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
-    }
-
-    @Test
-    public void testSystemUpdateMessage() throws DecodeException, IOException {
-        final var json = "{ \"event\": \"system_update\", \"id\": \"foo\", \"isOpen\": true }";
-        final var actual = decoder.decodeMessage(json);
-        final var expected = new SystemUpdateMessage();
-        expected.setId("foo");
-        expected.setIsOpen(true);
         assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
     }
 

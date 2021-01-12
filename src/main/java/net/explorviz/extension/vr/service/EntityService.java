@@ -2,8 +2,6 @@ package net.explorviz.extension.vr.service;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -16,14 +14,8 @@ public class EntityService {
 
     private final BaseModel landscape = new BaseModel(); // only containing positional information about landscape
 
-    private final Map<String, Boolean> systemState = new ConcurrentHashMap<>(); // tells if a system (systemID) is
-    // opened/closed
-    private final Map<String, Boolean> nodeGroupState = new ConcurrentHashMap<>(); // tells if a nodegroup (nodegroupID)
-                                                                                   // is
-    // opened/closed
     private final Map<String, ApplicationModel> apps = new ConcurrentHashMap<>(); // maps applicationID to the
-                                                                                  // application
-    // model
+                                                                                  // application model
 
     public void openApp(String appId, double[] position, double[] quaternion) {
         ApplicationModel appModel;
@@ -96,22 +88,6 @@ public class EntityService {
     public void updateLandscapePosition(double[] position, double[] quaternion) {
         landscape.setPosition(position);
         landscape.setQuaternion(quaternion);
-    }
-
-    public void updateSystem(String systemId, boolean systemOpened) {
-        systemState.put(systemId, systemOpened);
-    }
-
-    public void updateNodegroup(String nodeGroupId, boolean nodeGroupOpened) {
-        nodeGroupState.put(nodeGroupId, nodeGroupOpened);
-    }
-
-    public Set<Entry<String, Boolean>> getSystemState() {
-        return this.systemState.entrySet();
-    }
-
-    public Set<Entry<String, Boolean>> getNodeGroupState() {
-        return this.nodeGroupState.entrySet();
     }
 
     public Collection<ApplicationModel> getApps() {
