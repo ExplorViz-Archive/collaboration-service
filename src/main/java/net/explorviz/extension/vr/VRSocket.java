@@ -85,7 +85,6 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
         LOGGER.debug("opened websocket");
         final String userId = this.userService.addUser(username);
         this.sessionRegistry.register(userId, session);
-        this.sendLandscape(session);
     }
 
     @OnClose
@@ -253,7 +252,14 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
         broadcastService.broadcastExcept(message, userModel.getId());
     }
 
-    public void sendLandscape(Session session) {
-        this.broadcastService.sendTo(this.sendLandscapeMessageFactory.makeMessage(), session);
+    /**
+     * Sends a {@link SendLandscapeMessage} to the user who connects to the web socket.
+     * 
+     * @param event The connection event.
+     */
+    public void sendLandscape(@ObservesAsync UserConnectedEvent event) {
+        final var userModel = event.getUserModel();
+        final var message = sendLandscapeMessageFactory.makeMessage();
+        broadcastService.sendTo(message, userModel.getId());
     }
 }

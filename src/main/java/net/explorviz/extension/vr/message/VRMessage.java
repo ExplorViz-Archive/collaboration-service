@@ -19,6 +19,7 @@ import net.explorviz.extension.vr.message.receivable.SystemUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
 import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
+import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage;
 import net.explorviz.extension.vr.message.sendable.UserConnectedMessage;
 import net.explorviz.extension.vr.message.sendable.UserDisconnectedMessage;
 
@@ -47,7 +48,8 @@ import net.explorviz.extension.vr.message.sendable.UserDisconnectedMessage;
         // Sendable messages.
         @Type(value = SelfConnectedMessage.class, name = SelfConnectedMessage.EVENT),
         @Type(value = UserConnectedMessage.class, name = UserConnectedMessage.EVENT),
-        @Type(value = UserDisconnectedMessage.class, name = UserDisconnectedMessage.EVENT) })
+        @Type(value = UserDisconnectedMessage.class, name = UserDisconnectedMessage.EVENT),
+        @Type(value = SendLandscapeMessage.class, name = SendLandscapeMessage.EVENT)})
 public abstract class VRMessage {
     @JsonTypeId
     private String event;
