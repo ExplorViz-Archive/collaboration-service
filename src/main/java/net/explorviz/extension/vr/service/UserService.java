@@ -1,5 +1,6 @@
 package net.explorviz.extension.vr.service;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -98,6 +99,10 @@ public class UserService {
         if (userModel != null) {
             userDisconnectedEvent.fireAsync(new UserDisconnectedEvent(userModel));
         }
+    }
+    
+    public Collection<UserModel> getUsers() {
+        return this.users.values();
     }
 
 }

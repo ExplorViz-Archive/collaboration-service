@@ -10,6 +10,7 @@ import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 import org.slf4j.Logger;
@@ -40,6 +41,7 @@ import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
 import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
 import net.explorviz.extension.vr.message.sendable.UserConnectedMessage;
 import net.explorviz.extension.vr.message.sendable.factory.SelfConnectedMessageFactory;
+import net.explorviz.extension.vr.message.sendable.factory.SendLandscapeMessageFactory;
 import net.explorviz.extension.vr.message.sendable.factory.UserConnectedMessageFactory;
 import net.explorviz.extension.vr.message.sendable.factory.UserDisconnectedMessageFactory;
 import net.explorviz.extension.vr.service.BroadcastService;
@@ -47,7 +49,8 @@ import net.explorviz.extension.vr.service.EntityService;
 import net.explorviz.extension.vr.service.SessionRegistry;
 import net.explorviz.extension.vr.service.UserService;
 
-@ServerEndpoint(value = "/v2/vr", decoders = { VRMessageDecoder.class }, encoders = { VRMessageEncoder.class })
+@ServerEndpoint(value = "/v2/vr/{username}", decoders = { VRMessageDecoder.class }, encoders = {
+        VRMessageEncoder.class })
 @ApplicationScoped
 public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> {
 
@@ -64,22 +67,25 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
 
     @Inject
     EntityService entityService;
-    
+
     @Inject
-    SelfConnectedMessageFactory selfConnectedMessageFactory; 
-    
+    SelfConnectedMessageFactory selfConnectedMessageFactory;
+
     @Inject
-    UserConnectedMessageFactory userConnectedMessageFactory; 
-    
+    UserConnectedMessageFactory userConnectedMessageFactory;
+
     @Inject
     UserDisconnectedMessageFactory userDisconnectedMessageFactory;
 
+    @Inject
+    SendLandscapeMessageFactory sendLandscapeMessageFactory;
+
     @OnOpen
-    public void onOpen(Session session) {
+    public void onOpen(Session session, @PathParam("username") String username) {
         LOGGER.debug("opened websocket");
-        final String userId = this.userService.addUser(null);
-        sessionRegistry.register(userId, session);
-        // sendLandscape
+        final String userId = this.userService.addUser(username);
+        this.sessionRegistry.register(userId, session);
+        this.sendLandscape(session);
     }
 
     @OnClose
@@ -210,9 +216,10 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
         this.userService.updateUserPosition();
         return ShouldForward.FORWARD;
     }
-    
+
     /**
-     * Sends the list of currently connected users (see {@link SelfConnectedMessage}) when a user connects.
+     * Sends the list of currently connected users (see
+     * {@link SelfConnectedMessage}) when a user connects.
      * 
      * @param event The connection event.
      */
@@ -244,5 +251,9 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
         final var userModel = event.getUserModel();
         final var message = userDisconnectedMessageFactory.makeMessage(userModel);
         broadcastService.broadcastExcept(message, userModel.getId());
+    }
+
+    public void sendLandscape(Session session) {
+        this.broadcastService.sendTo(this.sendLandscapeMessageFactory.makeMessage(), session);
     }
 }
