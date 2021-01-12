@@ -10,7 +10,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.websocket.Session;
 
-import net.explorviz.extension.vr.message.VRMessage;
+import net.explorviz.extension.vr.message.BroadcastableMessage;
+import net.explorviz.extension.vr.message.SendableMessage;
 
 /**
  * A service that can be used to broadcast messages to all connected clients
@@ -28,7 +29,7 @@ public class BroadcastService {
      * @return A future that completes when the message has been set to all web
      *         sockets.
      */
-    public Future<Void> broadcast(VRMessage message) {
+    public Future<Void> broadcast(BroadcastableMessage message) {
         return broadcastWhere(message, (session) -> true);
     }
 
@@ -45,7 +46,7 @@ public class BroadcastService {
      * @return A future that completes when the message has been send to all other
      *         web sockets.
      */
-    public Future<Void> broadcastExcept(VRMessage message, Session... excludedSessions) {
+    public Future<Void> broadcastExcept(BroadcastableMessage message, Session... excludedSessions) {
         return broadcastWhere(message, (session) -> !Arrays.stream(excludedSessions).anyMatch(session::equals));
     }
 
@@ -59,7 +60,7 @@ public class BroadcastService {
      * @return A future that completes when the message has been send to all other
      *         web sockets.
      */
-    public Future<Void> broadcastExceptUser(VRMessage message, String... excludedUserIds) {
+    public Future<Void> broadcastExceptUser(BroadcastableMessage message, String... excludedUserIds) {
         return broadcastExcept(message,
                 Arrays.stream(excludedUserIds).map(sessionRegistry::lookupSession).toArray((n) -> new Session[n]));
     }
@@ -73,7 +74,7 @@ public class BroadcastService {
      *                  not.
      * @return A future that completes when the message has been set to all users.
      */
-    public Future<Void> broadcastWhere(VRMessage message, Predicate<Session> predicate) {
+    public Future<Void> broadcastWhere(BroadcastableMessage message, Predicate<Session> predicate) {
         final var futures = sessionRegistry.getSessions().stream().filter(predicate)
                 .map((session) -> sendTo(message, session)).collect(Collectors.toList());
         return CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]));
@@ -86,7 +87,7 @@ public class BroadcastService {
      * @param session The web socket connection to send the message to.
      * @return A future that completes once the message has been sent.
      */
-    public CompletableFuture<Void> sendTo(VRMessage message, Session session) {
+    public CompletableFuture<Void> sendTo(SendableMessage message, Session session) {
         final var future = new CompletableFuture<Void>();
         session.getAsyncRemote().sendObject(message, (result) -> {
             if (result.isOK()) {
@@ -106,7 +107,7 @@ public class BroadcastService {
      * @param userId  The ID of the user whose web socket to send the message to.
      * @return A future that completes once the message has been sent.
      */
-    public CompletableFuture<Void> sendToUser(VRMessage message, String userId) {
+    public CompletableFuture<Void> sendToUser(SendableMessage message, String userId) {
         final var session = sessionRegistry.lookupSession(userId);
         return sendTo(message, session);
     }

@@ -4,10 +4,10 @@ import java.awt.Color;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import net.explorviz.extension.vr.message.SendableMessage;
+import net.explorviz.extension.vr.message.BroadcastableMessage;
 import net.explorviz.extension.vr.message.encoder.ColorSerializer;
 
-public class UserConnectedMessage extends SendableMessage {
+public class UserConnectedMessage extends BroadcastableMessage {
     public static final String EVENT = "user_connected";
 
     private String id;

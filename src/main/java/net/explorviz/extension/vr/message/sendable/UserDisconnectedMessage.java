@@ -1,8 +1,8 @@
 package net.explorviz.extension.vr.message.sendable;
 
-import net.explorviz.extension.vr.message.SendableMessage;
+import net.explorviz.extension.vr.message.BroadcastableMessage;
 
-public class UserDisconnectedMessage extends SendableMessage {
+public class UserDisconnectedMessage extends BroadcastableMessage {
     public static final String EVENT = "user_disconnect";
 
     private String id;
