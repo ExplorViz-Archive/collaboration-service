@@ -1,7 +1,6 @@
 package net.explorviz.extension.vr.message.sendable.factory;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -9,7 +8,6 @@ import javax.inject.Inject;
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage;
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage.App;
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage.HighlightingObject;
-import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage.LandscapeEntity;
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage.LandscapePosition;
 import net.explorviz.extension.vr.model.ApplicationModel;
 import net.explorviz.extension.vr.model.BaseModel;
@@ -28,23 +26,6 @@ public class SendLandscapeMessageFactory {
     UserService userService;
 
     public SendLandscapeMessage makeMessage() {
-        // systems
-        ArrayList<LandscapeEntity> systems = new ArrayList<>();
-        for (final Map.Entry<String, Boolean> entry : this.entityService.getSystemState()) {
-            LandscapeEntity system = new LandscapeEntity();
-            system.setId(entry.getKey());
-            system.setOpened(entry.getValue());
-            systems.add(system);
-        }
-
-        // node groups
-        ArrayList<LandscapeEntity> nodeGroups = new ArrayList<>();
-        for (final Map.Entry<String, Boolean> entry : this.entityService.getNodeGroupState()) {
-            LandscapeEntity nodeGroup = new LandscapeEntity();
-            nodeGroup.setId(entry.getKey());
-            nodeGroup.setOpened(entry.getValue());
-            nodeGroups.add(nodeGroup);
-        }
 
         // apps
         ArrayList<App> appArray = new ArrayList<>();
@@ -87,8 +68,6 @@ public class SendLandscapeMessageFactory {
         landscapePosObj.setQuaternion(landscape.getQuaternion());
 
         SendLandscapeMessage message = new SendLandscapeMessage();
-        message.setSystems((LandscapeEntity[]) systems.toArray());
-        message.setNodeGroups((LandscapeEntity[]) nodeGroups.toArray());
         message.setOpenApps((App[]) appArray.toArray());
         message.setLandscape(landscapePosObj);
 

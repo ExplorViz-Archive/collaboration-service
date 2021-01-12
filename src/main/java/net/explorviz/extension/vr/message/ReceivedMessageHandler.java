@@ -8,9 +8,7 @@ import net.explorviz.extension.vr.message.receivable.AppTranslatedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.HightlightingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.LandscapePositionMessage;
-import net.explorviz.extension.vr.message.receivable.NodegroupUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
-import net.explorviz.extension.vr.message.receivable.SystemUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
 
@@ -39,11 +37,7 @@ public interface ReceivedMessageHandler<R, A> {
 
     R handleLandscapePositionMessage(LandscapePositionMessage message, A arg);
 
-    R handleNodegroupUpdateMessage(NodegroupUpdateMessage message, A arg);
-
     R handleSpectatingUpdateMessage(SpectatingUpdateMessage message, A arg);
-
-    R handleSystemUpdateMessage(SystemUpdateMessage message, A arg);
 
     R handleUserControllersMessage(UserControllersMessage message, A arg);
 

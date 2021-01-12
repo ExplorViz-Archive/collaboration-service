@@ -32,9 +32,7 @@ import net.explorviz.extension.vr.message.receivable.AppTranslatedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.HightlightingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.LandscapePositionMessage;
-import net.explorviz.extension.vr.message.receivable.NodegroupUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
-import net.explorviz.extension.vr.message.receivable.SystemUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
 import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
@@ -185,20 +183,8 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
     }
 
     @Override
-    public ShouldForward handleNodegroupUpdateMessage(NodegroupUpdateMessage message, Session senderSession) {
-        this.entityService.updateNodegroup(message.getId(), message.getIsOpen());
-        return ShouldForward.FORWARD;
-    }
-
-    @Override
     public ShouldForward handleSpectatingUpdateMessage(SpectatingUpdateMessage message, Session senderSession) {
         this.userService.updateSpectating(sessionRegistry.lookupId(senderSession), message.getIsSpectating());
-        return ShouldForward.FORWARD;
-    }
-
-    @Override
-    public ShouldForward handleSystemUpdateMessage(SystemUpdateMessage message, Session senderSession) {
-        this.entityService.updateSystem(message.getId(), message.getIsOpen());
         return ShouldForward.FORWARD;
     }
 

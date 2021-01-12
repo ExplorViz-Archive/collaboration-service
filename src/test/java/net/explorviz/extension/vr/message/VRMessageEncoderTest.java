@@ -28,9 +28,7 @@ import net.explorviz.extension.vr.message.receivable.AppReleasedMessage;
 import net.explorviz.extension.vr.message.receivable.AppTranslatedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.LandscapePositionMessage;
-import net.explorviz.extension.vr.message.receivable.NodegroupUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
-import net.explorviz.extension.vr.message.receivable.SystemUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage.Controllers;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
@@ -164,16 +162,6 @@ public class VRMessageEncoderTest {
     }
 
     @Test
-    public void testNodegroupUpdateMessage() throws EncodeException, IOException {
-        final var message = new NodegroupUpdateMessage();
-        message.setId("foo");
-        message.setIsOpen(true);
-        final var actual = encoder.encodeMessage(message);
-        final var expected = "{ \"event\": \"nodegroup_update\", \"id\": \"foo\", \"isOpen\": true }";
-        assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
-    }
-
-    @Test
     public void testLandscapePositionMessage() throws EncodeException, IOException {
         final var message = new LandscapePositionMessage();
         message.setPosition(new double[] { 1.0, 2.0, 3.0 });
@@ -191,16 +179,6 @@ public class VRMessageEncoderTest {
         message.setSpectatedUser("bar");
         final var actual = encoder.encodeMessage(message);
         final var expected = "{ \"event\": \"spectating_update\", \"userID\": \"foo\", \"isSpectating\": true, \"spectatedUser\": \"bar\" }";
-        assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
-    }
-
-    @Test
-    public void testSystemUpdateMessage() throws EncodeException, IOException {
-        final var message = new SystemUpdateMessage();
-        message.setId("foo");
-        message.setIsOpen(true);
-        final var actual = encoder.encodeMessage(message);
-        final var expected = "{ \"event\": \"system_update\", \"id\": \"foo\", \"isOpen\": true }";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
@@ -294,17 +272,6 @@ public class VRMessageEncoderTest {
     @Test
     public void testSendLandscapeMessage() throws EncodeException, IOException {
         final var message = new SendLandscapeMessage();
-
-        // Create a test system.
-        message.setSystems(new SendLandscapeMessage.LandscapeEntity[] { new SendLandscapeMessage.LandscapeEntity() });
-        message.getSystems()[0].setId("foo");
-        message.getSystems()[0].setOpened(true);
-
-        // Create a test node group.
-        message.setNodeGroups(
-                new SendLandscapeMessage.LandscapeEntity[] { new SendLandscapeMessage.LandscapeEntity() });
-        message.getNodeGroups()[0].setId("bar");
-        message.getNodeGroups()[0].setOpened(true);
 
         // Create a test app.
         message.setOpenApps(new SendLandscapeMessage.App[] { new SendLandscapeMessage.App() });

@@ -13,9 +13,7 @@ import net.explorviz.extension.vr.message.receivable.AppTranslatedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.HightlightingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.LandscapePositionMessage;
-import net.explorviz.extension.vr.message.receivable.NodegroupUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
-import net.explorviz.extension.vr.message.receivable.SystemUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
 import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
@@ -38,9 +36,7 @@ import net.explorviz.extension.vr.message.sendable.UserDisconnectedMessage;
         @Type(value = ComponentUpdateMessage.class, name = ComponentUpdateMessage.EVENT),
         @Type(value = HightlightingUpdateMessage.class, name = HightlightingUpdateMessage.EVENT),
         @Type(value = LandscapePositionMessage.class, name = LandscapePositionMessage.EVENT),
-        @Type(value = NodegroupUpdateMessage.class, name = NodegroupUpdateMessage.EVENT),
         @Type(value = SpectatingUpdateMessage.class, name = SpectatingUpdateMessage.EVENT),
-        @Type(value = SystemUpdateMessage.class, name = SystemUpdateMessage.EVENT),
         @Type(value = UserControllersMessage.class, name = UserControllersMessage.EVENT),
         @Type(value = UserPositionsMessage.class, name = UserPositionsMessage.EVENT),
         // Forwarded messages.
