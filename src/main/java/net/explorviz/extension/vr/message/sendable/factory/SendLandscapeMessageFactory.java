@@ -65,7 +65,6 @@ public class SendLandscapeMessageFactory {
                 if (user.hasHighlightedEntity()) {
                     final HighlightingModel highlighted = user.getHighlightedEntity();
                     HighlightingObject highlightingObj = new HighlightingObject();
-                    highlightingObj.setTime(java.lang.System.currentTimeMillis());
                     highlightingObj.setUserID(user.getId());
                     highlightingObj.setAppID(highlighted.getHighlightedApp());
                     highlightingObj.setEntityType(highlighted.getEntityType());

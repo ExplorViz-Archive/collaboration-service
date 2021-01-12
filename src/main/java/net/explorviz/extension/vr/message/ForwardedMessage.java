@@ -30,6 +30,7 @@ public class ForwardedMessage extends SendableMessage {
      * The default constructor used for decoding messages of this type.
      */
     public ForwardedMessage() {
+        super(EVENT);
     }
 
     /**
@@ -40,6 +41,7 @@ public class ForwardedMessage extends SendableMessage {
      * @param originaMessage The original message that is forwarded by this message.
      */
     public ForwardedMessage(String userID, ReceivedMessage originalMessage) {
+        this();
         this.userID = userID;
         this.originalMessage = originalMessage;
     }

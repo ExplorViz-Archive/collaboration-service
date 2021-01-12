@@ -9,6 +9,10 @@ public class AppClosedMessage extends ReceivedMessage {
 
     private String appID;
 
+    public AppClosedMessage() {
+        super(EVENT);
+    }
+
     public String getAppID() {
         return appID;
     }

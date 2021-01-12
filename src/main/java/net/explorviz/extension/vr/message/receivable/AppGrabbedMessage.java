@@ -14,6 +14,10 @@ public class AppGrabbedMessage extends ReceivedMessage {
     private double[] controllerPosition;
     private double[] controllerQuaternion;
 
+    public AppGrabbedMessage() {
+        super(EVENT);
+    }
+
     public String getAppID() {
         return appID;
     }

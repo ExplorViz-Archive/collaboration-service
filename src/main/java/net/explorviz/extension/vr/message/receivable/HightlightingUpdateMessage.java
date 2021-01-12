@@ -12,6 +12,10 @@ public class HightlightingUpdateMessage extends ReceivedMessage {
     private String entityID;
     private boolean isHighlighted;
 
+    public HightlightingUpdateMessage() {
+        super(EVENT);
+    }
+
     public String getAppID() {
         return appID;
     }

@@ -4,6 +4,10 @@ package net.explorviz.extension.vr.message;
  * Base class for all messages that can be received from the frontend.
  */
 public abstract class ReceivedMessage extends VRMessage {
+    public ReceivedMessage(String event) {
+        super(event);
+    }
+
     /**
      * Invokes the correct {@code handle*} method of the given handler.
      * 

@@ -52,6 +52,18 @@ public abstract class VRMessage {
     @JsonTypeId
     private String event;
 
+    /**
+     * Creates a new message of the given type.
+     * 
+     * Every subclass should define a static {@code EVENT} attribute and call
+     * {@code super(EVENT)} in its default constructor.
+     * 
+     * @param event The type identifier of the message.
+     */
+    public VRMessage(String event) {
+        this.event = event;
+    }
+
     public String getEvent() {
         return event;
     }

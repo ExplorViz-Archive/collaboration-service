@@ -19,21 +19,21 @@ public class UserService {
 
     @Inject
     Event<UserConnectedEvent> userConnectedEvent;
-    
+
     @Inject
     Event<UserDisconnectedEvent> userDisconnectedEvent;
-    
+
     private final Map<String, UserModel> users = new ConcurrentHashMap<>();
-    
+
     /**
      * Gets the models of all currently connected users.
      * 
-     * @return 
+     * @return
      */
     public Iterable<UserModel> getUserModels() {
         return users.values();
     }
-    
+
     public void updateUserPosition() {
 
     }
@@ -100,7 +100,7 @@ public class UserService {
             userDisconnectedEvent.fireAsync(new UserDisconnectedEvent(userModel));
         }
     }
-    
+
     public Collection<UserModel> getUsers() {
         return this.users.values();
     }

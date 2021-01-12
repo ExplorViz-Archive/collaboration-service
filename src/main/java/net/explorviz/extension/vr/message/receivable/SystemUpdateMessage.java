@@ -10,6 +10,10 @@ public class SystemUpdateMessage extends ReceivedMessage {
     private String id;
     private boolean isOpen;
 
+    public SystemUpdateMessage() {
+        super(EVENT);
+    }
+
     public String getId() {
         return id;
     }

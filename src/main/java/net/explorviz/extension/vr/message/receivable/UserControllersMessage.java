@@ -32,6 +32,10 @@ public class UserControllersMessage extends ReceivedMessage {
     private Controllers connect;
     private Controllers disconnect;
 
+    public UserControllersMessage() {
+        super(EVENT);
+    }
+
     public Controllers getConnect() {
         return connect;
     }

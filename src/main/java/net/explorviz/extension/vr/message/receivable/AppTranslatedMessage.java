@@ -11,6 +11,10 @@ public class AppTranslatedMessage extends ReceivedMessage {
     private double[] direction;
     private double length;
 
+    public AppTranslatedMessage() {
+        super(EVENT);
+    }
+
     public String getAppId() {
         return appId;
     }

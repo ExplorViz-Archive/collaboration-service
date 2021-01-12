@@ -1,6 +1,5 @@
 package net.explorviz.extension.vr.service;
 
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -25,7 +24,6 @@ public class EntityService {
     private final Map<String, ApplicationModel> apps = new ConcurrentHashMap<>(); // maps applicationID to the
                                                                                   // application
     // model
-
 
     public void openApp(String appId, double[] position, double[] quaternion) {
         ApplicationModel appModel;
@@ -112,15 +110,15 @@ public class EntityService {
     public Set<Entry<String, Boolean>> getSystemState() {
         return this.systemState.entrySet();
     }
-    
+
     public Set<Entry<String, Boolean>> getNodeGroupState() {
         return this.nodeGroupState.entrySet();
     }
-    
+
     public Collection<ApplicationModel> getApps() {
         return this.apps.values();
     }
-    
+
     public BaseModel getLandscape() {
         return this.landscape;
     }

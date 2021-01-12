@@ -12,6 +12,10 @@ public class ComponentUpdateMessage extends ReceivedMessage {
     private boolean isOpened;
     private boolean isFoundation;
 
+    public ComponentUpdateMessage() {
+        super(EVENT);
+    }
+
     public String getAppID() {
         return appID;
     }

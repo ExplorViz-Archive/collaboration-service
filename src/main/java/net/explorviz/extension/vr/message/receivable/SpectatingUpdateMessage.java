@@ -11,6 +11,10 @@ public class SpectatingUpdateMessage extends ReceivedMessage {
     private boolean isSpectating;
     private String spectatedUser;
 
+    public SpectatingUpdateMessage() {
+        super(EVENT);
+    }
+
     public String getUserID() {
         return userID;
     }

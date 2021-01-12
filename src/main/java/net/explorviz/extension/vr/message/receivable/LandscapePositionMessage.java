@@ -12,6 +12,10 @@ public class LandscapePositionMessage extends ReceivedMessage {
     private double[] offset;
     private double[] quaternion;
 
+    public LandscapePositionMessage() {
+        super(EVENT);
+    }
+
     public double[] getDeltaPosition() {
         return deltaPosition;
     }

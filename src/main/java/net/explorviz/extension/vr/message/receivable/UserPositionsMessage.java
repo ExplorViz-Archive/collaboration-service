@@ -35,6 +35,10 @@ public class UserPositionsMessage extends ReceivedMessage {
     private Pose camera;
     private Date time;
 
+    public UserPositionsMessage() {
+        super(EVENT);
+    }
+
     public Pose getController1() {
         return controller1;
     }

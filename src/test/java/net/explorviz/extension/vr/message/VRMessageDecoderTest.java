@@ -104,7 +104,6 @@ public class VRMessageDecoderTest {
         originalMessage.setEvent("app_closed");
         originalMessage.setAppID("bar");
         final var expected = new ForwardedMessage();
-        expected.setEvent("forward");
         expected.setUserID("foo");
         expected.setOriginalMessage(originalMessage);
         assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
@@ -115,7 +114,6 @@ public class VRMessageDecoderTest {
         final var json = "{ \"event\": \"app_closed\", \"appID\": \"foo\" }";
         final var actual = decoder.decodeMessage(json);
         final var expected = new AppClosedMessage();
-        expected.setEvent("app_closed");
         expected.setAppID("foo");
         assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
     }
@@ -128,7 +126,6 @@ public class VRMessageDecoderTest {
                 + "  \"controllerQuaternion\": [1.0, 2.0, 3.0, 4.0] }";
         final var actual = decoder.decodeMessage(json);
         final var expected = new AppGrabbedMessage();
-        expected.setEvent("app_grabbed");
         expected.setAppID("foo");
         expected.setAppPosition(new double[] { 1.0, 2.0, 3.0 });
         expected.setAppQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
@@ -143,7 +140,6 @@ public class VRMessageDecoderTest {
         final var json = "{ \"event\": \"app_opened\", \"id\": \"foo\", \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }";
         final var actual = decoder.decodeMessage(json);
         final var expected = new AppOpenedMessage();
-        expected.setEvent("app_opened");
         expected.setId("foo");
         expected.setPosition(new double[] { 1.0, 2.0, 3.0 });
         expected.setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
@@ -155,7 +151,6 @@ public class VRMessageDecoderTest {
         final var json = "{ \"event\": \"app_released\", \"id\": \"foo\",  \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }";
         final var actual = decoder.decodeMessage(json);
         final var expected = new AppReleasedMessage();
-        expected.setEvent("app_released");
         expected.setId("foo");
         expected.setPosition(new double[] { 1.0, 2.0, 3.0 });
         expected.setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
@@ -167,7 +162,6 @@ public class VRMessageDecoderTest {
         final var json = "{ \"event\": \"app_translated\", \"appId\": \"foo\", \"direction\": [1.0, 2.0, 3.0], \"length\": 4.0 }";
         final var actual = decoder.decodeMessage(json);
         final var expected = new AppTranslatedMessage();
-        expected.setEvent("app_translated");
         expected.setAppId("foo");
         expected.setDirection(new double[] { 1.0, 2.0, 3.0 });
         expected.setLength(4.0);
@@ -179,7 +173,6 @@ public class VRMessageDecoderTest {
         final var json = "{ \"event\": \"component_update\", \"appID\": \"foo\", \"componentID\": \"bar\", \"isOpened\": true, \"isFoundation\": true }";
         final var actual = decoder.decodeMessage(json);
         final var expected = new ComponentUpdateMessage();
-        expected.setEvent("component_update");
         expected.setAppID("foo");
         expected.setComponentID("bar");
         expected.setIsOpened(true);
@@ -192,7 +185,6 @@ public class VRMessageDecoderTest {
         final var json = "{ \"event\": \"nodegroup_update\", \"id\": \"foo\", \"isOpen\": true }";
         final var actual = decoder.decodeMessage(json);
         final var expected = new NodegroupUpdateMessage();
-        expected.setEvent("nodegroup_update");
         expected.setId("foo");
         expected.setIsOpen(true);
         assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
@@ -203,7 +195,6 @@ public class VRMessageDecoderTest {
         final var json = "{ \"event\": \"landscape_position\", \"deltaPosition\": [1.0, 2.0, 3.0], \"offset\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }";
         final var actual = decoder.decodeMessage(json);
         final var expected = new LandscapePositionMessage();
-        expected.setEvent("landscape_position");
         expected.setDeltaPosition(new double[] { 1.0, 2.0, 3.0 });
         expected.setOffset(new double[] { 1.0, 2.0, 3.0 });
         expected.setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
@@ -215,7 +206,6 @@ public class VRMessageDecoderTest {
         final var json = "{ \"event\": \"spectating_update\", \"userID\": \"foo\", \"isSpectating\": true, \"spectatedUser\": \"bar\" }";
         final var actual = decoder.decodeMessage(json);
         final var expected = new SpectatingUpdateMessage();
-        expected.setEvent("spectating_update");
         expected.setUserID("foo");
         expected.setIsSpectating(true);
         expected.setSpectatedUser("bar");
@@ -227,7 +217,6 @@ public class VRMessageDecoderTest {
         final var json = "{ \"event\": \"system_update\", \"id\": \"foo\", \"isOpen\": true }";
         final var actual = decoder.decodeMessage(json);
         final var expected = new SystemUpdateMessage();
-        expected.setEvent("system_update");
         expected.setId("foo");
         expected.setIsOpen(true);
         assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
@@ -240,7 +229,6 @@ public class VRMessageDecoderTest {
                 + "\"disconnect\": {\"controller1\": \"vive-left\", \"controller2\": \"vive-right\"} }";
         final var actual = decoder.decodeMessage(json);
         final var expected = new UserControllersMessage();
-        expected.setEvent("user_controllers");
         expected.setConnect(new Controllers());
         expected.getConnect().setController1("oculus-left");
         expected.getConnect().setController2("oculus-right");
@@ -259,7 +247,6 @@ public class VRMessageDecoderTest {
                 + "\"time\": 884300400000}";
         final var actual = decoder.decodeMessage(json);
         final var expected = new UserPositionsMessage();
-        expected.setEvent("user_positions");
         expected.setController1(new UserPositionsMessage.Pose());
         expected.getController1().setPosition(new double[] { 1.0, 2.0, 3.0 });
         expected.getController1().setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });

@@ -6,7 +6,11 @@ public class UserDisconnectedMessage extends SendableMessage {
     public static final String EVENT = "user_disconnect";
 
     private String id;
-    
+
+    public UserDisconnectedMessage() {
+        super(EVENT);
+    }
+
     public String getId() {
         return id;
     }

@@ -1,4 +1,7 @@
 package net.explorviz.extension.vr.message;
 
-public class SendableMessage extends VRMessage {
+public abstract class SendableMessage extends VRMessage {
+    public SendableMessage(String event) {
+        super(event);
+    }
 }

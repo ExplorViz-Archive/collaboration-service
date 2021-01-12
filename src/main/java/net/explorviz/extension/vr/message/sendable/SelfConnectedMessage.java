@@ -69,6 +69,11 @@ public class SelfConnectedMessage extends SendableMessage {
 
     private ConnectedUser[] users;
 
+    public SelfConnectedMessage() {
+        super(EVENT);
+    }
+
+
     public ConnectedUser[] getUsers() {
         return users;
     }

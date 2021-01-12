@@ -1,8 +1,8 @@
 package net.explorviz.extension.vr.message.sendable;
 
-import net.explorviz.extension.vr.message.VRMessage;
+import net.explorviz.extension.vr.message.SendableMessage;
 
-public class SendLandscapeMessage extends VRMessage {
+public class SendLandscapeMessage extends SendableMessage {
 
     public static final String EVENT = "landscape";
 
@@ -98,7 +98,7 @@ public class SendLandscapeMessage extends VRMessage {
             this.entityID = entityID;
         }
 
-        public boolean isHighlighted() {
+        public boolean getIsHighlighted() {
             return isHighlighted;
         }
 
@@ -161,6 +161,10 @@ public class SendLandscapeMessage extends VRMessage {
     private LandscapeEntity[] nodeGroups;
     private App[] openApps;
     private LandscapePosition landscape;
+
+    public SendLandscapeMessage() {
+        super(EVENT);
+    }
 
     public LandscapeEntity[] getSystems() {
         return systems;

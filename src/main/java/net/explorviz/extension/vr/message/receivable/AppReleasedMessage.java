@@ -11,6 +11,10 @@ public class AppReleasedMessage extends ReceivedMessage {
     private double[] position;
     private double[] quaternion;
 
+    public AppReleasedMessage() {
+        super(EVENT);
+    }
+
     public String getId() {
         return id;
     }

@@ -10,6 +10,10 @@ public class NodegroupUpdateMessage extends ReceivedMessage {
     private String id;
     private boolean isOpen;
 
+    public NodegroupUpdateMessage() {
+        super(EVENT);
+    }
+
     public String getId() {
         return id;
     }

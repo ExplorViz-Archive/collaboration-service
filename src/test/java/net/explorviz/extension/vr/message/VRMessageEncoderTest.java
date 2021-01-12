@@ -2,6 +2,7 @@ package net.explorviz.extension.vr.message;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,7 +78,6 @@ public class VRMessageEncoderTest {
     @Test
     public void testForwardedMessage() throws EncodeException, IOException {
         final var originalMessage = new AppClosedMessage();
-        originalMessage.setEvent("app_closed");
         originalMessage.setAppID("bar");
         final var message = new ForwardedMessage();
         message.setEvent("forward");
@@ -91,7 +91,6 @@ public class VRMessageEncoderTest {
     @Test
     public void testAppClosesdMessage() throws EncodeException, IOException {
         final var message = new AppClosedMessage();
-        message.setEvent("app_closed");
         message.setAppID("foo");
         final var actual = encoder.encodeMessage(message);
         final var expected = "{ \"event\": \"app_closed\", \"appID\": \"foo\" }";
@@ -101,7 +100,6 @@ public class VRMessageEncoderTest {
     @Test
     public void testAppGrabbedMessage() throws EncodeException, IOException {
         final var message = new AppGrabbedMessage();
-        message.setEvent("app_grabbed");
         message.setAppID("foo");
         message.setAppPosition(new double[] { 1.0, 2.0, 3.0 });
         message.setAppQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
@@ -119,7 +117,6 @@ public class VRMessageEncoderTest {
     @Test
     public void testAppOpenedMessage() throws EncodeException, IOException {
         final var message = new AppOpenedMessage();
-        message.setEvent("app_opened");
         message.setId("foo");
         message.setPosition(new double[] { 1.0, 2.0, 3.0 });
         message.setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
@@ -131,7 +128,6 @@ public class VRMessageEncoderTest {
     @Test
     public void testAppReleasedMessage() throws EncodeException, IOException {
         final var message = new AppReleasedMessage();
-        message.setEvent("app_released");
         message.setId("foo");
         message.setPosition(new double[] { 1.0, 2.0, 3.0 });
         message.setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
@@ -143,7 +139,6 @@ public class VRMessageEncoderTest {
     @Test
     public void testAppTranslatedMessage() throws EncodeException, IOException {
         final var message = new AppTranslatedMessage();
-        message.setEvent("app_translated");
         message.setAppId("foo");
         message.setDirection(new double[] { 1.0, 2.0, 3.0 });
         message.setLength(4.0);
@@ -155,7 +150,6 @@ public class VRMessageEncoderTest {
     @Test
     public void testComponentUpdateMessage() throws EncodeException, IOException {
         final var message = new ComponentUpdateMessage();
-        message.setEvent("component_update");
         message.setAppID("foo");
         message.setComponentID("bar");
         message.setIsOpened(true);
@@ -168,7 +162,6 @@ public class VRMessageEncoderTest {
     @Test
     public void testNodegroupUpdateMessage() throws EncodeException, IOException {
         final var message = new NodegroupUpdateMessage();
-        message.setEvent("nodegroup_update");
         message.setId("foo");
         message.setIsOpen(true);
         final var actual = encoder.encodeMessage(message);
@@ -179,7 +172,6 @@ public class VRMessageEncoderTest {
     @Test
     public void testLandscapePositionMessage() throws EncodeException, IOException {
         final var message = new LandscapePositionMessage();
-        message.setEvent("landscape_position");
         message.setDeltaPosition(new double[] { 1.0, 2.0, 3.0 });
         message.setOffset(new double[] { 1.0, 2.0, 3.0 });
         message.setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
@@ -191,7 +183,6 @@ public class VRMessageEncoderTest {
     @Test
     public void testSpectatingUpdateMessage() throws EncodeException, IOException {
         final var message = new SpectatingUpdateMessage();
-        message.setEvent("spectating_update");
         message.setUserID("foo");
         message.setIsSpectating(true);
         message.setSpectatedUser("bar");
@@ -203,7 +194,6 @@ public class VRMessageEncoderTest {
     @Test
     public void testSystemUpdateMessage() throws EncodeException, IOException {
         final var message = new SystemUpdateMessage();
-        message.setEvent("system_update");
         message.setId("foo");
         message.setIsOpen(true);
         final var actual = encoder.encodeMessage(message);
@@ -214,7 +204,6 @@ public class VRMessageEncoderTest {
     @Test
     public void testUserControllersMessage() throws EncodeException, IOException {
         final var message = new UserControllersMessage();
-        message.setEvent("user_controllers");
         message.setConnect(new Controllers());
         message.getConnect().setController1("oculus-left");
         message.getConnect().setController2("oculus-right");
@@ -231,7 +220,6 @@ public class VRMessageEncoderTest {
     @Test
     public void testUserPositionsMessage() throws EncodeException, IOException {
         final var message = new UserPositionsMessage();
-        message.setEvent("user_positions");
         message.setController1(new UserPositionsMessage.Pose());
         message.getController1().setPosition(new double[] { 1.0, 2.0, 3.0 });
         message.getController1().setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
