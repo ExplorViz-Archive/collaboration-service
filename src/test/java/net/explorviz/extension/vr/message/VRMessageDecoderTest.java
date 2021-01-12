@@ -192,11 +192,10 @@ public class VRMessageDecoderTest {
 
     @Test
     public void testLandscapePositionMessage() throws DecodeException, IOException {
-        final var json = "{ \"event\": \"landscape_position\", \"deltaPosition\": [1.0, 2.0, 3.0], \"offset\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }";
+        final var json = "{ \"event\": \"landscape_position\", \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }";
         final var actual = decoder.decodeMessage(json);
         final var expected = new LandscapePositionMessage();
-        expected.setDeltaPosition(new double[] { 1.0, 2.0, 3.0 });
-        expected.setOffset(new double[] { 1.0, 2.0, 3.0 });
+        expected.setPosition(new double[] { 1.0, 2.0, 3.0 });
         expected.setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
         assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
     }

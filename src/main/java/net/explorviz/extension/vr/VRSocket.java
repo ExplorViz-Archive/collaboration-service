@@ -10,7 +10,6 @@ import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
-import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 import org.slf4j.Logger;
@@ -39,6 +38,7 @@ import net.explorviz.extension.vr.message.receivable.SystemUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
 import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
+import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage;
 import net.explorviz.extension.vr.message.sendable.UserConnectedMessage;
 import net.explorviz.extension.vr.message.sendable.factory.SelfConnectedMessageFactory;
 import net.explorviz.extension.vr.message.sendable.factory.SendLandscapeMessageFactory;
@@ -49,8 +49,7 @@ import net.explorviz.extension.vr.service.EntityService;
 import net.explorviz.extension.vr.service.SessionRegistry;
 import net.explorviz.extension.vr.service.UserService;
 
-@ServerEndpoint(value = "/v2/vr/", decoders = { VRMessageDecoder.class }, encoders = {
-        VRMessageEncoder.class })
+@ServerEndpoint(value = "/v2/vr/", decoders = { VRMessageDecoder.class }, encoders = { VRMessageEncoder.class })
 @ApplicationScoped
 public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> {
 
@@ -253,7 +252,8 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
     }
 
     /**
-     * Sends a {@link SendLandscapeMessage} to the user who connects to the web socket.
+     * Sends a {@link SendLandscapeMessage} to the user who connects to the web
+     * socket.
      * 
      * @param event The connection event.
      */

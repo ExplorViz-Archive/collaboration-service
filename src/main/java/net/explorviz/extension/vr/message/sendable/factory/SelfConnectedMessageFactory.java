@@ -16,7 +16,7 @@ public class SelfConnectedMessageFactory {
 
     public SelfConnectedMessage makeMessage(UserModel userModel) {
         final var message = new SelfConnectedMessage();
-        
+
         // Add entry for current user.
         final var user = new SelfConnectedMessage.User();
         user.setId(userModel.getId());

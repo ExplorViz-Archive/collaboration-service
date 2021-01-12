@@ -176,11 +176,10 @@ public class VRMessageEncoderTest {
     @Test
     public void testLandscapePositionMessage() throws EncodeException, IOException {
         final var message = new LandscapePositionMessage();
-        message.setDeltaPosition(new double[] { 1.0, 2.0, 3.0 });
-        message.setOffset(new double[] { 1.0, 2.0, 3.0 });
+        message.setPosition(new double[] { 1.0, 2.0, 3.0 });
         message.setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
         final var actual = encoder.encodeMessage(message);
-        final var expected = "{ \"event\": \"landscape_position\", \"deltaPosition\": [1.0, 2.0, 3.0], \"offset\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }";
+        final var expected = "{ \"event\": \"landscape_position\", \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 

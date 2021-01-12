@@ -62,7 +62,7 @@ public class SelfConnectedMessage extends SendableMessage {
             this.color = color;
         }
     }
-    
+
     public static class OtherUser extends User {
         private Controllers controllers;
 

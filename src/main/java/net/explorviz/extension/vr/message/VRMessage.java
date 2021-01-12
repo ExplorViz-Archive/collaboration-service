@@ -49,7 +49,7 @@ import net.explorviz.extension.vr.message.sendable.UserDisconnectedMessage;
         @Type(value = SelfConnectedMessage.class, name = SelfConnectedMessage.EVENT),
         @Type(value = UserConnectedMessage.class, name = UserConnectedMessage.EVENT),
         @Type(value = UserDisconnectedMessage.class, name = UserDisconnectedMessage.EVENT),
-        @Type(value = SendLandscapeMessage.class, name = SendLandscapeMessage.EVENT)})
+        @Type(value = SendLandscapeMessage.class, name = SendLandscapeMessage.EVENT) })
 public abstract class VRMessage {
     @JsonTypeId
     private String event;

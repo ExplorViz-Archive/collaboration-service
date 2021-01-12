@@ -1,4 +1,4 @@
-    package net.explorviz.extension.vr.service;
+package net.explorviz.extension.vr.service;
 
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
