@@ -18,6 +18,9 @@ import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.SystemUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
+import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
+import net.explorviz.extension.vr.message.sendable.UserConnectedMessage;
+import net.explorviz.extension.vr.message.sendable.UserDisconnectedMessage;
 
 /**
  * Base class for all messages that are exchanged via the websocket connection
@@ -40,7 +43,11 @@ import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
         @Type(value = UserControllersMessage.class, name = UserControllersMessage.EVENT),
         @Type(value = UserPositionsMessage.class, name = UserPositionsMessage.EVENT),
         // Forwarded messages.
-        @Type(value = ForwardedMessage.class, name = ForwardedMessage.EVENT) })
+        @Type(value = ForwardedMessage.class, name = ForwardedMessage.EVENT),
+        // Sendable messages.
+        @Type(value = SelfConnectedMessage.class, name = SelfConnectedMessage.EVENT),
+        @Type(value = UserConnectedMessage.class, name = UserConnectedMessage.EVENT),
+        @Type(value = UserDisconnectedMessage.class, name = UserDisconnectedMessage.EVENT) })
 public abstract class VRMessage {
     @JsonTypeId
     private String event;
