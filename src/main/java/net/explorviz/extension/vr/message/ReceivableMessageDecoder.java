@@ -18,9 +18,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class VRMessageDecoder implements Decoder.TextStream<List<VRMessage>> {
+public class ReceivableMessageDecoder implements Decoder.TextStream<List<ReceivableMessage>> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(VRMessageDecoder.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReceivableMessageDecoder.class);
 
     private ObjectMapper objectMapper;
 
@@ -36,8 +36,8 @@ public class VRMessageDecoder implements Decoder.TextStream<List<VRMessage>> {
     }
 
     @Override
-    public List<VRMessage> decode(Reader reader) throws DecodeException, IOException {
-        return decodeObject(reader, new TypeReference<List<VRMessage>>() {
+    public List<ReceivableMessage> decode(Reader reader) throws DecodeException, IOException {
+        return decodeObject(reader, new TypeReference<List<ReceivableMessage>>() {
         });
     }
 
@@ -55,7 +55,7 @@ public class VRMessageDecoder implements Decoder.TextStream<List<VRMessage>> {
      */
     public VRMessage decodeMessage(String json) throws DecodeException, IOException {
         Reader reader = new StringReader(json);
-        return decodeObject(reader, new TypeReference<VRMessage>() {
+        return decodeObject(reader, new TypeReference<ReceivableMessage>() {
         });
     }
 

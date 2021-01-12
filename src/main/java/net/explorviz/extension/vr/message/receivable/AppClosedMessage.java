@@ -1,9 +1,9 @@
 package net.explorviz.extension.vr.message.receivable;
 
-import net.explorviz.extension.vr.message.ReceivedMessage;
+import net.explorviz.extension.vr.message.ReceivableMessage;
 import net.explorviz.extension.vr.message.ReceivedMessageHandler;
 
-public class AppClosedMessage extends ReceivedMessage {
+public class AppClosedMessage extends ReceivableMessage {
 
     public static final String EVENT = "app_closed";
 

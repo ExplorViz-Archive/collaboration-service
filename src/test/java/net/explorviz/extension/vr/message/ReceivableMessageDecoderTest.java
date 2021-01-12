@@ -38,12 +38,12 @@ import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage.Controllers;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
 
-public class VRMessageDecoderTest {
-    private VRMessageDecoder decoder;
+public class ReceivableMessageDecoderTest {
+    private ReceivableMessageDecoder decoder;
 
     @BeforeEach
     void initDecoder() {
-        decoder = new VRMessageDecoder();
+        decoder = new ReceivableMessageDecoder();
         decoder.init(new EndpointConfig() {
             @Override
             public Map<String, Object> getUserProperties() {
@@ -57,7 +57,7 @@ public class VRMessageDecoderTest {
 
             @Override
             public List<Class<? extends Decoder>> getDecoders() {
-                return Arrays.asList(VRMessageDecoder.class);
+                return Arrays.asList(ReceivableMessageDecoder.class);
             }
         });
     }
@@ -94,19 +94,6 @@ public class VRMessageDecoderTest {
     public void testExtraField() throws DecodeException, IOException {
         final var json = "{ \"event\": \"app_closed\", \"appID\": \"foo\", \"foo\": \"bar\" }";
         assertThrows(UnrecognizedPropertyException.class, () -> decoder.decodeMessage(json));
-    }
-
-    @Test
-    public void testForwardedMessage() throws DecodeException, IOException {
-        final var json = "{ \"event\": \"forward\", \"userID\": \"foo\", \"originalMessage\": { \"event\": \"app_closed\", \"appID\": \"bar\" } }";
-        final var actual = decoder.decodeMessage(json);
-        final var originalMessage = new AppClosedMessage();
-        originalMessage.setEvent("app_closed");
-        originalMessage.setAppID("bar");
-        final var expected = new ForwardedMessage();
-        expected.setUserID("foo");
-        expected.setOriginalMessage(originalMessage);
-        assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test

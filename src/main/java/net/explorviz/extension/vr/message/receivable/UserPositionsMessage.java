@@ -2,10 +2,10 @@ package net.explorviz.extension.vr.message.receivable;
 
 import java.util.Date;
 
-import net.explorviz.extension.vr.message.ReceivedMessage;
+import net.explorviz.extension.vr.message.ReceivableMessage;
 import net.explorviz.extension.vr.message.ReceivedMessageHandler;
 
-public class UserPositionsMessage extends ReceivedMessage {
+public class UserPositionsMessage extends ReceivableMessage {
 
     public static final String EVENT = "user_positions";
 

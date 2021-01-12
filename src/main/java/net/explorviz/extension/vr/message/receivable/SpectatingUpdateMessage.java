@@ -1,9 +1,9 @@
 package net.explorviz.extension.vr.message.receivable;
 
-import net.explorviz.extension.vr.message.ReceivedMessage;
+import net.explorviz.extension.vr.message.ReceivableMessage;
 import net.explorviz.extension.vr.message.ReceivedMessageHandler;
 
-public class SpectatingUpdateMessage extends ReceivedMessage {
+public class SpectatingUpdateMessage extends ReceivableMessage {
 
     public static final String EVENT = "spectating_update";
 

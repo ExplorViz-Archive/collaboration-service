@@ -1,9 +1,9 @@
 package net.explorviz.extension.vr.message.receivable;
 
-import net.explorviz.extension.vr.message.ReceivedMessage;
+import net.explorviz.extension.vr.message.ReceivableMessage;
 import net.explorviz.extension.vr.message.ReceivedMessageHandler;
 
-public class HightlightingUpdateMessage extends ReceivedMessage {
+public class HightlightingUpdateMessage extends ReceivableMessage {
 
     public static final String EVENT = "hightlighting_update";
 

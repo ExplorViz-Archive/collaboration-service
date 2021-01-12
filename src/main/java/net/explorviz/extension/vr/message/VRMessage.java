@@ -18,19 +18,17 @@ import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.SystemUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
-import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
-import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage;
-import net.explorviz.extension.vr.message.sendable.UserConnectedMessage;
-import net.explorviz.extension.vr.message.sendable.UserDisconnectedMessage;
 
 /**
  * Base class for all messages that are exchanged via the websocket connection
  * between the frontend and VR service.
+ * 
+ * There should be a {@like Type} entry in the {@link JsonSubTypes} annotation
+ * for every receivable message that maps the message's event name to its class
+ * object.
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "event", visible = true)
-@JsonSubTypes({
-        // Receivable messages.
-        @Type(value = AppClosedMessage.class, name = AppClosedMessage.EVENT),
+@JsonSubTypes({ @Type(value = AppClosedMessage.class, name = AppClosedMessage.EVENT),
         @Type(value = AppGrabbedMessage.class, name = AppGrabbedMessage.EVENT),
         @Type(value = AppOpenedMessage.class, name = AppOpenedMessage.EVENT),
         @Type(value = AppReleasedMessage.class, name = AppReleasedMessage.EVENT),
@@ -42,14 +40,7 @@ import net.explorviz.extension.vr.message.sendable.UserDisconnectedMessage;
         @Type(value = SpectatingUpdateMessage.class, name = SpectatingUpdateMessage.EVENT),
         @Type(value = SystemUpdateMessage.class, name = SystemUpdateMessage.EVENT),
         @Type(value = UserControllersMessage.class, name = UserControllersMessage.EVENT),
-        @Type(value = UserPositionsMessage.class, name = UserPositionsMessage.EVENT),
-        // Forwarded messages.
-        @Type(value = ForwardedMessage.class, name = ForwardedMessage.EVENT),
-        // Sendable messages.
-        @Type(value = SelfConnectedMessage.class, name = SelfConnectedMessage.EVENT),
-        @Type(value = UserConnectedMessage.class, name = UserConnectedMessage.EVENT),
-        @Type(value = UserDisconnectedMessage.class, name = UserDisconnectedMessage.EVENT),
-        @Type(value = SendLandscapeMessage.class, name = SendLandscapeMessage.EVENT) })
+        @Type(value = UserPositionsMessage.class, name = UserPositionsMessage.EVENT) })
 public abstract class VRMessage {
     @JsonTypeId
     private String event;

@@ -1,9 +1,9 @@
 package net.explorviz.extension.vr.message.receivable;
 
-import net.explorviz.extension.vr.message.ReceivedMessage;
+import net.explorviz.extension.vr.message.ReceivableMessage;
 import net.explorviz.extension.vr.message.ReceivedMessageHandler;
 
-public class SystemUpdateMessage extends ReceivedMessage {
+public class SystemUpdateMessage extends ReceivableMessage {
 
     public static final String EVENT = "system_update";
 

@@ -27,7 +27,6 @@ public class EntityService {
 
     public void openApp(String appId, double[] position, double[] quaternion) {
         ApplicationModel appModel;
-        ;
 
         // add app to hash map or get app from hash map
         if (this.apps.containsKey(appId)) {

@@ -19,11 +19,10 @@ import net.explorviz.extension.vr.event.UserConnectedEvent;
 import net.explorviz.extension.vr.event.UserDisconnectedEvent;
 import net.explorviz.extension.vr.message.ForwardedMessage;
 import net.explorviz.extension.vr.message.ForwardedMessage.ShouldForward;
-import net.explorviz.extension.vr.message.ReceivedMessage;
+import net.explorviz.extension.vr.message.ReceivableMessage;
 import net.explorviz.extension.vr.message.ReceivedMessageHandler;
-import net.explorviz.extension.vr.message.VRMessage;
-import net.explorviz.extension.vr.message.VRMessageDecoder;
-import net.explorviz.extension.vr.message.VRMessageEncoder;
+import net.explorviz.extension.vr.message.ReceivableMessageDecoder;
+import net.explorviz.extension.vr.message.SendableMessageEncoder;
 import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
 import net.explorviz.extension.vr.message.receivable.AppGrabbedMessage;
 import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
@@ -49,7 +48,7 @@ import net.explorviz.extension.vr.service.EntityService;
 import net.explorviz.extension.vr.service.SessionRegistry;
 import net.explorviz.extension.vr.service.UserService;
 
-@ServerEndpoint(value = "/v2/vr/", decoders = { VRMessageDecoder.class }, encoders = { VRMessageEncoder.class })
+@ServerEndpoint(value = "/v2/vr/", decoders = { ReceivableMessageDecoder.class }, encoders = { SendableMessageEncoder.class })
 @ApplicationScoped
 public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> {
 
@@ -100,14 +99,9 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
     }
 
     @OnMessage
-    public void onMessageList(List<VRMessage> messages, Session senderSession) {
-        // Handle all messages that are receivable.
-        for (VRMessage message : messages) {
-            if (message instanceof ReceivedMessage) {
-                handleMessage((ReceivedMessage) message, senderSession);
-            } else if (message != null) {
-                LOGGER.debug("received message of forbidden type: {}", message);
-            }
+    public void onMessageList(List<ReceivableMessage> messages, Session senderSession) {
+        for (ReceivableMessage message : messages) {
+            handleMessage(message, senderSession);
         }
     }
 
@@ -121,7 +115,7 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
      * @param senderSession The websocket connection of the client that sent the
      *                      message.
      */
-    public void handleMessage(ReceivedMessage message, Session senderSession) {
+    public void handleMessage(ReceivableMessage message, Session senderSession) {
         // Process the message.
         LOGGER.debug("received message: {}", message);
         final var shouldForward = message.handleWith(this, senderSession);

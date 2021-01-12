@@ -1,9 +1,9 @@
 package net.explorviz.extension.vr.message.receivable;
 
-import net.explorviz.extension.vr.message.ReceivedMessage;
+import net.explorviz.extension.vr.message.ReceivableMessage;
 import net.explorviz.extension.vr.message.ReceivedMessageHandler;
 
-public class LandscapePositionMessage extends ReceivedMessage {
+public class LandscapePositionMessage extends ReceivableMessage {
 
     public static final String EVENT = "landscape_position";
 

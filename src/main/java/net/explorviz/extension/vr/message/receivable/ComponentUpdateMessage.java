@@ -1,9 +1,9 @@
 package net.explorviz.extension.vr.message.receivable;
 
-import net.explorviz.extension.vr.message.ReceivedMessage;
+import net.explorviz.extension.vr.message.ReceivableMessage;
 import net.explorviz.extension.vr.message.ReceivedMessageHandler;
 
-public class ComponentUpdateMessage extends ReceivedMessage {
+public class ComponentUpdateMessage extends ReceivableMessage {
 
     public static final String EVENT = "component_update";
 

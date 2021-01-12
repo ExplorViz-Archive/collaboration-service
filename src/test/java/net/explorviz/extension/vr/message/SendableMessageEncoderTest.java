@@ -39,7 +39,7 @@ import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage;
 import net.explorviz.extension.vr.message.sendable.UserConnectedMessage;
 import net.explorviz.extension.vr.message.sendable.UserDisconnectedMessage;
 
-public class VRMessageEncoderTest {
+public class SendableMessageEncoderTest {
     /**
      * A custom comparator for strings that
      */
@@ -50,11 +50,11 @@ public class VRMessageEncoderTest {
         }
     };
 
-    private VRMessageEncoder encoder;
+    private SendableMessageEncoder encoder;
 
     @BeforeEach
     void initEncodwr() {
-        encoder = new VRMessageEncoder();
+        encoder = new SendableMessageEncoder();
         encoder.init(new EndpointConfig() {
             @Override
             public Map<String, Object> getUserProperties() {
@@ -63,7 +63,7 @@ public class VRMessageEncoderTest {
 
             @Override
             public List<Class<? extends Encoder>> getEncoders() {
-                return Arrays.asList(VRMessageEncoder.class);
+                return Arrays.asList(SendableMessageEncoder.class);
             }
 
             @Override
@@ -80,29 +80,17 @@ public class VRMessageEncoderTest {
     }
 
     @Test
-    public void testForwardedMessage() throws EncodeException, IOException {
-        final var originalMessage = new AppClosedMessage();
-        originalMessage.setAppID("bar");
-        final var message = new ForwardedMessage();
-        message.setEvent("forward");
-        message.setUserID("foo");
-        message.setOriginalMessage(originalMessage);
-        final var actual = encoder.encodeMessage(message);
-        final var expected = "{ \"event\": \"forward\", \"userID\": \"foo\", \"originalMessage\": { \"event\": \"app_closed\", \"appID\": \"bar\" } }";
-        assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
-    }
-
-    @Test
-    public void testAppClosesdMessage() throws EncodeException, IOException {
+    public void testForwardedAppClosesdMessage() throws EncodeException, IOException {
         final var message = new AppClosedMessage();
         message.setAppID("foo");
-        final var actual = encoder.encodeMessage(message);
-        final var expected = "{ \"event\": \"app_closed\", \"appID\": \"foo\" }";
+        final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
+        final var expected = "{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
+                + "{ \"event\": \"app_closed\", \"appID\": \"foo\" }}";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
     @Test
-    public void testAppGrabbedMessage() throws EncodeException, IOException {
+    public void testForwardedAppGrabbedMessage() throws EncodeException, IOException {
         final var message = new AppGrabbedMessage();
         message.setAppID("foo");
         message.setAppPosition(new double[] { 1.0, 2.0, 3.0 });
@@ -110,102 +98,111 @@ public class VRMessageEncoderTest {
         message.setIsGrabbedByController1(true);
         message.setControllerPosition(new double[] { 1.0, 2.0, 3.0 });
         message.setControllerQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
-        final var actual = encoder.encodeMessage(message);
-        final var expected = "{ \"event\": \"app_grabbed\", \"appID\": \"foo\", \"appPosition\": [1.0, 2.0, 3.0],"
+        final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
+        final var expected = "{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
+                + "{ \"event\": \"app_grabbed\", \"appID\": \"foo\", \"appPosition\": [1.0, 2.0, 3.0],"
                 + "  \"appQuaternion\": [1.0, 2.0, 3.0, 4.0],"
                 + "  \"isGrabbedByController1\": true, \"controllerPosition\": [1.0, 2.0, 3.0],"
-                + "  \"controllerQuaternion\": [1.0, 2.0, 3.0, 4.0] }";
+                + "  \"controllerQuaternion\": [1.0, 2.0, 3.0, 4.0] }}";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
     @Test
-    public void testAppOpenedMessage() throws EncodeException, IOException {
+    public void testForwardedAppOpenedMessage() throws EncodeException, IOException {
         final var message = new AppOpenedMessage();
         message.setId("foo");
         message.setPosition(new double[] { 1.0, 2.0, 3.0 });
         message.setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
-        final var actual = encoder.encodeMessage(message);
-        final var expected = "{ \"event\": \"app_opened\", \"id\": \"foo\", \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }";
+        final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
+        final var expected = "{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
+                + "{ \"event\": \"app_opened\", \"id\": \"foo\", \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }}";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
     @Test
-    public void testAppReleasedMessage() throws EncodeException, IOException {
+    public void testForwardedAppReleasedMessage() throws EncodeException, IOException {
         final var message = new AppReleasedMessage();
         message.setId("foo");
         message.setPosition(new double[] { 1.0, 2.0, 3.0 });
         message.setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
-        final var actual = encoder.encodeMessage(message);
-        final var expected = "{ \"event\": \"app_released\", \"id\": \"foo\",  \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }";
+        final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
+        final var expected ="{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
+                +  "{ \"event\": \"app_released\", \"id\": \"foo\",  \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }}";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
     @Test
-    public void testAppTranslatedMessage() throws EncodeException, IOException {
+    public void testForwardedAppTranslatedMessage() throws EncodeException, IOException {
         final var message = new AppTranslatedMessage();
         message.setAppId("foo");
         message.setDirection(new double[] { 1.0, 2.0, 3.0 });
         message.setLength(4.0);
-        final var actual = encoder.encodeMessage(message);
-        final var expected = "{ \"event\": \"app_translated\", \"appId\": \"foo\", \"direction\": [1.0, 2.0, 3.0], \"length\": 4.0 }";
+        final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
+        final var expected = "{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
+                + "{ \"event\": \"app_translated\", \"appId\": \"foo\", \"direction\": [1.0, 2.0, 3.0], \"length\": 4.0 }}";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
     @Test
-    public void testComponentUpdateMessage() throws EncodeException, IOException {
+    public void testForwardedComponentUpdateMessage() throws EncodeException, IOException {
         final var message = new ComponentUpdateMessage();
         message.setAppID("foo");
         message.setComponentID("bar");
         message.setIsOpened(true);
         message.setIsFoundation(true);
-        final var actual = encoder.encodeMessage(message);
-        final var expected = "{ \"event\": \"component_update\", \"appID\": \"foo\", \"componentID\": \"bar\", \"isOpened\": true, \"isFoundation\": true }";
+        final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
+        final var expected = "{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
+                + "{ \"event\": \"component_update\", \"appID\": \"foo\", \"componentID\": \"bar\", \"isOpened\": true, \"isFoundation\": true }}";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
     @Test
-    public void testNodegroupUpdateMessage() throws EncodeException, IOException {
+    public void testForwardedNodegroupUpdateMessage() throws EncodeException, IOException {
         final var message = new NodegroupUpdateMessage();
         message.setId("foo");
         message.setIsOpen(true);
-        final var actual = encoder.encodeMessage(message);
-        final var expected = "{ \"event\": \"nodegroup_update\", \"id\": \"foo\", \"isOpen\": true }";
+        final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
+        final var expected = "{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
+                + "{ \"event\": \"nodegroup_update\", \"id\": \"foo\", \"isOpen\": true }}";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
     @Test
-    public void testLandscapePositionMessage() throws EncodeException, IOException {
+    public void testForwardedLandscapePositionMessage() throws EncodeException, IOException {
         final var message = new LandscapePositionMessage();
         message.setPosition(new double[] { 1.0, 2.0, 3.0 });
         message.setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
-        final var actual = encoder.encodeMessage(message);
-        final var expected = "{ \"event\": \"landscape_position\", \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }";
+        final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
+        final var expected = "{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
+                + "{ \"event\": \"landscape_position\", \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }}";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
     @Test
-    public void testSpectatingUpdateMessage() throws EncodeException, IOException {
+    public void testForwardedSpectatingUpdateMessage() throws EncodeException, IOException {
         final var message = new SpectatingUpdateMessage();
         message.setUserID("foo");
         message.setIsSpectating(true);
         message.setSpectatedUser("bar");
-        final var actual = encoder.encodeMessage(message);
-        final var expected = "{ \"event\": \"spectating_update\", \"userID\": \"foo\", \"isSpectating\": true, \"spectatedUser\": \"bar\" }";
+        final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
+        final var expected = "{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
+                + "{ \"event\": \"spectating_update\", \"userID\": \"foo\", \"isSpectating\": true, \"spectatedUser\": \"bar\" }}";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
     @Test
-    public void testSystemUpdateMessage() throws EncodeException, IOException {
+    public void testForwardedSystemUpdateMessage() throws EncodeException, IOException {
         final var message = new SystemUpdateMessage();
         message.setId("foo");
         message.setIsOpen(true);
-        final var actual = encoder.encodeMessage(message);
-        final var expected = "{ \"event\": \"system_update\", \"id\": \"foo\", \"isOpen\": true }";
+        final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
+        final var expected = "{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
+                + "{ \"event\": \"system_update\", \"id\": \"foo\", \"isOpen\": true }}";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
     @Test
-    public void testUserControllersMessage() throws EncodeException, IOException {
+    public void testForwardedUserControllersMessage() throws EncodeException, IOException {
         final var message = new UserControllersMessage();
         message.setConnect(new Controllers());
         message.getConnect().setController1("oculus-left");
@@ -213,15 +210,16 @@ public class VRMessageEncoderTest {
         message.setDisconnect(new Controllers());
         message.getDisconnect().setController1("vive-left");
         message.getDisconnect().setController2("vive-right");
-        final var actual = encoder.encodeMessage(message);
-        final var expected = "{ \"event\": \"user_controllers\", "
+        final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
+        final var expected = "{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
+                + "{ \"event\": \"user_controllers\", "
                 + "\"connect\": {\"controller1\": \"oculus-left\", \"controller2\": \"oculus-right\"}, "
-                + "\"disconnect\": {\"controller1\": \"vive-left\", \"controller2\": \"vive-right\"} }";
+                + "\"disconnect\": {\"controller1\": \"vive-left\", \"controller2\": \"vive-right\"} }}";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
     @Test
-    public void testUserPositionsMessage() throws EncodeException, IOException {
+    public void testForwardedUserPositionsMessage() throws EncodeException, IOException {
         final var message = new UserPositionsMessage();
         message.setController1(new UserPositionsMessage.Pose());
         message.getController1().setPosition(new double[] { 1.0, 2.0, 3.0 });
@@ -233,12 +231,13 @@ public class VRMessageEncoderTest {
         message.getCamera().setPosition(new double[] { 1.0, 2.0, 3.0 });
         message.getCamera().setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
         message.setTime(new Date(884300400000L));
-        final var actual = encoder.encodeMessage(message);
-        final var expected = "{ \"event\": \"user_positions\", "
+        final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
+        final var expected = "{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
+                + "{ \"event\": \"user_positions\", "
                 + "\"controller1\": { \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }, "
                 + "\"controller2\": { \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }, "
                 + "\"camera\": { \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] },"
-                + "\"time\": 884300400000 }";
+                + "\"time\": 884300400000 }}";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 

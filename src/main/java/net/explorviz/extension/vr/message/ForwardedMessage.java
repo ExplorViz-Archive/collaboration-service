@@ -24,7 +24,7 @@ public class ForwardedMessage extends SendableMessage {
      * A message that was received from the frontend and should be forwarded to all
      * other users.
      */
-    private ReceivedMessage originalMessage;
+    private ReceivableMessage originalMessage;
 
     /**
      * The default constructor used for decoding messages of this type.
@@ -40,7 +40,7 @@ public class ForwardedMessage extends SendableMessage {
      * @param userID         The id of the user that sent the original message.
      * @param originaMessage The original message that is forwarded by this message.
      */
-    public ForwardedMessage(String userID, ReceivedMessage originalMessage) {
+    public ForwardedMessage(String userID, ReceivableMessage originalMessage) {
         this();
         this.userID = userID;
         this.originalMessage = originalMessage;
@@ -54,11 +54,11 @@ public class ForwardedMessage extends SendableMessage {
         this.userID = userID;
     }
 
-    public ReceivedMessage getOriginalMessage() {
+    public ReceivableMessage getOriginalMessage() {
         return originalMessage;
     }
 
-    public void setOriginalMessage(ReceivedMessage originalMessage) {
+    public void setOriginalMessage(ReceivableMessage originalMessage) {
         this.originalMessage = originalMessage;
     }
 }
