@@ -96,8 +96,8 @@ public class EntityService {
 
     }
 
-    public void updateLandscapePosition(double[] offset, double[] quaternion) {
-        landscape.setPosition(offset);
+    public void updateLandscapePosition(double[] position, double[] quaternion) {
+        landscape.setPosition(position);
         landscape.setQuaternion(quaternion);
     }
 

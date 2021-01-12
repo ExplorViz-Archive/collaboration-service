@@ -181,7 +181,7 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
 
     @Override
     public ShouldForward handleLandscapePositionMessage(LandscapePositionMessage message, Session senderSession) {
-        this.entityService.updateLandscapePosition(message.getOffset(), message.getQuaternion());
+        this.entityService.updateLandscapePosition(message.getPosition(), message.getQuaternion());
         return ShouldForward.FORWARD;
     }
 
