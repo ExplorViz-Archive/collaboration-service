@@ -4,7 +4,7 @@ package net.explorviz.extension.vr.message;
  * A message that was received from the frontend and is forwarded to all other
  * users.
  */
-public class ForwardedMessage extends VRMessage {
+public class ForwardedMessage extends SendableMessage {
     public static final String EVENT = "forward";
 
     /**

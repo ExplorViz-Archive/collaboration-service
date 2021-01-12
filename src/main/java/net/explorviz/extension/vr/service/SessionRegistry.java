@@ -60,12 +60,27 @@ public class SessionRegistry {
      * Looks up the associated user id for a given websocket connection.
      *
      * @param session The websocket connection.
-     * @return The user ID or null if websocket connection does not exist.
+     * @return The user ID.
+     * @throw If websocket connection does not exist.
      */
     public String lookupId(Session session) {
-        final String userID = this.userIDs.get(session);
+        final String userID = userIDs.get(session);
         if (userID == null)
-            throw new IllegalStateException("Session not found");
+            throw new IllegalStateException("Session not found!");
         return userID;
+    }
+
+    /**
+     * Looks up the websocket connection that is associated with the given user ID.
+     * 
+     * @param userID The ID of the user.
+     * @return The websocket connection.
+     * @throw If websocket connection does not exist.
+     */
+    public Session lookupSession(String userID) {
+        final Session session = sessions.get(userID);
+        if (session == null)
+            throw new IllegalStateException("User with ID '" + userID + "' not found!");
+        return session;
     }
 }

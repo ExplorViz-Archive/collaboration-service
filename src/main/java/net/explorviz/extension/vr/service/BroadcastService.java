@@ -25,8 +25,8 @@ public class BroadcastService {
      * Broadcasts a message to all connected clients.
      * 
      * @param message The message to broadcast.
-     * @return A future that completes when the message has been set to all
-     *         websockets.
+     * @return A future that completes when the message has been set to all web
+     *         sockets.
      */
     public Future<Void> broadcast(VRMessage message) {
         return broadcastWhere(message, (session) -> true);
@@ -43,14 +43,29 @@ public class BroadcastService {
      * @param excludedSessions The web socket connections to exclude from the
      *                         broadcast.
      * @return A future that completes when the message has been send to all other
-     *         websockets.
+     *         web sockets.
      */
     public Future<Void> broadcastExcept(VRMessage message, Session... excludedSessions) {
         return broadcastWhere(message, (session) -> !Arrays.stream(excludedSessions).anyMatch(session::equals));
     }
 
     /**
-     * Broadcasts a message to all connected clients whose websocket connection
+     * Broadcasts a message to all connected clients except for the web socket
+     * connections associated with the given user IDs.
+     * 
+     * @param message         The message to broadcast.
+     * @param excludedUserIds The IDs of the users whose web socket connection to
+     *                        exclude from the broadcast.
+     * @return A future that completes when the message has been send to all other
+     *         web sockets.
+     */
+    public Future<Void> broadcastExcept(VRMessage message, String... excludedUserIds) {
+        return broadcastExcept(message,
+                Arrays.stream(excludedUserIds).map(sessionRegistry::lookupSession).toArray((n) -> new Session[n]));
+    }
+
+    /**
+     * Broadcasts a message to all connected clients whose web socket connection
      * satisfies the given predicate.
      * 
      * @param message   The message to broadcast.
@@ -65,10 +80,10 @@ public class BroadcastService {
     }
 
     /**
-     * Sends a message via the given websocket connection to a client.
+     * Sends a message via the given web socket connection to a client.
      * 
      * @param message The message to send.
-     * @param session The websocket connection to send the message to.
+     * @param session The web socket connection to send the message to.
      * @return A future that completes once the message has been sent.
      */
     public CompletableFuture<Void> sendTo(VRMessage message, Session session) {
@@ -81,5 +96,18 @@ public class BroadcastService {
             }
         });
         return future;
+    }
+
+    /**
+     * Sends a message via the web socket connection associated with the given user
+     * ID.
+     * 
+     * @param message The message to send.
+     * @param userId  The ID of the user whose web socket to send the message to.
+     * @return A future that completes once the message has been sent.
+     */
+    public CompletableFuture<Void> sendTo(VRMessage message, String userId) {
+        final var session = sessionRegistry.lookupSession(userId);
+        return sendTo(message, session);
     }
 }

@@ -4,7 +4,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
 
+import net.explorviz.extension.vr.event.UserConnectedEvent;
+import net.explorviz.extension.vr.event.UserDisconnectedEvent;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage.Controllers;
 import net.explorviz.extension.vr.model.UserModel;
 import net.explorviz.extension.vr.model.UserModel.State;
@@ -12,14 +16,29 @@ import net.explorviz.extension.vr.model.UserModel.State;
 @ApplicationScoped
 public class UserService {
 
+    @Inject
+    Event<UserConnectedEvent> userConnectedEvent;
+    
+    @Inject
+    Event<UserDisconnectedEvent> userDisconnectedEvent;
+    
     private final Map<String, UserModel> users = new ConcurrentHashMap<>();
-
+    
+    /**
+     * Gets the models of all currently connected users.
+     * 
+     * @return 
+     */
+    public Iterable<UserModel> getUserModels() {
+        return users.values();
+    }
+    
     public void updateUserPosition() {
 
     }
 
     public void updateUserControllers(String userId, Controllers connect, Controllers disconnect) {
-        UserModel user = this.users.get(userId);
+        UserModel user = users.get(userId);
         if (user != null) {
             if (connect != null) {
                 if (connect.getController1() != null) {
@@ -41,7 +60,7 @@ public class UserService {
     }
 
     public void updateSpectating(String userId, boolean isSpectating) {
-        UserModel user = this.users.get(userId);
+        UserModel user = users.get(userId);
         if (user != null) {
             user.setState(isSpectating ? State.SPECTATING : State.CONNECTED);
 
@@ -50,7 +69,7 @@ public class UserService {
 
     public void updateHighlighting(String userId, String appId, String entityId, String entityType,
             boolean isHighlighted) {
-        UserModel user = this.users.get(userId);
+        UserModel user = users.get(userId);
         if (!isHighlighted) {
             user.setHighlighted(false);
             return;
@@ -69,12 +88,16 @@ public class UserService {
     public String addUser(String userName) {
         UserModel userModel = new UserModel();
         userModel.setUserName(userName);
-        this.users.put(userModel.getId(), userModel);
+        users.put(userModel.getId(), userModel);
+        userConnectedEvent.fireAsync(new UserConnectedEvent(userModel));
         return userModel.getId();
     }
 
     public void removeUser(String userId) {
-        this.users.remove(userId);
+        UserModel userModel = users.remove(userId);
+        if (userModel != null) {
+            userDisconnectedEvent.fireAsync(new UserDisconnectedEvent(userModel));
+        }
     }
 
 }
