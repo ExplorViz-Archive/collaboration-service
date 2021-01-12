@@ -2,14 +2,14 @@ package net.explorviz.extension.vr.message.sendable.factory;
 
 import java.util.ArrayList;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
 import net.explorviz.extension.vr.model.UserModel;
 import net.explorviz.extension.vr.service.UserService;
 
-@Singleton
+@ApplicationScoped
 public class SelfConnectedMessageFactory {
     @Inject
     UserService userService;

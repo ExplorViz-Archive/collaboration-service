@@ -49,7 +49,7 @@ import net.explorviz.extension.vr.service.EntityService;
 import net.explorviz.extension.vr.service.SessionRegistry;
 import net.explorviz.extension.vr.service.UserService;
 
-@ServerEndpoint(value = "/v2/vr/{username}", decoders = { VRMessageDecoder.class }, encoders = {
+@ServerEndpoint(value = "/v2/vr/", decoders = { VRMessageDecoder.class }, encoders = {
         VRMessageEncoder.class })
 @ApplicationScoped
 public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> {
@@ -81,11 +81,10 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
     SendLandscapeMessageFactory sendLandscapeMessageFactory;
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("username") String username) {
+    public void onOpen(Session session) {
         LOGGER.debug("opened websocket");
-        final String userId = this.userService.addUser(username);
+        final String userId = this.userService.addUser();
         this.sessionRegistry.register(userId, session);
-        this.sendLandscape(session);
     }
 
     @OnClose
@@ -182,7 +181,7 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
 
     @Override
     public ShouldForward handleLandscapePositionMessage(LandscapePositionMessage message, Session senderSession) {
-        this.entityService.updateLandscapePosition(message.getOffset(), message.getQuaternion());
+        this.entityService.updateLandscapePosition(message.getPosition(), message.getQuaternion());
         return ShouldForward.FORWARD;
     }
 
@@ -226,7 +225,7 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
     public void sendInitialUserList(@ObservesAsync UserConnectedEvent event) {
         final var userModel = event.getUserModel();
         final var message = selfConnectedMessageFactory.makeMessage(userModel);
-        broadcastService.sendTo(message, userModel.getId());
+        broadcastService.sendToUser(message, userModel.getId());
     }
 
     /**
@@ -238,7 +237,7 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
     public void broadcastUserConnected(@ObservesAsync UserConnectedEvent event) {
         final var userModel = event.getUserModel();
         final var message = userConnectedMessageFactory.makeMessage(userModel);
-        broadcastService.broadcastExcept(message, userModel.getId());
+        broadcastService.broadcastExceptUser(message, userModel.getId());
     }
 
     /**
@@ -250,10 +249,17 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
     public void broadcastUserDisconnected(@ObservesAsync UserDisconnectedEvent event) {
         final var userModel = event.getUserModel();
         final var message = userDisconnectedMessageFactory.makeMessage(userModel);
-        broadcastService.broadcastExcept(message, userModel.getId());
+        broadcastService.broadcastExceptUser(message, userModel.getId());
     }
 
-    public void sendLandscape(Session session) {
-        this.broadcastService.sendTo(this.sendLandscapeMessageFactory.makeMessage(), session);
+    /**
+     * Sends a {@link SendLandscapeMessage} to the user who connects to the web socket.
+     * 
+     * @param event The connection event.
+     */
+    public void sendLandscape(@ObservesAsync UserConnectedEvent event) {
+        final var userModel = event.getUserModel();
+        final var message = sendLandscapeMessageFactory.makeMessage();
+        broadcastService.sendToUser(message, userModel.getId());
     }
 }

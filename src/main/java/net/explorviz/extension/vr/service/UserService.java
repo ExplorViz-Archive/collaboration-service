@@ -86,9 +86,9 @@ public class UserService {
         user.setHighlightedEntity(isHighlighted, appId, entityType, entityId);
     }
 
-    public String addUser(String userName) {
+    public String addUser() {
         UserModel userModel = new UserModel();
-        userModel.setUserName(userName);
+        userModel.setUserName("user" + userModel.getId());
         users.put(userModel.getId(), userModel);
         userConnectedEvent.fireAsync(new UserConnectedEvent(userModel));
         return userModel.getId();

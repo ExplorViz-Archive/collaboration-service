@@ -1,4 +1,4 @@
-package net.explorviz.extension.vr.service;
+    package net.explorviz.extension.vr.service;
 
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
@@ -59,7 +59,7 @@ public class BroadcastService {
      * @return A future that completes when the message has been send to all other
      *         web sockets.
      */
-    public Future<Void> broadcastExcept(VRMessage message, String... excludedUserIds) {
+    public Future<Void> broadcastExceptUser(VRMessage message, String... excludedUserIds) {
         return broadcastExcept(message,
                 Arrays.stream(excludedUserIds).map(sessionRegistry::lookupSession).toArray((n) -> new Session[n]));
     }
@@ -106,7 +106,7 @@ public class BroadcastService {
      * @param userId  The ID of the user whose web socket to send the message to.
      * @return A future that completes once the message has been sent.
      */
-    public CompletableFuture<Void> sendTo(VRMessage message, String userId) {
+    public CompletableFuture<Void> sendToUser(VRMessage message, String userId) {
         final var session = sessionRegistry.lookupSession(userId);
         return sendTo(message, session);
     }
