@@ -225,7 +225,7 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
     public void sendInitialUserList(@ObservesAsync UserConnectedEvent event) {
         final var userModel = event.getUserModel();
         final var message = selfConnectedMessageFactory.makeMessage(userModel);
-        broadcastService.sendTo(message, userModel.getId());
+        broadcastService.sendToUser(message, userModel.getId());
     }
 
     /**
@@ -237,7 +237,7 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
     public void broadcastUserConnected(@ObservesAsync UserConnectedEvent event) {
         final var userModel = event.getUserModel();
         final var message = userConnectedMessageFactory.makeMessage(userModel);
-        broadcastService.broadcastExcept(message, userModel.getId());
+        broadcastService.broadcastExceptUser(message, userModel.getId());
     }
 
     /**
@@ -249,7 +249,7 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
     public void broadcastUserDisconnected(@ObservesAsync UserDisconnectedEvent event) {
         final var userModel = event.getUserModel();
         final var message = userDisconnectedMessageFactory.makeMessage(userModel);
-        broadcastService.broadcastExcept(message, userModel.getId());
+        broadcastService.broadcastExceptUser(message, userModel.getId());
     }
 
     /**
@@ -260,6 +260,6 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
     public void sendLandscape(@ObservesAsync UserConnectedEvent event) {
         final var userModel = event.getUserModel();
         final var message = sendLandscapeMessageFactory.makeMessage();
-        broadcastService.sendTo(message, userModel.getId());
+        broadcastService.sendToUser(message, userModel.getId());
     }
 }
