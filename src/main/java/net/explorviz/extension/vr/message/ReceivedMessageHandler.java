@@ -44,8 +44,8 @@ public interface ReceivedMessageHandler<R, A> {
     R handleSpectatingUpdateMessage(SpectatingUpdateMessage message, A arg);
 
     R handleSystemUpdateMessage(SystemUpdateMessage message, A arg);
-    
+
     R handleUserControllersMessage(UserControllersMessage message, A arg);
-    
+
     R handleUserPositionsMessage(UserPositionsMessage message, A arg);
 }

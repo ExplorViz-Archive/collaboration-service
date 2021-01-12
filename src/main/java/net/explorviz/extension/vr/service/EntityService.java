@@ -15,10 +15,12 @@ public class EntityService {
 
     private final Map<String, Boolean> systemState = new ConcurrentHashMap<>(); // tells if a system (systemID) is
     // opened/closed
-    private final Map<String, Boolean> nodeGroupState = new ConcurrentHashMap<>(); // tells if a nodegroup (nodegroupID) is
+    private final Map<String, Boolean> nodeGroupState = new ConcurrentHashMap<>(); // tells if a nodegroup (nodegroupID)
+                                                                                   // is
     // opened/closed
-    private final Map<String, ApplicationModel> apps = new ConcurrentHashMap<>(); // maps applicationID to the application
-                                                                            // model
+    private final Map<String, ApplicationModel> apps = new ConcurrentHashMap<>(); // maps applicationID to the
+                                                                                  // application
+    // model
 
     public void openApp(String appId, double[] position, double[] quaternion) {
         ApplicationModel appModel;

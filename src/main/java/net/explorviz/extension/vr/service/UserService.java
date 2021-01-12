@@ -67,8 +67,8 @@ public class UserService {
     }
 
     public String addUser(String userName) {
-    	UserModel userModel = new UserModel();
-    	userModel.setUserName(userName);
+        UserModel userModel = new UserModel();
+        userModel.setUserName(userName);
         this.users.put(userModel.getId(), userModel);
         return userModel.getId();
     }
@@ -76,6 +76,5 @@ public class UserService {
     public void removeUser(String userId) {
         this.users.remove(userId);
     }
-
 
 }
