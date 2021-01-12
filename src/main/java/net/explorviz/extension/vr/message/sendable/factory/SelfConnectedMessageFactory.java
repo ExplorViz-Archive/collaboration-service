@@ -13,27 +13,34 @@ import net.explorviz.extension.vr.service.UserService;
 public class SelfConnectedMessageFactory {
     @Inject
     UserService userService;
-    
+
     public SelfConnectedMessage makeMessage(UserModel userModel) {
         final var message = new SelfConnectedMessage();
         
+        // Add entry for current user.
+        final var user = new SelfConnectedMessage.User();
+        user.setId(userModel.getId());
+        user.setName(userModel.getUserName());
+        user.setColor(userModel.getColor());
+        message.setSelf(user);
+
         // Construct list of currently connected users.
-        final var userList = new ArrayList<>();
+        final var otherUserList = new ArrayList<>();
         for (UserModel otherModel : userService.getUserModels()) {
-            final var otherUser = new SelfConnectedMessage.ConnectedUser();
+            final var otherUser = new SelfConnectedMessage.OtherUser();
             otherUser.setId(otherModel.getId());
             otherUser.setName(otherModel.getUserName());
             otherUser.setColor(otherModel.getColor());
-            
+
             final var otherControllers = new SelfConnectedMessage.Controllers();
             otherControllers.setController1(otherModel.getController1().getName());
             otherControllers.setController1(otherModel.getController1().getName());
             otherUser.setControllers(otherControllers);
-            
-            userList.add(otherUser);
+
+            otherUserList.add(otherUser);
         }
-        message.setUsers(userList.toArray(new SelfConnectedMessage.ConnectedUser[userList.size()]));
-        
+        message.setUsers(otherUserList.toArray(new SelfConnectedMessage.OtherUser[otherUserList.size()]));
+
         return message;
     }
 }

@@ -34,6 +34,10 @@ import net.explorviz.extension.vr.message.receivable.SystemUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage.Controllers;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
+import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
+import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage;
+import net.explorviz.extension.vr.message.sendable.UserConnectedMessage;
+import net.explorviz.extension.vr.message.sendable.UserDisconnectedMessage;
 
 public class VRMessageEncoderTest {
     /**
@@ -235,7 +239,104 @@ public class VRMessageEncoderTest {
                 + "\"controller1\": { \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }, "
                 + "\"controller2\": { \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }, "
                 + "\"camera\": { \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] },"
-                + "\"time\": 884300400000}";
+                + "\"time\": 884300400000 }";
+        assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
+    }
+
+    @Test
+    public void testSelfConnectedMessage() throws EncodeException, IOException {
+        final var message = new SelfConnectedMessage();
+
+        // Add current user.
+        message.setSelf(new SelfConnectedMessage.User());
+        message.getSelf().setId("foo");
+        message.getSelf().setName("alice");
+        message.getSelf().setColor(new Color(0, 42, 148));
+
+        // Add one other user.
+        message.setUsers(new SelfConnectedMessage.OtherUser[] { new SelfConnectedMessage.OtherUser() });
+        message.getUsers()[0].setId("bar");
+        message.getUsers()[0].setName("bob");
+        message.getUsers()[0].setColor(new Color(148, 42, 0));
+        message.getUsers()[0].setControllers(new SelfConnectedMessage.Controllers());
+        message.getUsers()[0].getControllers().setController1("baz");
+        message.getUsers()[0].getControllers().setController2("qux");
+
+        final var actual = encoder.encodeMessage(message);
+        final var expected = "{ \"event\": \"self_connected\", \"self\": {" + " \"id\": \"foo\", \"name\": \"alice\", "
+                + "\"color\": [0.0, 0.16470588235294117, 0.5803921568627451]"
+                + "}, \"users\": [{\"id\": \"bar\", \"name\": \"bob\", "
+                + "\"color\": [0.5803921568627451, 0.16470588235294117, 0.0], "
+                + "\"controllers\": { \"controller1\": \"baz\", \"controller2\": \"qux\" }}]}";
+        assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
+    }
+
+    @Test
+    public void testUserConnectedMessage() throws EncodeException, IOException {
+        final var message = new UserConnectedMessage();
+        message.setId("foo");
+        message.setName("bar");
+        message.setColor(new Color(0, 42, 148));
+        final var actual = encoder.encodeMessage(message);
+        final var expected = "{ \"event\": \"user_connected\", \"id\": \"foo\", \"name\": \"bar\", "
+                + "\"color\": [0.0, 0.16470588235294117, 0.5803921568627451] }";
+        assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
+    }
+
+    @Test
+    public void testUserDisconnectedMessage() throws EncodeException, IOException {
+        final var message = new UserDisconnectedMessage();
+        message.setId("foo");
+        final var actual = encoder.encodeMessage(message);
+        final var expected = "{ \"event\": \"user_disconnect\", \"id\": \"foo\" }";
+        assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
+    }
+
+    @Test
+    public void testSendLandscapeMessage() throws EncodeException, IOException {
+        final var message = new SendLandscapeMessage();
+
+        // Create a test system.
+        message.setSystems(new SendLandscapeMessage.LandscapeEntity[] { new SendLandscapeMessage.LandscapeEntity() });
+        message.getSystems()[0].setId("foo");
+        message.getSystems()[0].setOpened(true);
+
+        // Create a test node group.
+        message.setNodeGroups(
+                new SendLandscapeMessage.LandscapeEntity[] { new SendLandscapeMessage.LandscapeEntity() });
+        message.getNodeGroups()[0].setId("bar");
+        message.getNodeGroups()[0].setOpened(true);
+
+        // Create a test app.
+        message.setOpenApps(new SendLandscapeMessage.App[] { new SendLandscapeMessage.App() });
+        message.getOpenApps()[0].setId("baz");
+        message.getOpenApps()[0].setPosition(new double[] { 1.0, 2.0, 3.0 });
+        message.getOpenApps()[0].setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
+        message.getOpenApps()[0].setOpenComponents(new String[] { "x", "y", "z" });
+
+        // Create a highlighted component.
+        message.getOpenApps()[0].setHighlightedComponents(
+                new SendLandscapeMessage.HighlightingObject[] { new SendLandscapeMessage.HighlightingObject() });
+        message.getOpenApps()[0].getHighlightedComponents()[0].setUserID("alice");
+        message.getOpenApps()[0].getHighlightedComponents()[0].setAppID("baz");
+        message.getOpenApps()[0].getHighlightedComponents()[0].setEntityType("v");
+        message.getOpenApps()[0].getHighlightedComponents()[0].setEntityID("w");
+        message.getOpenApps()[0].getHighlightedComponents()[0].setHighlighted(true);
+
+        // Set landscape position and rotation.
+        message.setLandscape(new SendLandscapeMessage.LandscapePosition());
+        message.getLandscape().setPosition(new double[] { 1.0, 2.0, 3.0 });
+        message.getLandscape().setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
+
+        final var actual = encoder.encodeMessage(message);
+        final var expected = "{ \"event\": \"landscape\", \"systems\": [{\"id\": \"foo\", \"opened\": true}], "
+                + " \"nodeGroups\": [{\"id\": \"bar\", \"opened\": true}], "
+                + " \"openApps\": [{\"id\": \"baz\", \"position\": [1.0, 2.0, 3.0], "
+                + "    \"quaternion\": [1.0, 2.0, 3.0, 4.0], \"openComponents\": [\"x\", \"y\", \"z\"], "
+                + "    \"highlightedComponents\": [{"
+                + "        \"userID\": \"alice\", \"appID\": \"baz\", \"entityType\": \"v\", "
+                + "        \"entityID\": \"w\", \"isHighlighted\": true }]"
+                + " }], \"landscape\": { \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0]} }";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 }

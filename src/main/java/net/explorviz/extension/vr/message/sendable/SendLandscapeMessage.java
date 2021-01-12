@@ -51,20 +51,11 @@ public class SendLandscapeMessage extends SendableMessage {
     }
 
     public static class HighlightingObject {
-        private long time;
         private String userID;
         private String appID;
         private String entityType;
         private String entityID;
         private boolean isHighlighted;
-
-        public long getTime() {
-            return time;
-        }
-
-        public void setTime(long l) {
-            this.time = l;
-        }
 
         public String getUserID() {
             return userID;
