@@ -10,7 +10,8 @@ public class ApplicationModel extends BaseModel {
 
     private final ArrayList<String> openComponents;
 
-    public ApplicationModel() {
+    public ApplicationModel(String id) {
+        super(id);
         openComponents = new ArrayList<>();
     }
 

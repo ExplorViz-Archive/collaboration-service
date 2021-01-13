@@ -1,11 +1,6 @@
 package net.explorviz.extension.vr.model;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 public class BaseModel {
-
-    private static final AtomicLong ID_GENERATOR = new AtomicLong();
-
     // position data
     private double xPos = 0;
     private double yPos = 0;
@@ -14,8 +9,8 @@ public class BaseModel {
 
     private String id;
 
-    public BaseModel() {
-        id = String.valueOf(ID_GENERATOR.incrementAndGet());
+    public BaseModel(String id) {
+        this.id = id;
     }
 
     public String getId() {

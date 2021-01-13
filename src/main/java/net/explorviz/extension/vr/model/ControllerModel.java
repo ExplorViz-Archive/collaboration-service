@@ -12,7 +12,8 @@ public class ControllerModel extends BaseModel {
         this.name = name;
     }
 
-    public ControllerModel() {
+    public ControllerModel(String id) {
+        super(id);
     }
 
 }

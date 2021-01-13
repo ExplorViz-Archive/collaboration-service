@@ -7,11 +7,16 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.enterprise.context.ApplicationScoped;
 import javax.websocket.Session;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * A service that associates user names with websocket connections.
  */
 @ApplicationScoped
 public class SessionRegistry {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SessionRegistry.class);
+    
     /**
      * Maps user names to the corresponding websocket sessions.
      */
@@ -65,8 +70,10 @@ public class SessionRegistry {
      */
     public String lookupId(Session session) {
         final String userID = userIDs.get(session);
-        if (userID == null)
+        if (userID == null) {
+            LOGGER.error("Session not found!");
             throw new IllegalStateException("Session not found!");
+        }
         return userID;
     }
 
@@ -79,8 +86,10 @@ public class SessionRegistry {
      */
     public Session lookupSession(String userID) {
         final Session session = sessions.get(userID);
-        if (session == null)
+        if (session == null) {
+            LOGGER.error("User with ID '{}' not found!", userID);
             throw new IllegalStateException("User with ID '" + userID + "' not found!");
+        }
         return session;
     }
 }

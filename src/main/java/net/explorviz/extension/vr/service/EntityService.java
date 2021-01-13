@@ -4,35 +4,56 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 import net.explorviz.extension.vr.model.ApplicationModel;
 import net.explorviz.extension.vr.model.BaseModel;
+import net.explorviz.extension.vr.model.LandscapeModel;
 
 @ApplicationScoped
 public class EntityService {
 
-    private final BaseModel landscape = new BaseModel(); // only containing positional information about landscape
+    /**
+     * Positional information for the landscape.
+     */
+    private LandscapeModel landscape;
 
-    private final Map<String, ApplicationModel> apps = new ConcurrentHashMap<>(); // maps applicationID to the
-                                                                                  // application model
+    /**
+     * Maps applicationID to the application model.
+     */
+    private final Map<String, ApplicationModel> apps = new ConcurrentHashMap<>();
+
+    @Inject
+    IdGenerationService idGenerationService;
+
+    @PostConstruct
+    public void init() {
+        landscape = new LandscapeModel(idGenerationService.nextId());
+    }
+
+    /**
+     * Gets the application model with the given ID or creates a model if it does
+     * not exist.
+     * 
+     * @param appId The ID of the application to get or create.
+     * @return The (created) application.
+     */
+    private ApplicationModel getOrCreateApp(String appId) {
+        if (this.apps.containsKey(appId)) {
+            return this.apps.get(appId);
+        }
+        final var appModel = new ApplicationModel(appId);
+        this.apps.put(appId, appModel);
+        return appModel;
+    }
 
     public void openApp(String appId, double[] position, double[] quaternion) {
-        ApplicationModel appModel;
-
-        // add app to hash map or get app from hash map
-        if (this.apps.containsKey(appId)) {
-            appModel = this.apps.get(appId);
-        } else {
-            appModel = new ApplicationModel();
-            appModel.setId(appId);
-            this.apps.put(appId, appModel);
-        }
-
+        ApplicationModel appModel = getOrCreateApp(appId);
         appModel.setOpen(true);
         appModel.setPosition(position);
         appModel.setQuaternion(quaternion);
-
     }
 
     public void closeApp(String appId) {
@@ -40,8 +61,8 @@ public class EntityService {
     }
 
     public boolean grabbApp(String appId, String userId) {
-        ApplicationModel appModel = this.apps.get(appId);
-        if (appModel == null || appModel.isGrabbed())
+        ApplicationModel appModel = getOrCreateApp(appId);
+        if (appModel.isGrabbed())
             return false;
         appModel.setGrabbed(true);
         appModel.setGrabbedByUser(userId);
@@ -49,17 +70,7 @@ public class EntityService {
     }
 
     public void releaseApp(String appId, double[] position, double[] quaternion) {
-        ApplicationModel appModel;
-
-        // add app to hash map or get app from hash map
-        if (this.apps.containsKey(appId)) {
-            appModel = this.apps.get(appId);
-        } else {
-            appModel = new ApplicationModel();
-            appModel.setId(appId);
-            this.apps.put(appId, appModel);
-        }
-
+        ApplicationModel appModel = getOrCreateApp(appId);
         appModel.setOpen(true);
         appModel.setPosition(position);
         appModel.setQuaternion(quaternion);
@@ -71,16 +82,13 @@ public class EntityService {
     }
 
     public void updateComponent(String componentId, String appId, boolean isFoundation, boolean isOpened) {
-        ApplicationModel appModel = this.apps.get(appId);
-
-        if (appModel != null) {
-            if (isFoundation) {
-                appModel.closeAllComponents();
-            } else if (isOpened) {
-                appModel.openComponent(componentId);
-            } else {
-                appModel.closeComponent(componentId);
-            }
+        ApplicationModel appModel = getOrCreateApp(appId);
+        if (isFoundation) {
+            appModel.closeAllComponents();
+        } else if (isOpened) {
+            appModel.openComponent(componentId);
+        } else {
+            appModel.closeComponent(componentId);
         }
 
     }

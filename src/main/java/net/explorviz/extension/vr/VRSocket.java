@@ -20,8 +20,8 @@ import net.explorviz.extension.vr.event.UserDisconnectedEvent;
 import net.explorviz.extension.vr.message.ForwardedMessage;
 import net.explorviz.extension.vr.message.ForwardedMessage.ShouldForward;
 import net.explorviz.extension.vr.message.ReceivableMessage;
-import net.explorviz.extension.vr.message.ReceivedMessageHandler;
 import net.explorviz.extension.vr.message.ReceivableMessageDecoder;
+import net.explorviz.extension.vr.message.ReceivedMessageHandler;
 import net.explorviz.extension.vr.message.SendableMessageEncoder;
 import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
 import net.explorviz.extension.vr.message.receivable.AppGrabbedMessage;
@@ -43,10 +43,12 @@ import net.explorviz.extension.vr.message.sendable.factory.UserConnectedMessageF
 import net.explorviz.extension.vr.message.sendable.factory.UserDisconnectedMessageFactory;
 import net.explorviz.extension.vr.service.BroadcastService;
 import net.explorviz.extension.vr.service.EntityService;
+import net.explorviz.extension.vr.service.IdGenerationService;
 import net.explorviz.extension.vr.service.SessionRegistry;
 import net.explorviz.extension.vr.service.UserService;
 
-@ServerEndpoint(value = "/v2/vr/", decoders = { ReceivableMessageDecoder.class }, encoders = { SendableMessageEncoder.class })
+@ServerEndpoint(value = "/v2/vr", decoders = { ReceivableMessageDecoder.class }, encoders = {
+        SendableMessageEncoder.class })
 @ApplicationScoped
 public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> {
 
@@ -65,6 +67,9 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
     EntityService entityService;
 
     @Inject
+    IdGenerationService idGenerationService;
+    
+    @Inject
     SelfConnectedMessageFactory selfConnectedMessageFactory;
 
     @Inject
@@ -79,14 +84,15 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
     @OnOpen
     public void onOpen(Session session) {
         LOGGER.debug("opened websocket");
-        final String userId = this.userService.addUser();
-        this.sessionRegistry.register(userId, session);
+        final var userModel = userService.makeUserModel();
+        sessionRegistry.register(userModel.getId(), session);
+        userService.addUser(userModel);
     }
 
     @OnClose
     public void onClose(Session session) {
         LOGGER.debug("closed websocket");
-        final String userId = this.sessionRegistry.lookupId(session);
+        final String userId = sessionRegistry.lookupId(session);
         sessionRegistry.unregister(userId);
         userService.removeUser(userId);
     }
@@ -106,8 +112,9 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
     /**
      * Called for each message that is received.
      *
-     * The received message is logged and the corresponding method from
-     * {@link ReceivedMessageHandler} is invoked.
+     * The the corresponding method from {@link ReceivedMessageHandler} is invoked
+     * for the message and if {@link ShouldForward.FORWARD} is returned the message
+     * is forwarded to all other users.
      *
      * @param message       The received message.
      * @param senderSession The websocket connection of the client that sent the
@@ -115,11 +122,10 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
      */
     public void handleMessage(ReceivableMessage message, Session senderSession) {
         // Process the message.
-        LOGGER.debug("received message: {}", message);
         final var shouldForward = message.handleWith(this, senderSession);
 
         // Optionally forward the message.
-        if (ShouldForward.FORWARD.equals(shouldForward)) {
+        if (shouldForward == ShouldForward.FORWARD) {
             final var userId = sessionRegistry.lookupId(senderSession);
             final var forwardedMessage = new ForwardedMessage(userId, message);
             broadcastService.broadcastExcept(forwardedMessage, senderSession);
@@ -202,6 +208,7 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
      * @param event The connection event.
      */
     public void sendInitialUserList(@ObservesAsync UserConnectedEvent event) {
+        LOGGER.debug("sending self connected message!");
         final var userModel = event.getUserModel();
         final var message = selfConnectedMessageFactory.makeMessage(userModel);
         broadcastService.sendToUser(message, userModel.getId());
@@ -223,12 +230,15 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
      * Broadcasts a {@link UserDisconnecedMessage} to all other users when a user
      * disconnects.
      * 
+     * The web socket connection of the disconnected user should be removed from the
+     * {@link sessiojnRegistry} before the event is fired.
+     * 
      * @param event The disconnection event.
      */
     public void broadcastUserDisconnected(@ObservesAsync UserDisconnectedEvent event) {
         final var userModel = event.getUserModel();
         final var message = userDisconnectedMessageFactory.makeMessage(userModel);
-        broadcastService.broadcastExceptUser(message, userModel.getId());
+        broadcastService.broadcast(message);
     }
 
     /**
