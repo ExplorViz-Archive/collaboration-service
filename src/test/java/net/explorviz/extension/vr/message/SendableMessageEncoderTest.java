@@ -22,16 +22,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
-import net.explorviz.extension.vr.message.receivable.AppGrabbedMessage;
 import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
-import net.explorviz.extension.vr.message.receivable.AppReleasedMessage;
-import net.explorviz.extension.vr.message.receivable.AppTranslatedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
-import net.explorviz.extension.vr.message.receivable.LandscapePositionMessage;
+import net.explorviz.extension.vr.message.receivable.ObjectMovedMessage;
+import net.explorviz.extension.vr.message.receivable.ObjectReleasedMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage.Controllers;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
+import net.explorviz.extension.vr.message.sendable.ObjectGrabbedResponse;
 import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage;
 import net.explorviz.extension.vr.message.sendable.UserConnectedMessage;
@@ -88,20 +87,10 @@ public class SendableMessageEncoderTest {
     }
 
     @Test
-    public void testForwardedAppGrabbedMessage() throws EncodeException, IOException {
-        final var message = new AppGrabbedMessage();
-        message.setAppID("foo");
-        message.setAppPosition(new double[] { 1.0, 2.0, 3.0 });
-        message.setAppQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
-        message.setIsGrabbedByController1(true);
-        message.setControllerPosition(new double[] { 1.0, 2.0, 3.0 });
-        message.setControllerQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
-        final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
-        final var expected = "{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
-                + "{ \"event\": \"app_grabbed\", \"appID\": \"foo\", \"appPosition\": [1.0, 2.0, 3.0],"
-                + "  \"appQuaternion\": [1.0, 2.0, 3.0, 4.0],"
-                + "  \"isGrabbedByController1\": true, \"controllerPosition\": [1.0, 2.0, 3.0],"
-                + "  \"controllerQuaternion\": [1.0, 2.0, 3.0, 4.0] }}";
+    public void testObjectGrabbedResponse() throws EncodeException, IOException {
+        final var message = new ObjectGrabbedResponse(1, "foo", true);
+        final var actual = encoder.encodeMessage(message);
+        final var expected = "{ \"event\": \"object_grabbed\", \"nonce\": 1, \"objectId\": \"foo\", success = \"true\"}";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
@@ -119,25 +108,23 @@ public class SendableMessageEncoderTest {
 
     @Test
     public void testForwardedAppReleasedMessage() throws EncodeException, IOException {
-        final var message = new AppReleasedMessage();
-        message.setId("foo");
-        message.setPosition(new double[] { 1.0, 2.0, 3.0 });
-        message.setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
+        final var message = new ObjectReleasedMessage();
+        message.setObjectId("foo");
         final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
         final var expected ="{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
-                +  "{ \"event\": \"app_released\", \"id\": \"foo\",  \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }}";
+                +  "{ \"event\": \"object_released\", \"objectId\": \"foo\"}}";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
     @Test
     public void testForwardedAppTranslatedMessage() throws EncodeException, IOException {
-        final var message = new AppTranslatedMessage();
-        message.setAppId("foo");
-        message.setDirection(new double[] { 1.0, 2.0, 3.0 });
-        message.setLength(4.0);
+        final var message = new ObjectMovedMessage();
+        message.setObjectId("foo");
+        message.setPosition(new double[] { 1.0, 2.0, 3.0 });
+        message.setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
         final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
         final var expected = "{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
-                + "{ \"event\": \"app_translated\", \"appId\": \"foo\", \"direction\": [1.0, 2.0, 3.0], \"length\": 4.0 }}";
+                + "{ \"event\": \"object_moved\", \"objectId\": \"foo\", \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }}";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
@@ -151,17 +138,6 @@ public class SendableMessageEncoderTest {
         final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
         final var expected = "{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
                 + "{ \"event\": \"component_update\", \"appID\": \"foo\", \"componentID\": \"bar\", \"isOpened\": true, \"isFoundation\": true }}";
-        assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
-    }
-
-    @Test
-    public void testForwardedLandscapePositionMessage() throws EncodeException, IOException {
-        final var message = new LandscapePositionMessage();
-        message.setPosition(new double[] { 1.0, 2.0, 3.0 });
-        message.setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
-        final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
-        final var expected = "{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
-                + "{ \"event\": \"landscape_position\", \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }}";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
@@ -287,7 +263,8 @@ public class SendableMessageEncoderTest {
         message.getOpenApps()[0].getHighlightedComponents()[0].setHighlighted(true);
 
         // Set landscape position and rotation.
-        message.setLandscape(new SendLandscapeMessage.LandscapePosition());
+        message.setLandscape(new SendLandscapeMessage.Landscape());
+        message.getLandscape().setId("foo");
         message.getLandscape().setPosition(new double[] { 1.0, 2.0, 3.0 });
         message.getLandscape().setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
 
@@ -298,7 +275,7 @@ public class SendableMessageEncoderTest {
                 + "    \"highlightedComponents\": [{"
                 + "        \"userID\": \"alice\", \"appID\": \"baz\", \"entityType\": \"v\", "
                 + "        \"entityID\": \"w\", \"isHighlighted\": true }]"
-                + " }], \"landscape\": { \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0]} }";
+                + " }], \"landscape\": { \"id\": \"foo\", \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0]} }";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 }

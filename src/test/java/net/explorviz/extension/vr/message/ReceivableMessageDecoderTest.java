@@ -25,12 +25,11 @@ import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 
 import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
-import net.explorviz.extension.vr.message.receivable.AppGrabbedMessage;
 import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
-import net.explorviz.extension.vr.message.receivable.AppReleasedMessage;
-import net.explorviz.extension.vr.message.receivable.AppTranslatedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
-import net.explorviz.extension.vr.message.receivable.LandscapePositionMessage;
+import net.explorviz.extension.vr.message.receivable.ObjectGrabbedMessage;
+import net.explorviz.extension.vr.message.receivable.ObjectMovedMessage;
+import net.explorviz.extension.vr.message.receivable.ObjectReleasedMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage.Controllers;
@@ -104,19 +103,12 @@ public class ReceivableMessageDecoderTest {
     }
 
     @Test
-    public void testAppGrabbedMessage() throws DecodeException, IOException {
-        final var json = "{ \"event\": \"app_grabbed\", \"appID\": \"foo\", \"appPosition\": [1.0, 2.0, 3.0],"
-                + "  \"appQuaternion\": [1.0, 2.0, 3.0, 4.0],"
-                + "  \"isGrabbedByController1\": true, \"controllerPosition\": [1.0, 2.0, 3.0],"
-                + "  \"controllerQuaternion\": [1.0, 2.0, 3.0, 4.0] }";
+    public void testObjectGrabbedMessage() throws DecodeException, IOException {
+        final var json = "{ \"event\": \"object_grabbed\", \"nonce\": \"1\", \"objectId\": \"foo\"}";
         final var actual = decoder.decodeMessage(json);
-        final var expected = new AppGrabbedMessage();
-        expected.setAppID("foo");
-        expected.setAppPosition(new double[] { 1.0, 2.0, 3.0 });
-        expected.setAppQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
-        expected.setIsGrabbedByController1(true);
-        expected.setControllerPosition(new double[] { 1.0, 2.0, 3.0 });
-        expected.setControllerQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
+        final var expected = new ObjectGrabbedMessage();
+        expected.setNonce(1);
+        expected.setObjectId("foo");
         assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
     }
 
@@ -133,23 +125,21 @@ public class ReceivableMessageDecoderTest {
 
     @Test
     public void testAppReleasedMessage() throws DecodeException, IOException {
-        final var json = "{ \"event\": \"app_released\", \"id\": \"foo\",  \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }";
+        final var json = "{ \"event\": \"object_released\", \"objectId\": \"foo\" }";
         final var actual = decoder.decodeMessage(json);
-        final var expected = new AppReleasedMessage();
-        expected.setId("foo");
-        expected.setPosition(new double[] { 1.0, 2.0, 3.0 });
-        expected.setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
+        final var expected = new ObjectReleasedMessage();
+        expected.setObjectId("foo");
         assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
     public void testAppTranslatedMessage() throws DecodeException, IOException {
-        final var json = "{ \"event\": \"app_translated\", \"appId\": \"foo\", \"direction\": [1.0, 2.0, 3.0], \"length\": 4.0 }";
+        final var json = "{ \"event\": \"object_moved\", \"objectId\": \"foo\", \\\"position\\\": [1.0, 2.0, 3.0], \\\"quaternion\\\": [1.0, 2.0, 3.0, 4.0] }";
         final var actual = decoder.decodeMessage(json);
-        final var expected = new AppTranslatedMessage();
-        expected.setAppId("foo");
-        expected.setDirection(new double[] { 1.0, 2.0, 3.0 });
-        expected.setLength(4.0);
+        final var expected = new ObjectMovedMessage();
+        expected.setObjectId("foo");
+        expected.setPosition(new double[] { 1.0, 2.0, 3.0 });
+        expected.setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
         assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
     }
 
@@ -162,16 +152,6 @@ public class ReceivableMessageDecoderTest {
         expected.setComponentID("bar");
         expected.setIsOpened(true);
         expected.setIsFoundation(true);
-        assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
-    }
-
-    @Test
-    public void testLandscapePositionMessage() throws DecodeException, IOException {
-        final var json = "{ \"event\": \"landscape_position\", \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }";
-        final var actual = decoder.decodeMessage(json);
-        final var expected = new LandscapePositionMessage();
-        expected.setPosition(new double[] { 1.0, 2.0, 3.0 });
-        expected.setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
         assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
     }
 
