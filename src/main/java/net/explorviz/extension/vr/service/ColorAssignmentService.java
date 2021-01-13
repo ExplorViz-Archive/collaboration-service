@@ -1,8 +1,8 @@
 package net.explorviz.extension.vr.service;
 
 import java.awt.Color;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -29,7 +29,7 @@ public class ColorAssignmentService {
     /**
      * Counts how often each of the {@link colors} has been assigned already.
      */
-    private Map<Color, Integer> counters = new ConcurrentHashMap<>();
+    private Map<Color, Integer> counters = new LinkedHashMap<>();
 
     public ColorAssignmentService() {
         // Initialize all counters with zero.
@@ -37,7 +37,7 @@ public class ColorAssignmentService {
             counters.put(color, 0);
         }
     }
-    
+
     /**
      * Gets the next color that has been assigned the least.
      * 
@@ -56,13 +56,13 @@ public class ColorAssignmentService {
         }
         return minCountColor;
     }
-    
+
     /**
      * Makes the given color assignable to another user.
      * 
      * @param color The color to unassign.
      */
-    public void unassignColor(Color color)  {
+    public void unassignColor(Color color) {
         if (counters.containsKey(color)) {
             int count = counters.get(color);
             counters.put(color, count - 1);
