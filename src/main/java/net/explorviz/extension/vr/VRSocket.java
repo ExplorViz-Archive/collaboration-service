@@ -1,7 +1,5 @@
 package net.explorviz.extension.vr;
 
-import java.util.List;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
@@ -21,7 +19,7 @@ import net.explorviz.extension.vr.message.ForwardedMessage;
 import net.explorviz.extension.vr.message.ForwardedMessage.ShouldForward;
 import net.explorviz.extension.vr.message.ReceivableMessage;
 import net.explorviz.extension.vr.message.ReceivableMessageDecoder;
-import net.explorviz.extension.vr.message.ReceivedMessageHandler;
+import net.explorviz.extension.vr.message.ReceivableMessageHandler;
 import net.explorviz.extension.vr.message.SendableMessageEncoder;
 import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
 import net.explorviz.extension.vr.message.receivable.AppGrabbedMessage;
@@ -50,7 +48,7 @@ import net.explorviz.extension.vr.service.UserService;
 @ServerEndpoint(value = "/v2/vr", decoders = { ReceivableMessageDecoder.class }, encoders = {
         SendableMessageEncoder.class })
 @ApplicationScoped
-public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> {
+public class VRSocket implements ReceivableMessageHandler<ShouldForward, Session> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VRSocket.class);
 
@@ -68,7 +66,7 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
 
     @Inject
     IdGenerationService idGenerationService;
-    
+
     @Inject
     SelfConnectedMessageFactory selfConnectedMessageFactory;
 
@@ -103,24 +101,7 @@ public class VRSocket implements ReceivedMessageHandler<ShouldForward, Session> 
     }
 
     @OnMessage
-    public void onMessageList(List<ReceivableMessage> messages, Session senderSession) {
-        for (ReceivableMessage message : messages) {
-            handleMessage(message, senderSession);
-        }
-    }
-
-    /**
-     * Called for each message that is received.
-     *
-     * The the corresponding method from {@link ReceivedMessageHandler} is invoked
-     * for the message and if {@link ShouldForward.FORWARD} is returned the message
-     * is forwarded to all other users.
-     *
-     * @param message       The received message.
-     * @param senderSession The websocket connection of the client that sent the
-     *                      message.
-     */
-    public void handleMessage(ReceivableMessage message, Session senderSession) {
+    public void onMessage(ReceivableMessage message, Session senderSession) {
         // Process the message.
         final var shouldForward = message.handleWith(this, senderSession);
 

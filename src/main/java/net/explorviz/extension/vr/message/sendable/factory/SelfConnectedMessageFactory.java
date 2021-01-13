@@ -26,18 +26,20 @@ public class SelfConnectedMessageFactory {
 
         // Construct list of currently connected users.
         final var otherUserList = new ArrayList<>();
-        for (UserModel otherModel : userService.getUserModels()) {
-            final var otherUser = new SelfConnectedMessage.OtherUser();
-            otherUser.setId(otherModel.getId());
-            otherUser.setName(otherModel.getUserName());
-            otherUser.setColor(otherModel.getColor());
-
-            final var otherControllers = new SelfConnectedMessage.Controllers();
-            otherControllers.setController1(otherModel.getController1().getName());
-            otherControllers.setController1(otherModel.getController1().getName());
-            otherUser.setControllers(otherControllers);
-
-            otherUserList.add(otherUser);
+        for (UserModel otherModel : userService.getUsers()) {
+            if (otherModel != userModel) {
+                final var otherUser = new SelfConnectedMessage.OtherUser();
+                otherUser.setId(otherModel.getId());
+                otherUser.setName(otherModel.getUserName());
+                otherUser.setColor(otherModel.getColor());
+    
+                final var otherControllers = new SelfConnectedMessage.Controllers();
+                otherControllers.setController1(otherModel.getController1().getName());
+                otherControllers.setController1(otherModel.getController1().getName());
+                otherUser.setControllers(otherControllers);
+    
+                otherUserList.add(otherUser);
+            }
         }
         message.setUsers(otherUserList.toArray(new SelfConnectedMessage.OtherUser[otherUserList.size()]));
 

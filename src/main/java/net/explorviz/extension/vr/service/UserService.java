@@ -32,15 +32,6 @@ public class UserService {
 
     private final Map<String, UserModel> users = new ConcurrentHashMap<>();
 
-    /**
-     * Gets the models of all currently connected users.
-     * 
-     * @return
-     */
-    public Iterable<UserModel> getUserModels() {
-        return users.values();
-    }
-
     public void updateUserPosition() {
 
     }

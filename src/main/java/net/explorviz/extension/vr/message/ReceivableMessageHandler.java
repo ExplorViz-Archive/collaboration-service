@@ -20,7 +20,7 @@ import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
  * @param <R> The return type of the handler methods.
  * @param <A> Type for additional arguments of the handler methods.
  */
-public interface ReceivedMessageHandler<R, A> {
+public interface ReceivableMessageHandler<R, A> {
     R handleAppClosedMessage(AppClosedMessage message, A arg);
 
     R handleAppGrabbedMessage(AppGrabbedMessage message, A arg);

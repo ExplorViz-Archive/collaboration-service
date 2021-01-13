@@ -1,7 +1,7 @@
 package net.explorviz.extension.vr.message.receivable;
 
 import net.explorviz.extension.vr.message.ReceivableMessage;
-import net.explorviz.extension.vr.message.ReceivedMessageHandler;
+import net.explorviz.extension.vr.message.ReceivableMessageHandler;
 
 public class AppGrabbedMessage extends ReceivableMessage {
 
@@ -67,7 +67,7 @@ public class AppGrabbedMessage extends ReceivableMessage {
     }
 
     @Override
-    public <R, A> R handleWith(ReceivedMessageHandler<R, A> handler, A arg) {
+    public <R, A> R handleWith(ReceivableMessageHandler<R, A> handler, A arg) {
         return handler.handleAppGrabbedMessage(this, arg);
     }
 }

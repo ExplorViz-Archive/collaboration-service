@@ -19,5 +19,5 @@ public abstract class ReceivableMessage extends VRMessage {
      *                method.
      * @return The return value of the {@code handle*} method.
      */
-    public abstract <R, A> R handleWith(ReceivedMessageHandler<R, A> handler, A arg);
+    public abstract <R, A> R handleWith(ReceivableMessageHandler<R, A> handler, A arg);
 }
