@@ -6,9 +6,18 @@ public class SendLandscapeMessage extends SendableMessage {
 
     public static final String EVENT = "landscape";
 
-    public static class LandscapePosition {
+    public static class Landscape {
+        private String id;
         private double[] position;
         private double[] quaternion;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
 
         public double[] getPosition() {
             return position;
@@ -127,7 +136,7 @@ public class SendLandscapeMessage extends SendableMessage {
     }
 
     private App[] openApps;
-    private LandscapePosition landscape;
+    private Landscape landscape;
 
     public SendLandscapeMessage() {
         super(EVENT);
@@ -141,11 +150,11 @@ public class SendLandscapeMessage extends SendableMessage {
         this.openApps = openApps;
     }
 
-    public LandscapePosition getLandscape() {
+    public Landscape getLandscape() {
         return landscape;
     }
 
-    public void setLandscape(LandscapePosition landscape) {
+    public void setLandscape(Landscape landscape) {
         this.landscape = landscape;
     }
 

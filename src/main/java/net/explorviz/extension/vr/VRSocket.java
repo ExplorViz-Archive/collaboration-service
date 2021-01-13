@@ -22,13 +22,12 @@ import net.explorviz.extension.vr.message.ReceivableMessageDecoder;
 import net.explorviz.extension.vr.message.ReceivableMessageHandler;
 import net.explorviz.extension.vr.message.SendableMessageEncoder;
 import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
-import net.explorviz.extension.vr.message.receivable.AppGrabbedMessage;
 import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
-import net.explorviz.extension.vr.message.receivable.AppReleasedMessage;
-import net.explorviz.extension.vr.message.receivable.AppTranslatedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.HightlightingUpdateMessage;
-import net.explorviz.extension.vr.message.receivable.LandscapePositionMessage;
+import net.explorviz.extension.vr.message.receivable.ObjectGrabbedMessage;
+import net.explorviz.extension.vr.message.receivable.ObjectMovedMessage;
+import net.explorviz.extension.vr.message.receivable.ObjectReleasedMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
@@ -121,10 +120,11 @@ public class VRSocket implements ReceivableMessageHandler<ShouldForward, Session
     }
 
     @Override
-    public ShouldForward handleAppGrabbedMessage(AppGrabbedMessage message, Session senderSession) {
-        // Try to grab application and respond whether the operation was successful.
-        final var success = this.entityService.grabbApp(message.getAppID(), sessionRegistry.lookupId(senderSession));
-        final var response = new ObjectGrabbedResponse(message.getAppID(), success);
+    public ShouldForward handleObjectGrabbedMessage(ObjectGrabbedMessage message, Session senderSession) {
+        // Try to grab object and respond whether the operation was successful.
+        final var success = this.entityService.grabbObject(sessionRegistry.lookupId(senderSession),
+                message.getObjectId());
+        final var response = new ObjectGrabbedResponse(message.getObjectId(), success);
         broadcastService.sendTo(response, senderSession);
         return ShouldForward.NO_FORWARD;
     }
@@ -136,15 +136,19 @@ public class VRSocket implements ReceivableMessageHandler<ShouldForward, Session
     }
 
     @Override
-    public ShouldForward handleAppReleasedMessage(AppReleasedMessage message, Session senderSession) {
-        this.entityService.releaseApp(message.getId(), message.getPosition(), message.getQuaternion());
+    public ShouldForward handleObjectReleasedMessage(ObjectReleasedMessage message, Session senderSession) {
+        this.entityService.releaseObject(sessionRegistry.lookupId(senderSession), message.getObjectId());
         return ShouldForward.NO_FORWARD;
     }
 
     @Override
-    public ShouldForward handleAppTranslatedMessage(AppTranslatedMessage message, Session senderSession) {
-        this.entityService.translateApp();
-        return ShouldForward.FORWARD;
+    public ShouldForward handleObjectMovedMessage(ObjectMovedMessage message, Session senderSession) {
+        final var forward = (this.entityService.moveObject(sessionRegistry.lookupId(senderSession),
+                message.getObjectId(), message.getPosition(), message.getQuaternion()));
+        if (forward) {
+            return ShouldForward.FORWARD;
+        }
+        return ShouldForward.NO_FORWARD;
     }
 
     @Override
@@ -158,12 +162,6 @@ public class VRSocket implements ReceivableMessageHandler<ShouldForward, Session
     public ShouldForward handleHightlightingUpdateMessage(HightlightingUpdateMessage message, Session senderSession) {
         this.userService.updateHighlighting(sessionRegistry.lookupId(senderSession), message.getAppID(),
                 message.getEntityID(), message.getEntityType(), message.getIsHighlighted());
-        return ShouldForward.FORWARD;
-    }
-
-    @Override
-    public ShouldForward handleLandscapePositionMessage(LandscapePositionMessage message, Session senderSession) {
-        this.entityService.updateLandscapePosition(message.getPosition(), message.getQuaternion());
         return ShouldForward.FORWARD;
     }
 

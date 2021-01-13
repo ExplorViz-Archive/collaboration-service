@@ -1,13 +1,12 @@
 package net.explorviz.extension.vr.message;
 
 import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
-import net.explorviz.extension.vr.message.receivable.AppGrabbedMessage;
 import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
-import net.explorviz.extension.vr.message.receivable.AppReleasedMessage;
-import net.explorviz.extension.vr.message.receivable.AppTranslatedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.HightlightingUpdateMessage;
-import net.explorviz.extension.vr.message.receivable.LandscapePositionMessage;
+import net.explorviz.extension.vr.message.receivable.ObjectGrabbedMessage;
+import net.explorviz.extension.vr.message.receivable.ObjectMovedMessage;
+import net.explorviz.extension.vr.message.receivable.ObjectReleasedMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
@@ -23,23 +22,21 @@ import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
 public interface ReceivableMessageHandler<R, A> {
     R handleAppClosedMessage(AppClosedMessage message, A arg);
 
-    R handleAppGrabbedMessage(AppGrabbedMessage message, A arg);
+    R handleObjectGrabbedMessage(ObjectGrabbedMessage message, A arg);
 
     R handleAppOpenedMessage(AppOpenedMessage message, A arg);
 
-    R handleAppReleasedMessage(AppReleasedMessage message, A arg);
-
-    R handleAppTranslatedMessage(AppTranslatedMessage message, A arg);
+    R handleObjectReleasedMessage(ObjectReleasedMessage message, A arg);
 
     R handleComponentUpdateMessage(ComponentUpdateMessage message, A arg);
 
     R handleHightlightingUpdateMessage(HightlightingUpdateMessage message, A arg);
-
-    R handleLandscapePositionMessage(LandscapePositionMessage message, A arg);
 
     R handleSpectatingUpdateMessage(SpectatingUpdateMessage message, A arg);
 
     R handleUserControllersMessage(UserControllersMessage message, A arg);
 
     R handleUserPositionsMessage(UserPositionsMessage message, A arg);
+
+    R handleObjectMovedMessage(ObjectMovedMessage message, A arg);
 }

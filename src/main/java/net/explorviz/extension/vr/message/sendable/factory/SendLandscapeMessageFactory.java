@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage;
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage.App;
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage.HighlightingObject;
-import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage.LandscapePosition;
+import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage.Landscape;
 import net.explorviz.extension.vr.model.ApplicationModel;
 import net.explorviz.extension.vr.model.BaseModel;
 import net.explorviz.extension.vr.model.HighlightingModel;
@@ -62,14 +62,15 @@ public class SendLandscapeMessageFactory {
         }
 
         // landscape position
-        LandscapePosition landscapePosObj = new LandscapePosition();
+        Landscape landscapeObj = new Landscape();
         final BaseModel landscape = this.entityService.getLandscape();
-        landscapePosObj.setPosition(landscape.getPosition());
-        landscapePosObj.setQuaternion(landscape.getQuaternion());
+        landscapeObj.setId(landscape.getId());
+        landscapeObj.setPosition(landscape.getPosition());
+        landscapeObj.setQuaternion(landscape.getQuaternion());
 
         SendLandscapeMessage message = new SendLandscapeMessage();
         message.setOpenApps((App[]) appArray.toArray());
-        message.setLandscape(landscapePosObj);
+        message.setLandscape(landscapeObj);
 
         return message;
     }

@@ -6,13 +6,12 @@ import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
-import net.explorviz.extension.vr.message.receivable.AppGrabbedMessage;
 import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
-import net.explorviz.extension.vr.message.receivable.AppReleasedMessage;
-import net.explorviz.extension.vr.message.receivable.AppTranslatedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.HightlightingUpdateMessage;
-import net.explorviz.extension.vr.message.receivable.LandscapePositionMessage;
+import net.explorviz.extension.vr.message.receivable.ObjectGrabbedMessage;
+import net.explorviz.extension.vr.message.receivable.ObjectMovedMessage;
+import net.explorviz.extension.vr.message.receivable.ObjectReleasedMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
@@ -27,13 +26,12 @@ import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "event", visible = true)
 @JsonSubTypes({ @Type(value = AppClosedMessage.class, name = AppClosedMessage.EVENT),
-        @Type(value = AppGrabbedMessage.class, name = AppGrabbedMessage.EVENT),
+        @Type(value = ObjectGrabbedMessage.class, name = ObjectGrabbedMessage.EVENT),
         @Type(value = AppOpenedMessage.class, name = AppOpenedMessage.EVENT),
-        @Type(value = AppReleasedMessage.class, name = AppReleasedMessage.EVENT),
-        @Type(value = AppTranslatedMessage.class, name = AppTranslatedMessage.EVENT),
+        @Type(value = ObjectReleasedMessage.class, name = ObjectReleasedMessage.EVENT),
+        @Type(value = ObjectMovedMessage.class, name = ObjectMovedMessage.EVENT),
         @Type(value = ComponentUpdateMessage.class, name = ComponentUpdateMessage.EVENT),
         @Type(value = HightlightingUpdateMessage.class, name = HightlightingUpdateMessage.EVENT),
-        @Type(value = LandscapePositionMessage.class, name = LandscapePositionMessage.EVENT),
         @Type(value = SpectatingUpdateMessage.class, name = SpectatingUpdateMessage.EVENT),
         @Type(value = UserControllersMessage.class, name = UserControllersMessage.EVENT),
         @Type(value = UserPositionsMessage.class, name = UserPositionsMessage.EVENT) })

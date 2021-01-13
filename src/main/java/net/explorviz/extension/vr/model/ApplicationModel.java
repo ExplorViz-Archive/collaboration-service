@@ -2,7 +2,7 @@ package net.explorviz.extension.vr.model;
 
 import java.util.ArrayList;
 
-public class ApplicationModel extends BaseModel {
+public class ApplicationModel extends BaseModel implements GrabbableObject {
 
     boolean isOpen;
     boolean isGrabbed;
@@ -51,18 +51,9 @@ public class ApplicationModel extends BaseModel {
         this.grabbedByUser = userID;
     }
 
-    public void setUnboundByUser(final String userID) {
-        if (this.isGrabbedByUser(userID)) {
-            this.setGrabbed(false);
-        }
-    }
-
-    public boolean isGrabbedByUser(final String userID) {
-        if (this.isGrabbed && userID == this.grabbedByUser) {
-            return true;
-        } else {
-            return false;
-        }
+    @Override
+    public String isGrabbedByUser() {
+        return grabbedByUser;
     }
 
 }

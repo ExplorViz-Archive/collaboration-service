@@ -3,24 +3,24 @@ package net.explorviz.extension.vr.message.receivable;
 import net.explorviz.extension.vr.message.ReceivableMessage;
 import net.explorviz.extension.vr.message.ReceivableMessageHandler;
 
-public class AppReleasedMessage extends ReceivableMessage {
+public class ObjectMovedMessage extends ReceivableMessage {
 
-    public static final String EVENT = "app_released";
+    public static final String EVENT = "object_translated";
 
-    private String id;
+    private String objectId;
     private double[] position;
     private double[] quaternion;
 
-    public AppReleasedMessage() {
+    public ObjectMovedMessage() {
         super(EVENT);
     }
 
-    public String getId() {
-        return id;
+    public String getObjectId() {
+        return objectId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 
     public double[] getPosition() {
@@ -41,6 +41,6 @@ public class AppReleasedMessage extends ReceivableMessage {
 
     @Override
     public <R, A> R handleWith(ReceivableMessageHandler<R, A> handler, A arg) {
-        return handler.handleAppReleasedMessage(this, arg);
+        return handler.handleObjectMovedMessage(this, arg);
     }
 }

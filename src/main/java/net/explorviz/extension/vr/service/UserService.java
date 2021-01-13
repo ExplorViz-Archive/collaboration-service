@@ -29,6 +29,10 @@ public class UserService {
 
     @Inject
     Event<UserDisconnectedEvent> userDisconnectedEvent;
+    
+    @Inject
+    EntityService entityService;
+    
 
     private final Map<String, UserModel> users = new ConcurrentHashMap<>();
 
@@ -108,11 +112,33 @@ public class UserService {
         if (userModel != null) {
             colorAssignmentService.unassignColor(userModel.getColor());
             userDisconnectedEvent.fireAsync(new UserDisconnectedEvent(userModel));
+            releaseAllGrabbedObjects(userModel);
         }
     }
+    
 
     public Collection<UserModel> getUsers() {
         return this.users.values();
+    }
+    
+    private void releaseAllGrabbedObjects(UserModel userModel) {
+        for (String objectId : userModel.getGrabbedObjects()) {
+            entityService.releaseObject(userModel.getId(), objectId);
+        }
+    }
+
+    public void userGrabbedObject(String userId, String objectId) {
+        UserModel userModel = users.get(userId);
+        if (userModel != null) {
+            userModel.addGrabbedObject(objectId);
+        }
+    }
+
+    public void userReleasedObject(String userId, String objectId) {
+        UserModel userModel = users.get(userId);
+        if (userModel != null) {
+            userModel.removeGrabbedObject(objectId);
+        }
     }
 
 }
