@@ -1,9 +1,9 @@
 package net.explorviz.extension.vr.message.receivable;
 
-import net.explorviz.extension.vr.message.ReceivableMessage;
 import net.explorviz.extension.vr.message.ReceivableMessageHandler;
+import net.explorviz.extension.vr.message.RequestMessage;
 
-public class ObjectGrabbedMessage extends ReceivableMessage {
+public class ObjectGrabbedMessage extends RequestMessage {
 
     public static final String EVENT = "object_grabbed";
 

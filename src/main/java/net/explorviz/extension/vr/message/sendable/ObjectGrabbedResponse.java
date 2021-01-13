@@ -1,15 +1,15 @@
 package net.explorviz.extension.vr.message.sendable;
 
-import net.explorviz.extension.vr.message.SendableMessage;
+import net.explorviz.extension.vr.message.ResponseMessage;
 
-public class ObjectGrabbedResponse extends SendableMessage {
+public class ObjectGrabbedResponse extends ResponseMessage {
     private static final String EVENT = "object_grabbed";
 
     private final String id;
     private final boolean success;
 
-    public ObjectGrabbedResponse(String id, boolean success) {
-        super(EVENT);
+    public ObjectGrabbedResponse(int nonce, String id, boolean success) {
+        super(EVENT, nonce);
         this.id = id;
         this.success = success;
     }

@@ -124,7 +124,7 @@ public class VRSocket implements ReceivableMessageHandler<ShouldForward, Session
         // Try to grab object and respond whether the operation was successful.
         final var success = this.entityService.grabbObject(sessionRegistry.lookupId(senderSession),
                 message.getObjectId());
-        final var response = new ObjectGrabbedResponse(message.getObjectId(), success);
+        final var response = new ObjectGrabbedResponse(message.getNonce(), message.getObjectId(), success);
         broadcastService.sendTo(response, senderSession);
         return ShouldForward.NO_FORWARD;
     }
