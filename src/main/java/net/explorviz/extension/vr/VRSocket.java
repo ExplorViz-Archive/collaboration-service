@@ -32,6 +32,7 @@ import net.explorviz.extension.vr.message.receivable.LandscapePositionMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
+import net.explorviz.extension.vr.message.sendable.ObjectGrabbedResponse;
 import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage;
 import net.explorviz.extension.vr.message.sendable.UserConnectedMessage;
@@ -121,8 +122,11 @@ public class VRSocket implements ReceivableMessageHandler<ShouldForward, Session
 
     @Override
     public ShouldForward handleAppGrabbedMessage(AppGrabbedMessage message, Session senderSession) {
-        this.entityService.grabbApp(message.getAppID(), sessionRegistry.lookupId(senderSession));
-        return ShouldForward.FORWARD;
+        // Try to grab application and respond whether the operation was successful.
+        final var success = this.entityService.grabbApp(message.getAppID(), sessionRegistry.lookupId(senderSession));
+        final var response = new ObjectGrabbedResponse(message.getAppID(), success);
+        broadcastService.sendTo(response, senderSession);
+        return ShouldForward.NO_FORWARD;
     }
 
     @Override
@@ -134,7 +138,7 @@ public class VRSocket implements ReceivableMessageHandler<ShouldForward, Session
     @Override
     public ShouldForward handleAppReleasedMessage(AppReleasedMessage message, Session senderSession) {
         this.entityService.releaseApp(message.getId(), message.getPosition(), message.getQuaternion());
-        return ShouldForward.FORWARD;
+        return ShouldForward.NO_FORWARD;
     }
 
     @Override
