@@ -3,7 +3,7 @@ package net.explorviz.extension.vr.message;
 /**
  * Base class for all messages that can be received from the frontend.
  */
-public abstract class ReceivableMessage extends VRMessage {
+public abstract class ReceivableMessage extends VrMessage {
     public ReceivableMessage(String event) {
         super(event);
     }

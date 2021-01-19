@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
 import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
-import net.explorviz.extension.vr.message.receivable.HightlightingUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.HighlightingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectGrabbedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectMovedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectReleasedMessage;
@@ -31,11 +31,11 @@ import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
         @Type(value = ObjectReleasedMessage.class, name = ObjectReleasedMessage.EVENT),
         @Type(value = ObjectMovedMessage.class, name = ObjectMovedMessage.EVENT),
         @Type(value = ComponentUpdateMessage.class, name = ComponentUpdateMessage.EVENT),
-        @Type(value = HightlightingUpdateMessage.class, name = HightlightingUpdateMessage.EVENT),
+        @Type(value = HighlightingUpdateMessage.class, name = HighlightingUpdateMessage.EVENT),
         @Type(value = SpectatingUpdateMessage.class, name = SpectatingUpdateMessage.EVENT),
         @Type(value = UserControllersMessage.class, name = UserControllersMessage.EVENT),
         @Type(value = UserPositionsMessage.class, name = UserPositionsMessage.EVENT) })
-public abstract class VRMessage {
+public abstract class VrMessage {
     @JsonTypeId
     private String event;
 
@@ -47,7 +47,7 @@ public abstract class VRMessage {
      * 
      * @param event The type identifier of the message.
      */
-    public VRMessage(String event) {
+    public VrMessage(String event) {
         this.event = event;
     }
 

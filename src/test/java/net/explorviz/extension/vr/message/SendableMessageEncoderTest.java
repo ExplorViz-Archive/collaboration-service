@@ -29,8 +29,8 @@ import net.explorviz.extension.vr.message.receivable.ObjectReleasedMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage.Controllers;
+import net.explorviz.extension.vr.message.respondable.ObjectGrabbedResponse;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
-import net.explorviz.extension.vr.message.sendable.ObjectGrabbedResponse;
 import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage;
 import net.explorviz.extension.vr.message.sendable.UserConnectedMessage;
@@ -88,9 +88,9 @@ public class SendableMessageEncoderTest {
 
     @Test
     public void testObjectGrabbedResponse() throws EncodeException, IOException {
-        final var message = new ObjectGrabbedResponse(1, "foo", true);
+        final var message = new ResponseMessage(1, new ObjectGrabbedResponse("foo", true));
         final var actual = encoder.encodeMessage(message);
-        final var expected = "{ \"event\": \"object_grabbed\", \"nonce\": 1, \"objectId\": \"foo\", success = \"true\"}";
+        final var expected = "{ \"event\": \"response\", \"nonce\": 1, \"response\": { \"event\": \"object_grabbed\", \"nonce\": 1, \"objectId\": \"foo\", success = \"true\"}}";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 

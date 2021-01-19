@@ -1,20 +1,22 @@
 package net.explorviz.extension.vr.message;
 
 public class ResponseMessage extends SendableMessage {
-    public ResponseMessage(String event, int nonce) {
-        super(event);
-        this.nonce = nonce;
-    }
+    public static final String EVENT = "response";
 
     private int nonce;
+    private RespondableMessage response;
+    
+    public ResponseMessage(int nonce, RespondableMessage response) {
+        super(EVENT);
+        this.nonce = nonce;
+        this.response = response;
+    }
 
     public int getNonce() {
         return nonce;
     }
 
-    public void setNonce(int nonce) {
-        this.nonce = nonce;
+    public RespondableMessage getResponse() {
+        return response;
     }
-
-    
 }

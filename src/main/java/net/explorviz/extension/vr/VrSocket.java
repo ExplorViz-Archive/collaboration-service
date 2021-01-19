@@ -16,22 +16,23 @@ import org.slf4j.LoggerFactory;
 import net.explorviz.extension.vr.event.UserConnectedEvent;
 import net.explorviz.extension.vr.event.UserDisconnectedEvent;
 import net.explorviz.extension.vr.message.ForwardedMessage;
-import net.explorviz.extension.vr.message.ForwardedMessage.ShouldForward;
 import net.explorviz.extension.vr.message.ReceivableMessage;
 import net.explorviz.extension.vr.message.ReceivableMessageDecoder;
 import net.explorviz.extension.vr.message.ReceivableMessageHandler;
+import net.explorviz.extension.vr.message.ResponseMessage;
 import net.explorviz.extension.vr.message.SendableMessageEncoder;
+import net.explorviz.extension.vr.message.ForwardedMessage.ShouldForward;
 import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
 import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
-import net.explorviz.extension.vr.message.receivable.HightlightingUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.HighlightingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectGrabbedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectMovedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectReleasedMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
-import net.explorviz.extension.vr.message.sendable.ObjectGrabbedResponse;
+import net.explorviz.extension.vr.message.respondable.ObjectGrabbedResponse;
 import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage;
 import net.explorviz.extension.vr.message.sendable.UserConnectedMessage;
@@ -48,9 +49,9 @@ import net.explorviz.extension.vr.service.UserService;
 @ServerEndpoint(value = "/v2/vr", decoders = { ReceivableMessageDecoder.class }, encoders = {
         SendableMessageEncoder.class })
 @ApplicationScoped
-public class VRSocket implements ReceivableMessageHandler<ShouldForward, Session> {
+public class VrSocket implements ReceivableMessageHandler<ShouldForward, Session> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(VRSocket.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VrSocket.class);
 
     @Inject
     BroadcastService broadcastService;
@@ -124,7 +125,10 @@ public class VRSocket implements ReceivableMessageHandler<ShouldForward, Session
         // Try to grab object and respond whether the operation was successful.
         final var success = this.entityService.grabbObject(sessionRegistry.lookupId(senderSession),
                 message.getObjectId());
-        final var response = new ObjectGrabbedResponse(message.getNonce(), message.getObjectId(), success);
+        final var response = new ResponseMessage(
+            message.getNonce(),
+            new ObjectGrabbedResponse(message.getObjectId(), success)
+        );
         broadcastService.sendTo(response, senderSession);
         return ShouldForward.NO_FORWARD;
     }
@@ -159,7 +163,7 @@ public class VRSocket implements ReceivableMessageHandler<ShouldForward, Session
     }
 
     @Override
-    public ShouldForward handleHightlightingUpdateMessage(HightlightingUpdateMessage message, Session senderSession) {
+    public ShouldForward handleHightlightingUpdateMessage(HighlightingUpdateMessage message, Session senderSession) {
         this.userService.updateHighlighting(sessionRegistry.lookupId(senderSession), message.getAppID(),
                 message.getEntityID(), message.getEntityType(), message.getIsHighlighted());
         return ShouldForward.FORWARD;
