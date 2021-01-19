@@ -2,7 +2,6 @@ package net.explorviz.extension.vr.model;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.stream.Stream;
 
 public class UserModel extends BaseModel {
 
