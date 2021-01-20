@@ -4,6 +4,7 @@ import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
 import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.HightlightingUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.MenuDetachedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectGrabbedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectMovedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectReleasedMessage;
@@ -39,4 +40,6 @@ public interface ReceivableMessageHandler<R, A> {
     R handleUserPositionsMessage(UserPositionsMessage message, A arg);
 
     R handleObjectMovedMessage(ObjectMovedMessage message, A arg);
+
+    R handleMenuDetachedMessage(MenuDetachedMessage message, A arg);
 }

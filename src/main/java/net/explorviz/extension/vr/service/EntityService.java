@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import net.explorviz.extension.vr.model.ApplicationModel;
 import net.explorviz.extension.vr.model.BaseModel;
+import net.explorviz.extension.vr.model.DetachedMenuModel;
 import net.explorviz.extension.vr.model.GrabbableObject;
 import net.explorviz.extension.vr.model.LandscapeModel;
 
@@ -118,6 +119,15 @@ public class EntityService {
 
     public BaseModel getLandscape() {
         return this.landscape;
+    }
+
+    public String detachMenu(String detachId, String entityType, double[] position, double[] quaternion) {
+        var objectId = idGenerationService.nextId();
+        var menu = new DetachedMenuModel(detachId, entityType, objectId);
+        menu.setPosition(position);
+        menu.setQuaternion(quaternion);
+        grabbableObjects.put(objectId, menu);
+        return objectId;
     }
 
 }

@@ -25,12 +25,15 @@ import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
 import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.HightlightingUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.MenuDetachedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectGrabbedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectMovedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectReleasedMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
+import net.explorviz.extension.vr.message.sendable.MenuDetachedForwardMessage;
+import net.explorviz.extension.vr.message.sendable.MenuDetachedResponse;
 import net.explorviz.extension.vr.message.sendable.ObjectGrabbedResponse;
 import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage;
@@ -134,6 +137,18 @@ public class VRSocket implements ReceivableMessageHandler<ShouldForward, Session
         this.entityService.openApp(message.getId(), message.getPosition(), message.getQuaternion());
         return ShouldForward.FORWARD;
     }
+    
+    @Override
+    public ShouldForward handleMenuDetachedMessage(MenuDetachedMessage message, Session senderSession) {
+        final var objectId = entityService.detachMenu(message.getDetachId(), message.getEntityType(), message.getPosition(), 
+                message.getQuaternion());
+        final var response = new MenuDetachedResponse(message.getNonce(), objectId);
+        broadcastService.sendTo(response, senderSession);
+        final var forwardMessage = new MenuDetachedForwardMessage(objectId, message.getEntityType(), message.getDetachId(),
+                message.getPosition(), message.getQuaternion());
+        broadcastService.broadcastExcept(forwardMessage, senderSession);
+        return ShouldForward.NO_FORWARD;
+    }
 
     @Override
     public ShouldForward handleObjectReleasedMessage(ObjectReleasedMessage message, Session senderSession) {
@@ -235,4 +250,5 @@ public class VRSocket implements ReceivableMessageHandler<ShouldForward, Session
         final var message = sendLandscapeMessageFactory.makeMessage();
         broadcastService.sendToUser(message, userModel.getId());
     }
+
 }
