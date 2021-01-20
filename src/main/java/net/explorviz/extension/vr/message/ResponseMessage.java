@@ -5,7 +5,7 @@ public class ResponseMessage extends SendableMessage {
 
     private int nonce;
     private RespondableMessage response;
-    
+
     public ResponseMessage(int nonce, RespondableMessage response) {
         super(EVENT);
         this.nonce = nonce;

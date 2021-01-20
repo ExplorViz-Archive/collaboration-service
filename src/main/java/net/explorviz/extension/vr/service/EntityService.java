@@ -27,11 +27,10 @@ public class EntityService {
     private final Map<String, ApplicationModel> apps = new ConcurrentHashMap<>();
 
     private final Map<String, GrabbableObject> grabbableObjects = new ConcurrentHashMap<>();
-    
 
     @Inject
     IdGenerationService idGenerationService;
-    
+
     @Inject
     UserService userService;
 
@@ -83,7 +82,7 @@ public class EntityService {
 
     public void releaseObject(String userId, String objectId) {
         GrabbableObject object = grabbableObjects.get(objectId);
-        if (object != null) {
+        if (object != null && object.isGrabbedByUser().equals(userId)) {
             object.setGrabbed(false);
             object.setGrabbedByUser(null);
             userService.userReleasedObject(userId, objectId);

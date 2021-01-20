@@ -5,7 +5,7 @@ import net.explorviz.extension.vr.message.ReceivableMessageHandler;
 
 public class ObjectMovedMessage extends ReceivableMessage {
 
-    public static final String EVENT = "object_translated";
+    public static final String EVENT = "object_moved";
 
     private String objectId;
     private double[] position;

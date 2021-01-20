@@ -6,10 +6,10 @@ package net.explorviz.extension.vr.model;
  * The landscape only contains positional information.
  */
 public class LandscapeModel extends BaseModel implements GrabbableObject {
-    
+
     private boolean isGrabbed = false;
     private String grabbedByUser;
-    
+
     public LandscapeModel(String id) {
         super(id);
     }

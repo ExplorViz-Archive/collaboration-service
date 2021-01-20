@@ -5,20 +5,14 @@ import net.explorviz.extension.vr.message.RespondableMessage;
 public class ObjectGrabbedResponse extends RespondableMessage {
     private static final String EVENT = "object_grabbed";
 
-    private final String id;
-    private final boolean success;
+    private final boolean isSuccess;
 
-    public ObjectGrabbedResponse(String id, boolean success) {
+    public ObjectGrabbedResponse(boolean isSuccess) {
         super(EVENT);
-        this.id = id;
-        this.success = success;
-    }
-    
-    public String getId() {
-        return id;
+        this.isSuccess = isSuccess;
     }
 
     public boolean getIsSuccess() {
-        return success;
+        return isSuccess;
     }
 }

@@ -124,7 +124,7 @@ public class ReceivableMessageDecoderTest {
     }
 
     @Test
-    public void testAppReleasedMessage() throws DecodeException, IOException {
+    public void testObjectReleasedMessage() throws DecodeException, IOException {
         final var json = "{ \"event\": \"object_released\", \"objectId\": \"foo\" }";
         final var actual = decoder.decodeMessage(json);
         final var expected = new ObjectReleasedMessage();
@@ -133,8 +133,8 @@ public class ReceivableMessageDecoderTest {
     }
 
     @Test
-    public void testAppTranslatedMessage() throws DecodeException, IOException {
-        final var json = "{ \"event\": \"object_moved\", \"objectId\": \"foo\", \\\"position\\\": [1.0, 2.0, 3.0], \\\"quaternion\\\": [1.0, 2.0, 3.0, 4.0] }";
+    public void testObjectMovedMessage() throws DecodeException, IOException {
+        final var json = "{ \"event\": \"object_moved\", \"objectId\": \"foo\", \"position\": [1.0, 2.0, 3.0], \"quaternion\": [1.0, 2.0, 3.0, 4.0] }";
         final var actual = decoder.decodeMessage(json);
         final var expected = new ObjectMovedMessage();
         expected.setObjectId("foo");

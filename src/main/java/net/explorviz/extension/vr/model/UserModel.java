@@ -19,7 +19,8 @@ public class UserModel extends BaseModel {
         CONNECTING, CONNECTED, SPECTATING
     };
 
-    public UserModel(String id, String userName, ControllerModel controller1, ControllerModel controller2, Color color) {
+    public UserModel(String id, String userName, ControllerModel controller1, ControllerModel controller2,
+            Color color) {
         super(id);
         this.userName = userName;
         this.controller1 = controller1;
@@ -76,17 +77,17 @@ public class UserModel extends BaseModel {
     public HighlightingModel getHighlightedEntity() {
         return this.highlightedEntity;
     }
-    
+
     public String[] getGrabbedObjects() {
-        return (String[]) grabbedObjects.toArray();
+        return grabbedObjects.toArray(n -> new String[n]);
     }
-    
+
     public void addGrabbedObject(String objectId) {
         grabbedObjects.add(objectId);
     }
-    
+
     public void removeGrabbedObject(String objectId) {
         grabbedObjects.remove(objectId);
     }
-    
+
 }

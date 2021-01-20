@@ -16,12 +16,12 @@ import org.slf4j.LoggerFactory;
 import net.explorviz.extension.vr.event.UserConnectedEvent;
 import net.explorviz.extension.vr.event.UserDisconnectedEvent;
 import net.explorviz.extension.vr.message.ForwardedMessage;
+import net.explorviz.extension.vr.message.ForwardedMessage.ShouldForward;
 import net.explorviz.extension.vr.message.ReceivableMessage;
 import net.explorviz.extension.vr.message.ReceivableMessageDecoder;
 import net.explorviz.extension.vr.message.ReceivableMessageHandler;
 import net.explorviz.extension.vr.message.ResponseMessage;
 import net.explorviz.extension.vr.message.SendableMessageEncoder;
-import net.explorviz.extension.vr.message.ForwardedMessage.ShouldForward;
 import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
 import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
@@ -125,10 +125,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Session
         // Try to grab object and respond whether the operation was successful.
         final var success = this.entityService.grabbObject(sessionRegistry.lookupId(senderSession),
                 message.getObjectId());
-        final var response = new ResponseMessage(
-            message.getNonce(),
-            new ObjectGrabbedResponse(message.getObjectId(), success)
-        );
+        final var response = new ResponseMessage(message.getNonce(), new ObjectGrabbedResponse(success));
         broadcastService.sendTo(response, senderSession);
         return ShouldForward.NO_FORWARD;
     }

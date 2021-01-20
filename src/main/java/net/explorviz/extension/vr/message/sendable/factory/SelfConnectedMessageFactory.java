@@ -32,12 +32,12 @@ public class SelfConnectedMessageFactory {
                 otherUser.setId(otherModel.getId());
                 otherUser.setName(otherModel.getUserName());
                 otherUser.setColor(otherModel.getColor());
-    
+
                 final var otherControllers = new SelfConnectedMessage.Controllers();
                 otherControllers.setController1(otherModel.getController1().getName());
                 otherControllers.setController1(otherModel.getController1().getName());
                 otherUser.setControllers(otherControllers);
-    
+
                 otherUserList.add(otherUser);
             }
         }

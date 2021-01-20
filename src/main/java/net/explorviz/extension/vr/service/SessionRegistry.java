@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 @ApplicationScoped
 public class SessionRegistry {
     private static final Logger LOGGER = LoggerFactory.getLogger(SessionRegistry.class);
-    
+
     /**
      * Maps user names to the corresponding websocket sessions.
      */
