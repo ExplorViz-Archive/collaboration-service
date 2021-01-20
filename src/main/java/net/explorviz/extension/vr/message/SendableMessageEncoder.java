@@ -46,7 +46,7 @@ public class SendableMessageEncoder implements Encoder.TextStream<SendableMessag
     }
 
     /**
-     * Encodes the given single {@link VRMessage}.
+     * Encodes the given single {@link VrMessage}.
      * 
      * This method is intended for testing purposes only.
      * 

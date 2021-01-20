@@ -5,7 +5,7 @@ import net.explorviz.extension.vr.message.ReceivableMessageHandler;
 
 public class ObjectReleasedMessage extends ReceivableMessage {
 
-    public static final String EVENT = "app_released";
+    public static final String EVENT = "object_released";
 
     private String objectId;
 

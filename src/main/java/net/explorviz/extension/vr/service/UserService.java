@@ -29,10 +29,9 @@ public class UserService {
 
     @Inject
     Event<UserDisconnectedEvent> userDisconnectedEvent;
-    
+
     @Inject
     EntityService entityService;
-    
 
     private final Map<String, UserModel> users = new ConcurrentHashMap<>();
 
@@ -115,12 +114,11 @@ public class UserService {
             releaseAllGrabbedObjects(userModel);
         }
     }
-    
 
     public Collection<UserModel> getUsers() {
         return this.users.values();
     }
-    
+
     private void releaseAllGrabbedObjects(UserModel userModel) {
         for (String objectId : userModel.getGrabbedObjects()) {
             entityService.releaseObject(userModel.getId(), objectId);

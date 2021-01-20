@@ -30,7 +30,7 @@ import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage.Controllers;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
-import net.explorviz.extension.vr.message.sendable.ObjectGrabbedResponse;
+import net.explorviz.extension.vr.message.respondable.ObjectGrabbedResponse;
 import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage;
 import net.explorviz.extension.vr.message.sendable.UserConnectedMessage;
@@ -88,9 +88,9 @@ public class SendableMessageEncoderTest {
 
     @Test
     public void testObjectGrabbedResponse() throws EncodeException, IOException {
-        final var message = new ObjectGrabbedResponse(1, "foo", true);
+        final var message = new ResponseMessage(1, new ObjectGrabbedResponse(true));
         final var actual = encoder.encodeMessage(message);
-        final var expected = "{ \"event\": \"object_grabbed\", \"nonce\": 1, \"objectId\": \"foo\", success = \"true\"}";
+        final var expected = "{ \"event\": \"response\", \"nonce\": 1, \"response\": { \"event\": \"object_grabbed\", \"isSuccess\": true}}";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
@@ -107,17 +107,17 @@ public class SendableMessageEncoderTest {
     }
 
     @Test
-    public void testForwardedAppReleasedMessage() throws EncodeException, IOException {
+    public void testForwardedObjectReleasedMessage() throws EncodeException, IOException {
         final var message = new ObjectReleasedMessage();
         message.setObjectId("foo");
         final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
-        final var expected ="{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
-                +  "{ \"event\": \"object_released\", \"objectId\": \"foo\"}}";
+        final var expected = "{ \"event\": \"forward\", \"userID\": \"alice\", \"originalMessage\": "
+                + "{ \"event\": \"object_released\", \"objectId\": \"foo\"}}";
         assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
     }
 
     @Test
-    public void testForwardedAppTranslatedMessage() throws EncodeException, IOException {
+    public void testForwardedObjectMovedMessage() throws EncodeException, IOException {
         final var message = new ObjectMovedMessage();
         message.setObjectId("foo");
         message.setPosition(new double[] { 1.0, 2.0, 3.0 });

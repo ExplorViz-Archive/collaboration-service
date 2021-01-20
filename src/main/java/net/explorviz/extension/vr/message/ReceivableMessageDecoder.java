@@ -49,7 +49,7 @@ public class ReceivableMessageDecoder implements Decoder.TextStream<ReceivableMe
     }
 
     /**
-     * Decodes the given JSON string as a single {@link VRMessage}.
+     * Decodes the given JSON string as a single {@link VrMessage}.
      * 
      * This method is intended for testing purposes only.
      * 
@@ -60,7 +60,7 @@ public class ReceivableMessageDecoder implements Decoder.TextStream<ReceivableMe
      *                         {@link JsonParseException} and
      *                         {@link JsonMappingException}.
      */
-    public VRMessage decodeMessage(String json) throws DecodeException, IOException {
+    public VrMessage decodeMessage(String json) throws DecodeException, IOException {
         Reader reader = new StringReader(json);
         return decode(reader);
     }

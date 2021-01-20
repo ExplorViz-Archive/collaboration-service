@@ -3,16 +3,16 @@ package net.explorviz.extension.vr.message.receivable;
 import net.explorviz.extension.vr.message.ReceivableMessage;
 import net.explorviz.extension.vr.message.ReceivableMessageHandler;
 
-public class HightlightingUpdateMessage extends ReceivableMessage {
+public class HighlightingUpdateMessage extends ReceivableMessage {
 
-    public static final String EVENT = "hightlighting_update";
+    public static final String EVENT = "highlighting_update";
 
     private String appID;
     private String entityType;
     private String entityID;
     private boolean isHighlighted;
 
-    public HightlightingUpdateMessage() {
+    public HighlightingUpdateMessage() {
         super(EVENT);
     }
 
@@ -50,6 +50,6 @@ public class HightlightingUpdateMessage extends ReceivableMessage {
 
     @Override
     public <R, A> R handleWith(ReceivableMessageHandler<R, A> handler, A arg) {
-        return handler.handleHightlightingUpdateMessage(this, arg);
+        return handler.handleHighlightingUpdateMessage(this, arg);
     }
 }

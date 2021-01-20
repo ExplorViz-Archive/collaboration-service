@@ -55,8 +55,8 @@ public class SendLandscapeMessageFactory {
                 }
             }
 
-            appObj.setOpenComponents((String[]) componentArray.toArray());
-            appObj.setHighlightedComponents((HighlightingObject[]) componentHighlightedArray.toArray());
+            appObj.setOpenComponents(componentArray.toArray(n -> new String[n]));
+            appObj.setHighlightedComponents(componentHighlightedArray.toArray(n -> new HighlightingObject[n]));
             appArray.add(appObj);
 
         }
@@ -69,7 +69,7 @@ public class SendLandscapeMessageFactory {
         landscapeObj.setQuaternion(landscape.getQuaternion());
 
         SendLandscapeMessage message = new SendLandscapeMessage();
-        message.setOpenApps((App[]) appArray.toArray());
+        message.setOpenApps(appArray.toArray(n -> new App[n]));
         message.setLandscape(landscapeObj);
 
         return message;

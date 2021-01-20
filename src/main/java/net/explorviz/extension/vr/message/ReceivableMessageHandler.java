@@ -3,7 +3,7 @@ package net.explorviz.extension.vr.message;
 import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
 import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
-import net.explorviz.extension.vr.message.receivable.HightlightingUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.HighlightingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.MenuDetachedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectGrabbedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectMovedMessage;
@@ -13,7 +13,7 @@ import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
 
 /**
- * Interface for classes that can handle {@link VRMessage}s.
+ * Interface for classes that can handle {@link VrMessage}s.
  * 
  * Provides a double dispatch mechanism (visitor pattern) for messages.
  *
@@ -31,7 +31,7 @@ public interface ReceivableMessageHandler<R, A> {
 
     R handleComponentUpdateMessage(ComponentUpdateMessage message, A arg);
 
-    R handleHightlightingUpdateMessage(HightlightingUpdateMessage message, A arg);
+    R handleHighlightingUpdateMessage(HighlightingUpdateMessage message, A arg);
 
     R handleSpectatingUpdateMessage(SpectatingUpdateMessage message, A arg);
 

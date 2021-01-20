@@ -1,14 +1,14 @@
 package net.explorviz.extension.vr.message.sendable;
 
-import net.explorviz.extension.vr.message.ResponseMessage;
+import net.explorviz.extension.vr.message.RespondableMessage;
 
-public class MenuDetachedResponse extends ResponseMessage {
+public class MenuDetachedResponse extends RespondableMessage {
     private static final String EVENT = "menu_detached";
 
     private final String objectId;
 
-    public MenuDetachedResponse(int nonce, String objectId) {
-        super(EVENT, nonce);
+    public MenuDetachedResponse(String objectId) {
+        super(EVENT);
         this.objectId = objectId;
     }
     
