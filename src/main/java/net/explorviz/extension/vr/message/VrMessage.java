@@ -9,6 +9,7 @@ import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
 import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.HighlightingUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.MenuDetachedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectGrabbedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectMovedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectReleasedMessage;
@@ -32,6 +33,7 @@ import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
         @Type(value = ObjectMovedMessage.class, name = ObjectMovedMessage.EVENT),
         @Type(value = ComponentUpdateMessage.class, name = ComponentUpdateMessage.EVENT),
         @Type(value = HighlightingUpdateMessage.class, name = HighlightingUpdateMessage.EVENT),
+        @Type(value = MenuDetachedMessage.class, name = MenuDetachedMessage.EVENT),
         @Type(value = SpectatingUpdateMessage.class, name = SpectatingUpdateMessage.EVENT),
         @Type(value = UserControllersMessage.class, name = UserControllersMessage.EVENT),
         @Type(value = UserPositionsMessage.class, name = UserPositionsMessage.EVENT) })
