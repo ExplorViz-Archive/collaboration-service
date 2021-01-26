@@ -83,7 +83,7 @@ public class EntityService {
 
     public void releaseObject(String userId, String objectId) {
         GrabbableObject object = grabbableObjects.get(objectId);
-        if (object != null && object.isGrabbedByUser().equals(userId)) {
+        if (object != null && userId.equals(object.isGrabbedByUser())) {
             object.setGrabbed(false);
             object.setGrabbedByUser(null);
             userService.userReleasedObject(userId, objectId);
@@ -92,7 +92,7 @@ public class EntityService {
 
     public boolean moveObject(String userId, String objectId, double[] position, double[] quaternion) {
         GrabbableObject object = grabbableObjects.get(objectId);
-        if (object == null || userId != object.isGrabbedByUser()) {
+        if (object == null || userId.equals(object.isGrabbedByUser())) {
             return false;
         }
         object.setPosition(position);
