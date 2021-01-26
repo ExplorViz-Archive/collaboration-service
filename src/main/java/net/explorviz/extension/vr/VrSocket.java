@@ -138,15 +138,15 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Session
         this.entityService.openApp(message.getId(), message.getPosition(), message.getQuaternion());
         return ShouldForward.FORWARD;
     }
-    
+
     @Override
     public ShouldForward handleMenuDetachedMessage(MenuDetachedMessage message, Session senderSession) {
-        final var objectId = entityService.detachMenu(message.getDetachId(), message.getEntityType(), message.getPosition(), 
-                message.getQuaternion());
+        final var objectId = entityService.detachMenu(message.getDetachId(), message.getEntityType(),
+                message.getPosition(), message.getQuaternion());
         final var response = new ResponseMessage(message.getNonce(), new MenuDetachedResponse(objectId));
         broadcastService.sendTo(response, senderSession);
-        final var forwardMessage = new MenuDetachedForwardMessage(objectId, message.getEntityType(), message.getDetachId(),
-                message.getPosition(), message.getQuaternion());
+        final var forwardMessage = new MenuDetachedForwardMessage(objectId, message.getEntityType(),
+                message.getDetachId(), message.getPosition(), message.getQuaternion());
         broadcastService.broadcastExcept(forwardMessage, senderSession);
         return ShouldForward.NO_FORWARD;
     }
@@ -159,9 +159,10 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Session
 
     @Override
     public ShouldForward handleObjectMovedMessage(ObjectMovedMessage message, Session senderSession) {
-        final var forward = (this.entityService.moveObject(sessionRegistry.lookupId(senderSession),
-                message.getObjectId(), message.getPosition(), message.getQuaternion()));
-        if (forward) {
+        final var userId = sessionRegistry.lookupId(senderSession);
+        final var allowedToMove = entityService.moveObject(userId, message.getObjectId(), message.getPosition(),
+                message.getQuaternion());
+        if (allowedToMove) {
             return ShouldForward.FORWARD;
         }
         return ShouldForward.NO_FORWARD;
