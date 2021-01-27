@@ -41,6 +41,7 @@ public class EntityService {
     public void init() {
         landscape = new LandscapeModel(idGenerationService.nextId());
         landscape.setQuaternion(- Math.sqrt(0.5), 0, 0, Math.sqrt(0.5));
+        landscape.setScale(new double[] {0.1, 0.1, 0.1});
         grabbableObjects.put(landscape.getId(), landscape);
     }
 
