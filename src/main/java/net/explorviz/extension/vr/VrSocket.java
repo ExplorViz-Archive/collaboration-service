@@ -25,6 +25,7 @@ import net.explorviz.extension.vr.message.SendableMessageEncoder;
 import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
 import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.DetachedMenuClosedMessage;
 import net.explorviz.extension.vr.message.receivable.HighlightingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.MenuDetachedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectGrabbedMessage;
@@ -122,6 +123,13 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Session
         this.entityService.closeApp(message.getAppID());
         return ShouldForward.FORWARD;
     }
+    
+    @Override
+    public ShouldForward handleDetachedMenuClosedMessage(DetachedMenuClosedMessage message, Session arg) {
+        this.entityService.closeDetachedMenu(message.getMenuId());
+        return ShouldForward.FORWARD;
+    }
+
 
     @Override
     public ShouldForward handleObjectGrabbedMessage(ObjectGrabbedMessage message, Session senderSession) {

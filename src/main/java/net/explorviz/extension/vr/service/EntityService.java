@@ -26,6 +26,8 @@ public class EntityService {
      * Maps applicationID to the application model.
      */
     private final Map<String, ApplicationModel> apps = new ConcurrentHashMap<>();
+    
+    private final Map<String, DetachedMenuModel> detachedMenus = new ConcurrentHashMap<>();
 
     private final Map<String, GrabbableObject> grabbableObjects = new ConcurrentHashMap<>();
 
@@ -125,8 +127,15 @@ public class EntityService {
         var menu = new DetachedMenuModel(detachId, entityType, objectId);
         menu.setPosition(position);
         menu.setQuaternion(quaternion);
+        detachedMenus.put(objectId, menu);
         grabbableObjects.put(objectId, menu);
         return objectId;
+    }
+
+    public void closeDetachedMenu(String menuId) {
+        detachedMenus.remove(menuId);
+        grabbableObjects.remove(menuId);
+        
     }
 
 }
