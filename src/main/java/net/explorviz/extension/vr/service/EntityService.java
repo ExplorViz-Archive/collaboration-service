@@ -69,11 +69,13 @@ public class EntityService {
     }
 
     public boolean closeApp(String appId) {
-        if (grabbableObjects.containsKey(appId))
-            return false;
-        apps.remove(appId);
-        grabbableObjects.remove(appId);
-        return true;
+        var app = apps.get(appId);
+        if (app != null && !app.isGrabbed()) {
+            apps.remove(appId);
+            grabbableObjects.remove(appId);
+            return true;
+        }
+        return false;
     }
 
     public boolean grabbObject(String userId, String objectId) {
@@ -140,12 +142,13 @@ public class EntityService {
     }
 
     public boolean closeDetachedMenu(String menuId) {
-        if (grabbableObjects.containsKey(menuId))
-            return false;
-        detachedMenus.remove(menuId);
-        grabbableObjects.remove(menuId);
-        return true;
-
+        var menu = detachedMenus.get(menuId);
+        if (menu != null && !menu.isGrabbed()) {
+            detachedMenus.remove(menuId);
+            grabbableObjects.remove(menuId);
+            return true;
+        }
+        return false;
     }
 
 }
