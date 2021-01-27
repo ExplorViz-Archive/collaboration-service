@@ -40,6 +40,7 @@ public class EntityService {
     @PostConstruct
     public void init() {
         landscape = new LandscapeModel(idGenerationService.nextId());
+        landscape.setQuaternion(- Math.sqrt(0.5), 0, 0, Math.sqrt(0.5));
         grabbableObjects.put(landscape.getId(), landscape);
     }
 
