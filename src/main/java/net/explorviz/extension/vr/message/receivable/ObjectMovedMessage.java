@@ -10,6 +10,7 @@ public class ObjectMovedMessage extends ReceivableMessage {
     private String objectId;
     private double[] position;
     private double[] quaternion;
+    private double[] scale;
 
     public ObjectMovedMessage() {
         super(EVENT);
@@ -37,6 +38,14 @@ public class ObjectMovedMessage extends ReceivableMessage {
 
     public void setQuaternion(double[] quaternion) {
         this.quaternion = quaternion;
+    }
+
+    public double[] getScale() {
+        return scale;
+    }
+
+    public void setScale(double[] scale) {
+        this.scale = scale;
     }
 
     @Override

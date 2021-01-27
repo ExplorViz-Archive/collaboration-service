@@ -10,6 +10,7 @@ public class SendLandscapeMessage extends SendableMessage {
         private String id;
         private double[] position;
         private double[] quaternion;
+        private double[] scale;
 
         public String getId() {
             return id;
@@ -35,6 +36,13 @@ public class SendLandscapeMessage extends SendableMessage {
             this.quaternion = quaternion;
         }
 
+        public double[] getScale() {
+            return scale;
+        }
+
+        public void setScale(double[] scale) {
+            this.scale = scale;
+        }
     }
     
     public static class DetachedMenu {
@@ -43,6 +51,7 @@ public class SendLandscapeMessage extends SendableMessage {
         private String entityType;
         private double[] position;
         private double[] quaternion;
+        private double[] scale;
         
         public String getObjectId() {
             return objectId;
@@ -74,6 +83,12 @@ public class SendLandscapeMessage extends SendableMessage {
         }
         public void setQuaternion(double[] quaternion) {
             this.quaternion = quaternion;
+        }
+        public double[] getScale() {
+            return scale;
+        }
+        public void setScale(double[] scale) {
+            this.scale = scale;
         }
         
         
@@ -134,6 +149,7 @@ public class SendLandscapeMessage extends SendableMessage {
         private double[] quaternion;
         private String[] openComponents;
         private HighlightingObject[] highlightedComponents;
+        private double[] scale;
 
         public HighlightingObject[] getHighlightedComponents() {
             return highlightedComponents;
@@ -173,6 +189,14 @@ public class SendLandscapeMessage extends SendableMessage {
 
         public void setOpenComponents(String[] openComponents) {
             this.openComponents = openComponents;
+        }
+
+        public double[] getScale() {
+            return scale;
+        }
+
+        public void setScale(double[] scale) {
+            this.scale = scale;
         }
 
     }

@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 public class ApplicationModel extends BaseModel implements GrabbableObject {
 
-    boolean isOpen;
-    boolean isGrabbed;
-    String grabbedByUser;
-
+    private boolean isOpen;
+    private boolean isGrabbed;
+    private String grabbedByUser;
+    private double[] scale;
+    
+    
     private final ArrayList<String> openComponents;
 
     public ApplicationModel(String id) {
@@ -54,6 +56,16 @@ public class ApplicationModel extends BaseModel implements GrabbableObject {
     @Override
     public String isGrabbedByUser() {
         return grabbedByUser;
+    }
+
+    @Override
+    public double[] getScale() {
+        return scale;
+    }
+
+    @Override
+    public void setScale(double[] scale) {
+        this.scale = scale;
     }
 
 }

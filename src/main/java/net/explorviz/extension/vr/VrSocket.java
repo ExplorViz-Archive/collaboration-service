@@ -148,18 +148,18 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Session
 
     @Override
     public ShouldForward handleAppOpenedMessage(AppOpenedMessage message, Session senderSession) {
-        this.entityService.openApp(message.getId(), message.getPosition(), message.getQuaternion());
+        this.entityService.openApp(message.getId(), message.getPosition(), message.getQuaternion(), message.getScale());
         return ShouldForward.FORWARD;
     }
 
     @Override
     public ShouldForward handleMenuDetachedMessage(MenuDetachedMessage message, Session senderSession) {
         final var objectId = entityService.detachMenu(message.getDetachId(), message.getEntityType(),
-                message.getPosition(), message.getQuaternion());
+                message.getPosition(), message.getQuaternion(), message.getScale());
         final var response = new ResponseMessage(message.getNonce(), new MenuDetachedResponse(objectId));
         broadcastService.sendTo(response, senderSession);
         final var forwardMessage = new MenuDetachedForwardMessage(objectId, message.getEntityType(),
-                message.getDetachId(), message.getPosition(), message.getQuaternion());
+                message.getDetachId(), message.getPosition(), message.getQuaternion(), message.getScale());
         broadcastService.broadcastExcept(forwardMessage, senderSession);
         return ShouldForward.NO_FORWARD;
     }
@@ -174,7 +174,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Session
     public ShouldForward handleObjectMovedMessage(ObjectMovedMessage message, Session senderSession) {
         final var userId = sessionRegistry.lookupId(senderSession);
         final var allowedToMove = entityService.moveObject(userId, message.getObjectId(), message.getPosition(),
-                message.getQuaternion());
+                message.getQuaternion(), message.getScale());
         if (allowedToMove) {
             return ShouldForward.FORWARD;
         }

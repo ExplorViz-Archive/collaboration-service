@@ -6,6 +6,7 @@ public class DetachedMenuModel extends BaseModel implements GrabbableObject {
     private String detachId;
     private boolean isGrabbed;
     private String grabbedByUser;
+    private double[] scale;
     
     public DetachedMenuModel(String detachId, String entityType, String id) {
         super(id);
@@ -46,5 +47,15 @@ public class DetachedMenuModel extends BaseModel implements GrabbableObject {
     @Override
     public String isGrabbedByUser() {
         return grabbedByUser;
+    }
+
+    @Override
+    public double[] getScale() {
+        return scale;
+    }
+
+    @Override
+    public void setScale(double[] scale) {
+        this.scale = scale;
     }
 }

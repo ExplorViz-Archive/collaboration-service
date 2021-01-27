@@ -11,6 +11,7 @@ public class MenuDetachedMessage extends RequestMessage {
     private String entityType;
     private double[] position;
     private double[] quaternion;
+    private double[] scale;
     
     public MenuDetachedMessage() {
         super(EVENT);
@@ -47,6 +48,12 @@ public class MenuDetachedMessage extends RequestMessage {
         this.quaternion = quaternion;
     }
 
+    public double[] getScale() {
+        return scale;
+    }
+    public void setScale(double[] scale) {
+        this.scale = scale;
+    }
     @Override
     public <R, A> R handleWith(ReceivableMessageHandler<R, A> handler, A arg) {
         return handler.handleMenuDetachedMessage(this, arg);

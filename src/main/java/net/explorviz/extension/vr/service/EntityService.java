@@ -62,11 +62,12 @@ public class EntityService {
         return appModel;
     }
 
-    public void openApp(String appId, double[] position, double[] quaternion) {
+    public void openApp(String appId, double[] position, double[] quaternion, double[] scale) {
         ApplicationModel appModel = getOrCreateApp(appId);
         appModel.setOpen(true);
         appModel.setPosition(position);
         appModel.setQuaternion(quaternion);
+        appModel.setScale(scale);
     }
 
     public boolean closeApp(String appId) {
@@ -98,7 +99,7 @@ public class EntityService {
         }
     }
 
-    public boolean moveObject(String userId, String objectId, double[] position, double[] quaternion) {
+    public boolean moveObject(String userId, String objectId, double[] position, double[] quaternion, double[] scale) {
         GrabbableObject object = grabbableObjects.get(objectId);
         if (object == null || !userId.equals(object.isGrabbedByUser())) {
             return false;
@@ -128,15 +129,16 @@ public class EntityService {
         return detachedMenus.values();
     }
 
-    public BaseModel getLandscape() {
+    public LandscapeModel getLandscape() {
         return this.landscape;
     }
 
-    public String detachMenu(String detachId, String entityType, double[] position, double[] quaternion) {
+    public String detachMenu(String detachId, String entityType, double[] position, double[] quaternion, double[] scale) {
         var objectId = idGenerationService.nextId();
         var menu = new DetachedMenuModel(detachId, entityType, objectId);
         menu.setPosition(position);
         menu.setQuaternion(quaternion);
+        menu.setScale(scale);
         detachedMenus.put(objectId, menu);
         grabbableObjects.put(objectId, menu);
         return objectId;

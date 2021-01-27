@@ -9,6 +9,7 @@ public class LandscapeModel extends BaseModel implements GrabbableObject {
 
     private boolean isGrabbed = false;
     private String grabbedByUser;
+    private double[] scale;
 
     public LandscapeModel(String id) {
         super(id);
@@ -32,5 +33,15 @@ public class LandscapeModel extends BaseModel implements GrabbableObject {
     @Override
     public String isGrabbedByUser() {
         return grabbedByUser;
+    }
+
+    @Override
+    public double[] getScale() {
+        return scale;
+    }
+
+    @Override
+    public void setScale(double[] scale) {
+        this.scale = scale;
     }
 }
