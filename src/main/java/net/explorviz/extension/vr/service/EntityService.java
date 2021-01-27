@@ -26,7 +26,7 @@ public class EntityService {
      * Maps applicationID to the application model.
      */
     private final Map<String, ApplicationModel> apps = new ConcurrentHashMap<>();
-    
+
     private final Map<String, DetachedMenuModel> detachedMenus = new ConcurrentHashMap<>();
 
     private final Map<String, GrabbableObject> grabbableObjects = new ConcurrentHashMap<>();
@@ -68,9 +68,12 @@ public class EntityService {
         appModel.setQuaternion(quaternion);
     }
 
-    public void closeApp(String appId) {
+    public boolean closeApp(String appId) {
+        if (grabbableObjects.containsKey(appId))
+            return false;
         apps.remove(appId);
         grabbableObjects.remove(appId);
+        return true;
     }
 
     public boolean grabbObject(String userId, String objectId) {
@@ -117,7 +120,7 @@ public class EntityService {
     public Collection<ApplicationModel> getApps() {
         return apps.values();
     }
-    
+
     public Collection<DetachedMenuModel> getDetachedMenus() {
         return detachedMenus.values();
     }
@@ -136,10 +139,13 @@ public class EntityService {
         return objectId;
     }
 
-    public void closeDetachedMenu(String menuId) {
+    public boolean closeDetachedMenu(String menuId) {
+        if (grabbableObjects.containsKey(menuId))
+            return false;
         detachedMenus.remove(menuId);
         grabbableObjects.remove(menuId);
-        
+        return true;
+
     }
 
 }

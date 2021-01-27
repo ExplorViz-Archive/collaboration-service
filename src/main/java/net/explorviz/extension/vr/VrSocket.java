@@ -34,6 +34,7 @@ import net.explorviz.extension.vr.message.receivable.ObjectReleasedMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
+import net.explorviz.extension.vr.message.respondable.ObjectClosedResponse;
 import net.explorviz.extension.vr.message.respondable.ObjectGrabbedResponse;
 import net.explorviz.extension.vr.message.sendable.MenuDetachedForwardMessage;
 import net.explorviz.extension.vr.message.sendable.MenuDetachedResponse;
@@ -120,13 +121,17 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Session
 
     @Override
     public ShouldForward handleAppClosedMessage(AppClosedMessage message, Session senderSession) {
-        this.entityService.closeApp(message.getAppID());
+        final var success = entityService.closeApp(message.getAppID());
+        final var response = new ResponseMessage(message.getNonce(), new ObjectClosedResponse(success));
+        broadcastService.sendTo(response, senderSession);
         return ShouldForward.FORWARD;
     }
     
     @Override
-    public ShouldForward handleDetachedMenuClosedMessage(DetachedMenuClosedMessage message, Session arg) {
-        this.entityService.closeDetachedMenu(message.getMenuId());
+    public ShouldForward handleDetachedMenuClosedMessage(DetachedMenuClosedMessage message, Session senderSession) {
+        final var success = entityService.closeDetachedMenu(message.getMenuId());
+        final var response = new ResponseMessage(message.getNonce(), new ObjectClosedResponse(success));
+        broadcastService.sendTo(response, senderSession);
         return ShouldForward.FORWARD;
     }
 
