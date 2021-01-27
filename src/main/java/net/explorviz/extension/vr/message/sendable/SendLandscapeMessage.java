@@ -36,6 +36,48 @@ public class SendLandscapeMessage extends SendableMessage {
         }
 
     }
+    
+    public static class DetachedMenu {
+        private String objectId;
+        private String entityId;
+        private String entityType;
+        private double[] position;
+        private double[] quaternion;
+        
+        public String getObjectId() {
+            return objectId;
+        }
+        public void setObjectId(String objectId) {
+            this.objectId = objectId;
+        }
+        
+        public String getEntityType() {
+            return entityType;
+        }
+        public void setEntityType(String entityType) {
+            this.entityType = entityType;
+        }
+        public String getEntityId() {
+            return entityId;
+        }
+        public void setEntityId(String entityId) {
+            this.entityId = entityId;
+        }
+        public double[] getPosition() {
+            return position;
+        }
+        public void setPosition(double[] position) {
+            this.position = position;
+        }
+        public double[] getQuaternion() {
+            return quaternion;
+        }
+        public void setQuaternion(double[] quaternion) {
+            this.quaternion = quaternion;
+        }
+        
+        
+    }
 
     public static class HighlightingObject {
         private String userID;
@@ -137,9 +179,18 @@ public class SendLandscapeMessage extends SendableMessage {
 
     private App[] openApps;
     private Landscape landscape;
+    private DetachedMenu[] detachedMenus;
 
     public SendLandscapeMessage() {
         super(EVENT);
+    }
+    
+    public DetachedMenu[] getDetachedMenus() {
+        return detachedMenus;
+    }
+
+    public void setDetachedMenus(DetachedMenu[] detachedMenus) {
+        this.detachedMenus = detachedMenus;
     }
 
     public App[] getOpenApps() {

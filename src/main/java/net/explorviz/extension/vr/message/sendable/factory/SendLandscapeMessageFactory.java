@@ -7,10 +7,12 @@ import javax.inject.Inject;
 
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage;
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage.App;
+import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage.DetachedMenu;
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage.HighlightingObject;
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage.Landscape;
 import net.explorviz.extension.vr.model.ApplicationModel;
 import net.explorviz.extension.vr.model.BaseModel;
+import net.explorviz.extension.vr.model.DetachedMenuModel;
 import net.explorviz.extension.vr.model.HighlightingModel;
 import net.explorviz.extension.vr.model.UserModel;
 import net.explorviz.extension.vr.service.EntityService;
@@ -67,11 +69,23 @@ public class SendLandscapeMessageFactory {
         landscapeObj.setId(landscape.getId());
         landscapeObj.setPosition(landscape.getPosition());
         landscapeObj.setQuaternion(landscape.getQuaternion());
+        
+        // detached menus
+        ArrayList<DetachedMenu> detachedMenusArray = new ArrayList<>();
+        for (final DetachedMenuModel menu : entityService.getDetachedMenus()) {
+            DetachedMenu menuObj = new DetachedMenu();
+            menuObj.setObjectId(menu.getId());
+            menuObj.setEntityId(menu.getDetachId());
+            menuObj.setPosition(menu.getPosition());
+            menuObj.setQuaternion(menu.getQuaternion());
+            menuObj.setEntityType(menu.getEntityType());
+            detachedMenusArray.add(menuObj);
+        }
 
         SendLandscapeMessage message = new SendLandscapeMessage();
         message.setOpenApps(appArray.toArray(n -> new App[n]));
         message.setLandscape(landscapeObj);
-
+        message.setDetachedMenus(detachedMenusArray.toArray(n -> new DetachedMenu[n]));
         return message;
     }
 

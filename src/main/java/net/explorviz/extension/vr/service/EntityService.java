@@ -115,7 +115,11 @@ public class EntityService {
     }
 
     public Collection<ApplicationModel> getApps() {
-        return this.apps.values();
+        return apps.values();
+    }
+    
+    public Collection<DetachedMenuModel> getDetachedMenus() {
+        return detachedMenus.values();
     }
 
     public BaseModel getLandscape() {
