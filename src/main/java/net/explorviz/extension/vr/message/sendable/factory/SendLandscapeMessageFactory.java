@@ -11,7 +11,6 @@ import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage.Detached
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage.HighlightingObject;
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage.Landscape;
 import net.explorviz.extension.vr.model.ApplicationModel;
-import net.explorviz.extension.vr.model.BaseModel;
 import net.explorviz.extension.vr.model.DetachedMenuModel;
 import net.explorviz.extension.vr.model.HighlightingModel;
 import net.explorviz.extension.vr.model.LandscapeModel;
@@ -72,7 +71,7 @@ public class SendLandscapeMessageFactory {
         landscapeObj.setPosition(landscape.getPosition());
         landscapeObj.setQuaternion(landscape.getQuaternion());
         landscapeObj.setScale(landscape.getScale());
-        
+
         // detached menus
         ArrayList<DetachedMenu> detachedMenusArray = new ArrayList<>();
         for (final DetachedMenuModel menu : entityService.getDetachedMenus()) {

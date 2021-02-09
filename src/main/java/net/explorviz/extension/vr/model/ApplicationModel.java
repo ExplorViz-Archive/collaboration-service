@@ -8,8 +8,7 @@ public class ApplicationModel extends BaseModel implements GrabbableObject {
     private boolean isGrabbed;
     private String grabbedByUser;
     private double[] scale;
-    
-    
+
     private final ArrayList<String> openComponents;
 
     public ApplicationModel(String id) {

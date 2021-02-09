@@ -21,7 +21,6 @@ public class DetachedMenuClosedMessage extends RequestMessage {
         this.menuId = menuId;
     }
 
-
     @Override
     public <R, A> R handleWith(ReceivableMessageHandler<R, A> handler, A arg) {
         return handler.handleDetachedMenuClosedMessage(this, arg);

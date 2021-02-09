@@ -126,7 +126,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Session
         broadcastService.sendTo(response, senderSession);
         return ShouldForward.FORWARD;
     }
-    
+
     @Override
     public ShouldForward handleDetachedMenuClosedMessage(DetachedMenuClosedMessage message, Session senderSession) {
         final var success = entityService.closeDetachedMenu(message.getMenuId());
@@ -134,7 +134,6 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Session
         broadcastService.sendTo(response, senderSession);
         return ShouldForward.FORWARD;
     }
-
 
     @Override
     public ShouldForward handleObjectGrabbedMessage(ObjectGrabbedMessage message, Session senderSession) {
