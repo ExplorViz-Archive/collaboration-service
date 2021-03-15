@@ -173,10 +173,10 @@ public class SendableMessageEncoderTest {
     @Test
     public void testForwardedUserPositionsMessage() throws EncodeException, IOException {
         final var message = new UserPositionsMessage();
-        message.setController1(new UserPositionsMessage.Pose());
+        message.setController1(new UserPositionsMessage.ControllerPose());
         message.getController1().setPosition(new double[] { 1.0, 2.0, 3.0 });
         message.getController1().setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
-        message.setController2(new UserPositionsMessage.Pose());
+        message.setController2(new UserPositionsMessage.ControllerPose());
         message.getController2().setPosition(new double[] { 1.0, 2.0, 3.0 });
         message.getController2().setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
         message.setCamera(new UserPositionsMessage.Pose());

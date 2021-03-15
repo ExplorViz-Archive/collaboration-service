@@ -31,6 +31,7 @@ import net.explorviz.extension.vr.message.receivable.MenuDetachedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectGrabbedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectMovedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectReleasedMessage;
+import net.explorviz.extension.vr.message.receivable.PingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
@@ -207,6 +208,11 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Session
                 message.getDisconnect());
         return ShouldForward.FORWARD;
     }
+    
+    @Override
+    public ShouldForward handlePingUpdateMessage(PingUpdateMessage message, Session senderSession) {
+        return ShouldForward.FORWARD;
+    }
 
     @Override
     public ShouldForward handleUserPositionsMessage(UserPositionsMessage message, Session senderSession) {
@@ -265,5 +271,6 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Session
         final var message = sendLandscapeMessageFactory.makeMessage();
         broadcastService.sendToUser(message, userModel.getId());
     }
+
 
 }

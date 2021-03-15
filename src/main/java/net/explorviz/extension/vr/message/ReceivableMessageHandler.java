@@ -9,6 +9,7 @@ import net.explorviz.extension.vr.message.receivable.MenuDetachedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectGrabbedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectMovedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectReleasedMessage;
+import net.explorviz.extension.vr.message.receivable.PingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
@@ -45,4 +46,6 @@ public interface ReceivableMessageHandler<R, A> {
     R handleMenuDetachedMessage(MenuDetachedMessage message, A arg);
 
     R handleDetachedMenuClosedMessage(DetachedMenuClosedMessage detachedMenuClosedMessage, A arg);
+
+    R handlePingUpdateMessage(PingUpdateMessage message, A arg);
 }

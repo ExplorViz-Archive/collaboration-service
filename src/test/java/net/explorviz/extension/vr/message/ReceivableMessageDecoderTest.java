@@ -191,10 +191,10 @@ public class ReceivableMessageDecoderTest {
                 + "\"time\": 884300400000}";
         final var actual = decoder.decodeMessage(json);
         final var expected = new UserPositionsMessage();
-        expected.setController1(new UserPositionsMessage.Pose());
+        expected.setController1(new UserPositionsMessage.ControllerPose());
         expected.getController1().setPosition(new double[] { 1.0, 2.0, 3.0 });
         expected.getController1().setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
-        expected.setController2(new UserPositionsMessage.Pose());
+        expected.setController2(new UserPositionsMessage.ControllerPose());
         expected.getController2().setPosition(new double[] { 1.0, 2.0, 3.0 });
         expected.getController2().setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
         expected.setCamera(new UserPositionsMessage.Pose());
