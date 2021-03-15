@@ -2,7 +2,6 @@ package net.explorviz.extension.vr.message.receivable;
 
 import net.explorviz.extension.vr.message.ReceivableMessage;
 import net.explorviz.extension.vr.message.ReceivableMessageHandler;
-import net.explorviz.extension.vr.message.RequestMessage;
 
 public class PingUpdateMessage extends ReceivableMessage {
 
@@ -11,36 +10,26 @@ public class PingUpdateMessage extends ReceivableMessage {
     }
 
     public static final String EVENT = "ping_update";
-    
+
     private int controllerId;
-    
+
     private boolean isPinging;
-    
-    
 
     public int getControllerId() {
         return controllerId;
     }
 
-
-
     public void setControllerId(int controllerId) {
         this.controllerId = controllerId;
     }
 
-
-
-    public boolean isPinging() {
+    public boolean getIsPinging() {
         return isPinging;
     }
-
-
 
     public void setPinging(boolean isPinging) {
         this.isPinging = isPinging;
     }
-
-
 
     @Override
     public <R, A> R handleWith(ReceivableMessageHandler<R, A> handler, A arg) {

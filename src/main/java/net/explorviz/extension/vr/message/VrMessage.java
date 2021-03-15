@@ -14,6 +14,7 @@ import net.explorviz.extension.vr.message.receivable.MenuDetachedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectGrabbedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectMovedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectReleasedMessage;
+import net.explorviz.extension.vr.message.receivable.PingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
@@ -38,7 +39,8 @@ import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
         @Type(value = DetachedMenuClosedMessage.class, name = DetachedMenuClosedMessage.EVENT),
         @Type(value = SpectatingUpdateMessage.class, name = SpectatingUpdateMessage.EVENT),
         @Type(value = UserControllersMessage.class, name = UserControllersMessage.EVENT),
-        @Type(value = UserPositionsMessage.class, name = UserPositionsMessage.EVENT) })
+        @Type(value = UserPositionsMessage.class, name = UserPositionsMessage.EVENT),
+        @Type(value = PingUpdateMessage.class, name = PingUpdateMessage.EVENT )})
 public abstract class VrMessage {
     @JsonTypeId
     private String event;
