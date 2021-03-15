@@ -40,7 +40,6 @@ public class AppOpenedMessage extends ReceivableMessage {
         this.quaternion = quaternion;
     }
 
-    
     public double[] getScale() {
         return scale;
     }

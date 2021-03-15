@@ -44,7 +44,7 @@ public class SendLandscapeMessage extends SendableMessage {
             this.scale = scale;
         }
     }
-    
+
     public static class DetachedMenu {
         private String objectId;
         private String entityId;
@@ -52,46 +52,55 @@ public class SendLandscapeMessage extends SendableMessage {
         private double[] position;
         private double[] quaternion;
         private double[] scale;
-        
+
         public String getObjectId() {
             return objectId;
         }
+
         public void setObjectId(String objectId) {
             this.objectId = objectId;
         }
-        
+
         public String getEntityType() {
             return entityType;
         }
+
         public void setEntityType(String entityType) {
             this.entityType = entityType;
         }
+
         public String getEntityId() {
             return entityId;
         }
+
         public void setEntityId(String entityId) {
             this.entityId = entityId;
         }
+
         public double[] getPosition() {
             return position;
         }
+
         public void setPosition(double[] position) {
             this.position = position;
         }
+
         public double[] getQuaternion() {
             return quaternion;
         }
+
         public void setQuaternion(double[] quaternion) {
             this.quaternion = quaternion;
         }
+
         public double[] getScale() {
             return scale;
         }
+
         public void setScale(double[] scale) {
             this.scale = scale;
         }
-        
-        
+
     }
 
     public static class HighlightingObject {
@@ -208,7 +217,7 @@ public class SendLandscapeMessage extends SendableMessage {
     public SendLandscapeMessage() {
         super(EVENT);
     }
-    
+
     public DetachedMenu[] getDetachedMenus() {
         return detachedMenus;
     }

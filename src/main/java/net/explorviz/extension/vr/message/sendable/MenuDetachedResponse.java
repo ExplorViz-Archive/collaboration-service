@@ -11,7 +11,7 @@ public class MenuDetachedResponse extends RespondableMessage {
         super(EVENT);
         this.objectId = objectId;
     }
-    
+
     public String getObjectId() {
         return objectId;
     }

@@ -9,7 +9,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import net.explorviz.extension.vr.model.ApplicationModel;
-import net.explorviz.extension.vr.model.BaseModel;
 import net.explorviz.extension.vr.model.DetachedMenuModel;
 import net.explorviz.extension.vr.model.GrabbableObject;
 import net.explorviz.extension.vr.model.LandscapeModel;
@@ -40,8 +39,8 @@ public class EntityService {
     @PostConstruct
     public void init() {
         landscape = new LandscapeModel(idGenerationService.nextId());
-        landscape.setQuaternion(- Math.sqrt(0.5), 0, 0, Math.sqrt(0.5));
-        landscape.setScale(new double[] {0.1, 0.1, 0.1});
+        landscape.setQuaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5));
+        landscape.setScale(new double[] { 0.1, 0.1, 0.1 });
         grabbableObjects.put(landscape.getId(), landscape);
     }
 
@@ -134,7 +133,8 @@ public class EntityService {
         return this.landscape;
     }
 
-    public String detachMenu(String detachId, String entityType, double[] position, double[] quaternion, double[] scale) {
+    public String detachMenu(String detachId, String entityType, double[] position, double[] quaternion,
+            double[] scale) {
         var objectId = idGenerationService.nextId();
         var menu = new DetachedMenuModel(detachId, entityType, objectId);
         menu.setPosition(position);

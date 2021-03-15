@@ -12,10 +12,11 @@ public class MenuDetachedMessage extends RequestMessage {
     private double[] position;
     private double[] quaternion;
     private double[] scale;
-    
+
     public MenuDetachedMessage() {
         super(EVENT);
     }
+
     public String getDetachId() {
         return detachId;
     }
@@ -31,7 +32,7 @@ public class MenuDetachedMessage extends RequestMessage {
     public double[] getQuaternion() {
         return quaternion;
     }
-    
+
     public void setDetachId(String detachId) {
         this.detachId = detachId;
     }
@@ -51,9 +52,11 @@ public class MenuDetachedMessage extends RequestMessage {
     public double[] getScale() {
         return scale;
     }
+
     public void setScale(double[] scale) {
         this.scale = scale;
     }
+
     @Override
     public <R, A> R handleWith(ReceivableMessageHandler<R, A> handler, A arg) {
         return handler.handleMenuDetachedMessage(this, arg);
