@@ -54,6 +54,7 @@ public class ColorAssignmentService {
                 minCount = count;
             }
         }
+        counters.put(minCountColor, minCount + 1);
         return minCountColor;
     }
 
