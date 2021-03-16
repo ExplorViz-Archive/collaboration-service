@@ -17,7 +17,6 @@ import net.explorviz.extension.vr.model.UserModel.State;
 
 @ApplicationScoped
 public class UserService {
-
     @Inject
     IdGenerationService idGenerationService;
 
