@@ -35,7 +35,7 @@ public class SelfConnectedMessageFactory {
 
                 final var otherControllers = new SelfConnectedMessage.Controllers();
                 otherControllers.setController1(otherModel.getController1().getName());
-                otherControllers.setController1(otherModel.getController1().getName());
+                otherControllers.setController2(otherModel.getController2().getName());
                 otherUser.setControllers(otherControllers);
 
                 otherUserList.add(otherUser);
