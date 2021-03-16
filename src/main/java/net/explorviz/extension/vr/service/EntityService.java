@@ -106,6 +106,7 @@ public class EntityService {
         }
         object.setPosition(position);
         object.setQuaternion(quaternion);
+        object.setScale(scale);
         return true;
     }
 
