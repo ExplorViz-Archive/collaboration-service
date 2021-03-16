@@ -16,14 +16,13 @@ public class ColorAssignmentService {
     /**
      * The colors that can be assigned by this service.
      */
-    private static final Color[] colors = { new Color(255, 0, 0), // red
-            new Color(0, 167, 250), // blue
-            new Color(219, 208, 0), // yellow
+    private static final Color[] colors = { 
             new Color(0, 209, 188), // turquoise
+            new Color(209, 0, 209), // pink
+            new Color(219, 208, 0), // yellow
             new Color(209, 0, 209), // pink
             new Color(189, 126, 217), // purple
             new Color(0, 175, 206), // ocean blue
-            new Color(241, 141, 0), // orange
     };
 
     /**
