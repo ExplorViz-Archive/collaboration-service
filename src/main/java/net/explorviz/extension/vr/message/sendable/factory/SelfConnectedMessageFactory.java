@@ -7,7 +7,7 @@ import javax.inject.Inject;
 
 import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
 import net.explorviz.extension.vr.model.UserModel;
-import net.explorviz.extension.vr.service.UserService;
+import net.explorviz.extension.vr.service.room.UserService;
 
 @ApplicationScoped
 public class SelfConnectedMessageFactory {

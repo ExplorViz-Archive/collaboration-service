@@ -46,11 +46,11 @@ import net.explorviz.extension.vr.message.sendable.factory.SelfConnectedMessageF
 import net.explorviz.extension.vr.message.sendable.factory.SendLandscapeMessageFactory;
 import net.explorviz.extension.vr.message.sendable.factory.UserConnectedMessageFactory;
 import net.explorviz.extension.vr.message.sendable.factory.UserDisconnectedMessageFactory;
-import net.explorviz.extension.vr.service.BroadcastService;
-import net.explorviz.extension.vr.service.EntityService;
 import net.explorviz.extension.vr.service.IdGenerationService;
 import net.explorviz.extension.vr.service.SessionRegistry;
-import net.explorviz.extension.vr.service.UserService;
+import net.explorviz.extension.vr.service.room.BroadcastService;
+import net.explorviz.extension.vr.service.room.EntityService;
+import net.explorviz.extension.vr.service.room.UserService;
 
 @ServerEndpoint(value = "/v2/vr", decoders = { ReceivableMessageDecoder.class }, encoders = {
         SendableMessageEncoder.class })

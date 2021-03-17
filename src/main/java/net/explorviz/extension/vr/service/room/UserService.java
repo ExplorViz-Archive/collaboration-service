@@ -1,4 +1,4 @@
-package net.explorviz.extension.vr.service;
+package net.explorviz.extension.vr.service.room;
 
 import java.util.Collection;
 import java.util.Map;
@@ -14,28 +14,34 @@ import net.explorviz.extension.vr.message.receivable.UserControllersMessage.Cont
 import net.explorviz.extension.vr.model.ControllerModel;
 import net.explorviz.extension.vr.model.UserModel;
 import net.explorviz.extension.vr.model.UserModel.State;
+import net.explorviz.extension.vr.service.IdGenerationService;
 
-@ApplicationScoped
 public class UserService {
-    @Inject
-    IdGenerationService idGenerationService;
+    private final IdGenerationService idGenerationService;
 
-    @Inject
-    ColorAssignmentService colorAssignmentService;
+    private final ColorAssignmentService colorAssignmentService;
 
-    @Inject
-    Event<UserConnectedEvent> userConnectedEvent;
+    private final Event<UserConnectedEvent> userConnectedEvent;
 
-    @Inject
-    Event<UserDisconnectedEvent> userDisconnectedEvent;
+    private final Event<UserDisconnectedEvent> userDisconnectedEvent;
 
-    @Inject
-    EntityService entityService;
+    private final GrabService grabService;
 
     private final Map<String, UserModel> users = new ConcurrentHashMap<>();
 
-    public void updateUserPosition() {
+    public UserService(IdGenerationService idGenerationService, ColorAssignmentService colorAssignmentService,
+            Event<UserConnectedEvent> userConnectedEvent, Event<UserDisconnectedEvent> userDisconnectedEvent,
+            GrabService grabService) {
+        super();
+        this.idGenerationService = idGenerationService;
+        this.colorAssignmentService = colorAssignmentService;
+        this.userConnectedEvent = userConnectedEvent;
+        this.userDisconnectedEvent = userDisconnectedEvent;
+        this.grabService = grabService;
+    }
 
+    public void updateUserPosition() {
+        // TODO implement
     }
 
     public void updateUserControllers(String userId, Controllers connect, Controllers disconnect) {

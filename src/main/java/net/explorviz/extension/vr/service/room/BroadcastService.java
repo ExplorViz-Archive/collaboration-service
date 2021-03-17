@@ -1,4 +1,4 @@
-package net.explorviz.extension.vr.service;
+package net.explorviz.extension.vr.service.room;
 
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
@@ -12,15 +12,18 @@ import javax.websocket.Session;
 
 import net.explorviz.extension.vr.message.BroadcastableMessage;
 import net.explorviz.extension.vr.message.SendableMessage;
+import net.explorviz.extension.vr.service.SessionRegistry;
 
 /**
  * A service that can be used to broadcast messages to all connected clients
  * that are registered to the {@link SessionRegistry}.
  */
-@ApplicationScoped
 public class BroadcastService {
-    @Inject
-    SessionRegistry sessionRegistry;
+    private final SessionRegistry sessionRegistry;
+    
+    public BroadcastService(SessionRegistry sessionRegistry) {
+        this.sessionRegistry = sessionRegistry;
+    }
 
     /**
      * Broadcasts a message to all connected clients.

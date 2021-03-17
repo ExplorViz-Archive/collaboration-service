@@ -15,8 +15,8 @@ import net.explorviz.extension.vr.model.DetachedMenuModel;
 import net.explorviz.extension.vr.model.HighlightingModel;
 import net.explorviz.extension.vr.model.LandscapeModel;
 import net.explorviz.extension.vr.model.UserModel;
-import net.explorviz.extension.vr.service.EntityService;
-import net.explorviz.extension.vr.service.UserService;
+import net.explorviz.extension.vr.service.room.EntityService;
+import net.explorviz.extension.vr.service.room.UserService;
 
 @ApplicationScoped
 public class SendLandscapeMessageFactory {

@@ -1,4 +1,4 @@
-package net.explorviz.extension.vr.service;
+package net.explorviz.extension.vr.service.room;
 
 import java.awt.Color;
 import java.util.LinkedHashMap;
@@ -10,7 +10,6 @@ import javax.enterprise.context.ApplicationScoped;
  * A service that is used by the user service to assign different colors to each
  * user.
  */
-@ApplicationScoped
 public class ColorAssignmentService {
 
     /**

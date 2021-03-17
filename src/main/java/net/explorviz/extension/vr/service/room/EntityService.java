@@ -1,19 +1,15 @@
-package net.explorviz.extension.vr.service;
+package net.explorviz.extension.vr.service.room;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-
 import net.explorviz.extension.vr.model.ApplicationModel;
 import net.explorviz.extension.vr.model.DetachedMenuModel;
 import net.explorviz.extension.vr.model.GrabbableObject;
 import net.explorviz.extension.vr.model.LandscapeModel;
+import net.explorviz.extension.vr.service.IdGenerationService;
 
-@ApplicationScoped
 public class EntityService {
 
     /**
@@ -30,14 +26,16 @@ public class EntityService {
 
     private final Map<String, GrabbableObject> grabbableObjects = new ConcurrentHashMap<>();
 
-    @Inject
-    IdGenerationService idGenerationService;
+    private final IdGenerationService idGenerationService;
 
-    @Inject
-    UserService userService;
+    private final GrabService grabService;
 
-    @PostConstruct
-    public void init() {
+    public EntityService(IdGenerationService idGenerationService, GrabService grabService) {
+        super();
+        this.idGenerationService = idGenerationService;
+        this.grabService = grabService;
+
+        // Initialize landscape
         landscape = new LandscapeModel(idGenerationService.nextId());
         landscape.setQuaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5));
         landscape.setScale(new double[] { 0.1, 0.1, 0.1 });

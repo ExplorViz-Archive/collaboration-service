@@ -8,15 +8,13 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
+import net.explorviz.extension.vr.service.room.ColorAssignmentService;
 
-@QuarkusTest
 class ColorAssignmentServiceTest {
 
-    @Inject
-    ColorAssignmentService service;
-    
     @Test
     void testAssignColor() {
+        var service = new ColorAssignmentService();
         var color1 = service.assignColor();
         var color2 = service.assignColor();
         assertNotEquals(color1, color2);
@@ -24,6 +22,7 @@ class ColorAssignmentServiceTest {
     
     @Test
     void testUnassignColor() {
+        var service = new ColorAssignmentService();
         var color1 = service.assignColor();
         service.unassignColor(color1);
         var color2 = service.assignColor();
