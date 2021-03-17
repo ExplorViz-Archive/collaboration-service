@@ -5,8 +5,6 @@ import java.util.ArrayList;
 public class ApplicationModel extends BaseModel implements GrabbableObject {
 
     private boolean isOpen;
-    private boolean isGrabbed;
-    private String grabbedByUser;
     private double[] scale;
 
     private final ArrayList<String> openComponents;
@@ -38,23 +36,6 @@ public class ApplicationModel extends BaseModel implements GrabbableObject {
 
     public ArrayList<String> getOpenComponents() {
         return openComponents;
-    }
-
-    public void setGrabbed(final boolean isGrabbed) {
-        this.isGrabbed = isGrabbed;
-    }
-
-    public boolean isGrabbed() {
-        return isGrabbed;
-    }
-
-    public void setGrabbedByUser(final String userID) {
-        this.grabbedByUser = userID;
-    }
-
-    @Override
-    public String isGrabbedByUser() {
-        return grabbedByUser;
     }
 
     @Override

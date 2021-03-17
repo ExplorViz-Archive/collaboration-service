@@ -1,7 +1,6 @@
 package net.explorviz.extension.vr.model;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
 public class UserModel extends BaseModel {
 
@@ -13,7 +12,6 @@ public class UserModel extends BaseModel {
     private Color color;
     private boolean hasHighlightedEntity;
     private HighlightingModel highlightedEntity;
-    private ArrayList<String> grabbedObjects = new ArrayList<>();
 
     public enum State {
         CONNECTING, CONNECTED, SPECTATING
@@ -76,18 +74,6 @@ public class UserModel extends BaseModel {
 
     public HighlightingModel getHighlightedEntity() {
         return this.highlightedEntity;
-    }
-
-    public String[] getGrabbedObjects() {
-        return grabbedObjects.toArray(n -> new String[n]);
-    }
-
-    public void addGrabbedObject(String objectId) {
-        grabbedObjects.add(objectId);
-    }
-
-    public void removeGrabbedObject(String objectId) {
-        grabbedObjects.remove(objectId);
     }
 
 }

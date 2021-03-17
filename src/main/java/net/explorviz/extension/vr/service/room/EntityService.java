@@ -71,43 +71,36 @@ public class EntityService {
     }
 
     public boolean closeApp(String appId) {
-        var app = apps.get(appId);
-        if (app != null && !app.isGrabbed()) {
-            apps.remove(appId);
-            grabbableObjects.remove(appId);
-            return true;
+        if (!grabService.isGrabbed(appId)) {
+            var app = apps.get(appId);
+            if (app != null) {
+                apps.remove(appId);
+                grabbableObjects.remove(appId);
+                return true;
+            }
         }
         return false;
     }
 
     public boolean grabbObject(String userId, String objectId) {
-        GrabbableObject object = grabbableObjects.get(objectId);
-        if (object == null || object.isGrabbed())
-            return false;
-        object.setGrabbed(true);
-        object.setGrabbedByUser(userId);
-        userService.userGrabbedObject(userId, objectId);
-        return true;
+        return grabService.grabObject(userId, objectId);
     }
 
     public void releaseObject(String userId, String objectId) {
-        GrabbableObject object = grabbableObjects.get(objectId);
-        if (object != null && userId.equals(object.isGrabbedByUser())) {
-            object.setGrabbed(false);
-            object.setGrabbedByUser(null);
-            userService.userReleasedObject(userId, objectId);
-        }
+        grabService.releaseObject(objectId);
     }
 
     public boolean moveObject(String userId, String objectId, double[] position, double[] quaternion, double[] scale) {
-        GrabbableObject object = grabbableObjects.get(objectId);
-        if (object == null || !userId.equals(object.isGrabbedByUser())) {
-            return false;
+        if (grabService.isGrabbedByUser(objectId, userId)) {
+            var object = grabbableObjects.get(objectId);
+            if (object != null) {
+                object.setPosition(position);
+                object.setQuaternion(quaternion);
+                object.setScale(scale);
+                return true;
+            }
         }
-        object.setPosition(position);
-        object.setQuaternion(quaternion);
-        object.setScale(scale);
-        return true;
+        return false;
     }
 
     public void updateComponent(String componentId, String appId, boolean isFoundation, boolean isOpened) {
@@ -147,11 +140,13 @@ public class EntityService {
     }
 
     public boolean closeDetachedMenu(String menuId) {
-        var menu = detachedMenus.get(menuId);
-        if (menu != null && !menu.isGrabbed()) {
-            detachedMenus.remove(menuId);
-            grabbableObjects.remove(menuId);
-            return true;
+        if (!grabService.isGrabbed(menuId)) {
+            var menu = detachedMenus.get(menuId);
+            if (menu != null) {
+                detachedMenus.remove(menuId);
+                grabbableObjects.remove(menuId);
+                return true;
+            }
         }
         return false;
     }
