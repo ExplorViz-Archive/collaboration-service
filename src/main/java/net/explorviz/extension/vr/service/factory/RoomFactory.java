@@ -32,14 +32,14 @@ public class RoomFactory {
     @Inject
     SessionRegistryFactory sessionRegistryFactory;
     
-    public Room makeRoom() {
+    public Room makeRoom(String roomId) {
         var grabService = grabServiceFactory.makeGrabService();
         var entityService = entityServiceFactory.makeEntityService(grabService);
         var colorAssignmentService = colorAssignmentServiceFactory.makeColorAssignmentService();
         var userService = userServiceFactory.makeUserService(colorAssignmentService, grabService);
         var sessionRegistry = sessionRegistryFactory.makeSessionRegistry();
         var broadcastService = broadcastServiceFactory.makeBroadcastService(sessionRegistry);
-        return new Room(userService, entityService, broadcastService, colorAssignmentService, sessionRegistry);
+        return new Room(roomId, userService, entityService, broadcastService, colorAssignmentService, sessionRegistry);
     }
 
 }

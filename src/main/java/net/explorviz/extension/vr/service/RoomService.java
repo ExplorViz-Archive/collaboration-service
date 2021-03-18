@@ -5,11 +5,13 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.explorviz.extension.vr.event.UserDisconnectedEvent;
 import net.explorviz.extension.vr.service.factory.RoomFactory;
 
 @ApplicationScoped
@@ -26,8 +28,8 @@ public class RoomService {
     private Map<String, Room> rooms = new ConcurrentHashMap<>();
     
     public String createRoom() {
-        var room = roomFactory.makeRoom();
         var roomId = idGenerationService.nextId();
+        var room = roomFactory.makeRoom(roomId);
         rooms.put(roomId, room);
         LOGGER.info("Created room with id " + roomId);
         return roomId;
@@ -47,5 +49,12 @@ public class RoomService {
     
     public Set<String> getRooms() {
         return rooms.keySet();
+    }
+    
+    public void deleteRoomIfEmpty(@ObservesAsync UserDisconnectedEvent event) {
+        final var room = event.getRoom();
+        if (room.getUserService().getUsers().isEmpty()) {
+            deleteRoom(room.getRoomId());
+        }
     }
 }

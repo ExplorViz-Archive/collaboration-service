@@ -8,6 +8,8 @@ import net.explorviz.extension.vr.service.room.UserService;
 
 public class Room {
 
+    private final String roomId;
+    
     private final UserService userService;
    
     private final EntityService entityService;
@@ -18,9 +20,10 @@ public class Room {
     
     private final SessionRegistry sessionRegistry;
 
-    public Room(UserService userService, EntityService entityService, BroadcastService broadcastService,
+    public Room(String roomId, UserService userService, EntityService entityService, BroadcastService broadcastService,
             ColorAssignmentService colorAssignmentService, SessionRegistry sessionRegistry) {
         super();
+        this.roomId = roomId;
         this.userService = userService;
         this.entityService = entityService;
         this.broadcastService = broadcastService;
@@ -46,5 +49,9 @@ public class Room {
     
     public SessionRegistry getSessionRegistry() {
         return sessionRegistry;
+    }
+    
+    public String getRoomId() {
+        return roomId;
     }
 }
