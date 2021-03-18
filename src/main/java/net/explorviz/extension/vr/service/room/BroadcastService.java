@@ -6,8 +6,6 @@ import java.util.concurrent.Future;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.websocket.Session;
 
 import net.explorviz.extension.vr.message.BroadcastableMessage;

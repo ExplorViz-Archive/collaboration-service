@@ -25,12 +25,12 @@ public class RoomService {
     
     private Map<String, Room> rooms = new ConcurrentHashMap<>();
     
-    public Room createRoom() {
+    public String createRoom() {
         var room = roomFactory.makeRoom();
         var roomId = idGenerationService.nextId();
         rooms.put(roomId, room);
         LOGGER.info("Created room with id " + roomId);
-        return room;
+        return roomId;
     }
     
     public void deleteRoom(String roomId) {

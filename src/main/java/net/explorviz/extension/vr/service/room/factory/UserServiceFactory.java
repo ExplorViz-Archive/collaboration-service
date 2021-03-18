@@ -8,7 +8,6 @@ import net.explorviz.extension.vr.event.UserConnectedEvent;
 import net.explorviz.extension.vr.event.UserDisconnectedEvent;
 import net.explorviz.extension.vr.service.IdGenerationService;
 import net.explorviz.extension.vr.service.room.ColorAssignmentService;
-import net.explorviz.extension.vr.service.room.EntityService;
 import net.explorviz.extension.vr.service.room.GrabService;
 import net.explorviz.extension.vr.service.room.UserService;
 

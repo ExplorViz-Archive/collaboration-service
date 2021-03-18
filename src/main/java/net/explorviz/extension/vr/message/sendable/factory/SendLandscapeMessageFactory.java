@@ -3,7 +3,6 @@ package net.explorviz.extension.vr.message.sendable.factory;
 import java.util.ArrayList;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage;
 import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage.App;
@@ -16,8 +15,6 @@ import net.explorviz.extension.vr.model.HighlightingModel;
 import net.explorviz.extension.vr.model.LandscapeModel;
 import net.explorviz.extension.vr.model.UserModel;
 import net.explorviz.extension.vr.service.Room;
-import net.explorviz.extension.vr.service.room.EntityService;
-import net.explorviz.extension.vr.service.room.UserService;
 
 @ApplicationScoped
 public class SendLandscapeMessageFactory {

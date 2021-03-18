@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.enterprise.context.ApplicationScoped;
-
 /**
  * A service that is used by the user service to assign different colors to each
  * user.
