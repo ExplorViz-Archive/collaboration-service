@@ -1,5 +1,6 @@
 package net.explorviz.extension.vr;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
@@ -14,8 +15,6 @@ import javax.websocket.server.ServerEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.quarkus.runtime.Quarkus;
-import io.quarkus.runtime.QuarkusApplication;
 import net.explorviz.extension.vr.event.UserConnectedEvent;
 import net.explorviz.extension.vr.event.UserDisconnectedEvent;
 import net.explorviz.extension.vr.message.ForwardedMessage;
@@ -55,7 +54,7 @@ import net.explorviz.extension.vr.service.RoomService;
 @ServerEndpoint(value = "/v2/vr/{room-id}", decoders = { ReceivableMessageDecoder.class }, encoders = {
         SendableMessageEncoder.class })
 @ApplicationScoped
-public class VrSocket implements ReceivableMessageHandler<ShouldForward, MessageArgs>, QuarkusApplication {
+public class VrSocket implements ReceivableMessageHandler<ShouldForward, MessageArgs> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VrSocket.class);
 
@@ -74,6 +73,12 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
     @Inject
     SendLandscapeMessageFactory sendLandscapeMessageFactory;
 
+    @PostConstruct
+    void init() {
+        roomService.createRoom();
+        roomService.createRoom();
+    }
+    
     @OnOpen
     public void onOpen(@PathParam("room-id") String roomId, Session session) {
         LOGGER.debug("opened websocket");
@@ -266,13 +271,4 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
         final var message = sendLandscapeMessageFactory.makeMessage(room);
         room.getBroadcastService().sendToUser(message, userModel.getId());
     }
-
-    @Override
-    public int run(String... args) throws Exception {
-        roomService.createRoom();
-        Quarkus.waitForExit();
-        return 0;
-    }
-
-
 }
