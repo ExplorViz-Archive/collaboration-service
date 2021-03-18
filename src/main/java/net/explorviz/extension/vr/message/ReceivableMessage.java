@@ -21,3 +21,4 @@ public abstract class ReceivableMessage extends VrMessage {
      */
     public abstract <R, A> R handleWith(ReceivableMessageHandler<R, A> handler, A arg);
 }
+

@@ -15,6 +15,7 @@ import net.explorviz.extension.vr.model.ControllerModel;
 import net.explorviz.extension.vr.model.UserModel;
 import net.explorviz.extension.vr.model.UserModel.State;
 import net.explorviz.extension.vr.service.IdGenerationService;
+import net.explorviz.extension.vr.service.Room;
 
 public class UserService {
     private final IdGenerationService idGenerationService;
@@ -106,16 +107,16 @@ public class UserService {
         return new ControllerModel(controllerId);
     }
 
-    public void addUser(UserModel userModel) {
+    public void addUser(UserModel userModel, Room room) {
         users.put(userModel.getId(), userModel);
-        userConnectedEvent.fireAsync(new UserConnectedEvent(userModel));
+        userConnectedEvent.fireAsync(new UserConnectedEvent(userModel, room));
     }
 
-    public void removeUser(String userId) {
+    public void removeUser(String userId, Room room) {
         UserModel userModel = users.remove(userId);
         if (userModel != null) {
             colorAssignmentService.unassignColor(userModel.getColor());
-            userDisconnectedEvent.fireAsync(new UserDisconnectedEvent(userModel));
+            userDisconnectedEvent.fireAsync(new UserDisconnectedEvent(userModel, room));
             grabService.releaseAllGrabbedObjectsByUser(userId);
         }
     }

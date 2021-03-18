@@ -15,23 +15,18 @@ import net.explorviz.extension.vr.model.DetachedMenuModel;
 import net.explorviz.extension.vr.model.HighlightingModel;
 import net.explorviz.extension.vr.model.LandscapeModel;
 import net.explorviz.extension.vr.model.UserModel;
+import net.explorviz.extension.vr.service.Room;
 import net.explorviz.extension.vr.service.room.EntityService;
 import net.explorviz.extension.vr.service.room.UserService;
 
 @ApplicationScoped
 public class SendLandscapeMessageFactory {
 
-    @Inject
-    EntityService entityService;
-
-    @Inject
-    UserService userService;
-
-    public SendLandscapeMessage makeMessage() {
+    public SendLandscapeMessage makeMessage(Room room) {
 
         // apps
         ArrayList<App> appArray = new ArrayList<>();
-        for (final ApplicationModel app : this.entityService.getApps()) {
+        for (final ApplicationModel app : room.getEntityService().getApps()) {
 
             App appObj = new App();
             appObj.setId(app.getId());
@@ -45,7 +40,7 @@ public class SendLandscapeMessageFactory {
             }
 
             ArrayList<HighlightingObject> componentHighlightedArray = new ArrayList<>();
-            for (final UserModel user : this.userService.getUsers()) {
+            for (final UserModel user : room.getUserService().getUsers()) {
                 if (user.hasHighlightedEntity()) {
                     final HighlightingModel highlighted = user.getHighlightedEntity();
                     HighlightingObject highlightingObj = new HighlightingObject();
@@ -66,7 +61,7 @@ public class SendLandscapeMessageFactory {
 
         // landscape position
         Landscape landscapeObj = new Landscape();
-        final LandscapeModel landscape = this.entityService.getLandscape();
+        final LandscapeModel landscape = room.getEntityService().getLandscape();
         landscapeObj.setId(landscape.getId());
         landscapeObj.setPosition(landscape.getPosition());
         landscapeObj.setQuaternion(landscape.getQuaternion());
@@ -74,7 +69,7 @@ public class SendLandscapeMessageFactory {
 
         // detached menus
         ArrayList<DetachedMenu> detachedMenusArray = new ArrayList<>();
-        for (final DetachedMenuModel menu : entityService.getDetachedMenus()) {
+        for (final DetachedMenuModel menu : room.getEntityService().getDetachedMenus()) {
             DetachedMenu menuObj = new DetachedMenu();
             menuObj.setObjectId(menu.getId());
             menuObj.setEntityId(menu.getDetachId());

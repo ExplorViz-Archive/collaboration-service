@@ -1,18 +1,14 @@
 package net.explorviz.extension.vr.service.room.factory;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
-import net.explorviz.extension.vr.service.SessionRegistry;
 import net.explorviz.extension.vr.service.room.BroadcastService;
+import net.explorviz.extension.vr.service.room.SessionRegistry;
 
 @ApplicationScoped
 public class BroadcastServiceFactory {
-
-    @Inject
-    SessionRegistry sessionRegistry;
     
-    public BroadcastService makeBroadcastService() {
+    public BroadcastService makeBroadcastService(SessionRegistry sessionRegistry) {
         return new BroadcastService(sessionRegistry);
     }
 }

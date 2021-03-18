@@ -1,10 +1,9 @@
-package net.explorviz.extension.vr.service;
+package net.explorviz.extension.vr.service.room;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.websocket.Session;
 
 import org.slf4j.Logger;
@@ -13,7 +12,6 @@ import org.slf4j.LoggerFactory;
 /**
  * A service that associates user names with websocket connections.
  */
-@ApplicationScoped
 public class SessionRegistry {
     private static final Logger LOGGER = LoggerFactory.getLogger(SessionRegistry.class);
 

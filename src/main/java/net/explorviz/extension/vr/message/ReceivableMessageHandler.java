@@ -1,5 +1,7 @@
 package net.explorviz.extension.vr.message;
 
+import javax.websocket.Session;
+
 import net.explorviz.extension.vr.message.receivable.AppClosedMessage;
 import net.explorviz.extension.vr.message.receivable.AppOpenedMessage;
 import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
@@ -48,4 +50,5 @@ public interface ReceivableMessageHandler<R, A> {
     R handleDetachedMenuClosedMessage(DetachedMenuClosedMessage detachedMenuClosedMessage, A arg);
 
     R handlePingUpdateMessage(PingUpdateMessage message, A arg);
+
 }

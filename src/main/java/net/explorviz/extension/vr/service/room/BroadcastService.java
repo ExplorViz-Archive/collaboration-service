@@ -12,7 +12,6 @@ import javax.websocket.Session;
 
 import net.explorviz.extension.vr.message.BroadcastableMessage;
 import net.explorviz.extension.vr.message.SendableMessage;
-import net.explorviz.extension.vr.service.SessionRegistry;
 
 /**
  * A service that can be used to broadcast messages to all connected clients

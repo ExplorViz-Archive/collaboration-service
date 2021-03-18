@@ -3,18 +3,15 @@ package net.explorviz.extension.vr.message.sendable.factory;
 import java.util.ArrayList;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
 import net.explorviz.extension.vr.model.UserModel;
-import net.explorviz.extension.vr.service.room.UserService;
+import net.explorviz.extension.vr.service.Room;
 
 @ApplicationScoped
 public class SelfConnectedMessageFactory {
-    @Inject
-    UserService userService;
 
-    public SelfConnectedMessage makeMessage(UserModel userModel) {
+    public SelfConnectedMessage makeMessage(UserModel userModel, Room room) {
         final var message = new SelfConnectedMessage();
 
         // Add entry for current user.
@@ -26,7 +23,7 @@ public class SelfConnectedMessageFactory {
 
         // Construct list of currently connected users.
         final var otherUserList = new ArrayList<>();
-        for (UserModel otherModel : userService.getUsers()) {
+        for (UserModel otherModel : room.getUserService().getUsers()) {
             if (otherModel != userModel) {
                 final var otherUser = new SelfConnectedMessage.OtherUser();
                 otherUser.setId(otherModel.getId());

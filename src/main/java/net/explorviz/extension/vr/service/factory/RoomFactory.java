@@ -8,6 +8,7 @@ import net.explorviz.extension.vr.service.room.factory.BroadcastServiceFactory;
 import net.explorviz.extension.vr.service.room.factory.ColorAssignmentServiceFactory;
 import net.explorviz.extension.vr.service.room.factory.EntityServiceFactory;
 import net.explorviz.extension.vr.service.room.factory.GrabServiceFactory;
+import net.explorviz.extension.vr.service.room.factory.SessionRegistryFactory;
 import net.explorviz.extension.vr.service.room.factory.UserServiceFactory;
 
 @ApplicationScoped
@@ -28,13 +29,17 @@ public class RoomFactory {
     @Inject 
     GrabServiceFactory grabServiceFactory;
     
+    @Inject
+    SessionRegistryFactory sessionRegistryFactory;
+    
     public Room makeRoom() {
         var grabService = grabServiceFactory.makeGrabService();
         var entityService = entityServiceFactory.makeEntityService(grabService);
         var colorAssignmentService = colorAssignmentServiceFactory.makeColorAssignmentService();
         var userService = userServiceFactory.makeUserService(colorAssignmentService, grabService);
-        var broadcastService = broadcastServiceFactory.makeBroadcastService();
-        return new Room(userService, entityService, broadcastService, colorAssignmentService);
+        var sessionRegistry = sessionRegistryFactory.makeSessionRegistry();
+        var broadcastService = broadcastServiceFactory.makeBroadcastService(sessionRegistry);
+        return new Room(userService, entityService, broadcastService, colorAssignmentService, sessionRegistry);
     }
 
 }
