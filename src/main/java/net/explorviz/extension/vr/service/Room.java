@@ -1,65 +1,83 @@
 package net.explorviz.extension.vr.service;
 
+import net.explorviz.extension.vr.service.room.ApplicationService;
 import net.explorviz.extension.vr.service.room.BroadcastService;
 import net.explorviz.extension.vr.service.room.ColorAssignmentService;
-import net.explorviz.extension.vr.service.room.EntityService;
+import net.explorviz.extension.vr.service.room.DetachedMenuService;
 import net.explorviz.extension.vr.service.room.GrabService;
+import net.explorviz.extension.vr.service.room.LandscapeService;
 import net.explorviz.extension.vr.service.room.SessionRegistry;
 import net.explorviz.extension.vr.service.room.UserService;
 
 public class Room {
 
-    private final String roomId;
+	private final String roomId;
 
-    private final UserService userService;
-    
-    private final GrabService grabService;
+	private final UserService userService;
 
-    private final EntityService entityService;
+	private final GrabService grabService;
 
-    private final BroadcastService broadcastService;
+	private final LandscapeService landscapeService;
 
-    private final ColorAssignmentService colorAssignmentService;
+	private final ApplicationService applicationService;
 
-    private final SessionRegistry sessionRegistry;
+	private final DetachedMenuService detachedMenuService;
 
-    public Room(String roomId, UserService userService, GrabService grabService, EntityService entityService, BroadcastService broadcastService,
-            ColorAssignmentService colorAssignmentService, SessionRegistry sessionRegistry) {
-        super();
-        this.roomId = roomId;
-        this.userService = userService;
-        this.grabService = grabService;
-        this.entityService = entityService;
-        this.broadcastService = broadcastService;
-        this.colorAssignmentService = colorAssignmentService;
-        this.sessionRegistry = sessionRegistry;
-    }
+	private final BroadcastService broadcastService;
 
-    public UserService getUserService() {
-        return userService;
-    }
-    
-    public GrabService getGrabService() {
-        return grabService;
-    }
+	private final ColorAssignmentService colorAssignmentService;
 
-    public EntityService getEntityService() {
-        return entityService;
-    }
+	private final SessionRegistry sessionRegistry;
 
-    public BroadcastService getBroadcastService() {
-        return broadcastService;
-    }
+	public Room(String roomId, UserService userService, GrabService grabService, LandscapeService landscapeService,
+			ApplicationService applicationService, DetachedMenuService detachedMenuService,
+			BroadcastService broadcastService, ColorAssignmentService colorAssignmentService,
+			SessionRegistry sessionRegistry) {
+		super();
+		this.roomId = roomId;
+		this.userService = userService;
+		this.grabService = grabService;
+		this.landscapeService = landscapeService;
+		this.applicationService = applicationService;
+		this.detachedMenuService = detachedMenuService;
+		this.broadcastService = broadcastService;
+		this.colorAssignmentService = colorAssignmentService;
+		this.sessionRegistry = sessionRegistry;
+	}
 
-    public ColorAssignmentService getColorAssignmentService() {
-        return colorAssignmentService;
-    }
+	public String getRoomId() {
+		return roomId;
+	}
 
-    public SessionRegistry getSessionRegistry() {
-        return sessionRegistry;
-    }
+	public UserService getUserService() {
+		return userService;
+	}
 
-    public String getRoomId() {
-        return roomId;
-    }
+	public GrabService getGrabService() {
+		return grabService;
+	}
+
+	public LandscapeService getLandscapeService() {
+		return landscapeService;
+	}
+
+	public ApplicationService getApplicationService() {
+		return applicationService;
+	}
+
+	public DetachedMenuService getDetachedMenuService() {
+		return detachedMenuService;
+	}
+
+	public BroadcastService getBroadcastService() {
+		return broadcastService;
+	}
+
+	public ColorAssignmentService getColorAssignmentService() {
+		return colorAssignmentService;
+	}
+
+	public SessionRegistry getSessionRegistry() {
+		return sessionRegistry;
+	}
 }

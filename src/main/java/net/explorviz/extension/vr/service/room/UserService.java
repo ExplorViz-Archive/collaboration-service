@@ -31,7 +31,6 @@ public class UserService {
     public UserService(IdGenerationService idGenerationService, ColorAssignmentService colorAssignmentService,
             Event<UserConnectedEvent> userConnectedEvent, Event<UserDisconnectedEvent> userDisconnectedEvent,
             GrabService grabService) {
-        super();
         this.idGenerationService = idGenerationService;
         this.colorAssignmentService = colorAssignmentService;
         this.userConnectedEvent = userConnectedEvent;

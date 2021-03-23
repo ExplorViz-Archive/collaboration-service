@@ -20,10 +20,9 @@ import net.explorviz.extension.vr.service.Room;
 public class SendLandscapeMessageFactory {
 
     public SendLandscapeMessage makeMessage(Room room) {
-
         // apps
         ArrayList<App> appArray = new ArrayList<>();
-        for (final ApplicationModel app : room.getEntityService().getApps()) {
+        for (final ApplicationModel app : room.getApplicationService().getApps()) {
 
             App appObj = new App();
             appObj.setId(app.getId());
@@ -58,7 +57,7 @@ public class SendLandscapeMessageFactory {
 
         // landscape position
         Landscape landscapeObj = new Landscape();
-        final LandscapeModel landscape = room.getEntityService().getLandscape();
+        final LandscapeModel landscape = room.getLandscapeService().getLandscape();
         landscapeObj.setId(landscape.getId());
         landscapeObj.setPosition(landscape.getPosition());
         landscapeObj.setQuaternion(landscape.getQuaternion());
@@ -66,7 +65,7 @@ public class SendLandscapeMessageFactory {
 
         // detached menus
         ArrayList<DetachedMenu> detachedMenusArray = new ArrayList<>();
-        for (final DetachedMenuModel menu : room.getEntityService().getDetachedMenus()) {
+        for (final DetachedMenuModel menu : room.getDetachedMenuService().getDetachedMenus()) {
             DetachedMenu menuObj = new DetachedMenu();
             menuObj.setObjectId(menu.getId());
             menuObj.setEntityId(menu.getDetachId());

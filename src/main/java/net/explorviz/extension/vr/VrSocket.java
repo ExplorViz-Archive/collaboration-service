@@ -113,7 +113,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
 
     @Override
     public ShouldForward handleAppClosedMessage(AppClosedMessage message, MessageArgs args) {
-        final var success = args.room.getEntityService().closeApp(message.getAppID());
+        final var success = args.room.getApplicationService().closeApp(message.getAppID());
         final var response = new ResponseMessage(message.getNonce(), new ObjectClosedResponse(success));
         args.room.getBroadcastService().sendTo(response, args.session);
         return ShouldForward.FORWARD;
@@ -121,7 +121,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
 
     @Override
     public ShouldForward handleDetachedMenuClosedMessage(DetachedMenuClosedMessage message, MessageArgs args) {
-        final var success = args.room.getEntityService().closeDetachedMenu(message.getMenuId());
+        final var success = args.room.getDetachedMenuService().closeDetachedMenu(message.getMenuId());
         final var response = new ResponseMessage(message.getNonce(), new ObjectClosedResponse(success));
         args.room.getBroadcastService().sendTo(response, args.session);
         return ShouldForward.FORWARD;
@@ -139,14 +139,14 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
 
     @Override
     public ShouldForward handleAppOpenedMessage(AppOpenedMessage message, MessageArgs args) {
-        args.room.getEntityService().openApp(message.getId(), message.getPosition(), message.getQuaternion(),
+        args.room.getApplicationService().openApp(message.getId(), message.getPosition(), message.getQuaternion(),
                 message.getScale());
         return ShouldForward.FORWARD;
     }
 
     @Override
     public ShouldForward handleMenuDetachedMessage(MenuDetachedMessage message, MessageArgs args) {
-        final var objectId = args.room.getEntityService().detachMenu(message.getDetachId(), message.getEntityType(),
+        final var objectId = args.room.getDetachedMenuService().detachMenu(message.getDetachId(), message.getEntityType(),
                 message.getPosition(), message.getQuaternion(), message.getScale());
         final var response = new ResponseMessage(message.getNonce(), new MenuDetachedResponse(objectId));
         args.room.getBroadcastService().sendTo(response, args.session);
@@ -176,7 +176,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
 
     @Override
     public ShouldForward handleComponentUpdateMessage(ComponentUpdateMessage message, MessageArgs args) {
-        args.room.getEntityService().updateComponent(message.getComponentID(), message.getAppID(),
+        args.room.getApplicationService().updateComponent(message.getComponentID(), message.getAppID(),
                 message.getIsFoundation(), message.getIsOpened());
         return ShouldForward.FORWARD;
     }
@@ -215,7 +215,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
 
     @Override
     public ShouldForward handleTimestampUpdateMessage(TimestampUpdateMessage message, MessageArgs args) {
-        args.room.getEntityService().getLandscape().setTimestamp(message.getTimestamp());
+        args.room.getLandscapeService().getLandscape().setTimestamp(message.getTimestamp());
         return ShouldForward.FORWARD;
     }
 
