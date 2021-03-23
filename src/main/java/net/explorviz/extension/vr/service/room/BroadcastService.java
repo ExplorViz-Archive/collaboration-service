@@ -17,7 +17,7 @@ import net.explorviz.extension.vr.message.SendableMessage;
  */
 public class BroadcastService {
     private final SessionRegistry sessionRegistry;
-    
+
     public BroadcastService(SessionRegistry sessionRegistry) {
         this.sessionRegistry = sessionRegistry;
     }

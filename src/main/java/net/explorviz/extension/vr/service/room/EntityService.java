@@ -15,7 +15,7 @@ public class EntityService {
     /**
      * Positional information for the landscape.
      */
-    private LandscapeModel landscape;
+    private final LandscapeModel landscape;
 
     /**
      * Maps applicationID to the application model.
@@ -34,11 +34,7 @@ public class EntityService {
         super();
         this.idGenerationService = idGenerationService;
         this.grabService = grabService;
-
-        // Initialize landscape
-        landscape = new LandscapeModel(idGenerationService.nextId());
-        landscape.setQuaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5));
-        landscape.setScale(new double[] { 0.1, 0.1, 0.1 });
+        this.landscape = new LandscapeModel(idGenerationService.nextId());
         grabbableObjects.put(landscape.getId(), landscape);
     }
 
@@ -123,6 +119,12 @@ public class EntityService {
 
     public LandscapeModel getLandscape() {
         return this.landscape;
+    }
+    
+    public void centerLandscape() {
+        this.landscape.setPosition(new double[] { 0.0, 0.0, 0.0 });
+        this.landscape.setQuaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5));
+        this.landscape.setScale(new double[] { 0.1, 0.1, 0.1 });
     }
 
     public String detachMenu(String detachId, String entityType, double[] position, double[] quaternion,

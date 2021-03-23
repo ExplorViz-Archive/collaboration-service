@@ -9,15 +9,15 @@ import net.explorviz.extension.vr.service.room.UserService;
 public class Room {
 
     private final String roomId;
-    
+
     private final UserService userService;
-   
+
     private final EntityService entityService;
-    
+
     private final BroadcastService broadcastService;
-    
+
     private final ColorAssignmentService colorAssignmentService;
-    
+
     private final SessionRegistry sessionRegistry;
 
     public Room(String roomId, UserService userService, EntityService entityService, BroadcastService broadcastService,
@@ -46,11 +46,11 @@ public class Room {
     public ColorAssignmentService getColorAssignmentService() {
         return colorAssignmentService;
     }
-    
+
     public SessionRegistry getSessionRegistry() {
         return sessionRegistry;
     }
-    
+
     public String getRoomId() {
         return roomId;
     }

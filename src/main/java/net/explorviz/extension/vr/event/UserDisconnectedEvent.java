@@ -6,7 +6,7 @@ import net.explorviz.extension.vr.service.Room;
 public class UserDisconnectedEvent {
 
     private UserModel userModel;
-    
+
     private Room room;
 
     public UserDisconnectedEvent(UserModel userModel, Room room) {

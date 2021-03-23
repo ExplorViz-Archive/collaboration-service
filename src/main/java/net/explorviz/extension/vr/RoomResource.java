@@ -13,7 +13,7 @@ import net.explorviz.extension.vr.service.RoomService;
 
 @Path("/v2/vr")
 public class RoomResource {
-    
+
     @Inject
     RoomService roomService;
 
@@ -23,12 +23,12 @@ public class RoomResource {
     public Set<String> list() {
         return roomService.getRooms();
     }
-    
+
     @POST
     @Path("/room")
     @Produces(MediaType.APPLICATION_JSON)
     public String add() {
-        return roomService.createRoom();
+        var room = roomService.createRoom();
+        return room.getRoomId();
     }
-    
 }

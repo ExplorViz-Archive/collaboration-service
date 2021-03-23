@@ -21,36 +21,36 @@ public class RoomService {
 
     @Inject
     RoomFactory roomFactory;
-    
+
     @Inject
     IdGenerationService idGenerationService;
-    
+
     private Map<String, Room> rooms = new ConcurrentHashMap<>();
-    
-    public String createRoom() {
+
+    public Room createRoom() {
         var roomId = idGenerationService.nextId();
         var room = roomFactory.makeRoom(roomId);
         rooms.put(roomId, room);
         LOGGER.info("Created room with id " + roomId);
-        return roomId;
+        return room;
     }
-    
+
     public void deleteRoom(String roomId) {
         rooms.remove(roomId);
         LOGGER.info("Removed room with id " + roomId);
     }
-    
-    public Room lookupRoom(String roomId) { 
+
+    public Room lookupRoom(String roomId) {
         if (!rooms.containsKey(roomId)) {
             throw new IllegalStateException("Room not found: " + roomId);
         }
         return rooms.get(roomId);
     }
-    
+
     public Set<String> getRooms() {
         return rooms.keySet();
     }
-    
+
     public void deleteRoomIfEmpty(@ObservesAsync UserDisconnectedEvent event) {
         final var room = event.getRoom();
         if (room.getUserService().getUsers().isEmpty()) {

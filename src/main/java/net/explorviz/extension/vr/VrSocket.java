@@ -18,7 +18,6 @@ import net.explorviz.extension.vr.event.UserConnectedEvent;
 import net.explorviz.extension.vr.event.UserDisconnectedEvent;
 import net.explorviz.extension.vr.message.ForwardedMessage;
 import net.explorviz.extension.vr.message.ForwardedMessage.ShouldForward;
-import net.explorviz.extension.vr.message.MessageArgs;
 import net.explorviz.extension.vr.message.ReceivableMessage;
 import net.explorviz.extension.vr.message.ReceivableMessageDecoder;
 import net.explorviz.extension.vr.message.ReceivableMessageHandler;
@@ -35,6 +34,7 @@ import net.explorviz.extension.vr.message.receivable.ObjectMovedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectReleasedMessage;
 import net.explorviz.extension.vr.message.receivable.PingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
+import net.explorviz.extension.vr.message.receivable.TimestampUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
 import net.explorviz.extension.vr.message.respondable.ObjectClosedResponse;
@@ -48,6 +48,7 @@ import net.explorviz.extension.vr.message.sendable.factory.SelfConnectedMessageF
 import net.explorviz.extension.vr.message.sendable.factory.SendLandscapeMessageFactory;
 import net.explorviz.extension.vr.message.sendable.factory.UserConnectedMessageFactory;
 import net.explorviz.extension.vr.message.sendable.factory.UserDisconnectedMessageFactory;
+import net.explorviz.extension.vr.service.Room;
 import net.explorviz.extension.vr.service.RoomService;
 
 @ServerEndpoint(value = "/v2/vr/{room-id}", decoders = { ReceivableMessageDecoder.class }, encoders = {
@@ -56,10 +57,10 @@ import net.explorviz.extension.vr.service.RoomService;
 public class VrSocket implements ReceivableMessageHandler<ShouldForward, MessageArgs> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VrSocket.class);
-
-    @Inject 
-    RoomService roomService;
     
+    @Inject
+    RoomService roomService;
+
     @Inject
     SelfConnectedMessageFactory selfConnectedMessageFactory;
 
@@ -71,7 +72,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
 
     @Inject
     SendLandscapeMessageFactory sendLandscapeMessageFactory;
-    
+
     @OnOpen
     public void onOpen(@PathParam("room-id") String roomId, Session session) {
         LOGGER.debug("opened websocket");
@@ -98,7 +99,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
     @OnMessage
     public void onMessage(@PathParam("room-id") String roomId, ReceivableMessage message, Session senderSession) {
         final var room = roomService.lookupRoom(roomId);
-        
+
         // Process the message.
         final var shouldForward = message.handleWith(this, new MessageArgs(room, senderSession));
 
@@ -111,7 +112,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
     }
 
     @Override
-    public ShouldForward handleAppClosedMessage(AppClosedMessage message, MessageArgs args ) {
+    public ShouldForward handleAppClosedMessage(AppClosedMessage message, MessageArgs args) {
         final var success = args.room.getEntityService().closeApp(message.getAppID());
         final var response = new ResponseMessage(message.getNonce(), new ObjectClosedResponse(success));
         args.room.getBroadcastService().sendTo(response, args.session);
@@ -129,8 +130,8 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
     @Override
     public ShouldForward handleObjectGrabbedMessage(ObjectGrabbedMessage message, MessageArgs args) {
         // Try to grab object and respond whether the operation was successful.
-        final var success = args.room.getEntityService().grabbObject(args.room.getSessionRegistry().lookupId(args.session),
-                message.getObjectId());
+        final var success = args.room.getEntityService()
+                .grabbObject(args.room.getSessionRegistry().lookupId(args.session), message.getObjectId());
         final var response = new ResponseMessage(message.getNonce(), new ObjectGrabbedResponse(success));
         args.room.getBroadcastService().sendTo(response, args.session);
         return ShouldForward.NO_FORWARD;
@@ -138,7 +139,8 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
 
     @Override
     public ShouldForward handleAppOpenedMessage(AppOpenedMessage message, MessageArgs args) {
-        args.room.getEntityService().openApp(message.getId(), message.getPosition(), message.getQuaternion(), message.getScale());
+        args.room.getEntityService().openApp(message.getId(), message.getPosition(), message.getQuaternion(),
+                message.getScale());
         return ShouldForward.FORWARD;
     }
 
@@ -156,15 +158,16 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
 
     @Override
     public ShouldForward handleObjectReleasedMessage(ObjectReleasedMessage message, MessageArgs args) {
-        args.room.getEntityService().releaseObject(args.room.getSessionRegistry().lookupId(args.session), message.getObjectId());
+        args.room.getEntityService().releaseObject(args.room.getSessionRegistry().lookupId(args.session),
+                message.getObjectId());
         return ShouldForward.NO_FORWARD;
     }
 
     @Override
     public ShouldForward handleObjectMovedMessage(ObjectMovedMessage message, MessageArgs args) {
         final var userId = args.room.getSessionRegistry().lookupId(args.session);
-        final var allowedToMove = args.room.getEntityService().moveObject(userId, message.getObjectId(), message.getPosition(),
-                message.getQuaternion(), message.getScale());
+        final var allowedToMove = args.room.getEntityService().moveObject(userId, message.getObjectId(),
+                message.getPosition(), message.getQuaternion(), message.getScale());
         if (allowedToMove) {
             return ShouldForward.FORWARD;
         }
@@ -173,31 +176,32 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
 
     @Override
     public ShouldForward handleComponentUpdateMessage(ComponentUpdateMessage message, MessageArgs args) {
-        args.room.getEntityService().updateComponent(message.getComponentID(), message.getAppID(), message.getIsFoundation(),
-                message.getIsOpened());
+        args.room.getEntityService().updateComponent(message.getComponentID(), message.getAppID(),
+                message.getIsFoundation(), message.getIsOpened());
         return ShouldForward.FORWARD;
     }
 
     @Override
     public ShouldForward handleHighlightingUpdateMessage(HighlightingUpdateMessage message, MessageArgs args) {
-        args.room.getUserService().updateHighlighting(args.room.getSessionRegistry().lookupId(args.session), message.getAppID(),
-                message.getEntityID(), message.getEntityType(), message.getIsHighlighted());
+        args.room.getUserService().updateHighlighting(args.room.getSessionRegistry().lookupId(args.session),
+                message.getAppID(), message.getEntityID(), message.getEntityType(), message.getIsHighlighted());
         return ShouldForward.FORWARD;
     }
 
     @Override
     public ShouldForward handleSpectatingUpdateMessage(SpectatingUpdateMessage message, MessageArgs args) {
-        args.room.getUserService().updateSpectating(args.room.getSessionRegistry().lookupId(args.session), message.getIsSpectating());
+        args.room.getUserService().updateSpectating(args.room.getSessionRegistry().lookupId(args.session),
+                message.getIsSpectating());
         return ShouldForward.FORWARD;
     }
 
     @Override
     public ShouldForward handleUserControllersMessage(UserControllersMessage message, MessageArgs args) {
-        args.room.getUserService().updateUserControllers(args.room.getSessionRegistry().lookupId(args.session), message.getConnect(),
-                message.getDisconnect());
+        args.room.getUserService().updateUserControllers(args.room.getSessionRegistry().lookupId(args.session),
+                message.getConnect(), message.getDisconnect());
         return ShouldForward.FORWARD;
     }
-    
+
     @Override
     public ShouldForward handlePingUpdateMessage(PingUpdateMessage message, MessageArgs args) {
         return ShouldForward.FORWARD;
@@ -206,6 +210,12 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
     @Override
     public ShouldForward handleUserPositionsMessage(UserPositionsMessage message, MessageArgs args) {
         args.room.getUserService().updateUserPosition();
+        return ShouldForward.FORWARD;
+    }
+
+    @Override
+    public ShouldForward handleTimestampUpdateMessage(TimestampUpdateMessage message, MessageArgs args) {
+        args.room.getEntityService().getLandscape().setTimestamp(message.getTimestamp());
         return ShouldForward.FORWARD;
     }
 
@@ -263,5 +273,15 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
         final var room = event.getRoom();
         final var message = sendLandscapeMessageFactory.makeMessage(room);
         room.getBroadcastService().sendToUser(message, userModel.getId());
+    }
+}
+
+class MessageArgs {
+    public final Session session;
+    public final Room room;
+
+    public MessageArgs(Room room, Session session) {
+        this.room = room;
+        this.session = session;
     }
 }

@@ -13,25 +13,25 @@ import net.explorviz.extension.vr.service.room.factory.UserServiceFactory;
 
 @ApplicationScoped
 public class RoomFactory {
-    
+
     @Inject
     UserServiceFactory userServiceFactory;
-    
+
     @Inject
     EntityServiceFactory entityServiceFactory;
-    
-    @Inject 
+
+    @Inject
     BroadcastServiceFactory broadcastServiceFactory;
-    
+
     @Inject
     ColorAssignmentServiceFactory colorAssignmentServiceFactory;
-    
-    @Inject 
+
+    @Inject
     GrabServiceFactory grabServiceFactory;
-    
+
     @Inject
     SessionRegistryFactory sessionRegistryFactory;
-    
+
     public Room makeRoom(String roomId) {
         var grabService = grabServiceFactory.makeGrabService();
         var entityService = entityServiceFactory.makeEntityService(grabService);

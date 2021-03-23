@@ -6,7 +6,7 @@ import net.explorviz.extension.vr.service.Room;
 public class UserConnectedEvent {
 
     private UserModel userModel;
-    
+
     private Room room;
 
     public UserConnectedEvent(UserModel userModel, Room room) {
@@ -17,7 +17,7 @@ public class UserConnectedEvent {
     public UserModel getUserModel() {
         return userModel;
     }
-    
+
     public Room getRoom() {
         return room;
     }

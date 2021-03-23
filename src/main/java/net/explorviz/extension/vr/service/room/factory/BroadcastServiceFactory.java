@@ -7,7 +7,7 @@ import net.explorviz.extension.vr.service.room.SessionRegistry;
 
 @ApplicationScoped
 public class BroadcastServiceFactory {
-    
+
     public BroadcastService makeBroadcastService(SessionRegistry sessionRegistry) {
         return new BroadcastService(sessionRegistry);
     }

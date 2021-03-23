@@ -10,5 +10,5 @@ public class ColorAssignmentServiceFactory {
     public ColorAssignmentService makeColorAssignmentService() {
         return new ColorAssignmentService();
     }
-    
+
 }

@@ -29,7 +29,7 @@ public class UserPositionsMessage extends ReceivableMessage {
             this.quaternion = quaternion;
         }
     }
-    
+
     public static class ControllerPose {
         private double[] position;
         private double[] quaternion;
@@ -58,8 +58,7 @@ public class UserPositionsMessage extends ReceivableMessage {
         public void setIntersection(double[] intersection) {
             this.intersection = intersection;
         }
-        
-        
+
     }
 
     private ControllerPose controller1;
