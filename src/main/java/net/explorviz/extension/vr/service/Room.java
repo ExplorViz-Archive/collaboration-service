@@ -3,6 +3,7 @@ package net.explorviz.extension.vr.service;
 import net.explorviz.extension.vr.service.room.BroadcastService;
 import net.explorviz.extension.vr.service.room.ColorAssignmentService;
 import net.explorviz.extension.vr.service.room.EntityService;
+import net.explorviz.extension.vr.service.room.GrabService;
 import net.explorviz.extension.vr.service.room.SessionRegistry;
 import net.explorviz.extension.vr.service.room.UserService;
 
@@ -11,6 +12,8 @@ public class Room {
     private final String roomId;
 
     private final UserService userService;
+    
+    private final GrabService grabService;
 
     private final EntityService entityService;
 
@@ -20,11 +23,12 @@ public class Room {
 
     private final SessionRegistry sessionRegistry;
 
-    public Room(String roomId, UserService userService, EntityService entityService, BroadcastService broadcastService,
+    public Room(String roomId, UserService userService, GrabService grabService, EntityService entityService, BroadcastService broadcastService,
             ColorAssignmentService colorAssignmentService, SessionRegistry sessionRegistry) {
         super();
         this.roomId = roomId;
         this.userService = userService;
+        this.grabService = grabService;
         this.entityService = entityService;
         this.broadcastService = broadcastService;
         this.colorAssignmentService = colorAssignmentService;
@@ -33,6 +37,10 @@ public class Room {
 
     public UserService getUserService() {
         return userService;
+    }
+    
+    public GrabService getGrabService() {
+        return grabService;
     }
 
     public EntityService getEntityService() {

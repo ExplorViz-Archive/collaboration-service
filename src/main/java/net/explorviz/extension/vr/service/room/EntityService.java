@@ -35,6 +35,7 @@ public class EntityService {
         this.idGenerationService = idGenerationService;
         this.grabService = grabService;
         this.landscape = new LandscapeModel(idGenerationService.nextId());
+        this.centerLandscape();
         grabbableObjects.put(landscape.getId(), landscape);
     }
 
@@ -74,14 +75,6 @@ public class EntityService {
             }
         }
         return false;
-    }
-
-    public boolean grabbObject(String userId, String objectId) {
-        return grabService.grabObject(userId, objectId);
-    }
-
-    public void releaseObject(String userId, String objectId) {
-        grabService.releaseObject(objectId);
     }
 
     public boolean moveObject(String userId, String objectId, double[] position, double[] quaternion, double[] scale) {

@@ -19,9 +19,8 @@ public class GrabService {
         return false;
     }
 
-    public void releaseObject(String objectId) {
-        if (grabbedObjectToUser.containsKey(objectId)) {
-            var userId = grabbedObjectToUser.get(objectId);
+    public void releaseObject(String userId, String objectId) {
+        if (isGrabbedByUser(objectId, userId)) {
             getGrabbedObjectsByUser(userId).remove(objectId);
             grabbedObjectToUser.remove(objectId);
         }

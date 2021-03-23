@@ -39,7 +39,7 @@ public class RoomFactory {
         var userService = userServiceFactory.makeUserService(colorAssignmentService, grabService);
         var sessionRegistry = sessionRegistryFactory.makeSessionRegistry();
         var broadcastService = broadcastServiceFactory.makeBroadcastService(sessionRegistry);
-        return new Room(roomId, userService, entityService, broadcastService, colorAssignmentService, sessionRegistry);
+        return new Room(roomId, userService, grabService, entityService, broadcastService, colorAssignmentService, sessionRegistry);
     }
 
 }

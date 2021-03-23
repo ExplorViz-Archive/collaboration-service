@@ -57,7 +57,7 @@ import net.explorviz.extension.vr.service.RoomService;
 public class VrSocket implements ReceivableMessageHandler<ShouldForward, MessageArgs> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VrSocket.class);
-    
+
     @Inject
     RoomService roomService;
 
@@ -130,8 +130,8 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
     @Override
     public ShouldForward handleObjectGrabbedMessage(ObjectGrabbedMessage message, MessageArgs args) {
         // Try to grab object and respond whether the operation was successful.
-        final var success = args.room.getEntityService()
-                .grabbObject(args.room.getSessionRegistry().lookupId(args.session), message.getObjectId());
+        final var success = args.room.getGrabService().grabObject(args.room.getSessionRegistry().lookupId(args.session),
+                message.getObjectId());
         final var response = new ResponseMessage(message.getNonce(), new ObjectGrabbedResponse(success));
         args.room.getBroadcastService().sendTo(response, args.session);
         return ShouldForward.NO_FORWARD;
@@ -158,7 +158,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
 
     @Override
     public ShouldForward handleObjectReleasedMessage(ObjectReleasedMessage message, MessageArgs args) {
-        args.room.getEntityService().releaseObject(args.room.getSessionRegistry().lookupId(args.session),
+        args.room.getGrabService().releaseObject(args.room.getSessionRegistry().lookupId(args.session),
                 message.getObjectId());
         return ShouldForward.NO_FORWARD;
     }
