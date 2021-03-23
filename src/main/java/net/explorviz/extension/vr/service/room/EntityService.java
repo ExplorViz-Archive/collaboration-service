@@ -6,7 +6,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import net.explorviz.extension.vr.model.ApplicationModel;
 import net.explorviz.extension.vr.model.DetachedMenuModel;
-import net.explorviz.extension.vr.model.GrabbableObject;
 import net.explorviz.extension.vr.model.LandscapeModel;
 import net.explorviz.extension.vr.service.IdGenerationService;
 
@@ -24,8 +23,6 @@ public class EntityService {
 
     private final Map<String, DetachedMenuModel> detachedMenus = new ConcurrentHashMap<>();
 
-    private final Map<String, GrabbableObject> grabbableObjects = new ConcurrentHashMap<>();
-
     private final IdGenerationService idGenerationService;
 
     private final GrabService grabService;
@@ -35,8 +32,8 @@ public class EntityService {
         this.idGenerationService = idGenerationService;
         this.grabService = grabService;
         this.landscape = new LandscapeModel(idGenerationService.nextId());
+        this.grabService.addGrabbableObject(landscape);
         this.centerLandscape();
-        grabbableObjects.put(landscape.getId(), landscape);
     }
 
     /**
@@ -52,7 +49,7 @@ public class EntityService {
         }
         final var appModel = new ApplicationModel(appId);
         apps.put(appId, appModel);
-        grabbableObjects.put(appId, appModel);
+        grabService.addGrabbableObject(appModel);
 
         return appModel;
     }
@@ -70,20 +67,7 @@ public class EntityService {
             var app = apps.get(appId);
             if (app != null) {
                 apps.remove(appId);
-                grabbableObjects.remove(appId);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean moveObject(String userId, String objectId, double[] position, double[] quaternion, double[] scale) {
-        if (grabService.isGrabbedByUser(objectId, userId)) {
-            var object = grabbableObjects.get(objectId);
-            if (object != null) {
-                object.setPosition(position);
-                object.setQuaternion(quaternion);
-                object.setScale(scale);
+                grabService.removeGrabbableObject(app);
                 return true;
             }
         }
@@ -128,7 +112,7 @@ public class EntityService {
         menu.setQuaternion(quaternion);
         menu.setScale(scale);
         detachedMenus.put(objectId, menu);
-        grabbableObjects.put(objectId, menu);
+        grabService.addGrabbableObject(menu);
         return objectId;
     }
 
@@ -137,7 +121,7 @@ public class EntityService {
             var menu = detachedMenus.get(menuId);
             if (menu != null) {
                 detachedMenus.remove(menuId);
-                grabbableObjects.remove(menuId);
+                grabService.removeGrabbableObject(menu);
                 return true;
             }
         }

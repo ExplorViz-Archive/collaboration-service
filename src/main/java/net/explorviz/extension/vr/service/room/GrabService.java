@@ -4,12 +4,24 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import net.explorviz.extension.vr.model.GrabbableObject;
+
 public class GrabService {
 
+    private final Map<String, GrabbableObject> grabbableObjects = new ConcurrentHashMap<>();
+    
     private final Map<String, String> grabbedObjectToUser = new ConcurrentHashMap<>();
 
     private final Map<String, ArrayList<String>> userToGrabbedObjects = new ConcurrentHashMap<>();
 
+    public void addGrabbableObject(GrabbableObject object) {
+        this.grabbableObjects.put(object.getId(), object);
+    }
+    
+    public void removeGrabbableObject(GrabbableObject object) {
+        grabbableObjects.remove(object.getId());
+    }
+    
     public boolean grabObject(String userId, String objectId) {
         if (!isGrabbed(objectId)) {
             grabbedObjectToUser.put(objectId, userId);
@@ -19,6 +31,19 @@ public class GrabService {
         return false;
     }
 
+    public boolean moveObject(String userId, String objectId, double[] position, double[] quaternion, double[] scale) {
+        if (isGrabbedByUser(objectId, userId)) {
+            var object = grabbableObjects.get(objectId);
+            if (object != null) {
+                object.setPosition(position);
+                object.setQuaternion(quaternion);
+                object.setScale(scale);
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public void releaseObject(String userId, String objectId) {
         if (isGrabbedByUser(objectId, userId)) {
             getGrabbedObjectsByUser(userId).remove(objectId);
@@ -52,5 +77,4 @@ public class GrabService {
         }
         return objects;
     }
-
 }

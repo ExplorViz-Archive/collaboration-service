@@ -166,7 +166,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
     @Override
     public ShouldForward handleObjectMovedMessage(ObjectMovedMessage message, MessageArgs args) {
         final var userId = args.room.getSessionRegistry().lookupId(args.session);
-        final var allowedToMove = args.room.getEntityService().moveObject(userId, message.getObjectId(),
+        final var allowedToMove = args.room.getGrabService().moveObject(userId, message.getObjectId(),
                 message.getPosition(), message.getQuaternion(), message.getScale());
         if (allowedToMove) {
             return ShouldForward.FORWARD;
