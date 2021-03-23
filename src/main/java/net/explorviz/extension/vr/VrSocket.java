@@ -1,6 +1,5 @@
 package net.explorviz.extension.vr;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
@@ -72,12 +71,6 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
 
     @Inject
     SendLandscapeMessageFactory sendLandscapeMessageFactory;
-
-    @PostConstruct
-    void init() {
-        roomService.createRoom();
-        roomService.createRoom();
-    }
     
     @OnOpen
     public void onOpen(@PathParam("room-id") String roomId, Session session) {
