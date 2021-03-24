@@ -113,7 +113,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
 
     @Override
     public ShouldForward handleAppClosedMessage(AppClosedMessage message, MessageArgs args) {
-        final var success = args.room.getApplicationService().closeApp(message.getAppID());
+        final var success = args.room.getApplicationService().closeApplication(message.getAppID());
         final var response = new ResponseMessage(message.getNonce(), new ObjectClosedResponse(success));
         args.room.getBroadcastService().sendTo(response, args.session);
         return ShouldForward.FORWARD;
@@ -139,7 +139,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
 
     @Override
     public ShouldForward handleAppOpenedMessage(AppOpenedMessage message, MessageArgs args) {
-        args.room.getApplicationService().openApp(message.getId(), message.getPosition(), message.getQuaternion(),
+        args.room.getApplicationService().openApplication(message.getId(), message.getPosition(), message.getQuaternion(),
                 message.getScale());
         return ShouldForward.FORWARD;
     }
@@ -215,7 +215,9 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
 
     @Override
     public ShouldForward handleTimestampUpdateMessage(TimestampUpdateMessage message, MessageArgs args) {
-        args.room.getLandscapeService().getLandscape().setTimestamp(message.getTimestamp());
+        args.room.getLandscapeService().updateTimestamp(message.getTimestamp());
+        args.room.getApplicationService().closeAllApplications();
+        args.room.getDetachedMenuService().closeAllDetachedMenus();
         return ShouldForward.FORWARD;
     }
 

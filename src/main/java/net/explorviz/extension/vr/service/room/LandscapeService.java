@@ -21,4 +21,9 @@ public class LandscapeService {
         landscape.setQuaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5));
         landscape.setScale(new double[] { 0.1, 0.1, 0.1 });
     }
+
+    public void updateTimestamp(int timestamp) {
+        landscape.setTimestamp(timestamp);
+        centerLandscape();
+    }
 }

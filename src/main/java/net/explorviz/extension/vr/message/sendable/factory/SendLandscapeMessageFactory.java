@@ -22,7 +22,7 @@ public class SendLandscapeMessageFactory {
     public SendLandscapeMessage makeMessage(Room room) {
         // apps
         ArrayList<App> appArray = new ArrayList<>();
-        for (final ApplicationModel app : room.getApplicationService().getApps()) {
+        for (final ApplicationModel app : room.getApplicationService().getApplications()) {
 
             App appObj = new App();
             appObj.setId(app.getId());
