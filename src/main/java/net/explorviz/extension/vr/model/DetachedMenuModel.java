@@ -1,10 +1,9 @@
 package net.explorviz.extension.vr.model;
 
-public class DetachedMenuModel extends BaseModel implements GrabbableObject {
+public class DetachedMenuModel extends ScalableBaseModel implements GrabbableObject {
 
     private String entityType;
     private String detachId;
-    private double[] scale;
 
     public DetachedMenuModel(String detachId, String entityType, String id) {
         super(id);
@@ -29,12 +28,7 @@ public class DetachedMenuModel extends BaseModel implements GrabbableObject {
     }
 
     @Override
-    public double[] getScale() {
-        return scale;
-    }
-
-    @Override
-    public void setScale(double[] scale) {
-        this.scale = scale;
+    public String getGrabId() {
+        return getId();
     }
 }

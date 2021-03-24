@@ -15,11 +15,11 @@ public class GrabService {
     private final Map<String, ArrayList<String>> userToGrabbedObjects = new ConcurrentHashMap<>();
 
     public void addGrabbableObject(GrabbableObject object) {
-        this.grabbableObjects.put(object.getId(), object);
+        this.grabbableObjects.put(object.getGrabId(), object);
     }
     
     public void removeGrabbableObject(GrabbableObject object) {
-        grabbableObjects.remove(object.getId());
+        grabbableObjects.remove(object.getGrabId());
     }
     
     public boolean grabObject(String userId, String objectId) {

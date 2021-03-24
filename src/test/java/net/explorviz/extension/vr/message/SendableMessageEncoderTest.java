@@ -32,7 +32,7 @@ import net.explorviz.extension.vr.message.receivable.UserControllersMessage.Cont
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
 import net.explorviz.extension.vr.message.respondable.ObjectGrabbedResponse;
 import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
-import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage;
+import net.explorviz.extension.vr.message.sendable.InitialLandscapeMessage;
 import net.explorviz.extension.vr.message.sendable.UserConnectedMessage;
 import net.explorviz.extension.vr.message.sendable.UserDisconnectedMessage;
 
@@ -244,10 +244,10 @@ public class SendableMessageEncoderTest {
 
     @Test
     public void testSendLandscapeMessage() throws EncodeException, IOException {
-        final var message = new SendLandscapeMessage();
+        final var message = new InitialLandscapeMessage();
 
         // Create a test app.
-        message.setOpenApps(new SendLandscapeMessage.App[] { new SendLandscapeMessage.App() });
+        message.setOpenApps(new InitialLandscapeMessage.App[] { new InitialLandscapeMessage.App() });
         message.getOpenApps()[0].setId("baz");
         message.getOpenApps()[0].setPosition(new double[] { 1.0, 2.0, 3.0 });
         message.getOpenApps()[0].setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
@@ -255,7 +255,7 @@ public class SendableMessageEncoderTest {
 
         // Create a highlighted component.
         message.getOpenApps()[0].setHighlightedComponents(
-                new SendLandscapeMessage.HighlightingObject[] { new SendLandscapeMessage.HighlightingObject() });
+                new InitialLandscapeMessage.HighlightingObject[] { new InitialLandscapeMessage.HighlightingObject() });
         message.getOpenApps()[0].getHighlightedComponents()[0].setUserID("alice");
         message.getOpenApps()[0].getHighlightedComponents()[0].setAppID("baz");
         message.getOpenApps()[0].getHighlightedComponents()[0].setEntityType("v");
@@ -263,8 +263,9 @@ public class SendableMessageEncoderTest {
         message.getOpenApps()[0].getHighlightedComponents()[0].setHighlighted(true);
 
         // Set landscape position and rotation.
-        message.setLandscape(new SendLandscapeMessage.Landscape());
-        message.getLandscape().setId("foo");
+        message.setLandscape(new InitialLandscapeMessage.Landscape());
+        message.getLandscape().setLandscapeToken("foo");
+        message.getLandscape().setTimestamp(884345696789L);
         message.getLandscape().setPosition(new double[] { 1.0, 2.0, 3.0 });
         message.getLandscape().setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
 

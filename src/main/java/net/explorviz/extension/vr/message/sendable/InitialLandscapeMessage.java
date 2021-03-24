@@ -2,22 +2,31 @@ package net.explorviz.extension.vr.message.sendable;
 
 import net.explorviz.extension.vr.message.SendableMessage;
 
-public class SendLandscapeMessage extends SendableMessage {
+public class InitialLandscapeMessage extends SendableMessage {
 
     public static final String EVENT = "landscape";
 
     public static class Landscape {
-        private String id;
+        private String landscapeToken;
+        private long timestamp;
         private double[] position;
         private double[] quaternion;
         private double[] scale;
 
-        public String getId() {
-            return id;
+        public String getLandscapeToken() {
+            return landscapeToken;
         }
 
-        public void setId(String id) {
-            this.id = id;
+        public void setLandscapeToken(String landscapeToken) {
+            this.landscapeToken = landscapeToken;
+        }
+
+        public long getTimestamp() {
+            return timestamp;
+        }
+
+        public void setTimestamp(long timestamp) {
+            this.timestamp = timestamp;
         }
 
         public double[] getPosition() {
@@ -214,7 +223,7 @@ public class SendLandscapeMessage extends SendableMessage {
     private Landscape landscape;
     private DetachedMenu[] detachedMenus;
 
-    public SendLandscapeMessage() {
+    public InitialLandscapeMessage() {
         super(EVENT);
     }
 

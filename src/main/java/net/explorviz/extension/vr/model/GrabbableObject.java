@@ -2,7 +2,7 @@ package net.explorviz.extension.vr.model;
 
 public interface GrabbableObject {
 
-    public String getId();
+    public String getGrabId();
     
     public double[] getPosition();
     

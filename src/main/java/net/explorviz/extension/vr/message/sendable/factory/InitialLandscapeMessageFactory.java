@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage;
-import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage.App;
-import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage.DetachedMenu;
-import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage.HighlightingObject;
-import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage.Landscape;
+import net.explorviz.extension.vr.message.sendable.InitialLandscapeMessage;
+import net.explorviz.extension.vr.message.sendable.InitialLandscapeMessage.App;
+import net.explorviz.extension.vr.message.sendable.InitialLandscapeMessage.DetachedMenu;
+import net.explorviz.extension.vr.message.sendable.InitialLandscapeMessage.HighlightingObject;
+import net.explorviz.extension.vr.message.sendable.InitialLandscapeMessage.Landscape;
 import net.explorviz.extension.vr.model.ApplicationModel;
 import net.explorviz.extension.vr.model.DetachedMenuModel;
 import net.explorviz.extension.vr.model.HighlightingModel;
@@ -17,9 +17,9 @@ import net.explorviz.extension.vr.model.UserModel;
 import net.explorviz.extension.vr.service.Room;
 
 @ApplicationScoped
-public class SendLandscapeMessageFactory {
+public class InitialLandscapeMessageFactory {
 
-    public SendLandscapeMessage makeMessage(Room room) {
+    public InitialLandscapeMessage makeMessage(Room room) {
         // apps
         ArrayList<App> appArray = new ArrayList<>();
         for (final ApplicationModel app : room.getApplicationService().getApplications()) {
@@ -58,7 +58,8 @@ public class SendLandscapeMessageFactory {
         // landscape position
         Landscape landscapeObj = new Landscape();
         final LandscapeModel landscape = room.getLandscapeService().getLandscape();
-        landscapeObj.setId(landscape.getId());
+        landscapeObj.setLandscapeToken(landscape.getLandscapeToken());
+        landscapeObj.setTimestamp(landscape.getTimestamp());
         landscapeObj.setPosition(landscape.getPosition());
         landscapeObj.setQuaternion(landscape.getQuaternion());
         landscapeObj.setScale(landscape.getScale());
@@ -76,7 +77,7 @@ public class SendLandscapeMessageFactory {
             detachedMenusArray.add(menuObj);
         }
 
-        SendLandscapeMessage message = new SendLandscapeMessage();
+        InitialLandscapeMessage message = new InitialLandscapeMessage();
         message.setOpenApps(appArray.toArray(n -> new App[n]));
         message.setLandscape(landscapeObj);
         message.setDetachedMenus(detachedMenusArray.toArray(n -> new DetachedMenu[n]));

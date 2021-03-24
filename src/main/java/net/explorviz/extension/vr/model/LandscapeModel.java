@@ -3,10 +3,9 @@ package net.explorviz.extension.vr.model;
 /**
  * Model for the landscape entity.
  */
-public class LandscapeModel extends BaseModel implements GrabbableObject {
+public class LandscapeModel extends ScalableBaseModel implements GrabbableObject {
     private String landscapeToken;
-    private int timestamp;
-    private double[] scale;
+    private long timestamp;
 
     public LandscapeModel(String id) {
         super(id);
@@ -20,21 +19,16 @@ public class LandscapeModel extends BaseModel implements GrabbableObject {
         this.landscapeToken = landscapeToken;
     }
 
-    public int getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
-
+    
     @Override
-    public double[] getScale() {
-        return scale;
-    }
-
-    @Override
-    public void setScale(double[] scale) {
-        this.scale = scale;
+    public String getGrabId() {
+        return landscapeToken;
     }
 }

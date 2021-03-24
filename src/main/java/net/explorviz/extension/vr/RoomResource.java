@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import net.explorviz.extension.vr.payload.InitialRoomPayload;
 import net.explorviz.extension.vr.service.RoomService;
 
 @Path("/v2/vr")
@@ -27,8 +28,14 @@ public class RoomResource {
     @POST
     @Path("/room")
     @Produces(MediaType.APPLICATION_JSON)
-    public String add() {
+    public String add(InitialRoomPayload body) {
         var room = roomService.createRoom();
+
+        // Initialize room.
+        var landscape = body.getLandscape();
+        room.getLandscapeService().initLandscape(landscape.getLandscapeToken(), landscape.getTimestamp(),
+                landscape.getPosition(), landscape.getQuaternion(), landscape.getScale());
+
         return room.getRoomId();
     }
 }

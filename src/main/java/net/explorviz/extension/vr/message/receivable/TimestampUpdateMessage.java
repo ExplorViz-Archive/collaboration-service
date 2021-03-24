@@ -6,17 +6,17 @@ import net.explorviz.extension.vr.message.ReceivableMessageHandler;
 public class TimestampUpdateMessage extends ReceivableMessage {
     public static final String EVENT = "timestamp_update";
 
-    private int timestamp;
+    private long timestamp;
 
     public TimestampUpdateMessage() {
         super(EVENT);
     }
 
-    public int getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 

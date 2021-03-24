@@ -42,10 +42,10 @@ import net.explorviz.extension.vr.message.respondable.ObjectGrabbedResponse;
 import net.explorviz.extension.vr.message.sendable.MenuDetachedForwardMessage;
 import net.explorviz.extension.vr.message.sendable.MenuDetachedResponse;
 import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
-import net.explorviz.extension.vr.message.sendable.SendLandscapeMessage;
+import net.explorviz.extension.vr.message.sendable.InitialLandscapeMessage;
 import net.explorviz.extension.vr.message.sendable.UserConnectedMessage;
 import net.explorviz.extension.vr.message.sendable.factory.SelfConnectedMessageFactory;
-import net.explorviz.extension.vr.message.sendable.factory.SendLandscapeMessageFactory;
+import net.explorviz.extension.vr.message.sendable.factory.InitialLandscapeMessageFactory;
 import net.explorviz.extension.vr.message.sendable.factory.UserConnectedMessageFactory;
 import net.explorviz.extension.vr.message.sendable.factory.UserDisconnectedMessageFactory;
 import net.explorviz.extension.vr.service.Room;
@@ -71,7 +71,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
     UserDisconnectedMessageFactory userDisconnectedMessageFactory;
 
     @Inject
-    SendLandscapeMessageFactory sendLandscapeMessageFactory;
+    InitialLandscapeMessageFactory sendLandscapeMessageFactory;
 
     @OnOpen
     public void onOpen(@PathParam("room-id") String roomId, Session session) {
@@ -265,7 +265,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, Message
     }
 
     /**
-     * Sends a {@link SendLandscapeMessage} to the user who connects to the web
+     * Sends a {@link InitialLandscapeMessage} to the user who connects to the web
      * socket.
      * 
      * @param event The connection event.
