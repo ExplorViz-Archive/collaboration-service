@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.explorviz.extension.vr.event.UserDisconnectedEvent;
-import net.explorviz.extension.vr.payload.InitialRoomPayload;
 import net.explorviz.extension.vr.service.factory.RoomFactory;
 
 @ApplicationScoped
