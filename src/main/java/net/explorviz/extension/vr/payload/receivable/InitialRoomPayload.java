@@ -1,4 +1,4 @@
-package net.explorviz.extension.vr.payload;
+package net.explorviz.extension.vr.payload.receivable;
 
 /**
  * A JSON object that is sent by the frontend to the room resource when a new

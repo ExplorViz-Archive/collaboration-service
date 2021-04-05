@@ -46,7 +46,7 @@ import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
 public abstract class VrMessage {
     @JsonTypeId
     private String event;
-
+    
     /**
      * Creates a new message of the given type.
      * 

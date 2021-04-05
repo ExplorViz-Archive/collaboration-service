@@ -71,7 +71,6 @@ public class UserService {
         UserModel user = users.get(userId);
         if (user != null) {
             user.setState(isSpectating ? State.SPECTATING : State.CONNECTED);
-
         }
     }
 
@@ -114,14 +113,17 @@ public class UserService {
     public void removeUser(String userId) {
         UserModel userModel = users.remove(userId);
         if (userModel != null) {
-            colorAssignmentService.unassignColor(userModel.getColor());
+            this.discardUserModel(userModel);
             userDisconnectedEvent.fireAsync(new UserDisconnectedEvent(userModel, room));
-            grabService.releaseAllGrabbedObjectsByUser(userId);
         }
+    }
+    
+    public void discardUserModel(UserModel userModel) {
+    	colorAssignmentService.unassignColor(userModel.getColor());
+        grabService.releaseAllGrabbedObjectsByUser(userModel.getId());
     }
 
     public Collection<UserModel> getUsers() {
         return this.users.values();
     }
-
 }

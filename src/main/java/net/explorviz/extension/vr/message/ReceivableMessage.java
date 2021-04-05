@@ -1,14 +1,32 @@
 package net.explorviz.extension.vr.message;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import net.explorviz.extension.vr.VrSession;
+
 /**
  * Base class for all messages that can be received from the frontend.
  */
 public abstract class ReceivableMessage extends VrMessage {
+    /**
+     * The session of the user who sent this message to the backend.
+     */
+    @JsonIgnore
+    private VrSession senderSession;
+	
     public ReceivableMessage(String event) {
         super(event);
     }
 
-    /**
+    public VrSession getSenderSession() {
+		return senderSession;
+	}
+
+	public void setSenderSession(VrSession senderSession) {
+		this.senderSession = senderSession;
+	}
+
+	/**
      * Invokes the correct {@code handle*} method of the given handler.
      * 
      * @param <R>     The return type of the handeler's {@code handle*} methods.

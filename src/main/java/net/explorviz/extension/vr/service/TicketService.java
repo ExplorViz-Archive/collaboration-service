@@ -39,7 +39,7 @@ public class TicketService {
 	private Map<String, VrSocketTicket> tickets = new ConcurrentHashMap<>();
 	
 	/**
-	 * Generates an unpredicatable identifier for a ticket.
+	 * Generates an unpredictable identifier for a ticket.
 	 * 
 	 * Since the tickets are used for authentication, they must be
 	 * unpredictable. Thus, the regular ID generation service cannot
@@ -59,9 +59,9 @@ public class TicketService {
 	 * @return A ticket that allows the user to join the room.
 	 */
 	public VrSocketTicket drawTicket(Room room, UserModel user) {
-		var ticketId = generateTicketId();
-		var validUntil = Instant.now().plus(TICKET_EXPIRY_PERIOD);
-		var ticket = new VrSocketTicket(ticketId, room, user, validUntil);
+		final var ticketId = generateTicketId();
+		final var validUntil = Instant.now().plus(TICKET_EXPIRY_PERIOD);
+		final var ticket = new VrSocketTicket(ticketId, room, user, validUntil);
 		tickets.put(ticketId, ticket);
 		return ticket;
 	}
@@ -73,18 +73,21 @@ public class TicketService {
         }
 		
 		// Get and remove the ticket.
-		var ticket = tickets.remove(ticketId);
-		
-		// Test whether the ticket is still valid.
-		var expiryDate = ticket.getValidUntil();
-		if (expiryDate.isAfter(Instant.now())) {
-            throw new IllegalStateException("Ticket expired: " + ticketId);
-		}
+		final var ticket = tickets.remove(ticketId);
 		
 		// Ensure that the room still exists.
-		var room = ticket.getRoom();
+		final var room = ticket.getRoom();
 		if (!roomService.roomExists(room)) {
             throw new IllegalStateException("Room " + room.getRoomId() + " for ticket " + ticketId + " has been closed");
+		}
+		
+		// Test whether the ticket is still valid.
+		final var expiryDate = ticket.getValidUntil();
+		if (Instant.now().isAfter(expiryDate)) {
+			// If the ticket could not be redeemed, notify the user service that the user model is not needed anymore.
+			room.getUserService().discardUserModel(ticket.getUser());
+			
+            throw new IllegalStateException("Ticket " + ticketId + " expired at " + expiryDate);
 		}
 		
 		return ticket;

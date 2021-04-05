@@ -1,7 +1,7 @@
 package net.explorviz.extension.vr.service;
 
+import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -28,8 +28,9 @@ public class RoomService {
     private Map<String, Room> rooms = new ConcurrentHashMap<>();
 
     public Room createRoom() {
-        var roomId = idGenerationService.nextId();
-        var room = roomFactory.makeRoom(roomId);
+        final var roomId = idGenerationService.nextId();
+        final var roomName = "Room " + roomId;
+        final var room = roomFactory.makeRoom(roomId, roomName);
         rooms.put(roomId, room);
         LOGGER.info("Created room with id " + roomId);
         return room;
@@ -51,8 +52,8 @@ public class RoomService {
     	return rooms.containsKey(room.getRoomId());
     }
 
-    public Set<String> getRooms() {
-        return rooms.keySet();
+    public Collection<Room> getRooms() {
+        return rooms.values();
     }
 
     public void deleteRoomIfEmpty(@ObservesAsync UserDisconnectedEvent event) {

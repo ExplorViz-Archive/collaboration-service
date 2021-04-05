@@ -21,4 +21,12 @@ public abstract class RequestMessage extends ReceivableMessage {
     public int getNonce() {
         return nonce;
     }
+    
+    public void sendResponse(RespondableMessage responseBody) {
+    	final var senderSession = getSenderSession();
+    	if (senderSession != null) {
+    		final var response = new ResponseMessage(nonce, responseBody);
+    		senderSession.send(response);
+    	}
+    }
 }
