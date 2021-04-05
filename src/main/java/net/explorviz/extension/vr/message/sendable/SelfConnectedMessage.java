@@ -8,93 +8,138 @@ import net.explorviz.extension.vr.message.SendableMessage;
 import net.explorviz.extension.vr.message.encoder.ColorSerializer;
 
 public class SelfConnectedMessage extends SendableMessage {
-    public static final String EVENT = "self_connected";
+	public static final String EVENT = "self_connected";
 
-    public static class Controllers {
-        private String controller1;
-        private String controller2;
+	public static class Controller {
+		private int controllerId;
+		private String assetUrl;
+		private double[] position;
+		private double[] quaternion;
+		private double[] intersection;
 
-        public String getController1() {
-            return controller1;
-        }
+		public int getControllerId() {
+			return controllerId;
+		}
 
-        public void setController1(String controller1) {
-            this.controller1 = controller1;
-        }
+		public void setControllerId(int controllerId) {
+			this.controllerId = controllerId;
+		}
 
-        public String getController2() {
-            return controller2;
-        }
+		public String getAssetUrl() {
+			return assetUrl;
+		}
 
-        public void setController2(String controller2) {
-            this.controller2 = controller2;
-        }
-    }
+		public void setAssetUrl(String assetUrl) {
+			this.assetUrl = assetUrl;
+		}
 
-    public static class User {
-        private String id;
-        private String name;
+		public double[] getPosition() {
+			return position;
+		}
 
-        @JsonSerialize(using = ColorSerializer.class)
-        private Color color;
+		public void setPosition(double[] position) {
+			this.position = position;
+		}
 
-        public String getId() {
-            return id;
-        }
+		public double[] getQuaternion() {
+			return quaternion;
+		}
 
-        public void setId(String id) {
-            this.id = id;
-        }
+		public void setQuaternion(double[] quaternion) {
+			this.quaternion = quaternion;
+		}
 
-        public String getName() {
-            return name;
-        }
+		public double[] getIntersection() {
+			return intersection;
+		}
 
-        public void setName(String name) {
-            this.name = name;
-        }
+		public void setIntersection(double[] intersection) {
+			this.intersection = intersection;
+		}
+	}
 
-        public Color getColor() {
-            return color;
-        }
+	public static class User {
+		private String id;
+		private String name;
 
-        public void setColor(Color color) {
-            this.color = color;
-        }
-    }
+		@JsonSerialize(using = ColorSerializer.class)
+		private Color color;
 
-    public static class OtherUser extends User {
-        private Controllers controllers;
+		public String getId() {
+			return id;
+		}
 
-        public Controllers getControllers() {
-            return controllers;
-        }
+		public void setId(String id) {
+			this.id = id;
+		}
 
-        public void setControllers(Controllers controllers) {
-            this.controllers = controllers;
-        }
-    }
+		public String getName() {
+			return name;
+		}
 
-    private User self;
-    private OtherUser[] users;
+		public void setName(String name) {
+			this.name = name;
+		}
 
-    public SelfConnectedMessage() {
-        super(EVENT);
-    }
+		public Color getColor() {
+			return color;
+		}
 
-    public User getSelf() {
-        return self;
-    }
+		public void setColor(Color color) {
+			this.color = color;
+		}
+	}
 
-    public void setSelf(User self) {
-        this.self = self;
-    }
+	public static class OtherUser extends User {
+		private Controller[] controllers;
+		private double[] position;
+		private double[] quaternion;
 
-    public OtherUser[] getUsers() {
-        return users;
-    }
+		public Controller[] getControllers() {
+			return controllers;
+		}
 
-    public void setUsers(OtherUser[] users) {
-        this.users = users;
-    }
+		public void setControllers(Controller[] controllers) {
+			this.controllers = controllers;
+		}
+
+		public double[] getPosition() {
+			return position;
+		}
+
+		public void setPosition(double[] position) {
+			this.position = position;
+		}
+
+		public double[] getQuaternion() {
+			return quaternion;
+		}
+
+		public void setQuaternion(double[] quaternion) {
+			this.quaternion = quaternion;
+		}
+	}
+
+	private User self;
+	private OtherUser[] users;
+
+	public SelfConnectedMessage() {
+		super(EVENT);
+	}
+
+	public User getSelf() {
+		return self;
+	}
+
+	public void setSelf(User self) {
+		this.self = self;
+	}
+
+	public OtherUser[] getUsers() {
+		return users;
+	}
+
+	public void setUsers(OtherUser[] users) {
+		this.users = users;
+	}
 }

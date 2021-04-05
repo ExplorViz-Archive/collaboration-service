@@ -89,8 +89,13 @@ public class RoomResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public LobbyJoinedResponse joinLobby(@PathParam("room-id") String roomId, JoinLobbyPayload body) {
 		var room = roomService.lookupRoom(roomId);
-		var user = room.getUserService().makeUserModel(body.getUserName());
-		var ticket = ticketService.drawTicket(room, user);
+		
+		// Initialize user model.
+		var userModel = room.getUserService().makeUserModel(body.getUserName());
+		userModel.setPosition(body.getPosition());
+		userModel.setQuaternion(body.getQuaternion());
+		
+		var ticket = ticketService.drawTicket(room, userModel);
 		return new LobbyJoinedResponse(ticket.getTicketId(), ticket.getValidUntil().toEpochMilli());
 	}
 }

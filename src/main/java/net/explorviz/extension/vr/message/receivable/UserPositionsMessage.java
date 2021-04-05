@@ -1,7 +1,5 @@
 package net.explorviz.extension.vr.message.receivable;
 
-import java.util.Date;
-
 import net.explorviz.extension.vr.message.ReceivableMessage;
 import net.explorviz.extension.vr.message.ReceivableMessageHandler;
 
@@ -30,26 +28,8 @@ public class UserPositionsMessage extends ReceivableMessage {
         }
     }
 
-    public static class ControllerPose {
-        private double[] position;
-        private double[] quaternion;
+    public static class ControllerPose extends Pose {
         private double[] intersection;
-
-        public double[] getPosition() {
-            return position;
-        }
-
-        public void setPosition(double[] position) {
-            this.position = position;
-        }
-
-        public double[] getQuaternion() {
-            return quaternion;
-        }
-
-        public void setQuaternion(double[] quaternion) {
-            this.quaternion = quaternion;
-        }
 
         public double[] getIntersection() {
             return intersection;
@@ -58,13 +38,11 @@ public class UserPositionsMessage extends ReceivableMessage {
         public void setIntersection(double[] intersection) {
             this.intersection = intersection;
         }
-
     }
 
     private ControllerPose controller1;
     private ControllerPose controller2;
     private Pose camera;
-    private Date time;
 
     public UserPositionsMessage() {
         super(EVENT);
@@ -93,15 +71,7 @@ public class UserPositionsMessage extends ReceivableMessage {
     public void setCamera(Pose camera) {
         this.camera = camera;
     }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
-    }
-
+ 
     @Override
     public <R, A> R handleWith(ReceivableMessageHandler<R, A> handler, A arg) {
         return handler.handleUserPositionsMessage(this, arg);

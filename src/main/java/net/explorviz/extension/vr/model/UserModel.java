@@ -1,12 +1,14 @@
 package net.explorviz.extension.vr.model;
 
 import java.awt.Color;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserModel extends BaseModel {
 
     private String userName;
-    private final ControllerModel controller1;
-    private final ControllerModel controller2;
+    private final Map<Integer, ControllerModel> controllers;
     private State state;
     private long timeOfLastMessage;
     private Color color;
@@ -17,12 +19,10 @@ public class UserModel extends BaseModel {
         CONNECTING, CONNECTED, SPECTATING
     };
 
-    public UserModel(String id, String userName, ControllerModel controller1, ControllerModel controller2,
-            Color color) {
+    public UserModel(String id, String userName, Color color) {
         super(id);
         this.userName = userName;
-        this.controller1 = controller1;
-        this.controller2 = controller2;
+        this.controllers = new HashMap<>();
         this.color = color;
     }
 
@@ -42,12 +42,20 @@ public class UserModel extends BaseModel {
         return userName;
     }
 
-    public ControllerModel getController1() {
-        return this.controller1;
+    public Collection<ControllerModel> getControllers() {
+    	return controllers.values();
     }
 
-    public ControllerModel getController2() {
-        return this.controller2;
+    public ControllerModel getController(int controllerId) {
+    	return controllers.get(controllerId);
+    }
+
+    public void addController(ControllerModel controllerModel) {
+    	controllers.put(controllerModel.getControllerId(), controllerModel);
+    }
+
+    public void removeController(int controllerId) {
+    	controllers.remove(controllerId);
     }
 
     public long getTimeOfLastMessage() {
@@ -75,5 +83,4 @@ public class UserModel extends BaseModel {
     public HighlightingModel getHighlightedEntity() {
         return this.highlightedEntity;
     }
-
 }

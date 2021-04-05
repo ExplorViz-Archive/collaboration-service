@@ -15,6 +15,9 @@ public class UserConnectedMessage extends BroadcastableMessage {
 
     @JsonSerialize(using = ColorSerializer.class)
     private Color color;
+    
+    private double[] position;
+    private double[] quaternion;
 
     public UserConnectedMessage() {
         super(EVENT);
@@ -43,4 +46,20 @@ public class UserConnectedMessage extends BroadcastableMessage {
     public void setColor(Color color) {
         this.color = color;
     }
+
+	public double[] getPosition() {
+		return position;
+	}
+
+	public void setPosition(double[] position) {
+		this.position = position;
+	}
+
+	public double[] getQuaternion() {
+		return quaternion;
+	}
+
+	public void setQuaternion(double[] quaternion) {
+		this.quaternion = quaternion;
+	}
 }

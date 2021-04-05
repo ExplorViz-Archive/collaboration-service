@@ -36,7 +36,8 @@ import net.explorviz.extension.vr.message.receivable.ObjectReleasedMessage;
 import net.explorviz.extension.vr.message.receivable.PingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.TimestampUpdateMessage;
-import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
+import net.explorviz.extension.vr.message.receivable.UserControllerConnectMessage;
+import net.explorviz.extension.vr.message.receivable.UserControllerDisconnectMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
 import net.explorviz.extension.vr.message.respondable.ObjectClosedResponse;
 import net.explorviz.extension.vr.message.respondable.ObjectGrabbedResponse;
@@ -116,8 +117,8 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
 
 		// Remove the user from the room.
 		final var room = session.getRoom();
-		final var userId = session.getUser().getId();
-		room.getUserService().removeUser(userId);
+		final var user = session.getUser();
+		room.getUserService().removeUser(user);
 	}
 
 	@OnError
@@ -224,8 +225,8 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
 	@Override
 	public ShouldForward handleHighlightingUpdateMessage(HighlightingUpdateMessage message, VrSession session) {
 		final var room = session.getRoom();
-		final var userId = session.getUser().getId();
-		room.getUserService().updateHighlighting(userId, message.getAppId(), message.getEntityId(),
+		final var user = session.getUser();
+		room.getUserService().updateHighlighting(user, message.getAppId(), message.getEntityId(),
 				message.getEntityType(), message.getIsHighlighted());
 		return ShouldForward.FORWARD;
 	}
@@ -233,16 +234,24 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
 	@Override
 	public ShouldForward handleSpectatingUpdateMessage(SpectatingUpdateMessage message, VrSession session) {
 		final var room = session.getRoom();
-		final var userId = session.getUser().getId();
-		room.getUserService().updateSpectating(userId, message.getIsSpectating());
+		final var user = session.getUser();
+		room.getUserService().updateSpectating(user, message.getIsSpectating());
 		return ShouldForward.FORWARD;
 	}
 
 	@Override
-	public ShouldForward handleUserControllersMessage(UserControllersMessage message, VrSession session) {
+	public ShouldForward handleUserControllerConnectMessage(UserControllerConnectMessage message, VrSession session) {
 		final var room = session.getRoom();
-		final var userId = session.getUser().getId();
-		room.getUserService().updateUserControllers(userId, message.getConnect(), message.getDisconnect());
+		final var user = session.getUser();
+		room.getUserService().connectController(user, message.getController());
+		return ShouldForward.FORWARD;
+	}
+
+	@Override
+	public ShouldForward handleUserControllerDisconnectMessage(UserControllerDisconnectMessage message, VrSession session) {
+		final var room = session.getRoom();
+		final var user = session.getUser();
+		room.getUserService().disconnectController(user, message.getControllerId());
 		return ShouldForward.FORWARD;
 	}
 
@@ -254,7 +263,10 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
 	@Override
 	public ShouldForward handleUserPositionsMessage(UserPositionsMessage message, VrSession session) {
 		final var room = session.getRoom();
-		room.getUserService().updateUserPosition();
+		final var user = session.getUser();
+		room.getUserService().updateUserPose(user, message.getCamera());
+		room.getUserService().updateControllerPose(user.getController(0), message.getController1());
+		room.getUserService().updateControllerPose(user.getController(1), message.getController2());
 		return ShouldForward.FORWARD;
 	}
 

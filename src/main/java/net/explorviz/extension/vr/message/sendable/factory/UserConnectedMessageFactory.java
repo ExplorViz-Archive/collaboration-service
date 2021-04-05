@@ -12,6 +12,8 @@ public class UserConnectedMessageFactory {
         message.setId(userModel.getId());
         message.setName(userModel.getUserName());
         message.setColor(userModel.getColor());
+        message.setPosition(userModel.getPosition());
+        message.setQuaternion(userModel.getQuaternion());
         return message;
     }
 }

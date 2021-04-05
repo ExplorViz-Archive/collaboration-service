@@ -12,7 +12,8 @@ import net.explorviz.extension.vr.message.receivable.ObjectReleasedMessage;
 import net.explorviz.extension.vr.message.receivable.PingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.TimestampUpdateMessage;
-import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
+import net.explorviz.extension.vr.message.receivable.UserControllerConnectMessage;
+import net.explorviz.extension.vr.message.receivable.UserControllerDisconnectMessage;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
 
 /**
@@ -38,7 +39,9 @@ public interface ReceivableMessageHandler<R, A> {
 
     R handleSpectatingUpdateMessage(SpectatingUpdateMessage message, A arg);
 
-    R handleUserControllersMessage(UserControllersMessage message, A arg);
+	R handleUserControllerConnectMessage(UserControllerConnectMessage userControllerConnectedMessage, A arg);
+	
+	R handleUserControllerDisconnectMessage(UserControllerDisconnectMessage userControllerDisconnectedMessage, A arg);
 
     R handleUserPositionsMessage(UserPositionsMessage message, A arg);
 

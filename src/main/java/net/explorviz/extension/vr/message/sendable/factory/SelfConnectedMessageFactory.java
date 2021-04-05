@@ -4,12 +4,17 @@ import java.util.ArrayList;
 
 import javax.enterprise.context.ApplicationScoped;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
+import net.explorviz.extension.vr.model.ControllerModel;
 import net.explorviz.extension.vr.model.UserModel;
 import net.explorviz.extension.vr.service.Room;
 
 @ApplicationScoped
 public class SelfConnectedMessageFactory {
+	private static final Logger LOGGER = LoggerFactory.getLogger(SelfConnectedMessageFactory.class);
 
     public SelfConnectedMessage makeMessage(UserModel userModel, Room room) {
         final var message = new SelfConnectedMessage();
@@ -29,11 +34,25 @@ public class SelfConnectedMessageFactory {
                 otherUser.setId(otherModel.getId());
                 otherUser.setName(otherModel.getUserName());
                 otherUser.setColor(otherModel.getColor());
+                
+                // Set user pose.
+                otherUser.setPosition(otherModel.getPosition());
+                otherUser.setQuaternion(otherModel.getQuaternion());
 
-                final var otherControllers = new SelfConnectedMessage.Controllers();
-                otherControllers.setController1(otherModel.getController1().getName());
-                otherControllers.setController2(otherModel.getController2().getName());
-                otherUser.setControllers(otherControllers);
+                // Set user controllers.
+                final var otherControllers = new ArrayList<SelfConnectedMessage.Controller>();
+                for (ControllerModel controllerModel : otherModel.getControllers()) {
+                	if (controllerModel != null) { 
+	                	final var otherController = new SelfConnectedMessage.Controller();
+	                	otherController.setControllerId(controllerModel.getControllerId());
+	                	otherController.setAssetUrl(controllerModel.getAssetUrl());
+	                	otherController.setPosition(controllerModel.getPosition());
+	                	otherController.setQuaternion(controllerModel.getQuaternion());
+	                	otherController.setIntersection(controllerModel.getIntersection());
+	                	otherControllers.add(otherController);
+                	}
+                }
+                otherUser.setControllers(otherControllers.toArray((n) -> new SelfConnectedMessage.Controller[n]));
 
                 otherUserList.add(otherUser);
             }

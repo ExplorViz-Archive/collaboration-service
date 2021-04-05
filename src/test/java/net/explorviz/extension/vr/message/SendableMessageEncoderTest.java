@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,12 +26,10 @@ import net.explorviz.extension.vr.message.receivable.ComponentUpdateMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectMovedMessage;
 import net.explorviz.extension.vr.message.receivable.ObjectReleasedMessage;
 import net.explorviz.extension.vr.message.receivable.SpectatingUpdateMessage;
-import net.explorviz.extension.vr.message.receivable.UserControllersMessage;
-import net.explorviz.extension.vr.message.receivable.UserControllersMessage.Controllers;
 import net.explorviz.extension.vr.message.receivable.UserPositionsMessage;
 import net.explorviz.extension.vr.message.respondable.ObjectGrabbedResponse;
-import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
 import net.explorviz.extension.vr.message.sendable.InitialLandscapeMessage;
+import net.explorviz.extension.vr.message.sendable.SelfConnectedMessage;
 import net.explorviz.extension.vr.message.sendable.UserConnectedMessage;
 import net.explorviz.extension.vr.message.sendable.UserDisconnectedMessage;
 
@@ -212,34 +209,6 @@ public class SendableMessageEncoderTest {
 	}
 
 	@Test
-	public void testForwardedUserControllersMessage() throws EncodeException, IOException {
-		final var message = new UserControllersMessage();
-		message.setConnect(new Controllers());
-		message.getConnect().setController1("oculus-left");
-		message.getConnect().setController2("oculus-right");
-		message.setDisconnect(new Controllers());
-		message.getDisconnect().setController1("vive-left");
-		message.getDisconnect().setController2("vive-right");
-		final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
-		final var expected = "{" //
-				+ "  \"event\": \"forward\"," //
-				+ "  \"userId\": \"alice\"," //
-				+ "  \"originalMessage\": {" //
-				+ "    \"event\": \"user_controllers\"," //
-				+ "    \"connect\": {" //
-				+ "      \"controller1\": \"oculus-left\"," //
-				+ "      \"controller2\": \"oculus-right\"" //
-				+ "    }," //
-				+ "    \"disconnect\": {" //
-				+ "      \"controller1\": \"vive-left\"," //
-				+ "      \"controller2\": \"vive-right\"" //
-				+ "    }" //
-				+ "  }" //
-				+ "}";
-		assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
-	}
-
-	@Test
 	public void testForwardedUserPositionsMessage() throws EncodeException, IOException {
 		final var message = new UserPositionsMessage();
 		message.setController1(new UserPositionsMessage.ControllerPose());
@@ -253,7 +222,6 @@ public class SendableMessageEncoderTest {
 		message.setCamera(new UserPositionsMessage.Pose());
 		message.getCamera().setPosition(new double[] { 1.0, 2.0, 3.0 });
 		message.getCamera().setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
-		message.setTime(new Date(884300400000L));
 		final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
 		final var expected = "{" //
 				+ "  \"event\": \"forward\"," //
@@ -273,8 +241,7 @@ public class SendableMessageEncoderTest {
 				+ "    \"camera\": {" //
 				+ "      \"position\": [1.0, 2.0, 3.0]," //
 				+ "      \"quaternion\": [1.0, 2.0, 3.0, 4.0]" //
-				+ "    }," //
-				+ "    \"time\": 884300400000" //
+				+ "    }" //
 				+ "  }" //
 				+ "}";
 		assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
@@ -295,9 +262,15 @@ public class SendableMessageEncoderTest {
 		message.getUsers()[0].setId("bar");
 		message.getUsers()[0].setName("bob");
 		message.getUsers()[0].setColor(new Color(148, 42, 0));
-		message.getUsers()[0].setControllers(new SelfConnectedMessage.Controllers());
-		message.getUsers()[0].getControllers().setController1("baz");
-		message.getUsers()[0].getControllers().setController2("qux");
+		message.getUsers()[0].setPosition(new double[] { 1.0, 2.0, 3.0 });
+		message.getUsers()[0].setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
+		message.getUsers()[0]
+				.setControllers(new SelfConnectedMessage.Controller[] { new SelfConnectedMessage.Controller() });
+		message.getUsers()[0].getControllers()[0].setControllerId(1);
+		message.getUsers()[0].getControllers()[0].setAssetUrl("baz");
+		message.getUsers()[0].getControllers()[0].setPosition(new double[] { 1.0, 2.0, 3.0 });
+		message.getUsers()[0].getControllers()[0].setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
+		message.getUsers()[0].getControllers()[0].setIntersection(new double[] { 1.0, 2.0, 3.0 });
 
 		final var actual = encoder.encodeMessage(message);
 		final var expected = "{" //
@@ -311,10 +284,15 @@ public class SendableMessageEncoderTest {
 				+ "    \"id\": \"bar\"," //
 				+ "    \"name\": \"bob\"," //
 				+ "    \"color\": [0.5803921568627451, 0.16470588235294117, 0.0]," //
-				+ "    \"controllers\": {" //
-				+ "      \"controller1\": \"baz\"," //
-				+ "      \"controller2\": \"qux\"" //
-				+ "    }" //
+				+ "    \"controllers\": [{" //
+				+ "      \"controllerId\": 1," //
+				+ "      \"assetUrl\": \"baz\"," //
+				+ "      \"position\": [1.0, 2.0, 3.0]," //
+				+ "      \"quaternion\": [1.0, 2.0, 3.0, 4.0]," //
+				+ "      \"intersection\": [1.0, 2.0, 3.0]" //
+				+ "    }]," //
+				+ "    \"position\": [1.0, 2.0, 3.0]," //
+				+ "    \"quaternion\": [1.0, 2.0, 3.0, 4.0]" //
 				+ "  }]" //
 				+ "}";
 		assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
@@ -326,12 +304,16 @@ public class SendableMessageEncoderTest {
 		message.setId("foo");
 		message.setName("bar");
 		message.setColor(new Color(0, 42, 148));
+		message.setPosition(new double[] { 1.0, 2.0, 3.0 });
+		message.setQuaternion(new double[] { 1.0, 2.0, 3.0, 4.0 });
 		final var actual = encoder.encodeMessage(message);
 		final var expected = "{" //
 				+ "  \"event\": \"user_connected\"," //
 				+ "  \"id\": \"foo\"," //
 				+ "  \"name\": \"bar\"," //
-				+ "  \"color\": [0.0, 0.16470588235294117, 0.5803921568627451]" //
+				+ "  \"color\": [0.0, 0.16470588235294117, 0.5803921568627451]," //
+				+ "  \"position\": [1.0, 2.0, 3.0]," //
+				+ "  \"quaternion\": [1.0, 2.0, 3.0, 4.0]" //
 				+ "}";
 		assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
 	}

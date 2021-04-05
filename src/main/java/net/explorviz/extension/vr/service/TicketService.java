@@ -84,8 +84,8 @@ public class TicketService {
 		// Test whether the ticket is still valid.
 		final var expiryDate = ticket.getValidUntil();
 		if (Instant.now().isAfter(expiryDate)) {
-			// If the ticket could not be redeemed, notify the user service that the user model is not needed anymore.
-			room.getUserService().discardUserModel(ticket.getUser());
+			// Notify the user service that the user model is not needed anymore.
+			room.getUserService().removeUser(ticket.getUser());
 			
             throw new IllegalStateException("Ticket " + ticketId + " expired at " + expiryDate);
 		}

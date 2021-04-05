@@ -8,7 +8,9 @@ import javax.enterprise.event.Event;
 
 import net.explorviz.extension.vr.event.UserConnectedEvent;
 import net.explorviz.extension.vr.event.UserDisconnectedEvent;
-import net.explorviz.extension.vr.message.receivable.UserControllersMessage.Controllers;
+import net.explorviz.extension.vr.message.receivable.UserControllerConnectMessage;
+import net.explorviz.extension.vr.message.receivable.UserPositionsMessage.ControllerPose;
+import net.explorviz.extension.vr.message.receivable.UserPositionsMessage.Pose;
 import net.explorviz.extension.vr.model.ControllerModel;
 import net.explorviz.extension.vr.model.UserModel;
 import net.explorviz.extension.vr.model.UserModel.State;
@@ -41,42 +43,39 @@ public class UserService {
         this.grabService = grabService;
     }
 
-    public void updateUserPosition() {
-        // TODO implement
+    public void updateUserPose(UserModel user, Pose pose) {
+    	if (user != null && pose != null) {
+	        user.setPosition(pose.getPosition());
+	        user.setQuaternion(pose.getQuaternion());
+    	}
     }
 
-    public void updateUserControllers(String userId, Controllers connect, Controllers disconnect) {
-        UserModel user = users.get(userId);
-        if (user != null) {
-            if (connect != null) {
-                if (connect.getController1() != null) {
-                    user.getController1().setName(connect.getController1());
-                }
-                if (connect.getController2() != null) {
-                    user.getController2().setName(connect.getController2());
-                }
-            }
-            if (disconnect != null) {
-                if (disconnect.getController1() != null) {
-                    user.getController1().setName(null);
-                }
-                if (disconnect.getController2() != null) {
-                    user.getController2().setName(null);
-                }
-            }
+    public void updateControllerPose(ControllerModel controller, ControllerPose pose) {
+        if (controller != null && pose != null) {
+        	controller.setPosition(pose.getPosition());
+        	controller.setQuaternion(pose.getQuaternion());
+        	controller.setIntersection(pose.getIntersection());
         }
     }
-
-    public void updateSpectating(String userId, boolean isSpectating) {
-        UserModel user = users.get(userId);
-        if (user != null) {
-            user.setState(isSpectating ? State.SPECTATING : State.CONNECTED);
-        }
+    
+    public void connectController(UserModel user, UserControllerConnectMessage.Controller controller) {
+    	ControllerModel controllerModel = makeControllerModel(controller.getControllerId(), controller.getAssetUrl());
+    	controllerModel.setPosition(controller.getPosition());
+    	controllerModel.setQuaternion(controller.getQuaternion());
+    	controllerModel.setIntersection(controller.getIntersection());
+    	user.addController(controllerModel);
+    }
+    
+    public void disconnectController(UserModel user, int controllerId) {
+      	user.removeController(controllerId);
+    }
+    
+    public void updateSpectating(UserModel user, boolean isSpectating) {
+    	user.setState(isSpectating ? State.SPECTATING : State.CONNECTED);
     }
 
-    public void updateHighlighting(String userId, String appId, String entityId, String entityType,
+    public void updateHighlighting(UserModel user, String appId, String entityId, String entityType,
             boolean isHighlighted) {
-        UserModel user = users.get(userId);
         if (!isHighlighted) {
             user.setHighlighted(false);
             return;
@@ -94,35 +93,30 @@ public class UserService {
 
     public UserModel makeUserModel(String userName) {
         final var userId = idGenerationService.nextId();
-        final var controller1 = makeControllerModel();
-        final var controller2 = makeControllerModel();
         final var color = colorAssignmentService.assignColor();
-        return new UserModel(userId, userName, controller1, controller2, color);
+        return new UserModel(userId, userName, color);
     }
 
-    private ControllerModel makeControllerModel() {
-        final var controllerId = idGenerationService.nextId();
-        return new ControllerModel(controllerId);
+    public ControllerModel makeControllerModel(int controllerId, String assetUrl) {
+        final var id = idGenerationService.nextId();
+        return new ControllerModel(id, controllerId, assetUrl);
     }
 
-    public void addUser(UserModel userModel) {
-        users.put(userModel.getId(), userModel);
-        userConnectedEvent.fireAsync(new UserConnectedEvent(userModel, room));
+    public void addUser(UserModel user) {
+        users.put(user.getId(), user);
+        userConnectedEvent.fireAsync(new UserConnectedEvent(user, room));
     }
 
-    public void removeUser(String userId) {
-        UserModel userModel = users.remove(userId);
-        if (userModel != null) {
-            this.discardUserModel(userModel);
-            userDisconnectedEvent.fireAsync(new UserDisconnectedEvent(userModel, room));
+    public void removeUser(UserModel user) {
+    	colorAssignmentService.unassignColor(user.getColor());
+        grabService.releaseAllGrabbedObjectsByUser(user.getId());
+        
+        if (users.containsKey(user.getId())) {
+        	users.remove(user.getId());
+        	userDisconnectedEvent.fireAsync(new UserDisconnectedEvent(user, room));
         }
     }
     
-    public void discardUserModel(UserModel userModel) {
-    	colorAssignmentService.unassignColor(userModel.getColor());
-        grabService.releaseAllGrabbedObjectsByUser(userModel.getId());
-    }
-
     public Collection<UserModel> getUsers() {
         return this.users.values();
     }
