@@ -80,15 +80,15 @@ public class SendableMessageEncoderTest {
 	public void testForwardedAppClosesdMessage() throws EncodeException, IOException {
 		final var message = new AppClosedMessage();
 		message.setNonce(42);
-		message.setAppID("foo");
+		message.setAppId("foo");
 		final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
 		final var expected = "{" //
 				+ "  \"event\": \"forward\"," //
-				+ "  \"userID\": \"alice\"," //
+				+ "  \"userId\": \"alice\"," //
 				+ "  \"originalMessage\": {" //
 				+ "    \"event\": \"app_closed\"," //
 				+ "    \"nonce\": 42," //
-				+ "    \"appID\": \"foo\"" //
+				+ "    \"appId\": \"foo\"" //
 				+ "  }" //
 				+ "}";
 		assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
@@ -119,7 +119,7 @@ public class SendableMessageEncoderTest {
 		final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
 		final var expected = "{" //
 				+ "  \"event\": \"forward\"," //
-				+ "  \"userID\": \"alice\"," //
+				+ "  \"userId\": \"alice\"," //
 				+ "  \"originalMessage\": {" //
 				+ "    \"event\": \"app_opened\"," //
 				+ "    \"id\": \"foo\"," //
@@ -138,7 +138,7 @@ public class SendableMessageEncoderTest {
 		final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
 		final var expected = "{" //
 				+ "  \"event\": \"forward\"," //
-				+ "  \"userID\": \"alice\"," //
+				+ "  \"userId\": \"alice\"," //
 				+ "  \"originalMessage\": {" //
 				+ "    \"event\": \"object_released\"," //
 				+ "    \"objectId\": \"foo\"" //
@@ -157,7 +157,7 @@ public class SendableMessageEncoderTest {
 		final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
 		final var expected = "{" //
 				+ "  \"event\": \"forward\"," //
-				+ "  \"userID\": \"alice\"," //
+				+ "  \"userId\": \"alice\"," //
 				+ "  \"originalMessage\": {" //
 				+ "    \"event\": \"object_moved\"," //
 				+ "    \"objectId\": \"foo\"," //
@@ -172,18 +172,18 @@ public class SendableMessageEncoderTest {
 	@Test
 	public void testForwardedComponentUpdateMessage() throws EncodeException, IOException {
 		final var message = new ComponentUpdateMessage();
-		message.setAppID("foo");
-		message.setComponentID("bar");
+		message.setAppId("foo");
+		message.setComponentId("bar");
 		message.setIsOpened(true);
 		message.setIsFoundation(true);
 		final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
 		final var expected = "{" //
 				+ "  \"event\": \"forward\"," //
-				+ "  \"userID\": \"alice\"," //
+				+ "  \"userId\": \"alice\"," //
 				+ "  \"originalMessage\": {" //
 				+ "    \"event\": \"component_update\"," //
-				+ "    \"appID\": \"foo\"," //
-				+ "    \"componentID\": \"bar\"," //
+				+ "    \"appId\": \"foo\"," //
+				+ "    \"componentId\": \"bar\"," //
 				+ "    \"isOpened\": true," //
 				+ "    \"isFoundation\": true" //
 				+ "  }" //
@@ -194,16 +194,16 @@ public class SendableMessageEncoderTest {
 	@Test
 	public void testForwardedSpectatingUpdateMessage() throws EncodeException, IOException {
 		final var message = new SpectatingUpdateMessage();
-		message.setUserID("foo");
+		message.setUserId("foo");
 		message.setIsSpectating(true);
 		message.setSpectatedUser("bar");
 		final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
 		final var expected = "{" //
 				+ "  \"event\": \"forward\"," //
-				+ "  \"userID\": \"alice\"," //
+				+ "  \"userId\": \"alice\"," //
 				+ "  \"originalMessage\": {" //
 				+ "    \"event\": \"spectating_update\"," //
-				+ "    \"userID\": \"foo\"," //
+				+ "    \"userId\": \"foo\"," //
 				+ "    \"isSpectating\": true," //
 				+ "    \"spectatedUser\": \"bar\"" //
 				+ "  }" //
@@ -223,7 +223,7 @@ public class SendableMessageEncoderTest {
 		final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
 		final var expected = "{" //
 				+ "  \"event\": \"forward\"," //
-				+ "  \"userID\": \"alice\"," //
+				+ "  \"userId\": \"alice\"," //
 				+ "  \"originalMessage\": {" //
 				+ "    \"event\": \"user_controllers\"," //
 				+ "    \"connect\": {" //
@@ -257,7 +257,7 @@ public class SendableMessageEncoderTest {
 		final var actual = encoder.encodeMessage(new ForwardedMessage("alice", message));
 		final var expected = "{" //
 				+ "  \"event\": \"forward\"," //
-				+ "  \"userID\": \"alice\"," //
+				+ "  \"userId\": \"alice\"," //
 				+ "  \"originalMessage\": {" //
 				+ "    \"event\": \"user_positions\"," //
 				+ "    \"controller1\": {" //
@@ -360,10 +360,10 @@ public class SendableMessageEncoderTest {
 		// Create a highlighted component.
 		message.getOpenApps()[0].setHighlightedComponents(
 				new InitialLandscapeMessage.HighlightingObject[] { new InitialLandscapeMessage.HighlightingObject() });
-		message.getOpenApps()[0].getHighlightedComponents()[0].setUserID("alice");
-		message.getOpenApps()[0].getHighlightedComponents()[0].setAppID("baz");
+		message.getOpenApps()[0].getHighlightedComponents()[0].setUserId("alice");
+		message.getOpenApps()[0].getHighlightedComponents()[0].setAppId("baz");
 		message.getOpenApps()[0].getHighlightedComponents()[0].setEntityType("v");
-		message.getOpenApps()[0].getHighlightedComponents()[0].setEntityID("w");
+		message.getOpenApps()[0].getHighlightedComponents()[0].setEntityId("w");
 		message.getOpenApps()[0].getHighlightedComponents()[0].setHighlighted(true);
 
 		// Set landscape position and rotation.
@@ -394,10 +394,10 @@ public class SendableMessageEncoderTest {
 				+ "    \"scale\": [1.0, 1.0, 1.0]," //
 				+ "    \"openComponents\": [\"x\", \"y\", \"z\"]," //
 				+ "    \"highlightedComponents\": [{" //
-				+ "      \"userID\": \"alice\"," //
-				+ "      \"appID\": \"baz\"," //
+				+ "      \"userId\": \"alice\"," //
+				+ "      \"appId\": \"baz\"," //
 				+ "      \"entityType\": \"v\"," //
-				+ "      \"entityID\": \"w\"," //
+				+ "      \"entityId\": \"w\"," //
 				+ "      \"isHighlighted\": true" //
 				+ "    }]" //
 				+ "  }]," //

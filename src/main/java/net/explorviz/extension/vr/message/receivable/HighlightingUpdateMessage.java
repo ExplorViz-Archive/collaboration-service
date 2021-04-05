@@ -7,21 +7,21 @@ public class HighlightingUpdateMessage extends ReceivableMessage {
 
     public static final String EVENT = "highlighting_update";
 
-    private String appID;
+    private String appId;
     private String entityType;
-    private String entityID;
+    private String entityId;
     private boolean isHighlighted;
 
     public HighlightingUpdateMessage() {
         super(EVENT);
     }
 
-    public String getAppID() {
-        return appID;
+    public String getAppId() {
+        return appId;
     }
 
-    public void setAppID(String appID) {
-        this.appID = appID;
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 
     public String getEntityType() {
@@ -32,12 +32,12 @@ public class HighlightingUpdateMessage extends ReceivableMessage {
         this.entityType = entityType;
     }
 
-    public String getEntityID() {
-        return entityID;
+    public String getEntityId() {
+        return entityId;
     }
 
-    public void setEntityID(String entityID) {
-        this.entityID = entityID;
+    public void setEntityId(String entityId) {
+        this.entityId = entityId;
     }
 
     public boolean getIsHighlighted() {

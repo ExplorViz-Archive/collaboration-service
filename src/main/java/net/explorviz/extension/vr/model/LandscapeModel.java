@@ -3,7 +3,7 @@ package net.explorviz.extension.vr.model;
 /**
  * Model for the landscape entity.
  */
-public class LandscapeModel extends ScalableBaseModel implements GrabbableObject {
+public class LandscapeModel extends ScalableBaseModel implements GrabbableObjectModel {
     private String landscapeToken;
     private long timestamp;
 

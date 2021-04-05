@@ -7,8 +7,8 @@ public class ComponentUpdateMessage extends ReceivableMessage {
 
     public static final String EVENT = "component_update";
 
-    private String appID;
-    private String componentID;
+    private String appId;
+    private String componentId;
     private boolean isOpened;
     private boolean isFoundation;
 
@@ -16,20 +16,20 @@ public class ComponentUpdateMessage extends ReceivableMessage {
         super(EVENT);
     }
 
-    public String getAppID() {
-        return appID;
+    public String getAppId() {
+        return appId;
     }
 
-    public void setAppID(String appID) {
-        this.appID = appID;
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 
-    public String getComponentID() {
-        return componentID;
+    public String getComponentId() {
+        return componentId;
     }
 
-    public void setComponentID(String componentID) {
-        this.componentID = componentID;
+    public void setComponentId(String componentId) {
+        this.componentId = componentId;
     }
 
     public boolean getIsOpened() {

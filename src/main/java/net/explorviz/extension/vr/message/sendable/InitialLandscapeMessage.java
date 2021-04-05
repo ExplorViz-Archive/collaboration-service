@@ -113,26 +113,26 @@ public class InitialLandscapeMessage extends SendableMessage {
     }
 
     public static class HighlightingObject {
-        private String userID;
-        private String appID;
+        private String userId;
+        private String appId;
         private String entityType;
-        private String entityID;
+        private String entityId;
         private boolean isHighlighted;
 
-        public String getUserID() {
-            return userID;
+        public String getUserId() {
+            return userId;
         }
 
-        public void setUserID(String userID) {
-            this.userID = userID;
+        public void setUserId(String userId) {
+            this.userId = userId;
         }
 
-        public String getAppID() {
-            return appID;
+        public String getAppId() {
+            return appId;
         }
 
-        public void setAppID(String appID) {
-            this.appID = appID;
+        public void setAppId(String appId) {
+            this.appId = appId;
         }
 
         public String getEntityType() {
@@ -143,12 +143,12 @@ public class InitialLandscapeMessage extends SendableMessage {
             this.entityType = entityType;
         }
 
-        public String getEntityID() {
-            return entityID;
+        public String getEntityId() {
+            return entityId;
         }
 
-        public void setEntityID(String entityID) {
-            this.entityID = entityID;
+        public void setEntityId(String entityId) {
+            this.entityId = entityId;
         }
 
         public boolean getIsHighlighted() {

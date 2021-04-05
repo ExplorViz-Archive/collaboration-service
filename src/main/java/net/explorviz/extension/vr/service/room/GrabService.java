@@ -4,21 +4,21 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import net.explorviz.extension.vr.model.GrabbableObject;
+import net.explorviz.extension.vr.model.GrabbableObjectModel;
 
 public class GrabService {
 
-    private final Map<String, GrabbableObject> grabbableObjects = new ConcurrentHashMap<>();
+    private final Map<String, GrabbableObjectModel> grabbableObjects = new ConcurrentHashMap<>();
     
     private final Map<String, String> grabbedObjectToUser = new ConcurrentHashMap<>();
 
     private final Map<String, ArrayList<String>> userToGrabbedObjects = new ConcurrentHashMap<>();
 
-    public void addGrabbableObject(GrabbableObject object) {
+    public void addGrabbableObject(GrabbableObjectModel object) {
         this.grabbableObjects.put(object.getGrabId(), object);
     }
     
-    public void removeGrabbableObject(GrabbableObject object) {
+    public void removeGrabbableObject(GrabbableObjectModel object) {
         grabbableObjects.remove(object.getGrabId());
     }
     

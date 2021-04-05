@@ -2,10 +2,7 @@ package net.explorviz.extension.vr.model;
 
 import java.util.ArrayList;
 
-public class ApplicationModel extends ScalableBaseModel implements GrabbableObject {
-
-    private boolean isOpen;
-
+public class ApplicationModel extends ScalableBaseModel implements GrabbableObjectModel {
     private final ArrayList<String> openComponents;
 
     public ApplicationModel(String id) {
@@ -13,19 +10,11 @@ public class ApplicationModel extends ScalableBaseModel implements GrabbableObje
         openComponents = new ArrayList<>();
     }
 
-    public boolean isOpen() {
-        return this.isOpen;
-    }
-
-    public void setOpen(final boolean isOpen) {
-        this.isOpen = isOpen;
-    }
-
-    public void openComponent(final String id) {
+    public void openComponent(String id) {
         openComponents.add(id);
     }
 
-    public void closeComponent(final String id) {
+    public void closeComponent(String id) {
         openComponents.remove(id);
     }
 
@@ -41,5 +30,4 @@ public class ApplicationModel extends ScalableBaseModel implements GrabbableObje
     public String getGrabId() {
         return getId();
     }
-
 }

@@ -1,6 +1,6 @@
 package net.explorviz.extension.vr.model;
 
-public class DetachedMenuModel extends ScalableBaseModel implements GrabbableObject {
+public class DetachedMenuModel extends ScalableBaseModel implements GrabbableObjectModel {
 
     private String entityType;
     private String detachId;

@@ -17,7 +17,7 @@ public class BaseModel {
         return id;
     }
 
-    public void setId(final String id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -26,19 +26,19 @@ public class BaseModel {
         return coordinates;
     }
 
-    public void setPosition(final double[] coordinates) {
+    public void setPosition(double[] coordinates) {
         this.xPos = coordinates[0];
         this.yPos = coordinates[1];
         this.zPos = coordinates[2];
     }
 
-    public void setDeltaPosition(final double[] coordinates) {
+    public void setDeltaPosition(double[] coordinates) {
         this.xPos += coordinates[0];
         this.yPos += coordinates[1];
         this.zPos += coordinates[2];
     }
 
-    public void setPosition(final double x, final double y, final double z) {
+    public void setPosition(double x, double y, double z) {
         this.xPos = x;
         this.yPos = y;
         this.zPos = z;
@@ -49,14 +49,14 @@ public class BaseModel {
         return quaternion;
     }
 
-    public void setQuaternion(final double[] quaternion) {
+    public void setQuaternion(double[] quaternion) {
         this.xQuat = quaternion[0];
         this.yQuat = quaternion[1];
         this.zQuat = quaternion[2];
         this.wQuat = quaternion[3];
     }
 
-    public void setQuaternion(final double xQuat, final double yQuat, final double zQuat, final double wQuat) {
+    public void setQuaternion(double xQuat, double yQuat, double zQuat, double wQuat) {
         this.xQuat = xQuat;
         this.yQuat = yQuat;
         this.zQuat = zQuat;

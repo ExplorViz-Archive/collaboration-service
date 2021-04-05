@@ -18,7 +18,7 @@ public class ForwardedMessage extends BroadcastableMessage {
     /**
      * The ID of the user that sent the original message.
      */
-    private final String userID;
+    private final String userId;
 
     /**
      * A message that was received from the frontend and should be forwarded to all
@@ -30,17 +30,17 @@ public class ForwardedMessage extends BroadcastableMessage {
      * A regular constructor that should be used instead of the default constructor
      * to construct a message of this type manually.
      * 
-     * @param userID         The id of the user that sent the original message.
+     * @param userId         The id of the user that sent the original message.
      * @param originaMessage The original message that is forwarded by this message.
      */
-    public ForwardedMessage(String userID, ReceivableMessage originalMessage) {
+    public ForwardedMessage(String userId, ReceivableMessage originalMessage) {
         super(EVENT);
-        this.userID = userID;
+        this.userId = userId;
         this.originalMessage = originalMessage;
     }
 
-    public String getUserID() {
-        return userID;
+    public String getUserId() {
+        return userId;
     }
 
     public ReceivableMessage getOriginalMessage() {

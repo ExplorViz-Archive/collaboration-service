@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import net.explorviz.extension.vr.model.ApplicationModel;
 
 public class ApplicationService {
-    private final Map<String, ApplicationModel> applications = new ConcurrentHashMap<>();
+    private final Map<String, ApplicationModel> openApplications = new ConcurrentHashMap<>();
 
     private final GrabService grabService;
 	
@@ -16,12 +16,11 @@ public class ApplicationService {
     }
 
     public Collection<ApplicationModel> getApplications() {
-        return applications.values();
+        return openApplications.values();
     }
 
     public void openApplication(String appId, double[] position, double[] quaternion, double[] scale) {
         ApplicationModel appModel = getOrCreateApplication(appId);
-        appModel.setOpen(true);
         appModel.setPosition(position);
         appModel.setQuaternion(quaternion);
         appModel.setScale(scale);
@@ -29,9 +28,9 @@ public class ApplicationService {
 
     public boolean closeApplication(String appId) {
         if (!grabService.isGrabbed(appId)) {
-            var app = applications.get(appId);
+            var app = openApplications.get(appId);
             if (app != null) {
-                applications.remove(appId);
+                openApplications.remove(appId);
                 grabService.removeGrabbableObject(app);
                 return true;
             }
@@ -40,10 +39,10 @@ public class ApplicationService {
     }
     
     public void closeAllApplications() {
-        for (var app : applications.values() ) {
+        for (var app : openApplications.values() ) {
             grabService.removeGrabbableObject(app);
         }
-        applications.clear();
+        openApplications.clear();
     }
 
     public void updateComponent(String componentId, String appId, boolean isFoundation, boolean isOpened) {
@@ -65,12 +64,12 @@ public class ApplicationService {
      * @return The (created) application.
      */
     private ApplicationModel getOrCreateApplication(String appId) {
-        if (applications.containsKey(appId)) {
-            return applications.get(appId);
+        if (openApplications.containsKey(appId)) {
+            return openApplications.get(appId);
         }
 
         final var appModel = new ApplicationModel(appId);
-        applications.put(appId, appModel);
+        openApplications.put(appId, appModel);
         grabService.addGrabbableObject(appModel);
         return appModel;
     }

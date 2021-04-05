@@ -7,7 +7,7 @@ public class SpectatingUpdateMessage extends ReceivableMessage {
 
     public static final String EVENT = "spectating_update";
 
-    private String userID;
+    private String userId;
     private boolean isSpectating;
     private String spectatedUser;
 
@@ -15,12 +15,12 @@ public class SpectatingUpdateMessage extends ReceivableMessage {
         super(EVENT);
     }
 
-    public String getUserID() {
-        return userID;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public boolean getIsSpectating() {

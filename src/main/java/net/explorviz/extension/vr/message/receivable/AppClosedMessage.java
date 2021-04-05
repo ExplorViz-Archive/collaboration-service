@@ -7,18 +7,18 @@ public class AppClosedMessage extends RequestMessage {
 
     public static final String EVENT = "app_closed";
 
-    private String appID;
+    private String appId;
 
     public AppClosedMessage() {
         super(EVENT);
     }
 
-    public String getAppID() {
-        return appID;
+    public String getAppId() {
+        return appId;
     }
 
-    public void setAppID(String appID) {
-        this.appID = appID;
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package net.explorviz.extension.vr.model;
 
-public interface GrabbableObject {
+public interface GrabbableObjectModel {
 
     public String getGrabId();
     

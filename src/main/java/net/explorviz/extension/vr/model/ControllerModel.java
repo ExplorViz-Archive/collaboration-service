@@ -2,18 +2,17 @@ package net.explorviz.extension.vr.model;
 
 public class ControllerModel extends BaseModel {
 
-    private String name;
+	private String assetUrl;
 
-    public String getName() {
-        return name;
-    }
+	public ControllerModel(String id) {
+		super(id);
+	}
 
-    public void setName(final String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return assetUrl;
+	}
 
-    public ControllerModel(String id) {
-        super(id);
-    }
-
+	public void setName(final String assetUrl) {
+		this.assetUrl = assetUrl;
+	}
 }

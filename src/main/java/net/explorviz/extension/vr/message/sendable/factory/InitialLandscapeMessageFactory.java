@@ -31,8 +31,8 @@ public class InitialLandscapeMessageFactory {
             appObj.setScale(app.getScale());
 
             ArrayList<String> componentArray = new ArrayList<>();
-            for (final String componentID : app.getOpenComponents()) {
-                componentArray.add(componentID);
+            for (final String componentId : app.getOpenComponents()) {
+                componentArray.add(componentId);
             }
 
             ArrayList<HighlightingObject> componentHighlightedArray = new ArrayList<>();
@@ -40,10 +40,10 @@ public class InitialLandscapeMessageFactory {
                 if (user.hasHighlightedEntity()) {
                     final HighlightingModel highlighted = user.getHighlightedEntity();
                     HighlightingObject highlightingObj = new HighlightingObject();
-                    highlightingObj.setUserID(user.getId());
-                    highlightingObj.setAppID(highlighted.getHighlightedApp());
+                    highlightingObj.setUserId(user.getId());
+                    highlightingObj.setAppId(highlighted.getHighlightedApp());
                     highlightingObj.setEntityType(highlighted.getEntityType());
-                    highlightingObj.setEntityID(highlighted.getHighlightedEntity());
+                    highlightingObj.setEntityId(highlighted.getHighlightedEntity());
                     highlightingObj.setHighlighted(true);
                     componentHighlightedArray.add(highlightingObj);
                 }

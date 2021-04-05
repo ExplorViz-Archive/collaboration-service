@@ -145,7 +145,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
 	@Override
 	public ShouldForward handleAppClosedMessage(AppClosedMessage message, VrSession session) {
 		final var room = session.getRoom();
-		final var success = room.getApplicationService().closeApplication(message.getAppID());
+		final var success = room.getApplicationService().closeApplication(message.getAppId());
 		message.sendResponse(new ObjectClosedResponse(success));
 		return ShouldForward.FORWARD;
 	}
@@ -216,7 +216,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
 	@Override
 	public ShouldForward handleComponentUpdateMessage(ComponentUpdateMessage message, VrSession session) {
 		final var room = session.getRoom();
-		room.getApplicationService().updateComponent(message.getComponentID(), message.getAppID(),
+		room.getApplicationService().updateComponent(message.getComponentId(), message.getAppId(),
 				message.getIsFoundation(), message.getIsOpened());
 		return ShouldForward.FORWARD;
 	}
@@ -225,7 +225,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
 	public ShouldForward handleHighlightingUpdateMessage(HighlightingUpdateMessage message, VrSession session) {
 		final var room = session.getRoom();
 		final var userId = session.getUser().getId();
-		room.getUserService().updateHighlighting(userId, message.getAppID(), message.getEntityID(),
+		room.getUserService().updateHighlighting(userId, message.getAppId(), message.getEntityId(),
 				message.getEntityType(), message.getIsHighlighted());
 		return ShouldForward.FORWARD;
 	}

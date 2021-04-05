@@ -67,7 +67,7 @@ public class ReceivableMessageDecoderTest {
 
 	@Test
 	public void testTrailingToken() {
-		final var json = "{ \"event\": \"app_closed\", \"appID\": \"foo\" } \"extra token\"";
+		final var json = "{ \"event\": \"app_closed\", \"appId\": \"foo\" } \"extra token\"";
 		assertThrows(MismatchedInputException.class, () -> decoder.decodeMessage(json));
 	}
 
@@ -83,22 +83,22 @@ public class ReceivableMessageDecoderTest {
 		final var actual = decoder.decodeMessage(json);
 		final var expected = new AppClosedMessage();
 		expected.setEvent("app_closed");
-		expected.setAppID(null);
+		expected.setAppId(null);
 		assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
 	}
 
 	@Test
 	public void testExtraField() throws DecodeException, IOException {
-		final var json = "{ \"event\": \"app_closed\", \"appID\": \"foo\", \"foo\": \"bar\" }";
+		final var json = "{ \"event\": \"app_closed\", \"appId\": \"foo\", \"foo\": \"bar\" }";
 		assertThrows(UnrecognizedPropertyException.class, () -> decoder.decodeMessage(json));
 	}
 
 	@Test
 	public void testAppClosesdMessage() throws DecodeException, IOException {
-		final var json = "{ \"event\": \"app_closed\", \"appID\": \"foo\" }";
+		final var json = "{ \"event\": \"app_closed\", \"appId\": \"foo\" }";
 		final var actual = decoder.decodeMessage(json);
 		final var expected = new AppClosedMessage();
-		expected.setAppID("foo");
+		expected.setAppId("foo");
 		assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
 	}
 
@@ -157,15 +157,15 @@ public class ReceivableMessageDecoderTest {
 	public void testComponentUpdateMessage() throws DecodeException, IOException {
 		final var json = "{" //
 				+ "  \"event\": \"component_update\"," //
-				+ "  \"appID\": \"foo\"," //
-				+ "  \"componentID\": \"bar\"," //
+				+ "  \"appId\": \"foo\"," //
+				+ "  \"componentId\": \"bar\"," //
 				+ "  \"isOpened\": true," //
 				+ "  \"isFoundation\": true" //
 				+ "}";
 		final var actual = decoder.decodeMessage(json);
 		final var expected = new ComponentUpdateMessage();
-		expected.setAppID("foo");
-		expected.setComponentID("bar");
+		expected.setAppId("foo");
+		expected.setComponentId("bar");
 		expected.setIsOpened(true);
 		expected.setIsFoundation(true);
 		assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
@@ -175,13 +175,13 @@ public class ReceivableMessageDecoderTest {
 	public void testSpectatingUpdateMessage() throws DecodeException, IOException {
 		final var json = "{" //
 				+ "  \"event\": \"spectating_update\"," //
-				+ "  \"userID\": \"foo\"," //
+				+ "  \"userId\": \"foo\"," //
 				+ "  \"isSpectating\": true," //
 				+ "  \"spectatedUser\": \"bar\"" //
 				+ "}";
 		final var actual = decoder.decodeMessage(json);
 		final var expected = new SpectatingUpdateMessage();
-		expected.setUserID("foo");
+		expected.setUserId("foo");
 		expected.setIsSpectating(true);
 		expected.setSpectatedUser("bar");
 		assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
