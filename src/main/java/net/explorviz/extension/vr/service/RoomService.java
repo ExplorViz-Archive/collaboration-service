@@ -46,6 +46,10 @@ public class RoomService {
         }
         return rooms.get(roomId);
     }
+    
+    public boolean roomExists(Room room) {
+    	return rooms.containsKey(room.getRoomId());
+    }
 
     public Set<String> getRooms() {
         return rooms.keySet();

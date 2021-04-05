@@ -9,75 +9,29 @@ import net.explorviz.extension.vr.service.room.LandscapeService;
 import net.explorviz.extension.vr.service.room.SessionRegistry;
 import net.explorviz.extension.vr.service.room.UserService;
 
-public class Room {
-
+/**
+ * A room is modelled by a collection of services that each manage one particular aspect of the room.
+ */
+public abstract class Room {
 	private final String roomId;
 
-	private final UserService userService;
-
-	private final GrabService grabService;
-
-	private final LandscapeService landscapeService;
-
-	private final ApplicationService applicationService;
-
-	private final DetachedMenuService detachedMenuService;
-
-	private final BroadcastService broadcastService;
-
-	private final ColorAssignmentService colorAssignmentService;
-
-	private final SessionRegistry sessionRegistry;
-
-	public Room(String roomId, UserService userService, GrabService grabService, LandscapeService landscapeService,
-			ApplicationService applicationService, DetachedMenuService detachedMenuService,
-			BroadcastService broadcastService, ColorAssignmentService colorAssignmentService,
-			SessionRegistry sessionRegistry) {
-		super();
+	public Room(String roomId) {
 		this.roomId = roomId;
-		this.userService = userService;
-		this.grabService = grabService;
-		this.landscapeService = landscapeService;
-		this.applicationService = applicationService;
-		this.detachedMenuService = detachedMenuService;
-		this.broadcastService = broadcastService;
-		this.colorAssignmentService = colorAssignmentService;
-		this.sessionRegistry = sessionRegistry;
 	}
-
+	
 	public String getRoomId() {
 		return roomId;
 	}
 
-	public UserService getUserService() {
-		return userService;
-	}
+	
+	public abstract GrabService getGrabService();
+	public abstract LandscapeService getLandscapeService();
+	public abstract ApplicationService getApplicationService();
+	public abstract DetachedMenuService getDetachedMenuService();
 
-	public GrabService getGrabService() {
-		return grabService;
-	}
-
-	public LandscapeService getLandscapeService() {
-		return landscapeService;
-	}
-
-	public ApplicationService getApplicationService() {
-		return applicationService;
-	}
-
-	public DetachedMenuService getDetachedMenuService() {
-		return detachedMenuService;
-	}
-
-	public BroadcastService getBroadcastService() {
-		return broadcastService;
-	}
-
-	public ColorAssignmentService getColorAssignmentService() {
-		return colorAssignmentService;
-	}
-
-	public SessionRegistry getSessionRegistry() {
-		return sessionRegistry;
-	}
+	public abstract UserService getUserService();	
+	public abstract SessionRegistry getSessionRegistry();
+	public abstract BroadcastService getBroadcastService();
+	
+	public abstract ColorAssignmentService getColorAssignmentService();
 }

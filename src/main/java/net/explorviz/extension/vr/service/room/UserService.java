@@ -16,6 +16,8 @@ import net.explorviz.extension.vr.service.IdGenerationService;
 import net.explorviz.extension.vr.service.Room;
 
 public class UserService {
+	private final Room room;
+	
     private final IdGenerationService idGenerationService;
 
     private final ColorAssignmentService colorAssignmentService;
@@ -28,9 +30,10 @@ public class UserService {
 
     private final Map<String, UserModel> users = new ConcurrentHashMap<>();
 
-    public UserService(IdGenerationService idGenerationService, ColorAssignmentService colorAssignmentService,
+    public UserService(Room room, IdGenerationService idGenerationService, ColorAssignmentService colorAssignmentService,
             Event<UserConnectedEvent> userConnectedEvent, Event<UserDisconnectedEvent> userDisconnectedEvent,
             GrabService grabService) {
+    	this.room = room;
         this.idGenerationService = idGenerationService;
         this.colorAssignmentService = colorAssignmentService;
         this.userConnectedEvent = userConnectedEvent;
@@ -90,9 +93,8 @@ public class UserService {
         user.setHighlightedEntity(isHighlighted, appId, entityType, entityId);
     }
 
-    public UserModel makeUserModel() {
+    public UserModel makeUserModel(String userName) {
         final var userId = idGenerationService.nextId();
-        final var userName = "user" + userId;
         final var controller1 = makeControllerModel();
         final var controller2 = makeControllerModel();
         final var color = colorAssignmentService.assignColor();
@@ -104,12 +106,12 @@ public class UserService {
         return new ControllerModel(controllerId);
     }
 
-    public void addUser(UserModel userModel, Room room) {
+    public void addUser(UserModel userModel) {
         users.put(userModel.getId(), userModel);
         userConnectedEvent.fireAsync(new UserConnectedEvent(userModel, room));
     }
 
-    public void removeUser(String userId, Room room) {
+    public void removeUser(String userId) {
         UserModel userModel = users.remove(userId);
         if (userModel != null) {
             colorAssignmentService.unassignColor(userModel.getColor());

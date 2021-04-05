@@ -4,6 +4,14 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import net.explorviz.extension.vr.service.Room;
+import net.explorviz.extension.vr.service.room.ApplicationService;
+import net.explorviz.extension.vr.service.room.BroadcastService;
+import net.explorviz.extension.vr.service.room.ColorAssignmentService;
+import net.explorviz.extension.vr.service.room.DetachedMenuService;
+import net.explorviz.extension.vr.service.room.GrabService;
+import net.explorviz.extension.vr.service.room.LandscapeService;
+import net.explorviz.extension.vr.service.room.SessionRegistry;
+import net.explorviz.extension.vr.service.room.UserService;
 import net.explorviz.extension.vr.service.room.factory.ApplicationServiceFactory;
 import net.explorviz.extension.vr.service.room.factory.BroadcastServiceFactory;
 import net.explorviz.extension.vr.service.room.factory.ColorAssignmentServiceFactory;
@@ -40,16 +48,56 @@ public class RoomFactory {
     @Inject
     SessionRegistryFactory sessionRegistryFactory;
 
-    public Room makeRoom(String roomId) {
-        var grabService = grabServiceFactory.makeGrabService();
-        var landscapeService = landscapeServiceFactory.makeLandscapeService(grabService);
-        var applicationService = applicationServiceFactory.makeApplicationService(grabService);
-        var detachedMenuService = detachedMenuServiceFactory.makeDetachedMenuService(grabService);
-        var colorAssignmentService = colorAssignmentServiceFactory.makeColorAssignmentService();
-        var userService = userServiceFactory.makeUserService(colorAssignmentService, grabService);
-        var sessionRegistry = sessionRegistryFactory.makeSessionRegistry();
-        var broadcastService = broadcastServiceFactory.makeBroadcastService(sessionRegistry);
-        return new Room(roomId, userService, grabService, landscapeService, applicationService, detachedMenuService, broadcastService, colorAssignmentService, sessionRegistry);
-    }
+    public Room makeRoom(String roomId) { 
+        return new Room(roomId) {
+        	private UserService userService;
+        	private GrabService grabService;
+        	private LandscapeService landscapeService;
+        	private ApplicationService applicationService;
+        	private DetachedMenuService detachedMenuService;
+        	private BroadcastService broadcastService;
+        	private ColorAssignmentService colorAssignmentService;
+        	private SessionRegistry sessionRegistry;
 
+        	public UserService getUserService() {
+        		if (userService == null) userService = userServiceFactory.makeUserService(this);
+        		return userService;
+        	}
+
+        	public GrabService getGrabService() {
+        		if (grabService == null) grabService = grabServiceFactory.makeGrabService(this);
+        		return grabService;
+        	}
+
+        	public LandscapeService getLandscapeService() {
+        		if (landscapeService == null) landscapeService = landscapeServiceFactory.makeLandscapeService(this);
+        		return landscapeService;
+        	}
+
+        	public ApplicationService getApplicationService() {
+        		if (applicationService == null) applicationService = applicationServiceFactory.makeApplicationService(this);
+        		return applicationService;
+        	}
+
+        	public DetachedMenuService getDetachedMenuService() {
+        		if (detachedMenuService == null) detachedMenuService = detachedMenuServiceFactory.makeDetachedMenuService(this);
+        		return detachedMenuService;
+        	}
+
+        	public BroadcastService getBroadcastService() {
+        		if (broadcastService == null) broadcastServiceFactory.makeBroadcastService(this);
+        		return broadcastService;
+        	}
+
+        	public ColorAssignmentService getColorAssignmentService() {
+        		if (colorAssignmentService == null) colorAssignmentService = colorAssignmentServiceFactory.makeColorAssignmentService(this);
+        		return colorAssignmentService;
+        	}
+
+        	public SessionRegistry getSessionRegistry() {
+        		if (sessionRegistry == null) sessionRegistry = sessionRegistryFactory.makeSessionRegistry(this);
+        		return sessionRegistry;
+        	}
+        };
+    }
 }
