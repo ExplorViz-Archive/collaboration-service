@@ -56,8 +56,8 @@ public class InitialLandscapeMessage extends SendableMessage {
 
     public static class DetachedMenu {
         private String objectId;
-        private String entityId;
         private String entityType;
+        private String entityId;
         private double[] position;
         private double[] quaternion;
         private double[] scale;
@@ -165,9 +165,9 @@ public class InitialLandscapeMessage extends SendableMessage {
         private String id;
         private double[] position;
         private double[] quaternion;
+        private double[] scale;
         private String[] openComponents;
         private HighlightingObject[] highlightedComponents;
-        private double[] scale;
 
         public HighlightingObject[] getHighlightedComponents() {
             return highlightedComponents;
@@ -201,14 +201,6 @@ public class InitialLandscapeMessage extends SendableMessage {
             this.quaternion = quaternion;
         }
 
-        public String[] getOpenComponents() {
-            return openComponents;
-        }
-
-        public void setOpenComponents(String[] openComponents) {
-            this.openComponents = openComponents;
-        }
-
         public double[] getScale() {
             return scale;
         }
@@ -217,6 +209,13 @@ public class InitialLandscapeMessage extends SendableMessage {
             this.scale = scale;
         }
 
+        public String[] getOpenComponents() {
+            return openComponents;
+        }
+
+        public void setOpenComponents(String[] openComponents) {
+            this.openComponents = openComponents;
+        }
     }
 
     private App[] openApps;
