@@ -19,11 +19,11 @@ import org.slf4j.LoggerFactory;
 import net.explorviz.vr.event.UserConnectedEvent;
 import net.explorviz.vr.event.UserDisconnectedEvent;
 import net.explorviz.vr.message.ForwardedMessage;
+import net.explorviz.vr.message.ForwardedMessage.ShouldForward;
 import net.explorviz.vr.message.ReceivableMessage;
 import net.explorviz.vr.message.ReceivableMessageDecoder;
 import net.explorviz.vr.message.ReceivableMessageHandler;
 import net.explorviz.vr.message.SendableMessageEncoder;
-import net.explorviz.vr.message.ForwardedMessage.ShouldForward;
 import net.explorviz.vr.message.receivable.AppClosedMessage;
 import net.explorviz.vr.message.receivable.AppOpenedMessage;
 import net.explorviz.vr.message.receivable.ComponentUpdateMessage;
@@ -90,11 +90,11 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
 			final var ticket = ticketService.redeemTicket(ticketId);
 			final var room = ticket.getRoom();
 			final var userModel = ticket.getUser();
-	
+
 			// Associate the opened websocket connection with a new session.
 			final var session = new VrSession(websocketSession, room, userModel);
 			sessionRegistry.register(session);
-	
+
 			// Add the user from the lobby to the room.
 			room.getUserService().addUser(userModel);
 		} catch (Throwable throwable) {
@@ -109,8 +109,9 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
 
 		// If the session was closed before it was initialized, no cleanup is necessary.
 		final var session = sessionRegistry.lookupSession(websocketSession);
-		if (session == null) return;
-		
+		if (session == null)
+			return;
+
 		// First remove the association of the user with the websocket connection
 		// such that the disconnect message is not broadcasted to the user who left.
 		sessionRegistry.unregister(session);
@@ -152,12 +153,12 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
 	}
 
 	@Override
-    public ShouldForward handleDetachedMenuClosedMessage(DetachedMenuClosedMessage message, VrSession session) {
-    	final var room = session.getRoom();
-        final var success = room.getDetachedMenuService().closeDetachedMenu(message.getMenuId());
-        message.sendResponse(new ObjectClosedResponse(success));
-        return ShouldForward.FORWARD;
-    }
+	public ShouldForward handleDetachedMenuClosedMessage(DetachedMenuClosedMessage message, VrSession session) {
+		final var room = session.getRoom();
+		final var success = room.getDetachedMenuService().closeDetachedMenu(message.getMenuId());
+		message.sendResponse(new ObjectClosedResponse(success));
+		return ShouldForward.FORWARD;
+	}
 
 	@Override
 	public ShouldForward handleObjectGrabbedMessage(ObjectGrabbedMessage message, VrSession session) {
@@ -248,7 +249,8 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
 	}
 
 	@Override
-	public ShouldForward handleUserControllerDisconnectMessage(UserControllerDisconnectMessage message, VrSession session) {
+	public ShouldForward handleUserControllerDisconnectMessage(UserControllerDisconnectMessage message,
+			VrSession session) {
 		final var room = session.getRoom();
 		final var user = session.getUser();
 		room.getUserService().disconnectController(user, message.getControllerId());

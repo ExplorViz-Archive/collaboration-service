@@ -16,12 +16,12 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  */
 public class ColorSerializer extends JsonSerializer<Color> {
 
-    @Override
-    public void serialize(Color color, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
-            throws IOException, JsonProcessingException {
-        final var r = color.getRed() / 255.0;
-        final var g = color.getGreen() / 255.0;
-        final var b = color.getBlue() / 255.0;
-        jsonGenerator.writeObject(new double[] { r, g, b });
-    }
+	@Override
+	public void serialize(Color color, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
+			throws IOException, JsonProcessingException {
+		final var r = color.getRed() / 255.0;
+		final var g = color.getGreen() / 255.0;
+		final var b = color.getBlue() / 255.0;
+		jsonGenerator.writeObject(new double[] { r, g, b });
+	}
 }

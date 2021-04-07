@@ -20,9 +20,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import net.explorviz.vr.message.ForwardedMessage;
-import net.explorviz.vr.message.ResponseMessage;
-import net.explorviz.vr.message.SendableMessageEncoder;
 import net.explorviz.vr.message.receivable.AppClosedMessage;
 import net.explorviz.vr.message.receivable.AppOpenedMessage;
 import net.explorviz.vr.message.receivable.ComponentUpdateMessage;

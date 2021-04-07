@@ -8,8 +8,8 @@ import net.explorviz.vr.service.room.ColorAssignmentService;
 @ApplicationScoped
 public class ColorAssignmentServiceFactory {
 
-    public ColorAssignmentService makeColorAssignmentService(Room room) {
-        return new ColorAssignmentService();
-    }
+	public ColorAssignmentService makeColorAssignmentService(Room room) {
+		return new ColorAssignmentService();
+	}
 
 }

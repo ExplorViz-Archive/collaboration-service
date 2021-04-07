@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 
-import net.explorviz.vr.message.ReceivableMessageDecoder;
 import net.explorviz.vr.message.receivable.AppClosedMessage;
 import net.explorviz.vr.message.receivable.AppOpenedMessage;
 import net.explorviz.vr.message.receivable.ComponentUpdateMessage;

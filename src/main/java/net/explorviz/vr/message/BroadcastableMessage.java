@@ -5,7 +5,7 @@ package net.explorviz.vr.message;
  * connected clients.
  */
 public class BroadcastableMessage extends SendableMessage {
-    public BroadcastableMessage(String event) {
-        super(event);
-    }
+	public BroadcastableMessage(String event) {
+		super(event);
+	}
 }

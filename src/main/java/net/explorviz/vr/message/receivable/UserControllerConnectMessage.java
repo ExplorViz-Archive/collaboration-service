@@ -4,7 +4,7 @@ import net.explorviz.vr.message.ReceivableMessage;
 import net.explorviz.vr.message.ReceivableMessageHandler;
 
 public class UserControllerConnectMessage extends ReceivableMessage {
-    public static final String EVENT = "user_controller_connect";
+	public static final String EVENT = "user_controller_connect";
 
 	public static class Controller {
 		private int controllerId;
@@ -54,13 +54,13 @@ public class UserControllerConnectMessage extends ReceivableMessage {
 		}
 	}
 
-    private Controller controller;
+	private Controller controller;
 
-    public UserControllerConnectMessage() {
-        super(EVENT);
-    }
+	public UserControllerConnectMessage() {
+		super(EVENT);
+	}
 
-    public Controller getController() {
+	public Controller getController() {
 		return controller;
 	}
 
@@ -69,7 +69,7 @@ public class UserControllerConnectMessage extends ReceivableMessage {
 	}
 
 	@Override
-    public <R, A> R handleWith(ReceivableMessageHandler<R, A> handler, A arg) {
-        return handler.handleUserControllerConnectMessage(this, arg);
-    }
+	public <R, A> R handleWith(ReceivableMessageHandler<R, A> handler, A arg) {
+		return handler.handleUserControllerConnectMessage(this, arg);
+	}
 }

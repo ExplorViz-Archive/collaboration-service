@@ -22,71 +22,78 @@ import net.explorviz.vr.service.room.factory.UserServiceFactory;
 @ApplicationScoped
 public class RoomFactory {
 
-    @Inject
-    UserServiceFactory userServiceFactory;
+	@Inject
+	UserServiceFactory userServiceFactory;
 
-    @Inject
-    LandscapeServiceFactory landscapeServiceFactory;
+	@Inject
+	LandscapeServiceFactory landscapeServiceFactory;
 
-    @Inject
-    ApplicationServiceFactory applicationServiceFactory;
+	@Inject
+	ApplicationServiceFactory applicationServiceFactory;
 
-    @Inject
-    DetachedMenuServiceFactory detachedMenuServiceFactory;
+	@Inject
+	DetachedMenuServiceFactory detachedMenuServiceFactory;
 
-    @Inject
-    BroadcastServiceFactory broadcastServiceFactory;
+	@Inject
+	BroadcastServiceFactory broadcastServiceFactory;
 
-    @Inject
-    ColorAssignmentServiceFactory colorAssignmentServiceFactory;
+	@Inject
+	ColorAssignmentServiceFactory colorAssignmentServiceFactory;
 
-    @Inject
-    GrabServiceFactory grabServiceFactory;
+	@Inject
+	GrabServiceFactory grabServiceFactory;
 
-    public Room makeRoom(String roomId, String roomName) { 
-        return new Room(roomId, roomName) {
-        	private UserService userService;
-        	private GrabService grabService;
-        	private LandscapeService landscapeService;
-        	private ApplicationService applicationService;
-        	private DetachedMenuService detachedMenuService;
-        	private BroadcastService broadcastService;
-        	private ColorAssignmentService colorAssignmentService;
+	public Room makeRoom(String roomId, String roomName) {
+		return new Room(roomId, roomName) {
+			private UserService userService;
+			private GrabService grabService;
+			private LandscapeService landscapeService;
+			private ApplicationService applicationService;
+			private DetachedMenuService detachedMenuService;
+			private BroadcastService broadcastService;
+			private ColorAssignmentService colorAssignmentService;
 
-        	public UserService getUserService() {
-        		if (userService == null) userService = userServiceFactory.makeUserService(this);
-        		return userService;
-        	}
+			public UserService getUserService() {
+				if (userService == null)
+					userService = userServiceFactory.makeUserService(this);
+				return userService;
+			}
 
-        	public GrabService getGrabService() {
-        		if (grabService == null) grabService = grabServiceFactory.makeGrabService(this);
-        		return grabService;
-        	}
+			public GrabService getGrabService() {
+				if (grabService == null)
+					grabService = grabServiceFactory.makeGrabService(this);
+				return grabService;
+			}
 
-        	public LandscapeService getLandscapeService() {
-        		if (landscapeService == null) landscapeService = landscapeServiceFactory.makeLandscapeService(this);
-        		return landscapeService;
-        	}
+			public LandscapeService getLandscapeService() {
+				if (landscapeService == null)
+					landscapeService = landscapeServiceFactory.makeLandscapeService(this);
+				return landscapeService;
+			}
 
-        	public ApplicationService getApplicationService() {
-        		if (applicationService == null) applicationService = applicationServiceFactory.makeApplicationService(this);
-        		return applicationService;
-        	}
+			public ApplicationService getApplicationService() {
+				if (applicationService == null)
+					applicationService = applicationServiceFactory.makeApplicationService(this);
+				return applicationService;
+			}
 
-        	public DetachedMenuService getDetachedMenuService() {
-        		if (detachedMenuService == null) detachedMenuService = detachedMenuServiceFactory.makeDetachedMenuService(this);
-        		return detachedMenuService;
-        	}
+			public DetachedMenuService getDetachedMenuService() {
+				if (detachedMenuService == null)
+					detachedMenuService = detachedMenuServiceFactory.makeDetachedMenuService(this);
+				return detachedMenuService;
+			}
 
-        	public BroadcastService getBroadcastService() {
-        		if (broadcastService == null) broadcastService = broadcastServiceFactory.makeBroadcastService(this);
-        		return broadcastService;
-        	}
+			public BroadcastService getBroadcastService() {
+				if (broadcastService == null)
+					broadcastService = broadcastServiceFactory.makeBroadcastService(this);
+				return broadcastService;
+			}
 
-        	public ColorAssignmentService getColorAssignmentService() {
-        		if (colorAssignmentService == null) colorAssignmentService = colorAssignmentServiceFactory.makeColorAssignmentService(this);
-        		return colorAssignmentService;
-        	}
-        };
-    }
+			public ColorAssignmentService getColorAssignmentService() {
+				if (colorAssignmentService == null)
+					colorAssignmentService = colorAssignmentServiceFactory.makeColorAssignmentService(this);
+				return colorAssignmentService;
+			}
+		};
+	}
 }

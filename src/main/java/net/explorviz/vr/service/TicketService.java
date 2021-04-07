@@ -14,11 +14,11 @@ import net.explorviz.vr.VrSocketTicket;
 import net.explorviz.vr.model.UserModel;
 
 /**
- * A service that manages drawn tickets that have not yet been used to
- * establish the websocket connection to join a room.
+ * A service that manages drawn tickets that have not yet been used to establish
+ * the websocket connection to join a room.
  * 
- * When a user wants to join a room, they first draw a ticket
- * and then use that ticket to establish a websocket connection.
+ * When a user wants to join a room, they first draw a ticket and then use that
+ * ticket to establish a websocket connection.
  */
 @ApplicationScoped
 public class TicketService {
@@ -29,28 +29,27 @@ public class TicketService {
 	 * within this period.
 	 */
 	private static final TemporalAmount TICKET_EXPIRY_PERIOD = Duration.ofSeconds(30);
-	
+
 	@Inject
 	RoomService roomService;
-	
+
 	/**
 	 * The tickets that have not yet been redeemed.
 	 */
 	private Map<String, VrSocketTicket> tickets = new ConcurrentHashMap<>();
-	
+
 	/**
 	 * Generates an unpredictable identifier for a ticket.
 	 * 
-	 * Since the tickets are used for authentication, they must be
-	 * unpredictable. Thus, the regular ID generation service cannot
-	 * be used.
+	 * Since the tickets are used for authentication, they must be unpredictable.
+	 * Thus, the regular ID generation service cannot be used.
 	 * 
 	 * @return The generated ticket identifier.
 	 */
-    private String generateTicketId() {
-        return UUID.randomUUID().toString();
-    }
-	
+	private String generateTicketId() {
+		return UUID.randomUUID().toString();
+	}
+
 	/**
 	 * Creates a new ticket for joining the the given room as the given user.
 	 * 
@@ -65,31 +64,32 @@ public class TicketService {
 		tickets.put(ticketId, ticket);
 		return ticket;
 	}
-	
+
 	public VrSocketTicket redeemTicket(String ticketId) {
 		// Ensure that the ticket exists.
 		if (!tickets.containsKey(ticketId)) {
-            throw new IllegalStateException("Invalid ticket: " + ticketId);
-        }
-		
+			throw new IllegalStateException("Invalid ticket: " + ticketId);
+		}
+
 		// Get and remove the ticket.
 		final var ticket = tickets.remove(ticketId);
-		
+
 		// Ensure that the room still exists.
 		final var room = ticket.getRoom();
 		if (!roomService.roomExists(room)) {
-            throw new IllegalStateException("Room " + room.getRoomId() + " for ticket " + ticketId + " has been closed");
+			throw new IllegalStateException(
+					"Room " + room.getRoomId() + " for ticket " + ticketId + " has been closed");
 		}
-		
+
 		// Test whether the ticket is still valid.
 		final var expiryDate = ticket.getValidUntil();
 		if (Instant.now().isAfter(expiryDate)) {
 			// Notify the user service that the user model is not needed anymore.
 			room.getUserService().removeUser(ticket.getUser());
-			
-            throw new IllegalStateException("Ticket " + ticketId + " expired at " + expiryDate);
+
+			throw new IllegalStateException("Ticket " + ticketId + " expired at " + expiryDate);
 		}
-		
+
 		return ticket;
 	}
 }

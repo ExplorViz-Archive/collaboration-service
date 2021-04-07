@@ -10,11 +10,11 @@ import net.explorviz.vr.service.room.DetachedMenuService;
 @ApplicationScoped
 public class DetachedMenuServiceFactory {
 
-    @Inject
-    IdGenerationService idGenerationService;
+	@Inject
+	IdGenerationService idGenerationService;
 
-    public DetachedMenuService makeDetachedMenuService(Room room) {
+	public DetachedMenuService makeDetachedMenuService(Room room) {
 		final var grabService = room.getGrabService();
-        return new DetachedMenuService(idGenerationService, grabService);
-    }
+		return new DetachedMenuService(idGenerationService, grabService);
+	}
 }

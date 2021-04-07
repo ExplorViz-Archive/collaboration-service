@@ -5,177 +5,176 @@ package net.explorviz.vr.payload.receivable;
  * room is created. Contains all information to initialize a room.
  */
 public class InitialRoomPayload {
-    public static class Landscape {
-        private String landscapeToken;
-        private long timestamp;
-        private double[] position;
-        private double[] quaternion;
-        private double[] scale;
+	public static class Landscape {
+		private String landscapeToken;
+		private long timestamp;
+		private double[] position;
+		private double[] quaternion;
+		private double[] scale;
 
-        public String getLandscapeToken() {
-            return landscapeToken;
-        }
+		public String getLandscapeToken() {
+			return landscapeToken;
+		}
 
-        public void setLandscapeToken(String landscapeToken) {
-            this.landscapeToken = landscapeToken;
-        }
+		public void setLandscapeToken(String landscapeToken) {
+			this.landscapeToken = landscapeToken;
+		}
 
-        public long getTimestamp() {
-            return timestamp;
-        }
+		public long getTimestamp() {
+			return timestamp;
+		}
 
-        public void setTimestamp(long timestamp) {
-            this.timestamp = timestamp;
-        }
+		public void setTimestamp(long timestamp) {
+			this.timestamp = timestamp;
+		}
 
-        public double[] getPosition() {
-            return position;
-        }
+		public double[] getPosition() {
+			return position;
+		}
 
-        public void setPosition(double[] position) {
-            this.position = position;
-        }
+		public void setPosition(double[] position) {
+			this.position = position;
+		}
 
-        public double[] getQuaternion() {
-            return quaternion;
-        }
+		public double[] getQuaternion() {
+			return quaternion;
+		}
 
-        public void setQuaternion(double[] quaternion) {
-            this.quaternion = quaternion;
-        }
+		public void setQuaternion(double[] quaternion) {
+			this.quaternion = quaternion;
+		}
 
-        public double[] getScale() {
-            return scale;
-        }
+		public double[] getScale() {
+			return scale;
+		}
 
-        public void setScale(double[] scale) {
-            this.scale = scale;
-        }
-    }
-    
-    public static class App {
-        private String id;
-        private double[] position;
-        private double[] quaternion;
-        private String[] openComponents;
-        private double[] scale;
+		public void setScale(double[] scale) {
+			this.scale = scale;
+		}
+	}
 
-        public String getId() {
-            return id;
-        }
+	public static class App {
+		private String id;
+		private double[] position;
+		private double[] quaternion;
+		private String[] openComponents;
+		private double[] scale;
 
-        public void setId(String id) {
-            this.id = id;
-        }
+		public String getId() {
+			return id;
+		}
 
-        public double[] getPosition() {
-            return position;
-        }
+		public void setId(String id) {
+			this.id = id;
+		}
 
-        public void setPosition(double[] position) {
-            this.position = position;
-        }
+		public double[] getPosition() {
+			return position;
+		}
 
-        public double[] getQuaternion() {
-            return quaternion;
-        }
+		public void setPosition(double[] position) {
+			this.position = position;
+		}
 
-        public void setQuaternion(double[] quaternion) {
-            this.quaternion = quaternion;
-        }
+		public double[] getQuaternion() {
+			return quaternion;
+		}
 
-        public String[] getOpenComponents() {
-            return openComponents;
-        }
+		public void setQuaternion(double[] quaternion) {
+			this.quaternion = quaternion;
+		}
 
-        public void setOpenComponents(String[] openComponents) {
-            this.openComponents = openComponents;
-        }
+		public String[] getOpenComponents() {
+			return openComponents;
+		}
 
-        public double[] getScale() {
-            return scale;
-        }
+		public void setOpenComponents(String[] openComponents) {
+			this.openComponents = openComponents;
+		}
 
-        public void setScale(double[] scale) {
-            this.scale = scale;
-        }
-    }
-    
-    
-    public static class DetachedMenu {
-        private String entityId;
-        private String entityType;
-        private double[] position;
-        private double[] quaternion;
-        private double[] scale;
+		public double[] getScale() {
+			return scale;
+		}
 
-        public String getEntityType() {
-            return entityType;
-        }
+		public void setScale(double[] scale) {
+			this.scale = scale;
+		}
+	}
 
-        public void setEntityType(String entityType) {
-            this.entityType = entityType;
-        }
+	public static class DetachedMenu {
+		private String entityId;
+		private String entityType;
+		private double[] position;
+		private double[] quaternion;
+		private double[] scale;
 
-        public String getEntityId() {
-            return entityId;
-        }
+		public String getEntityType() {
+			return entityType;
+		}
 
-        public void setEntityId(String entityId) {
-            this.entityId = entityId;
-        }
+		public void setEntityType(String entityType) {
+			this.entityType = entityType;
+		}
 
-        public double[] getPosition() {
-            return position;
-        }
+		public String getEntityId() {
+			return entityId;
+		}
 
-        public void setPosition(double[] position) {
-            this.position = position;
-        }
+		public void setEntityId(String entityId) {
+			this.entityId = entityId;
+		}
 
-        public double[] getQuaternion() {
-            return quaternion;
-        }
+		public double[] getPosition() {
+			return position;
+		}
 
-        public void setQuaternion(double[] quaternion) {
-            this.quaternion = quaternion;
-        }
+		public void setPosition(double[] position) {
+			this.position = position;
+		}
 
-        public double[] getScale() {
-            return scale;
-        }
+		public double[] getQuaternion() {
+			return quaternion;
+		}
 
-        public void setScale(double[] scale) {
-            this.scale = scale;
-        }
+		public void setQuaternion(double[] quaternion) {
+			this.quaternion = quaternion;
+		}
 
-    }
+		public double[] getScale() {
+			return scale;
+		}
 
-    private Landscape landscape;
-    private App[] openApps;
-    private DetachedMenu[] detachedMenus;
+		public void setScale(double[] scale) {
+			this.scale = scale;
+		}
 
-    public Landscape getLandscape() {
-        return landscape;
-    }
+	}
 
-    public void setLandscape(Landscape landscape) {
-        this.landscape = landscape;
-    }
-    
-    public DetachedMenu[] getDetachedMenus() {
-        return detachedMenus;
-    }
+	private Landscape landscape;
+	private App[] openApps;
+	private DetachedMenu[] detachedMenus;
 
-    public void setDetachedMenus(DetachedMenu[] detachedMenus) {
-        this.detachedMenus = detachedMenus;
-    }
+	public Landscape getLandscape() {
+		return landscape;
+	}
 
-    public App[] getOpenApps() {
-        return openApps;
-    }
+	public void setLandscape(Landscape landscape) {
+		this.landscape = landscape;
+	}
 
-    public void setOpenApps(App[] openApps) {
-        this.openApps = openApps;
-    }
+	public DetachedMenu[] getDetachedMenus() {
+		return detachedMenus;
+	}
+
+	public void setDetachedMenus(DetachedMenu[] detachedMenus) {
+		this.detachedMenus = detachedMenus;
+	}
+
+	public App[] getOpenApps() {
+		return openApps;
+	}
+
+	public void setOpenApps(App[] openApps) {
+		this.openApps = openApps;
+	}
 }

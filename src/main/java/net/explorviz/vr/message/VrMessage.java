@@ -2,6 +2,8 @@ package net.explorviz.vr.message;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeId;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import net.explorviz.vr.message.receivable.AppClosedMessage;
 import net.explorviz.vr.message.receivable.AppOpenedMessage;
@@ -19,9 +21,6 @@ import net.explorviz.vr.message.receivable.UserControllerConnectMessage;
 import net.explorviz.vr.message.receivable.UserControllerDisconnectMessage;
 import net.explorviz.vr.message.receivable.UserPositionsMessage;
 
-import com.fasterxml.jackson.annotation.JsonTypeId;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 /**
  * Base class for all messages that are exchanged via the websocket connection
  * between the frontend and VR service.
@@ -32,41 +31,41 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "event", visible = true)
 @JsonSubTypes({ @Type(value = AppClosedMessage.class, name = AppClosedMessage.EVENT),
-        @Type(value = ObjectGrabbedMessage.class, name = ObjectGrabbedMessage.EVENT),
-        @Type(value = AppOpenedMessage.class, name = AppOpenedMessage.EVENT),
-        @Type(value = ObjectReleasedMessage.class, name = ObjectReleasedMessage.EVENT),
-        @Type(value = ObjectMovedMessage.class, name = ObjectMovedMessage.EVENT),
-        @Type(value = ComponentUpdateMessage.class, name = ComponentUpdateMessage.EVENT),
-        @Type(value = HighlightingUpdateMessage.class, name = HighlightingUpdateMessage.EVENT),
-        @Type(value = MenuDetachedMessage.class, name = MenuDetachedMessage.EVENT),
-        @Type(value = DetachedMenuClosedMessage.class, name = DetachedMenuClosedMessage.EVENT),
-        @Type(value = SpectatingUpdateMessage.class, name = SpectatingUpdateMessage.EVENT),
-        @Type(value = UserControllerConnectMessage.class, name = UserControllerConnectMessage.EVENT),
-        @Type(value = UserControllerDisconnectMessage.class, name = UserControllerDisconnectMessage.EVENT),
-        @Type(value = UserPositionsMessage.class, name = UserPositionsMessage.EVENT),
-        @Type(value = PingUpdateMessage.class, name = PingUpdateMessage.EVENT),
-        @Type(value = TimestampUpdateMessage.class, name = TimestampUpdateMessage.EVENT) })
+		@Type(value = ObjectGrabbedMessage.class, name = ObjectGrabbedMessage.EVENT),
+		@Type(value = AppOpenedMessage.class, name = AppOpenedMessage.EVENT),
+		@Type(value = ObjectReleasedMessage.class, name = ObjectReleasedMessage.EVENT),
+		@Type(value = ObjectMovedMessage.class, name = ObjectMovedMessage.EVENT),
+		@Type(value = ComponentUpdateMessage.class, name = ComponentUpdateMessage.EVENT),
+		@Type(value = HighlightingUpdateMessage.class, name = HighlightingUpdateMessage.EVENT),
+		@Type(value = MenuDetachedMessage.class, name = MenuDetachedMessage.EVENT),
+		@Type(value = DetachedMenuClosedMessage.class, name = DetachedMenuClosedMessage.EVENT),
+		@Type(value = SpectatingUpdateMessage.class, name = SpectatingUpdateMessage.EVENT),
+		@Type(value = UserControllerConnectMessage.class, name = UserControllerConnectMessage.EVENT),
+		@Type(value = UserControllerDisconnectMessage.class, name = UserControllerDisconnectMessage.EVENT),
+		@Type(value = UserPositionsMessage.class, name = UserPositionsMessage.EVENT),
+		@Type(value = PingUpdateMessage.class, name = PingUpdateMessage.EVENT),
+		@Type(value = TimestampUpdateMessage.class, name = TimestampUpdateMessage.EVENT) })
 public abstract class VrMessage {
-    @JsonTypeId
-    private String event;
-    
-    /**
-     * Creates a new message of the given type.
-     * 
-     * Every subclass should define a static {@code EVENT} attribute and call
-     * {@code super(EVENT)} in its default constructor.
-     * 
-     * @param event The type identifier of the message.
-     */
-    public VrMessage(String event) {
-        this.event = event;
-    }
+	@JsonTypeId
+	private String event;
 
-    public String getEvent() {
-        return event;
-    }
+	/**
+	 * Creates a new message of the given type.
+	 * 
+	 * Every subclass should define a static {@code EVENT} attribute and call
+	 * {@code super(EVENT)} in its default constructor.
+	 * 
+	 * @param event The type identifier of the message.
+	 */
+	public VrMessage(String event) {
+		this.event = event;
+	}
 
-    public void setEvent(String event) {
-        this.event = event;
-    }
+	public String getEvent() {
+		return event;
+	}
+
+	public void setEvent(String event) {
+		this.event = event;
+	}
 }

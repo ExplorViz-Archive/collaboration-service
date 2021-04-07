@@ -8,25 +8,25 @@ package net.explorviz.vr.message;
  * {@link ResponseMessage}.
  */
 public abstract class RequestMessage extends ReceivableMessage {
-    private int nonce;
+	private int nonce;
 
-    public RequestMessage(String event) {
-        super(event);
-    }
+	public RequestMessage(String event) {
+		super(event);
+	}
 
-    public void setNonce(int nonce) {
-        this.nonce = nonce;
-    }
+	public void setNonce(int nonce) {
+		this.nonce = nonce;
+	}
 
-    public int getNonce() {
-        return nonce;
-    }
-    
-    public void sendResponse(RespondableMessage responseBody) {
-    	final var senderSession = getSenderSession();
-    	if (senderSession != null) {
-    		final var response = new ResponseMessage(nonce, responseBody);
-    		senderSession.send(response);
-    	}
-    }
+	public int getNonce() {
+		return nonce;
+	}
+
+	public void sendResponse(RespondableMessage responseBody) {
+		final var senderSession = getSenderSession();
+		if (senderSession != null) {
+			final var response = new ResponseMessage(nonce, responseBody);
+			senderSession.send(response);
+		}
+	}
 }

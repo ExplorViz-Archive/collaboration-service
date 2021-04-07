@@ -6,7 +6,7 @@ public class RoomCreatedResponse {
 	public RoomCreatedResponse(String roomId) {
 		this.roomId = roomId;
 	}
-	
+
 	public String getRoomId() {
 		return roomId;
 	}

@@ -9,9 +9,9 @@ import net.explorviz.vr.service.room.LandscapeService;
 
 @ApplicationScoped
 public class LandscapeServiceFactory {
-    @Inject
-    IdGenerationService idGenerationService;
-	
+	@Inject
+	IdGenerationService idGenerationService;
+
 	public LandscapeService makeLandscapeService(Room room) {
 		final var grabService = room.getGrabService();
 		return new LandscapeService(idGenerationService, grabService);

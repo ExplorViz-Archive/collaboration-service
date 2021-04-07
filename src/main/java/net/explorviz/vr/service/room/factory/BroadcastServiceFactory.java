@@ -12,8 +12,8 @@ public class BroadcastServiceFactory {
 
 	@Inject
 	SessionRegistry sessionRegistry;
-	
-    public BroadcastService makeBroadcastService(Room room) {
-        return new BroadcastService(sessionRegistry, (session) -> session.getRoom() == room);
-    }
+
+	public BroadcastService makeBroadcastService(Room room) {
+		return new BroadcastService(sessionRegistry, (session) -> session.getRoom() == room);
+	}
 }

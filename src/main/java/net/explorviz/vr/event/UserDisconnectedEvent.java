@@ -5,20 +5,20 @@ import net.explorviz.vr.service.Room;
 
 public class UserDisconnectedEvent {
 
-    private UserModel userModel;
+	private UserModel userModel;
 
-    private Room room;
+	private Room room;
 
-    public UserDisconnectedEvent(UserModel userModel, Room room) {
-        this.userModel = userModel;
-        this.room = room;
-    }
+	public UserDisconnectedEvent(UserModel userModel, Room room) {
+		this.userModel = userModel;
+		this.room = room;
+	}
 
-    public UserModel getUserModel() {
-        return userModel;
-    }
+	public UserModel getUserModel() {
+		return userModel;
+	}
 
-    public Room getRoom() {
-        return room;
-    }
+	public Room getRoom() {
+		return room;
+	}
 }

@@ -8,7 +8,7 @@ import net.explorviz.vr.service.room.GrabService;
 @ApplicationScoped
 public class GrabServiceFactory {
 
-    public GrabService makeGrabService(Room room) {
-        return new GrabService();
-    }
+	public GrabService makeGrabService(Room room) {
+		return new GrabService();
+	}
 }

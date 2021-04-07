@@ -8,44 +8,44 @@ import net.explorviz.vr.message.BroadcastableMessage;
 import net.explorviz.vr.message.encoder.ColorSerializer;
 
 public class UserConnectedMessage extends BroadcastableMessage {
-    public static final String EVENT = "user_connected";
+	public static final String EVENT = "user_connected";
 
-    private String id;
-    private String name;
+	private String id;
+	private String name;
 
-    @JsonSerialize(using = ColorSerializer.class)
-    private Color color;
-    
-    private double[] position;
-    private double[] quaternion;
+	@JsonSerialize(using = ColorSerializer.class)
+	private Color color;
 
-    public UserConnectedMessage() {
-        super(EVENT);
-    }
+	private double[] position;
+	private double[] quaternion;
 
-    public String getId() {
-        return id;
-    }
+	public UserConnectedMessage() {
+		super(EVENT);
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public Color getColor() {
-        return color;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
 
 	public double[] getPosition() {
 		return position;

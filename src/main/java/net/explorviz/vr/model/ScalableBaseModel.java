@@ -1,17 +1,17 @@
 package net.explorviz.vr.model;
 
 public class ScalableBaseModel extends BaseModel {
-    private double[] scale;
+	private double[] scale;
 
-    public ScalableBaseModel(String id) {
-        super(id);
-    }
+	public ScalableBaseModel(String id) {
+		super(id);
+	}
 
-    public double[] getScale() {
-        return scale;
-    }
+	public double[] getScale() {
+		return scale;
+	}
 
-    public void setScale(double[] scale) {
-        this.scale = scale;
-    }
+	public void setScale(double[] scale) {
+		this.scale = scale;
+	}
 }

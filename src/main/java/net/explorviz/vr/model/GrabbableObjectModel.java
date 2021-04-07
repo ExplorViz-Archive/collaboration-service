@@ -2,18 +2,18 @@ package net.explorviz.vr.model;
 
 public interface GrabbableObjectModel {
 
-    public String getGrabId();
-    
-    public double[] getPosition();
-    
-    public void setPosition(double[] position);
+	public String getGrabId();
 
-    public double[] getQuaternion();
+	public double[] getPosition();
 
-    public void setQuaternion(double[] quaternion);
+	public void setPosition(double[] position);
 
-    public double[] getScale();
+	public double[] getQuaternion();
 
-    public void setScale(double[] scale);
+	public void setQuaternion(double[] quaternion);
+
+	public double[] getScale();
+
+	public void setScale(double[] scale);
 
 }

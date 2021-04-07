@@ -5,7 +5,7 @@ package net.explorviz.vr.message;
  * the frontend.
  */
 public abstract class SendableMessage extends VrMessage {
-    public SendableMessage(String event) {
-        super(event);
-    }
+	public SendableMessage(String event) {
+		super(event);
+	}
 }

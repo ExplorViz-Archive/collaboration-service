@@ -9,7 +9,8 @@ import net.explorviz.vr.service.room.LandscapeService;
 import net.explorviz.vr.service.room.UserService;
 
 /**
- * A room is modeled by a collection of services that each manage one particular aspect of the room.
+ * A room is modeled by a collection of services that each manage one particular
+ * aspect of the room.
  */
 public abstract class Room {
 	private final String roomId;
@@ -19,7 +20,7 @@ public abstract class Room {
 		this.roomId = roomId;
 		this.roomName = roomName;
 	}
-	
+
 	public String getRoomId() {
 		return roomId;
 	}
@@ -27,14 +28,18 @@ public abstract class Room {
 	public String getName() {
 		return roomName;
 	}
-	
+
 	public abstract GrabService getGrabService();
+
 	public abstract LandscapeService getLandscapeService();
+
 	public abstract ApplicationService getApplicationService();
+
 	public abstract DetachedMenuService getDetachedMenuService();
 
 	public abstract UserService getUserService();
+
 	public abstract BroadcastService getBroadcastService();
-	
+
 	public abstract ColorAssignmentService getColorAssignmentService();
 }

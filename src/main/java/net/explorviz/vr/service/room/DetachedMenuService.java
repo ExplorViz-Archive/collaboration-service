@@ -46,11 +46,11 @@ public class DetachedMenuService {
 		}
 		return false;
 	}
-	
-	public void closeAllDetachedMenus()  {
-	    for (var menu : detachedMenus.values()) {
-	        grabService.removeGrabbableObject(menu);
-	    }
-	    detachedMenus.clear();
+
+	public void closeAllDetachedMenus() {
+		for (var menu : detachedMenus.values()) {
+			grabService.removeGrabbableObject(menu);
+		}
+		detachedMenus.clear();
 	}
 }

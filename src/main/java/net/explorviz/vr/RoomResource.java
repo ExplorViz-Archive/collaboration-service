@@ -13,9 +13,9 @@ import javax.ws.rs.core.MediaType;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
 import net.explorviz.vr.payload.receivable.InitialRoomPayload;
-import net.explorviz.vr.payload.receivable.JoinLobbyPayload;
 import net.explorviz.vr.payload.receivable.InitialRoomPayload.App;
 import net.explorviz.vr.payload.receivable.InitialRoomPayload.DetachedMenu;
+import net.explorviz.vr.payload.receivable.JoinLobbyPayload;
 import net.explorviz.vr.payload.sendable.LobbyJoinedResponse;
 import net.explorviz.vr.payload.sendable.RoomCreatedResponse;
 import net.explorviz.vr.payload.sendable.RoomListRecord;
@@ -89,12 +89,12 @@ public class RoomResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public LobbyJoinedResponse joinLobby(@PathParam("room-id") String roomId, JoinLobbyPayload body) {
 		var room = roomService.lookupRoom(roomId);
-		
+
 		// Initialize user model.
 		var userModel = room.getUserService().makeUserModel(body.getUserName());
 		userModel.setPosition(body.getPosition());
 		userModel.setQuaternion(body.getQuaternion());
-		
+
 		var ticket = ticketService.drawTicket(room, userModel);
 		return new LobbyJoinedResponse(ticket.getTicketId(), ticket.getValidUntil().toEpochMilli());
 	}

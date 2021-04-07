@@ -16,7 +16,7 @@ public class ControllerModel extends BaseModel {
 	public int getControllerId() {
 		return controllerId;
 	}
-	
+
 	public String getAssetUrl() {
 		return assetUrl;
 	}

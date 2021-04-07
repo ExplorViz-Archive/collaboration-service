@@ -8,7 +8,7 @@ package net.explorviz.vr.message;
  * sent to a client.
  */
 public abstract class RespondableMessage extends VrMessage {
-    public RespondableMessage(String event) {
-        super(event);
-    }
+	public RespondableMessage(String event) {
+		super(event);
+	}
 }
