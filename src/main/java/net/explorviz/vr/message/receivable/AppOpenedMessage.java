@@ -48,6 +48,10 @@ public class AppOpenedMessage extends ReceivableMessage {
 		this.scale = scale;
 	}
 
+	public String toString() {
+		return "id: " + id;
+	}
+
 	@Override
 	public <R, A> R handleWith(ReceivableMessageHandler<R, A> handler, A arg) {
 		return handler.handleAppOpenedMessage(this, arg);

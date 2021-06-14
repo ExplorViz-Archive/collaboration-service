@@ -48,6 +48,11 @@ public class ComponentUpdateMessage extends ReceivableMessage {
 		this.isFoundation = isFoundation;
 	}
 
+	public String toString() {
+		return "appId: " + appId + ", componentId: " + componentId +
+				", isOpened:" + isOpened + ", isFoundation: " + isFoundation;
+	}
+
 	@Override
 	public <R, A> R handleWith(ReceivableMessageHandler<R, A> handler, A arg) {
 		return handler.handleComponentUpdateMessage(this, arg);

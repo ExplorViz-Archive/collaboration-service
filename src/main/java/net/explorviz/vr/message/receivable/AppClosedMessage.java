@@ -21,6 +21,10 @@ public class AppClosedMessage extends RequestMessage {
 		this.appId = appId;
 	}
 
+	public String toString() {
+		return "appId: " + appId;
+	}
+
 	@Override
 	public <R, A> R handleWith(ReceivableMessageHandler<R, A> handler, A arg) {
 		return handler.handleAppClosedMessage(this, arg);

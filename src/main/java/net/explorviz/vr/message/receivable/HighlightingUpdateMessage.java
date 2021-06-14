@@ -48,6 +48,11 @@ public class HighlightingUpdateMessage extends ReceivableMessage {
 		this.isHighlighted = isHighlighted;
 	}
 
+	public String toString() {
+		return "appId: " + appId + ", entityId: " + entityId +
+				", entityType: " + entityType + ", isHighlighted: " + isHighlighted;
+	}
+
 	@Override
 	public <R, A> R handleWith(ReceivableMessageHandler<R, A> handler, A arg) {
 		return handler.handleHighlightingUpdateMessage(this, arg);
