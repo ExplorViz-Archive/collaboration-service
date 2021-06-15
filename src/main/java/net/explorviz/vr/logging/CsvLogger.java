@@ -44,7 +44,7 @@ public class CsvLogger {
     public void logEventToCsv(String event, String message) {
         String currentTime = String.valueOf(new Date().getTime());
 
-        try (FileWriter fileWriter = new FileWriter(this.timestamp + "_log.csv", true);
+        try (FileWriter fileWriter = new FileWriter(this.timestamp + "_socket_log.csv", true);
              PrintWriter writer = new PrintWriter(fileWriter)) {
 
             StringBuilder sb = new StringBuilder();
