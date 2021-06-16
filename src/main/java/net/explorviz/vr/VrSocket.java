@@ -136,6 +136,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
 	@OnMessage
 	public void onMessage(ReceivableMessage message, Session senderWebsocketSession) {
 		final var senderSession = sessionRegistry.lookupSession(senderWebsocketSession);
+		message.setSenderSession(senderSession);
 
 		// Process the message.
 		final var shouldForward = message.handleWith(this, senderSession);
