@@ -5,21 +5,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import net.explorviz.vr.message.receivable.AppClosedMessage;
-import net.explorviz.vr.message.receivable.AppOpenedMessage;
-import net.explorviz.vr.message.receivable.ComponentUpdateMessage;
-import net.explorviz.vr.message.receivable.DetachedMenuClosedMessage;
-import net.explorviz.vr.message.receivable.HighlightingUpdateMessage;
-import net.explorviz.vr.message.receivable.MenuDetachedMessage;
-import net.explorviz.vr.message.receivable.ObjectGrabbedMessage;
-import net.explorviz.vr.message.receivable.ObjectMovedMessage;
-import net.explorviz.vr.message.receivable.ObjectReleasedMessage;
-import net.explorviz.vr.message.receivable.PingUpdateMessage;
-import net.explorviz.vr.message.receivable.SpectatingUpdateMessage;
-import net.explorviz.vr.message.receivable.TimestampUpdateMessage;
-import net.explorviz.vr.message.receivable.UserControllerConnectMessage;
-import net.explorviz.vr.message.receivable.UserControllerDisconnectMessage;
-import net.explorviz.vr.message.receivable.UserPositionsMessage;
+import net.explorviz.vr.message.receivable.*;
 
 /**
  * Base class for all messages that are exchanged via the websocket connection
@@ -44,6 +30,7 @@ import net.explorviz.vr.message.receivable.UserPositionsMessage;
 		@Type(value = UserControllerDisconnectMessage.class, name = UserControllerDisconnectMessage.EVENT),
 		@Type(value = UserPositionsMessage.class, name = UserPositionsMessage.EVENT),
 		@Type(value = PingUpdateMessage.class, name = PingUpdateMessage.EVENT),
+		@Type(value = MousePingUpdateMessage.class, name = MousePingUpdateMessage.EVENT),
 		@Type(value = TimestampUpdateMessage.class, name = TimestampUpdateMessage.EVENT) })
 public abstract class VrMessage {
 	@JsonTypeId

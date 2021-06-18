@@ -14,6 +14,7 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 import net.explorviz.vr.logging.CsvLogger;
+import net.explorviz.vr.message.receivable.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,21 +26,6 @@ import net.explorviz.vr.message.ReceivableMessage;
 import net.explorviz.vr.message.ReceivableMessageDecoder;
 import net.explorviz.vr.message.ReceivableMessageHandler;
 import net.explorviz.vr.message.SendableMessageEncoder;
-import net.explorviz.vr.message.receivable.AppClosedMessage;
-import net.explorviz.vr.message.receivable.AppOpenedMessage;
-import net.explorviz.vr.message.receivable.ComponentUpdateMessage;
-import net.explorviz.vr.message.receivable.DetachedMenuClosedMessage;
-import net.explorviz.vr.message.receivable.HighlightingUpdateMessage;
-import net.explorviz.vr.message.receivable.MenuDetachedMessage;
-import net.explorviz.vr.message.receivable.ObjectGrabbedMessage;
-import net.explorviz.vr.message.receivable.ObjectMovedMessage;
-import net.explorviz.vr.message.receivable.ObjectReleasedMessage;
-import net.explorviz.vr.message.receivable.PingUpdateMessage;
-import net.explorviz.vr.message.receivable.SpectatingUpdateMessage;
-import net.explorviz.vr.message.receivable.TimestampUpdateMessage;
-import net.explorviz.vr.message.receivable.UserControllerConnectMessage;
-import net.explorviz.vr.message.receivable.UserControllerDisconnectMessage;
-import net.explorviz.vr.message.receivable.UserPositionsMessage;
 import net.explorviz.vr.message.respondable.ObjectClosedResponse;
 import net.explorviz.vr.message.respondable.ObjectGrabbedResponse;
 import net.explorviz.vr.message.sendable.InitialLandscapeMessage;
@@ -288,8 +274,10 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
 
 	@Override
 	public ShouldForward handlePingUpdateMessage(PingUpdateMessage message, VrSession session) {
-		CSV_LOGGER.logEventToCsv(message.getEvent(), message.toString());
-
+		return ShouldForward.FORWARD;
+	}
+	@Override
+	public ShouldForward handleMousePingUpdateMessage(MousePingUpdateMessage message, VrSession session) {
 		return ShouldForward.FORWARD;
 	}
 

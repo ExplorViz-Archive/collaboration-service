@@ -1,20 +1,6 @@
 package net.explorviz.vr.message;
 
-import net.explorviz.vr.message.receivable.AppClosedMessage;
-import net.explorviz.vr.message.receivable.AppOpenedMessage;
-import net.explorviz.vr.message.receivable.ComponentUpdateMessage;
-import net.explorviz.vr.message.receivable.DetachedMenuClosedMessage;
-import net.explorviz.vr.message.receivable.HighlightingUpdateMessage;
-import net.explorviz.vr.message.receivable.MenuDetachedMessage;
-import net.explorviz.vr.message.receivable.ObjectGrabbedMessage;
-import net.explorviz.vr.message.receivable.ObjectMovedMessage;
-import net.explorviz.vr.message.receivable.ObjectReleasedMessage;
-import net.explorviz.vr.message.receivable.PingUpdateMessage;
-import net.explorviz.vr.message.receivable.SpectatingUpdateMessage;
-import net.explorviz.vr.message.receivable.TimestampUpdateMessage;
-import net.explorviz.vr.message.receivable.UserControllerConnectMessage;
-import net.explorviz.vr.message.receivable.UserControllerDisconnectMessage;
-import net.explorviz.vr.message.receivable.UserPositionsMessage;
+import net.explorviz.vr.message.receivable.*;
 
 /**
  * Interface for classes that can handle {@link VrMessage}s.
@@ -52,6 +38,8 @@ public interface ReceivableMessageHandler<R, A> {
 	R handleDetachedMenuClosedMessage(DetachedMenuClosedMessage detachedMenuClosedMessage, A arg);
 
 	R handlePingUpdateMessage(PingUpdateMessage message, A arg);
+
+	R handleMousePingUpdateMessage(MousePingUpdateMessage message, A arg);
 
 	R handleTimestampUpdateMessage(TimestampUpdateMessage message, A arg);
 }
