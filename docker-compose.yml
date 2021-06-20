@@ -1,0 +1,16 @@
+version: "3.5"
+services:
+
+  ## Vr-Service ##
+
+  vr-service:
+    container_name: explorviz-vr-service
+    image: explorviz/vr-service:latest
+    networks:
+      - explorviz
+    ports:
+      - 4444:4444
+      
+networks:
+  explorviz:
+    name: explorviz

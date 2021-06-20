@@ -27,6 +27,25 @@ If you want to build an _über-jar_, execute the following command:
 
 The application is now runnable using `java -jar target/vr-service-1.0.0-SNAPSHOT-runner.jar`.
 
+## Docker
+
+To run the application using Docker, first package the application:
+
+```shell script
+./mvnw package
+```
+
+Then, the docker image needs to be build:
+```shell script
+docker build -f src/main/docker/Dockerfile.jvm -t explorviz/vr-service:latest .
+```
+
+At last, run the docker-compose file to get a running container:
+```shell script
+docker-compose -f docker-compose.yml up -d  
+```
+
+
 ## Creating a native executable
 
 You can create a native executable using: 
