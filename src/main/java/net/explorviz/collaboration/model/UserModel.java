@@ -76,8 +76,7 @@ public class UserModel extends BaseModel {
 
   public void setHighlightedEntity(final boolean isHighlighted, final String appId,
       final String entityType, final String entityId) {
-    this.hasHighlightedEntity = isHighlighted;
-    this.highlightedEntity = new HighlightingModel(isHighlighted, appId, entityId, entityType);
+    this.highlightedEntity = new HighlightingModel(appId, entityId, entityType);
   }
 
   public HighlightingModel getHighlightedEntity() {

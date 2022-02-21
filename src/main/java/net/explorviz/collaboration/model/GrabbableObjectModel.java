@@ -2,18 +2,18 @@ package net.explorviz.collaboration.model;
 
 public interface GrabbableObjectModel {
 
-  public String getGrabId();
+  String getGrabId();
 
-  public double[] getPosition();
+  double[] getPosition();
 
-  public void setPosition(double[] position);
+  void setPosition(double[] position);
 
-  public double[] getQuaternion();
+  double[] getQuaternion();
 
-  public void setQuaternion(double[] quaternion);
+  void setQuaternion(double[] quaternion);
 
-  public double[] getScale();
+  double[] getScale();
 
-  public void setScale(double[] scale);
+  void setScale(double[] scale);
 
 }

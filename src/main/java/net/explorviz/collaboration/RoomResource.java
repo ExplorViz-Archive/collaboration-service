@@ -9,9 +9,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import net.explorviz.collaboration.payload.receivable.InitialRoomPayload;
-import net.explorviz.collaboration.payload.receivable.JoinLobbyPayload;
 import net.explorviz.collaboration.payload.receivable.InitialRoomPayload.App;
 import net.explorviz.collaboration.payload.receivable.InitialRoomPayload.DetachedMenu;
+import net.explorviz.collaboration.payload.receivable.JoinLobbyPayload;
 import net.explorviz.collaboration.payload.sendable.LobbyJoinedResponse;
 import net.explorviz.collaboration.payload.sendable.RoomCreatedResponse;
 import net.explorviz.collaboration.payload.sendable.RoomListRecord;
@@ -23,10 +23,10 @@ import org.jboss.resteasy.annotations.jaxrs.PathParam;
 public class RoomResource {
 
   @Inject
-  RoomService roomService;
+  /* default */RoomService roomService; // NOCS
 
   @Inject
-  TicketService ticketService;
+  /* default */ TicketService ticketService; // NOCS
 
   /**
    * Gets the IDs of all rooms.

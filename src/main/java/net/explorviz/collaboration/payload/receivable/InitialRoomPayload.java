@@ -5,6 +5,11 @@ package net.explorviz.collaboration.payload.receivable;
  * Contains all information to initialize a room.
  */
 public class InitialRoomPayload {
+
+  private Landscape landscape;
+  private App[] openApps;
+  private DetachedMenu[] detachedMenus;
+
   public static class Landscape {
     private String landscapeToken;
     private long timestamp;
@@ -149,10 +154,6 @@ public class InitialRoomPayload {
     }
 
   }
-
-  private Landscape landscape;
-  private App[] openApps;
-  private DetachedMenu[] detachedMenus;
 
   public Landscape getLandscape() {
     return this.landscape;

@@ -6,6 +6,10 @@ public class InitialLandscapeMessage extends SendableMessage {
 
   public static final String EVENT = "landscape";
 
+  private App[] openApps;
+  private Landscape landscape;
+  private DetachedMenu[] detachedMenus;
+
   public static class Landscape {
     private String landscapeToken;
     private long timestamp;
@@ -217,10 +221,6 @@ public class InitialLandscapeMessage extends SendableMessage {
       this.openComponents = openComponents;
     }
   }
-
-  private App[] openApps;
-  private Landscape landscape;
-  private DetachedMenu[] detachedMenus;
 
   public InitialLandscapeMessage() {
     super(EVENT);

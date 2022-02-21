@@ -12,13 +12,13 @@ import net.explorviz.collaboration.service.room.UserService;
 @ApplicationScoped
 public class UserServiceFactory {
   @Inject
-  IdGenerationService idGenerationService;
+  /* default */IdGenerationService idGenerationService; // NOCS
 
   @Inject
-  Event<UserConnectedEvent> userConnectedEvent;
+  /* default */Event<UserConnectedEvent> userConnectedEvent; // NOCS
 
   @Inject
-  Event<UserDisconnectedEvent> userDisconnectedEvent;
+  /* default */Event<UserDisconnectedEvent> userDisconnectedEvent; // NOCS
 
   public UserService makeUserService(final Room room) {
     final var colorAssignmentService = room.getColorAssignmentService();

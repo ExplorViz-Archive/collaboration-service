@@ -6,8 +6,7 @@ public class HighlightingModel {
   private final String highlightedEntity;
   private final String entityType;
 
-  public HighlightingModel(final boolean isHighlighted, final String appId, final String entityId,
-      final String entityType) {
+  public HighlightingModel(final String appId, final String entityId, final String entityType) {
     this.highlightedApp = appId;
     this.highlightedEntity = entityId;
     this.entityType = entityType;

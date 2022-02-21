@@ -22,25 +22,25 @@ import net.explorviz.collaboration.service.room.factory.UserServiceFactory;
 public class RoomFactory {
 
   @Inject
-  UserServiceFactory userServiceFactory;
+  /* default */ UserServiceFactory userServiceFactory; // NOCS
 
   @Inject
-  LandscapeServiceFactory landscapeServiceFactory;
+  /* default */ LandscapeServiceFactory landscapeServiceFactory;// NOCS
 
   @Inject
-  ApplicationServiceFactory applicationServiceFactory;
+  /* default */ ApplicationServiceFactory applicationServiceFactory;// NOCS
 
   @Inject
-  DetachedMenuServiceFactory detachedMenuServiceFactory;
+  /* default */ DetachedMenuServiceFactory detachedMenuServiceFactory;// NOCS
 
   @Inject
-  BroadcastServiceFactory broadcastServiceFactory;
+  /* default */ BroadcastServiceFactory broadcastServiceFactory;// NOCS
 
   @Inject
-  ColorAssignmentServiceFactory colorAssignmentServiceFactory;
+  /* default */ ColorAssignmentServiceFactory colorAssignmentServiceFactory;// NOCS
 
   @Inject
-  GrabServiceFactory grabServiceFactory;
+  /* default */ GrabServiceFactory grabServiceFactory;// NOCS
 
   public Room makeRoom(final String roomId, final String roomName) {
     return new Room(roomId, roomName) {

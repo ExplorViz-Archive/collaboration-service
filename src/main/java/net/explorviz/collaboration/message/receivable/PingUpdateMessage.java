@@ -5,15 +5,15 @@ import net.explorviz.collaboration.message.ReceivableMessageHandler;
 
 public class PingUpdateMessage extends ReceivableMessage {
 
-  public PingUpdateMessage() {
-    super(EVENT);
-  }
-
   public static final String EVENT = "ping_update";
 
   private int controllerId;
 
   private boolean pinging;
+
+  public PingUpdateMessage() {
+    super(EVENT);
+  }
 
   public int getControllerId() {
     return this.controllerId;

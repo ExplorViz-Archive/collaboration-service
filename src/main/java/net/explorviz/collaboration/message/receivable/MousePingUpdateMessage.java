@@ -5,15 +5,15 @@ import net.explorviz.collaboration.message.ReceivableMessageHandler;
 
 public class MousePingUpdateMessage extends ReceivableMessage {
 
-  public MousePingUpdateMessage() {
-    super(EVENT);
-  }
-
   public static final String EVENT = "mouse_ping_update";
 
   private String modelId;
   private boolean isApp;
   private double[] position;
+
+  public MousePingUpdateMessage() {
+    super(EVENT);
+  }
 
   public String getModelId() {
     return this.modelId;

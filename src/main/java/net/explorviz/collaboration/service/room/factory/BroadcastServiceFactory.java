@@ -10,7 +10,7 @@ import net.explorviz.collaboration.service.room.BroadcastService;
 public class BroadcastServiceFactory {
 
   @Inject
-  SessionRegistry sessionRegistry;
+  /* default */SessionRegistry sessionRegistry; // NOCS
 
   public BroadcastService makeBroadcastService(final Room room) {
     return new BroadcastService(this.sessionRegistry, (session) -> session.getRoom() == room);

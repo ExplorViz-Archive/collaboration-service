@@ -17,10 +17,10 @@ public class RoomService {
   private static final Logger LOGGER = LoggerFactory.getLogger(RoomService.class);
 
   @Inject
-  RoomFactory roomFactory;
+  /* default */RoomFactory roomFactory; // NOCS
 
   @Inject
-  IdGenerationService idGenerationService;
+  /* default */IdGenerationService idGenerationService; // NOCS
 
   private final Map<String, Room> rooms = new ConcurrentHashMap<>();
 

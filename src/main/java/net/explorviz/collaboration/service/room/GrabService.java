@@ -1,6 +1,7 @@
 package net.explorviz.collaboration.service.room;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import net.explorviz.collaboration.model.GrabbableObjectModel;
@@ -70,7 +71,7 @@ public class GrabService {
     this.userToGrabbedObjects.remove(userId);
   }
 
-  private ArrayList<String> getGrabbedObjectsByUser(final String userId) {
+  private List<String> getGrabbedObjectsByUser(final String userId) {
     var objects = this.userToGrabbedObjects.get(userId);
     if (objects == null) {
       objects = new ArrayList<>();

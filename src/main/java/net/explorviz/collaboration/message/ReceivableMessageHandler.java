@@ -44,7 +44,7 @@ public interface ReceivableMessageHandler<R, A> {
       A arg);
 
   R handleUserControllerDisconnectMessage(
-      UserControllerDisconnectMessage userControllerDisconnectedMessage, A arg);
+      UserControllerDisconnectMessage userControllerDisconnMsg, A arg);
 
   R handleUserPositionsMessage(UserPositionsMessage message, A arg);
 

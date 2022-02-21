@@ -6,6 +6,8 @@ import net.explorviz.collaboration.message.ReceivableMessageHandler;
 public class UserControllerConnectMessage extends ReceivableMessage {
   public static final String EVENT = "user_controller_connect";
 
+  private Controller controller;
+
   public static class Controller {
     private int controllerId;
     private String assetUrl;
@@ -53,8 +55,6 @@ public class UserControllerConnectMessage extends ReceivableMessage {
       this.intersection = intersection;
     }
   }
-
-  private Controller controller;
 
   public UserControllerConnectMessage() {
     super(EVENT);

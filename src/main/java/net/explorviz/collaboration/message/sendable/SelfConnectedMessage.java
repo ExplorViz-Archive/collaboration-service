@@ -8,6 +8,9 @@ import net.explorviz.collaboration.message.encoder.ColorSerializer;
 public class SelfConnectedMessage extends SendableMessage {
   public static final String EVENT = "self_connected";
 
+  private User self;
+  private OtherUser[] users;
+
   public static class Controller {
     private int controllerId;
     private String assetUrl;
@@ -117,9 +120,6 @@ public class SelfConnectedMessage extends SendableMessage {
       this.quaternion = quaternion;
     }
   }
-
-  private User self;
-  private OtherUser[] users;
 
   public SelfConnectedMessage() {
     super(EVENT);

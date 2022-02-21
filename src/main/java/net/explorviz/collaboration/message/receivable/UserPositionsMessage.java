@@ -7,6 +7,10 @@ public class UserPositionsMessage extends ReceivableMessage {
 
   public static final String EVENT = "user_positions";
 
+  private ControllerPose controller1;
+  private ControllerPose controller2;
+  private Pose camera;
+
   public static class Pose {
     private double[] position;
     private double[] quaternion;
@@ -39,10 +43,6 @@ public class UserPositionsMessage extends ReceivableMessage {
       this.intersection = intersection;
     }
   }
-
-  private ControllerPose controller1;
-  private ControllerPose controller2;
-  private Pose camera;
 
   public UserPositionsMessage() {
     super(EVENT);

@@ -10,7 +10,7 @@ import net.explorviz.collaboration.service.room.DetachedMenuService;
 public class DetachedMenuServiceFactory {
 
   @Inject
-  IdGenerationService idGenerationService;
+  /* default */ IdGenerationService idGenerationService;// NOCS
 
   public DetachedMenuService makeDetachedMenuService(final Room room) {
     final var grabService = room.getGrabService();

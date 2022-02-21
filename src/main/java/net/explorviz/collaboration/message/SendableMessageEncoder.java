@@ -28,7 +28,9 @@ public class SendableMessageEncoder implements Encoder.TextStream<SendableMessag
   }
 
   @Override
-  public void destroy() {}
+  public void destroy() {
+    // nothing to do
+  }
 
   @Override
   public void encode(final SendableMessage message, final Writer writer)

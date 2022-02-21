@@ -25,8 +25,7 @@ public class BaseModel {
   }
 
   public double[] getPosition() {
-    final double[] coordinates = {this.xPos, this.yPos, this.zPos};
-    return coordinates;
+    return new double[] {this.xPos, this.yPos, this.zPos};
   }
 
   public void setPosition(final double[] coordinates) {
@@ -48,8 +47,7 @@ public class BaseModel {
   }
 
   public double[] getQuaternion() {
-    final double[] quaternion = {this.xQuat, this.yQuat, this.zQuat, this.wQuat};
-    return quaternion;
+    return new double[] {this.xQuat, this.yQuat, this.zQuat, this.wQuat};
   }
 
   public void setQuaternion(final double[] quaternion) {

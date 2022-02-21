@@ -25,7 +25,7 @@ public class VrSession {
    */
   private final UserModel user;
 
-  VrSession(final Session websocketSession, final Room room, final UserModel user) {
+  public VrSession(final Session websocketSession, final Room room, final UserModel user) {
     this.websocketSession = websocketSession;
     this.room = room;
     this.user = user;
