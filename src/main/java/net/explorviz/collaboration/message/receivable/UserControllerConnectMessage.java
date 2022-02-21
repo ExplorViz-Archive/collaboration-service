@@ -32,27 +32,27 @@ public class UserControllerConnectMessage extends ReceivableMessage {
     }
 
     public double[] getPosition() {
-      return this.position;
+      return this.position.clone();
     }
 
     public void setPosition(final double ... position) {
-      this.position = position;
+      this.position = position.clone();
     }
 
     public double[] getQuaternion() {
-      return this.quaternion;
+      return this.quaternion.clone();
     }
 
     public void setQuaternion(final double[] quaternion) {
-      this.quaternion = quaternion;
+      this.quaternion = quaternion.clone();
     }
 
     public double[] getIntersection() {
-      return this.intersection;
+      return this.intersection.clone();
     }
 
     public void setIntersection(final double[] intersection) {
-      this.intersection = intersection;
+      this.intersection = intersection.clone();
     }
   }
 

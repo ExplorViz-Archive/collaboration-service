@@ -8,10 +8,10 @@ public class ScalableBaseModel extends BaseModel {
   }
 
   public double[] getScale() {
-    return this.scale;
+    return this.scale.clone();
   }
 
   public void setScale(final double[] scale) {
-    this.scale = scale;
+    this.scale = scale.clone();
   }
 }

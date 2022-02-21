@@ -9,7 +9,7 @@ public class ForwardedMessage extends BroadcastableMessage {
   /**
    * Type for flags that are used to indicate whether a message should be forwarded or not.
    */
-  public static enum ShouldForward {
+  public enum ShouldForward {
     FORWARD, NO_FORWARD
   }
 

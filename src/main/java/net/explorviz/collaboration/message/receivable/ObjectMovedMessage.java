@@ -25,27 +25,27 @@ public class ObjectMovedMessage extends ReceivableMessage {
   }
 
   public double[] getPosition() {
-    return this.position;
+    return this.position.clone();
   }
 
   public void setPosition(final double[] position) {
-    this.position = position;
+    this.position = position.clone();
   }
 
   public double[] getQuaternion() {
-    return this.quaternion;
+    return this.quaternion.clone();
   }
 
   public void setQuaternion(final double[] quaternion) {
-    this.quaternion = quaternion;
+    this.quaternion = quaternion.clone();
   }
 
   public double[] getScale() {
-    return this.scale;
+    return this.scale.clone();
   }
 
   public void setScale(final double[] scale) {
-    this.scale = scale;
+    this.scale = scale.clone();
   }
 
   @Override

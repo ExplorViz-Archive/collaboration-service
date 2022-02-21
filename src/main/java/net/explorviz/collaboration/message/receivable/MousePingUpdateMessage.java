@@ -32,11 +32,11 @@ public class MousePingUpdateMessage extends ReceivableMessage {
   }
 
   public double[] getPosition() {
-    return this.position;
+    return this.position.clone();
   }
 
-  public void setPosition() {
-    this.position = this.position;
+  public void setPosition(final double[] position) {
+    this.position = position.clone();
   }
 
   @Override

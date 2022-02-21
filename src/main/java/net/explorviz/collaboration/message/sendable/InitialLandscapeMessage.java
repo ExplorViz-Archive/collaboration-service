@@ -34,27 +34,27 @@ public class InitialLandscapeMessage extends SendableMessage {
     }
 
     public double[] getPosition() {
-      return this.position;
+      return this.position.clone();
     }
 
     public void setPosition(final double[] position) {
-      this.position = position;
+      this.position = position.clone();
     }
 
     public double[] getQuaternion() {
-      return this.quaternion;
+      return this.quaternion.clone();
     }
 
     public void setQuaternion(final double[] quaternion) {
-      this.quaternion = quaternion;
+      this.quaternion = quaternion.clone();
     }
 
     public double[] getScale() {
-      return this.scale;
+      return this.scale.clone();
     }
 
     public void setScale(final double[] scale) {
-      this.scale = scale;
+      this.scale = scale.clone();
     }
   }
 
@@ -91,27 +91,27 @@ public class InitialLandscapeMessage extends SendableMessage {
     }
 
     public double[] getPosition() {
-      return this.position;
+      return this.position.clone();
     }
 
     public void setPosition(final double ... position) {
-      this.position = position;
+      this.position = position.clone();
     }
 
     public double[] getQuaternion() {
-      return this.quaternion;
+      return this.quaternion.clone();
     }
 
     public void setQuaternion(final double ... quaternion) {
-      this.quaternion = quaternion;
+      this.quaternion = quaternion.clone();
     }
 
     public double[] getScale() {
-      return this.scale;
+      return this.scale.clone();
     }
 
     public void setScale(final double ... scale) {
-      this.scale = scale;
+      this.scale = scale.clone();
     }
 
   }
@@ -174,11 +174,11 @@ public class InitialLandscapeMessage extends SendableMessage {
     private HighlightingObject[] highlightedComponents;
 
     public HighlightingObject[] getHighlightedComponents() {
-      return this.highlightedComponents;
+      return this.highlightedComponents.clone();
     }
 
     public void setHighlightedComponents(final HighlightingObject[] highlightedComponents) {
-      this.highlightedComponents = highlightedComponents;
+      this.highlightedComponents = highlightedComponents.clone();
     }
 
     public String getId() {
@@ -190,35 +190,35 @@ public class InitialLandscapeMessage extends SendableMessage {
     }
 
     public double[] getPosition() {
-      return this.position;
+      return this.position.clone();
     }
 
     public void setPosition(final double[] position) {
-      this.position = position;
+      this.position = position.clone();
     }
 
     public double[] getQuaternion() {
-      return this.quaternion;
+      return this.quaternion.clone();
     }
 
     public void setQuaternion(final double[] quaternion) {
-      this.quaternion = quaternion;
+      this.quaternion = quaternion.clone();
     }
 
     public double[] getScale() {
-      return this.scale;
+      return this.scale.clone();
     }
 
     public void setScale(final double[] scale) {
-      this.scale = scale;
+      this.scale = scale.clone();
     }
 
     public String[] getOpenComponents() {
-      return this.openComponents;
+      return this.openComponents.clone();
     }
 
     public void setOpenComponents(final String[] openComponents) {
-      this.openComponents = openComponents;
+      this.openComponents = openComponents.clone();
     }
   }
 
@@ -227,19 +227,19 @@ public class InitialLandscapeMessage extends SendableMessage {
   }
 
   public DetachedMenu[] getDetachedMenus() {
-    return this.detachedMenus;
+    return this.detachedMenus.clone();
   }
 
   public void setDetachedMenus(final DetachedMenu[] detachedMenus) {
-    this.detachedMenus = detachedMenus;
+    this.detachedMenus = detachedMenus.clone();
   }
 
   public App[] getOpenApps() {
-    return this.openApps;
+    return this.openApps.clone();
   }
 
   public void setOpenApps(final App[] openApps) {
-    this.openApps = openApps;
+    this.openApps = openApps.clone();
   }
 
   public Landscape getLandscape() {

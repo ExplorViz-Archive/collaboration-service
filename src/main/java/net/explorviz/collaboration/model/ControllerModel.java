@@ -34,7 +34,7 @@ public class ControllerModel extends BaseModel {
 
   public void setIntersection(final double[] intersection) {
     if (intersection == null) {
-      this.intersection = null;
+      this.intersection = null; // NOPMD
       return;
     }
     if (!this.hasIntersection()) {

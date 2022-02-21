@@ -19,25 +19,25 @@ public class MenuDetachedForwardMessage extends BroadcastableMessage {
     this.objectId = objectId;
     this.entityType = entityType;
     this.detachId = detachId;
-    this.position = position;
-    this.quaternion = quaternion;
-    this.scale = scale;
+    this.position = position.clone();
+    this.quaternion = quaternion.clone();
+    this.scale = scale.clone();
   }
 
   public double[] getPosition() {
-    return this.position;
+    return this.position.clone();
   }
 
   public void setPosition(final double[] position) {
-    this.position = position;
+    this.position = position.clone();
   }
 
   public double[] getQuaternion() {
-    return this.quaternion;
+    return this.quaternion.clone();
   }
 
   public void setQuaternion(final double[] quaternion) {
-    this.quaternion = quaternion;
+    this.quaternion = quaternion.clone();
   }
 
   public String getObjectId() {
@@ -53,11 +53,11 @@ public class MenuDetachedForwardMessage extends BroadcastableMessage {
   }
 
   public double[] getScale() {
-    return this.scale;
+    return this.scale.clone();
   }
 
   public void setScale(final double[] scale) {
-    this.scale = scale;
+    this.scale = scale.clone();
   }
 
 }

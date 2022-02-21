@@ -61,6 +61,6 @@ public class BroadcastService {
       final Predicate<VrSession> predicate) {
     final var futures = this.sessionRegistry.getSessions().stream().filter(this.roomSessionFilter)
         .filter(predicate).map((session) -> session.send(message)).collect(Collectors.toList());
-    return CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]));
+    return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
   }
 }

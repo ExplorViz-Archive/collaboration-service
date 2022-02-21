@@ -51,8 +51,7 @@ public class SelfConnectedMessageFactory {
         otherUserList.add(otherUser);
       }
     }
-    message
-        .setUsers(otherUserList.toArray(new SelfConnectedMessage.OtherUser[otherUserList.size()]));
+    message.setUsers(otherUserList.toArray(new SelfConnectedMessage.OtherUser[0]));
 
     return message;
   }
