@@ -1,67 +1,49 @@
 plugins {
-    id 'java'
-    id 'application'
-    id 'maven'
-    id 'com.github.johnrengelman.shadow' version '5.1.0'
+  id 'java'
+  id 'io.quarkus'
+  id 'com.adarshr.test-logger' version '2.1.0'
 }
 
-apply from: 'https://raw.githubusercontent.com/ExplorViz/gradle-script-plugins/master/microservice.gradle'
+apply from: 'buildscripts/code-analysis.gradle'
 
 repositories {
-  jcenter()
-  maven { url 'https://jitpack.io' }
-  
-  // used for kieker and teetime snapshots
-  maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+  mavenLocal()
   mavenCentral()
-}
-
-ext {
-  // Version of the remote shared project to use.
-  // https://github.com/ExplorViz/explorviz-backend-shared
-  sharedProjectVersion='v1.4.0.10-SNAPSHOT'
-}
-
-// # Uncomment lines below to force dependency downloading (e.g. when explorviz-backend was updated)
-configurations.all {
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-}
-
-dependencies {  	
-  	// ExplorViz Shared Dependencies
-  	implementation group: 'net.explorviz', name: 'config-injection', version: "${sharedProjectVersion}"
-  	implementation group: 'net.explorviz', name: 'security', version: "${sharedProjectVersion}"
-  	implementation group: 'net.explorviz', name: 'exception-handling', version: "${sharedProjectVersion}"
-  	implementation group: 'net.explorviz', name: 'common-concerns', version: "${sharedProjectVersion}"
-  	implementation group: 'net.explorviz', name: 'query', version: "${sharedProjectVersion}"
-  	implementation group: 'net.explorviz', name: 'landscape-model', version: "dev-1-SNAPSHOT"
-  	
-  	// Java Websocket
-  	compile 'org.java-websocket:Java-WebSocket:1.4.0'
-  	
-  	// JSON
-  	compile 'org.json:json:20180130'
-
-	// JUnit
-    testImplementation 'junit:junit:4.12'
-}
-
-assemble.dependsOn shadowJar
-jar.enabled = false
-
-jar {
-  manifest {
-    attributes(
-      'Main-Class': 'net.explorviz.extension.vr.main.MultiUserMode'
-    )
+  maven {
+    url "https://packages.confluent.io/maven/"
   }
 }
 
-shadowJar {
-  baseName = "explorviz-${project.name}"
-  classifier = null
+dependencies {    
+  implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+
+  implementation 'io.quarkus:quarkus-container-image-jib'
+  implementation 'io.quarkus:quarkus-resteasy'
+  implementation 'io.quarkus:quarkus-undertow-websockets'
+  implementation 'io.quarkus:quarkus-resteasy-jackson'
+  implementation 'org.assertj:assertj-core'
+
+  testImplementation 'io.quarkus:quarkus-junit5'
+  testImplementation 'io.rest-assured:rest-assured'  
 }
 
-application {
-    mainClassName = 'net.explorviz.extension.vr.main.MultiUserMode'
+group 'net.explorviz'
+version '1.0-SNAPSHOT'
+
+compileJava {
+  options.encoding = 'UTF-8'
+  options.compilerArgs << '-parameters'
+}
+
+compileTestJava {
+  options.encoding = 'UTF-8'
+}
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_11
+  targetCompatibility = JavaVersion.VERSION_11
+}
+
+test {
+  systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
 }

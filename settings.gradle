@@ -1,1 +1,15 @@
-rootProject.name = 'explorviz-backend-extension-vr'
+pluginManagement {
+  repositories {
+    mavenLocal()
+    mavenCentral()
+    gradlePluginPortal()
+    maven {
+      name "JCenter Gradle Plugins"
+      url "https://dl.bintray.com/gradle/gradle-plugins"
+    }
+  }
+  plugins {
+    id 'io.quarkus' version "${quarkusPluginVersion}"
+  }
+}
+rootProject.name = 'collaboration-service'

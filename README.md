@@ -1,20 +1,69 @@
-[//]: # (This readme is partly copied from other extension readmes to ensure consistency in the ExplorViz project)
-# ExplorViz-Backend-Extension-VR
+# vr-service project
 
-This extension adds features to the backend of ExplorViz to enable a multi-user VR-experience. 
-The related frontend extension can be found [here](https://github.com/ExplorViz/explorviz-frontend-extension-vr/tree/2.0).
+This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
-## Requirements
-- [HTC Vive (Pro)](https://www.vive.com) or [Oculus Rift CV1](https://www.oculus.com/rift/) (basically [Oculus Rift S](https://www.oculus.com/rift-s/) is also supported) with controllers and their respective firmware
-- A powerful computer that can handle VR
-- [Mozilla Firefox](https://www.mozilla.org/) Version 72.0.2
-- [ExplorViz Backend](https://github.com/ExplorViz/explorviz-backend/tree/1.5.0) Version 1.5.0
-- [ExplorViz Backend Extension VR](https://github.com/ExplorViz/explorviz-backend-extension-vr/tree/2.0) Version 2.0
-- [ExplorViz Frontend](https://github.com/ExplorViz/explorviz-frontend/tree/1.5.0) Version 1.5.0
+If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
-## Installation
-1. Follow the [README](https://github.com/ExplorViz/explorviz-backend/tree/1.5.0/README.md) of the [ExplorViz Backend](https://github.com/ExplorViz/explorviz-backend/tree/1.5.0)
-2. Clone this repository
-3. Import project into eclipse: via `Import -> Gradle -> Existing Gradle project -> path/to/explorviz-backend-extension-vr`
-4. Start **explorviz-backend-extension-vr** via Eclipse Tab: `Gradle Tasks -> explorviz-backend-extension-vr -> application -> run`
-5. Setup and start [ExplorViz Frontend](https://github.com/ExplorViz/explorviz-frontend/tree/1.5.0) with the installed [ExplorViz Frontend Extension VR](https://github.com/ExplorViz/explorviz-frontend-extension-vr/tree/2.0)
+## Running the application in dev mode
+
+You can run your application in dev mode that enables live coding using:
+```shell script
+./mvnw compile quarkus:dev
+```
+
+## Packaging and running the application
+
+The application can be packaged using:
+```shell script
+./mvnw package
+```
+It produces the `vr-service-1.0.0-SNAPSHOT-runner.jar` file in the `/target` directory.
+Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/lib` directory.
+
+If you want to build an _über-jar_, execute the following command:
+```shell script
+./mvnw package -Dquarkus.package.type=uber-jar
+```
+
+The application is now runnable using `java -jar target/vr-service-1.0.0-SNAPSHOT-runner.jar`.
+
+## Docker
+
+To run the application using Docker, first package the application:
+
+```shell script
+./mvnw package
+```
+
+Then, the docker image needs to be build:
+```shell script
+docker build -f src/main/docker/Dockerfile.jvm -t explorviz/vr-service:latest .
+```
+
+At last, run the docker-compose file to get a running container:
+```shell script
+docker-compose -f docker-compose.yml up -d  
+```
+
+
+## Creating a native executable
+
+You can create a native executable using: 
+```shell script
+./mvnw package -Pnative
+```
+
+Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
+```shell script
+./mvnw package -Pnative -Dquarkus.native.container-build=true
+```
+
+You can then execute your native executable with: `./target/vr-service-1.0.0-SNAPSHOT-runner`
+
+If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.html.
+
+# RESTEasy JAX-RS
+
+<p>A Hello World RESTEasy resource</p>
+
+Guide: https://quarkus.io/guides/rest-json
