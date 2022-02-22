@@ -1,5 +1,6 @@
 package net.explorviz.collaboration.message.receivable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import net.explorviz.collaboration.message.ReceivableMessage;
 import net.explorviz.collaboration.message.ReceivableMessageHandler;
 
@@ -10,7 +11,7 @@ public class ComponentUpdateMessage extends ReceivableMessage {
   private String appId;
   private String componentId;
   private boolean opened;
-  private boolean isFoundationComponent;
+  private boolean foundation;
 
   public ComponentUpdateMessage() {
     super(EVENT);
@@ -32,6 +33,7 @@ public class ComponentUpdateMessage extends ReceivableMessage {
     this.componentId = componentId;
   }
 
+  @JsonProperty("isOpened")
   public boolean isOpened() {
     return this.opened;
   }
@@ -40,18 +42,19 @@ public class ComponentUpdateMessage extends ReceivableMessage {
     this.opened = isOpened;
   }
 
+  @JsonProperty("isFoundation")
   public boolean isFoundation() {
-    return this.isFoundationComponent;
+    return this.foundation;
   }
 
   public void setIsFoundation(final boolean isFoundation) {
-    this.isFoundationComponent = isFoundation;
+    this.foundation = isFoundation;
   }
 
   @Override
   public String toString() {
     return "appId: " + this.appId + ", componentId: " + this.componentId + ", isOpened:"
-        + this.opened + ", isFoundation: " + this.isFoundationComponent;
+        + this.opened + ", isFoundation: " + this.foundation;
   }
 
   @Override

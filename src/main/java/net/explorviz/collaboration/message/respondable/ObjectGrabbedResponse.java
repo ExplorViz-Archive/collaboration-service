@@ -1,5 +1,6 @@
 package net.explorviz.collaboration.message.respondable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import net.explorviz.collaboration.message.RespondableMessage;
 
 public class ObjectGrabbedResponse extends RespondableMessage {
@@ -12,6 +13,7 @@ public class ObjectGrabbedResponse extends RespondableMessage {
     this.success = isSuccess;
   }
 
+  @JsonProperty("isSuccess")
   public boolean isSuccess() {
     return this.success;
   }

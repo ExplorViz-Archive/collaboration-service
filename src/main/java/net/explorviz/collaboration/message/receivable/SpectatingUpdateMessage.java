@@ -1,5 +1,6 @@
 package net.explorviz.collaboration.message.receivable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import net.explorviz.collaboration.message.ReceivableMessage;
 import net.explorviz.collaboration.message.ReceivableMessageHandler;
 
@@ -23,6 +24,7 @@ public class SpectatingUpdateMessage extends ReceivableMessage {
     this.userId = userId;
   }
 
+  @JsonProperty("isSpectating")
   public boolean isSpectating() {
     return this.spectating;
   }

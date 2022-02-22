@@ -1,5 +1,6 @@
 package net.explorviz.collaboration.message.receivable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import net.explorviz.collaboration.message.ReceivableMessage;
 import net.explorviz.collaboration.message.ReceivableMessageHandler;
 
@@ -40,6 +41,7 @@ public class HighlightingUpdateMessage extends ReceivableMessage {
     this.entityId = entityId;
   }
 
+  @JsonProperty("isHighlighted")
   public boolean isHighlighted() {
     return this.highlighted;
   }

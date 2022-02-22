@@ -1,11 +1,11 @@
 package net.explorviz.vr.message;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,15 +33,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class SendableMessageEncoderTest {
-  /**
-   * A custom comparator for strings that ignores whitespace.
-   */
-  private static Comparator<String> ignoreWhitespace = new Comparator<>() {
-    @Override
-    public int compare(final String s1, final String s2) {
-      return s1.replaceAll("\\s+", "").compareTo(s2.replaceAll("\\s+", ""));
-    }
-  };
+
+  private ObjectMapper mapper = new ObjectMapper();
 
   private SendableMessageEncoder encoder;
 
@@ -64,6 +57,10 @@ public class SendableMessageEncoderTest {
         return new ArrayList<>();
       }
     });
+
+    this.mapper = new ObjectMapper();
+
+
   }
 
   @AfterEach
@@ -78,16 +75,9 @@ public class SendableMessageEncoderTest {
     message.setNonce(42);
     message.setAppId("foo");
     final var actual = this.encoder.encodeMessage(new ForwardedMessage("alice", message));
-    final var expected = "{" //
-        + "  \"event\": \"forward\"," //
-        + "  \"userId\": \"alice\"," //
-        + "  \"originalMessage\": {" //
-        + "    \"event\": \"app_closed\"," //
-        + "    \"nonce\": 42," //
-        + "    \"appId\": \"foo\"" //
-        + "  }" //
-        + "}";
-    assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
+    final var expected =
+        "{ \"event\" : \"forward\" , \"userId\" : \"alice\" , \"originalMessage\" : { \"event\" : \"app_closed\" , \"nonce\" : 42 , \"appId\" : \"foo\" } }";
+    assertEquals(this.mapper.readTree(expected), this.mapper.readTree(actual));
   }
 
   @Test
@@ -102,7 +92,7 @@ public class SendableMessageEncoderTest {
         + "    \"isSuccess\": true" //
         + "  }" //
         + "}";
-    assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
+    assertEquals(this.mapper.readTree(expected), this.mapper.readTree(actual));
   }
 
   @Test
@@ -124,7 +114,7 @@ public class SendableMessageEncoderTest {
         + "    \"scale\": [1.0, 1.0, 1.0]" //
         + "  }" //
         + "}";
-    assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
+    assertEquals(this.mapper.readTree(expected), this.mapper.readTree(actual));
   }
 
   @Test
@@ -140,7 +130,7 @@ public class SendableMessageEncoderTest {
         + "    \"objectId\": \"foo\"" //
         + "  }" //
         + "}";
-    assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
+    assertEquals(this.mapper.readTree(expected), this.mapper.readTree(actual));
   }
 
   @Test
@@ -162,7 +152,7 @@ public class SendableMessageEncoderTest {
         + "    \"scale\": [1.0, 1.0, 1.0]" //
         + "  }" //
         + "}";
-    assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
+    assertEquals(this.mapper.readTree(expected), this.mapper.readTree(actual));
   }
 
   @Test
@@ -184,7 +174,7 @@ public class SendableMessageEncoderTest {
         + "    \"isFoundation\": true" //
         + "  }" //
         + "}";
-    assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
+    assertEquals(this.mapper.readTree(expected), this.mapper.readTree(actual));
   }
 
   @Test
@@ -204,7 +194,8 @@ public class SendableMessageEncoderTest {
         + "    \"spectatedUser\": \"bar\"" //
         + "  }" //
         + "}";
-    assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
+
+    assertEquals(this.mapper.readTree(expected), this.mapper.readTree(actual));
   }
 
   @Test
@@ -243,7 +234,7 @@ public class SendableMessageEncoderTest {
         + "    }" //
         + "  }" //
         + "}";
-    assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
+    assertEquals(this.mapper.readTree(expected), this.mapper.readTree(actual));
   }
 
   @Test
@@ -294,7 +285,7 @@ public class SendableMessageEncoderTest {
         + "    \"quaternion\": [1.0, 2.0, 3.0, 4.0]" //
         + "  }]" //
         + "}";
-    assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
+    assertEquals(this.mapper.readTree(expected), this.mapper.readTree(actual));
   }
 
   @Test
@@ -314,7 +305,7 @@ public class SendableMessageEncoderTest {
         + "  \"position\": [1.0, 2.0, 3.0]," //
         + "  \"quaternion\": [1.0, 2.0, 3.0, 4.0]" //
         + "}";
-    assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
+    assertEquals(this.mapper.readTree(expected), this.mapper.readTree(actual));
   }
 
   @Test
@@ -323,7 +314,7 @@ public class SendableMessageEncoderTest {
     message.setId("foo");
     final var actual = this.encoder.encodeMessage(message);
     final var expected = "{ \"event\": \"user_disconnect\", \"id\": \"foo\" }";
-    assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
+    assertEquals(this.mapper.readTree(expected), this.mapper.readTree(actual));
   }
 
   @Test
@@ -399,6 +390,6 @@ public class SendableMessageEncoderTest {
         + "    \"scale\": [1.0, 1.0, 1.0]" //
         + "  }]" //
         + "}";
-    assertThat(actual).usingComparator(ignoreWhitespace).isEqualTo(expected);
+    assertEquals(this.mapper.readTree(expected), this.mapper.readTree(actual));
   }
 }

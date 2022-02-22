@@ -1,5 +1,6 @@
 package net.explorviz.collaboration.message.sendable; // NOPMD
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import net.explorviz.collaboration.message.SendableMessage;
 
 public class InitialLandscapeMessage extends SendableMessage {
@@ -121,7 +122,7 @@ public class InitialLandscapeMessage extends SendableMessage {
     private String appId;
     private String entityType;
     private String entityId;
-    private boolean highlighted;
+    private boolean highlighted; // NOPMD NOCS
 
     public String getUserId() {
       return this.userId;
@@ -155,6 +156,7 @@ public class InitialLandscapeMessage extends SendableMessage {
       this.entityId = entityId;
     }
 
+    @JsonProperty("isHighlighted")
     public boolean isHighlighted() {
       return this.highlighted;
     }
@@ -172,6 +174,7 @@ public class InitialLandscapeMessage extends SendableMessage {
     private double[] scale;
     private String[] openComponents;
     private HighlightingObject[] highlightedComponents;
+
 
     public HighlightingObject[] getHighlightedComponents() {
       return this.highlightedComponents.clone();
