@@ -132,13 +132,13 @@
     </module>
     <module name="MemberName">
       <property name="format"
-        value="^[a-z][a-z0-9][a-zA-Z0-9]*$" />
+        value="^[a-z][a-zA-Z0-9]*$" />
       <message key="name.invalidPattern"
         value="Member name ''{0}'' must match pattern ''{1}''." />
     </module>
     <module name="ParameterName">
       <property name="format"
-        value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$" />
+        value="^[a-z]([a-zA-Z0-9]*)?$" />
       <message key="name.invalidPattern"
         value="Parameter name ''{0}'' must match pattern ''{1}''." />
     </module>
@@ -234,7 +234,7 @@
       <property name="forbiddenSummaryFragments"
         value="^@return the *|^This method returns |^A [{]@code [a-zA-Z0-9]+[}]( is a )" />
     </module>
-    <module name="JavadocParagraph" />
+    <!--   <module name="JavadocParagraph" />-->
     <module name="AtclauseOrder">
       <property name="tagOrder"
         value="@param, @return, @throws, @deprecated" />
@@ -282,9 +282,11 @@
 
     <!-- annotations/java doc -->
     <module name="MissingDeprecated" />
+    
+    <!-- 
     <module name="JavadocType">
       <property name="scope" value="public" />
-    </module>
+    </module> -->
 
     <!-- code analysis -->
     <module name="CyclomaticComplexity">

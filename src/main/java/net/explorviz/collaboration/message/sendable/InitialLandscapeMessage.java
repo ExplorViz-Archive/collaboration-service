@@ -1,4 +1,4 @@
-package net.explorviz.collaboration.message.sendable;
+package net.explorviz.collaboration.message.sendable; // NOPMD
 
 import net.explorviz.collaboration.message.SendableMessage;
 
@@ -94,7 +94,7 @@ public class InitialLandscapeMessage extends SendableMessage {
       return this.position.clone();
     }
 
-    public void setPosition(final double ... position) {
+    public void setPosition(final double...position) {
       this.position = position.clone();
     }
 
@@ -102,7 +102,7 @@ public class InitialLandscapeMessage extends SendableMessage {
       return this.quaternion.clone();
     }
 
-    public void setQuaternion(final double ... quaternion) {
+    public void setQuaternion(final double...quaternion) {
       this.quaternion = quaternion.clone();
     }
 
@@ -110,7 +110,7 @@ public class InitialLandscapeMessage extends SendableMessage {
       return this.scale.clone();
     }
 
-    public void setScale(final double ... scale) {
+    public void setScale(final double...scale) {
       this.scale = scale.clone();
     }
 

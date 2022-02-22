@@ -1,4 +1,4 @@
-package net.explorviz.collaboration;
+package net.explorviz.collaboration; // NOPMD
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.ObservesAsync;
@@ -13,11 +13,11 @@ import javax.websocket.server.ServerEndpoint;
 import net.explorviz.collaboration.event.UserConnectedEvent;
 import net.explorviz.collaboration.event.UserDisconnectedEvent;
 import net.explorviz.collaboration.message.ForwardedMessage;
+import net.explorviz.collaboration.message.ForwardedMessage.ShouldForward;
 import net.explorviz.collaboration.message.ReceivableMessage;
 import net.explorviz.collaboration.message.ReceivableMessageDecoder;
 import net.explorviz.collaboration.message.ReceivableMessageHandler;
 import net.explorviz.collaboration.message.SendableMessageEncoder;
-import net.explorviz.collaboration.message.ForwardedMessage.ShouldForward;
 import net.explorviz.collaboration.message.receivable.AppClosedMessage;
 import net.explorviz.collaboration.message.receivable.AppOpenedMessage;
 import net.explorviz.collaboration.message.receivable.ComponentUpdateMessage;
@@ -54,7 +54,7 @@ import org.slf4j.LoggerFactory;
 @ServerEndpoint(value = "/v2/vr/{ticket-id}", decoders = {ReceivableMessageDecoder.class},
     encoders = {SendableMessageEncoder.class})
 @ApplicationScoped
-public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSession> {
+public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSession> { // NOPMD
 
   private static final Logger LOGGER = LoggerFactory.getLogger(VrSocket.class);
 

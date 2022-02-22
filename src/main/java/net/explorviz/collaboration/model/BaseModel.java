@@ -34,17 +34,18 @@ public class BaseModel {
     this.zPos = coordinates[2];
   }
 
+  public void setPosition(final double x, final double y, final double z) {
+    this.xPos = x;
+    this.yPos = y;
+    this.zPos = z;
+  }
+
   public void setDeltaPosition(final double[] coordinates) {
     this.xPos += coordinates[0];
     this.yPos += coordinates[1];
     this.zPos += coordinates[2];
   }
 
-  public void setPosition(final double x, final double y, final double z) {
-    this.xPos = x;
-    this.yPos = y;
-    this.zPos = z;
-  }
 
   public double[] getQuaternion() {
     return new double[] {this.xQuat, this.yQuat, this.zQuat, this.wQuat};
@@ -54,7 +55,7 @@ public class BaseModel {
     this.xQuat = quaternion[0];
     this.yQuat = quaternion[1];
     this.zQuat = quaternion[2];
-    this.wQuat = quaternion[3];
+    this.wQuat = quaternion[3]; // NOCS
   }
 
   public void setQuaternion(final double xQuat, final double yQuat, final double zQuat,

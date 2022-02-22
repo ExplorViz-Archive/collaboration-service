@@ -25,7 +25,7 @@ import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
  * @param <R> The return type of the handler methods.
  * @param <A> Type for additional arguments of the handler methods.
  */
-public interface ReceivableMessageHandler<R, A> {
+public interface ReceivableMessageHandler<R, A> { // NOPMD
   R handleAppClosedMessage(AppClosedMessage message, A arg);
 
   R handleObjectGrabbedMessage(ObjectGrabbedMessage message, A arg);
@@ -43,8 +43,8 @@ public interface ReceivableMessageHandler<R, A> {
   R handleUserControllerConnectMessage(UserControllerConnectMessage userControllerConnectedMessage,
       A arg);
 
-  R handleUserControllerDisconnectMessage(
-      UserControllerDisconnectMessage userControllerDisconnMsg, A arg);
+  R handleUserControllerDisconnectMessage(UserControllerDisconnectMessage userControllerDisconnMsg,
+      A arg);
 
   R handleUserPositionsMessage(UserPositionsMessage message, A arg);
 

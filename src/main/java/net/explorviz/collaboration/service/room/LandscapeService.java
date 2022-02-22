@@ -4,6 +4,10 @@ import net.explorviz.collaboration.model.LandscapeModel;
 import net.explorviz.collaboration.service.IdGenerationService;
 
 public class LandscapeService {
+
+  private static final double[] LANDSCAPE_CENTER_POSITION = {0.0, 0.0, 0.0};
+  private static final double[] LANDSCAPE_CENTER_SCALE = {0.1, 0.1, 0.1};
+
   private final GrabService grabService;
   private final LandscapeModel landscape;
 
@@ -33,8 +37,8 @@ public class LandscapeService {
   }
 
   private void centerLandscape() {
-    this.landscape.setPosition(new double[] {0.0, 0.0, 0.0});
-    this.landscape.setQuaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5));
-    this.landscape.setScale(new double[] {0.1, 0.1, 0.1});
+    this.landscape.setPosition(LANDSCAPE_CENTER_POSITION);
+    this.landscape.setQuaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)); // NOCS
+    this.landscape.setScale(LANDSCAPE_CENTER_SCALE);
   }
 }

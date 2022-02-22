@@ -38,7 +38,7 @@ public class ControllerModel extends BaseModel {
       return;
     }
     if (!this.hasIntersection()) {
-      this.intersection = new double[3];
+      this.intersection = new double[3]; // NOCS
     }
     this.intersection[0] = intersection[0];
     this.intersection[1] = intersection[1];

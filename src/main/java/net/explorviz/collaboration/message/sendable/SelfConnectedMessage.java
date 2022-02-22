@@ -100,7 +100,7 @@ public class SelfConnectedMessage extends SendableMessage {
       return this.controllers.clone();
     }
 
-    public void setControllers(final Controller ... controllers) {
+    public void setControllers(final Controller...controllers) {
       this.controllers = controllers.clone();
     }
 
@@ -108,7 +108,7 @@ public class SelfConnectedMessage extends SendableMessage {
       return this.position.clone();
     }
 
-    public void setPosition(final double ... position) {
+    public void setPosition(final double...position) {
       this.position = position.clone();
     }
 
@@ -116,7 +116,7 @@ public class SelfConnectedMessage extends SendableMessage {
       return this.quaternion.clone();
     }
 
-    public void setQuaternion(final double ... quaternion) {
+    public void setQuaternion(final double...quaternion) {
       this.quaternion = quaternion.clone();
     }
   }

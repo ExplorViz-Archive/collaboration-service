@@ -44,7 +44,7 @@ public class BroadcastService {
    * @return A future that completes when the message has been send to all other web sockets.
    */
   public Future<Void> broadcastExcept(final BroadcastableMessage message,
-      final VrSession ... excludedSessions) {
+      final VrSession...excludedSessions) {
     return this.broadcastWhere(message,
         (session) -> !Arrays.stream(excludedSessions).anyMatch(session::equals));
   }

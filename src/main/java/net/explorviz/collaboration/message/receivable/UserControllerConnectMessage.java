@@ -35,7 +35,7 @@ public class UserControllerConnectMessage extends ReceivableMessage {
       return this.position.clone();
     }
 
-    public void setPosition(final double ... position) {
+    public void setPosition(final double...position) {
       this.position = position.clone();
     }
 
