@@ -36,17 +36,12 @@ import net.explorviz.collaboration.message.receivable.UserControllerDisconnectMe
 import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
 import net.explorviz.collaboration.message.respondable.ObjectClosedResponse;
 import net.explorviz.collaboration.message.respondable.ObjectGrabbedResponse;
-import net.explorviz.collaboration.message.sendable.InitialLandscapeMessage;
-import net.explorviz.collaboration.message.sendable.MenuDetachedForwardMessage;
-import net.explorviz.collaboration.message.sendable.MenuDetachedResponse;
-import net.explorviz.collaboration.message.sendable.SelfConnectedMessage;
-import net.explorviz.collaboration.message.sendable.UserConnectedMessage;
-import net.explorviz.collaboration.message.sendable.factory.InitialLandscapeMessageFactory;
-import net.explorviz.collaboration.message.sendable.factory.SelfConnectedMessageFactory;
-import net.explorviz.collaboration.message.sendable.factory.UserConnectedMessageFactory;
-import net.explorviz.collaboration.message.sendable.factory.UserDisconnectedMessageFactory;
+import net.explorviz.collaboration.message.sendable.*;
+import net.explorviz.collaboration.message.sendable.factory.*;
+import net.explorviz.collaboration.service.Room;
 import net.explorviz.collaboration.service.RoomService;
 import net.explorviz.collaboration.service.SessionRegistry;
+import io.quarkus.scheduler.Scheduled;
 import net.explorviz.collaboration.service.TicketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,6 +73,9 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
 
   @Inject
   /* default */InitialLandscapeMessageFactory sendLandscapeMessageFactory;// NOCS
+
+  @Inject
+  /* default */TimestampUpdateTimerMessageFactory timestampUpdateTimerMessageFactory;// NOCS
 
   @OnOpen
   public void onOpen(@PathParam("ticket-id") final String ticketId,
@@ -355,4 +353,11 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     session.send(message);
   }
 
+  @Scheduled(every="10s")
+  void increment() {
+    for (Room room: this.roomService.getRooms()) {
+      final var message = this.timestampUpdateTimerMessageFactory.makeMessage(room);
+      room.getBroadcastService().broadcast(message);
+    }
+  }
 }
