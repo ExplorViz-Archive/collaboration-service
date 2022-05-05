@@ -3,26 +3,17 @@ package net.explorviz.collaboration.service.factory;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import net.explorviz.collaboration.service.Room;
-import net.explorviz.collaboration.service.room.ApplicationService;
-import net.explorviz.collaboration.service.room.BroadcastService;
-import net.explorviz.collaboration.service.room.ColorAssignmentService;
-import net.explorviz.collaboration.service.room.DetachedMenuService;
-import net.explorviz.collaboration.service.room.GrabService;
-import net.explorviz.collaboration.service.room.LandscapeService;
-import net.explorviz.collaboration.service.room.UserService;
-import net.explorviz.collaboration.service.room.factory.ApplicationServiceFactory;
-import net.explorviz.collaboration.service.room.factory.BroadcastServiceFactory;
-import net.explorviz.collaboration.service.room.factory.ColorAssignmentServiceFactory;
-import net.explorviz.collaboration.service.room.factory.DetachedMenuServiceFactory;
-import net.explorviz.collaboration.service.room.factory.GrabServiceFactory;
-import net.explorviz.collaboration.service.room.factory.LandscapeServiceFactory;
-import net.explorviz.collaboration.service.room.factory.UserServiceFactory;
+import net.explorviz.collaboration.service.room.*;
+import net.explorviz.collaboration.service.room.factory.*;
 
 @ApplicationScoped
 public class RoomFactory {
 
   @Inject
   /* default */ UserServiceFactory userServiceFactory; // NOCS
+
+  @Inject
+  /* default */ HeatmapServiceFactory heatmapServiceFactory; // NOCS
 
   @Inject
   /* default */ LandscapeServiceFactory landscapeServiceFactory;// NOCS
@@ -45,6 +36,8 @@ public class RoomFactory {
   public Room makeRoom(final String roomId, final String roomName) {
     return new Room(roomId, roomName) {
       private UserService userService;
+
+      private HeatmapService heatmapService;
       private GrabService grabService;
       private LandscapeService landscapeService;
       private ApplicationService applicationService;
@@ -58,6 +51,14 @@ public class RoomFactory {
           this.userService = RoomFactory.this.userServiceFactory.makeUserService(this);
         }
         return this.userService;
+      }
+
+      @Override
+      public HeatmapService getHeatmapService() {
+        if (this.heatmapService == null) {
+          this.heatmapService = RoomFactory.this.heatmapServiceFactory.makeHeatmapService(this);
+        }
+        return this.heatmapService;
       }
 
       @Override

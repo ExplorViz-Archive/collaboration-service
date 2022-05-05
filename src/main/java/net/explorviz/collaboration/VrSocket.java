@@ -18,22 +18,7 @@ import net.explorviz.collaboration.message.ReceivableMessage;
 import net.explorviz.collaboration.message.ReceivableMessageDecoder;
 import net.explorviz.collaboration.message.ReceivableMessageHandler;
 import net.explorviz.collaboration.message.SendableMessageEncoder;
-import net.explorviz.collaboration.message.receivable.AppClosedMessage;
-import net.explorviz.collaboration.message.receivable.AppOpenedMessage;
-import net.explorviz.collaboration.message.receivable.ComponentUpdateMessage;
-import net.explorviz.collaboration.message.receivable.DetachedMenuClosedMessage;
-import net.explorviz.collaboration.message.receivable.HighlightingUpdateMessage;
-import net.explorviz.collaboration.message.receivable.MenuDetachedMessage;
-import net.explorviz.collaboration.message.receivable.MousePingUpdateMessage;
-import net.explorviz.collaboration.message.receivable.ObjectGrabbedMessage;
-import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
-import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
-import net.explorviz.collaboration.message.receivable.PingUpdateMessage;
-import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
-import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
-import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
-import net.explorviz.collaboration.message.receivable.UserControllerDisconnectMessage;
-import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
+import net.explorviz.collaboration.message.receivable.*;
 import net.explorviz.collaboration.message.respondable.ObjectClosedResponse;
 import net.explorviz.collaboration.message.respondable.ObjectGrabbedResponse;
 import net.explorviz.collaboration.message.sendable.*;
@@ -243,6 +228,18 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     final var room = session.getRoom();
     final var user = session.getUser();
     room.getUserService().updateSpectating(user, message.isSpectating());
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleHeatmapUpdateMessage(final HeatmapUpdateMessage message,
+      final VrSession session) {
+    LOGGER.debug("heatmap update message received" + message.isActive());
+    final var room = session.getRoom();
+    room.getHeatmapService().setActive(message.isActive());
+    room.getHeatmapService().setMode(message.getMode());
+    room.getHeatmapService().setMetric(message.getMetric());
+    room.getHeatmapService().setApplicationId(message.getApplicationId());
     return ShouldForward.FORWARD;
   }
 

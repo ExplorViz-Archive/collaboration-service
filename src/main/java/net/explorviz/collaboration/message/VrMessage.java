@@ -4,22 +4,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import net.explorviz.collaboration.message.receivable.AppClosedMessage;
-import net.explorviz.collaboration.message.receivable.AppOpenedMessage;
-import net.explorviz.collaboration.message.receivable.ComponentUpdateMessage;
-import net.explorviz.collaboration.message.receivable.DetachedMenuClosedMessage;
-import net.explorviz.collaboration.message.receivable.HighlightingUpdateMessage;
-import net.explorviz.collaboration.message.receivable.MenuDetachedMessage;
-import net.explorviz.collaboration.message.receivable.MousePingUpdateMessage;
-import net.explorviz.collaboration.message.receivable.ObjectGrabbedMessage;
-import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
-import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
-import net.explorviz.collaboration.message.receivable.PingUpdateMessage;
-import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
-import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
-import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
-import net.explorviz.collaboration.message.receivable.UserControllerDisconnectMessage;
-import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
+import net.explorviz.collaboration.message.receivable.*;
 
 /**
  * Base class for all messages that are exchanged via the websocket connection between the frontend
@@ -40,6 +25,7 @@ import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
     @Type(value = MenuDetachedMessage.class, name = MenuDetachedMessage.EVENT),
     @Type(value = DetachedMenuClosedMessage.class, name = DetachedMenuClosedMessage.EVENT),
     @Type(value = SpectatingUpdateMessage.class, name = SpectatingUpdateMessage.EVENT),
+    @Type(value = HeatmapUpdateMessage.class, name = HeatmapUpdateMessage.EVENT),
     @Type(value = UserControllerConnectMessage.class, name = UserControllerConnectMessage.EVENT),
     @Type(value = UserControllerDisconnectMessage.class,
         name = UserControllerDisconnectMessage.EVENT),
