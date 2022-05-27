@@ -343,9 +343,6 @@ public class SendableMessageEncoderTest {
     message.setLandscape(new InitialLandscapeMessage.Landscape());
     message.getLandscape().setLandscapeToken("foo");
     message.getLandscape().setTimestamp(884345696789L);
-    message.getLandscape().setPosition(new double[] {1.0, 2.0, 3.0});
-    message.getLandscape().setQuaternion(new double[] {1.0, 2.0, 3.0, 4.0});
-    message.getLandscape().setScale(new double[] {1.0, 1.0, 1.0});
 
     // Create a detached menu.
     message.setDetachedMenus(

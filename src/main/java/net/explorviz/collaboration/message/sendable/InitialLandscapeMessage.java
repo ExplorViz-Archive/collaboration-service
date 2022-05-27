@@ -14,9 +14,6 @@ public class InitialLandscapeMessage extends SendableMessage {
   public static class Landscape {
     private String landscapeToken;
     private long timestamp;
-    private double[] position;
-    private double[] quaternion;
-    private double[] scale;
 
     public String getLandscapeToken() {
       return this.landscapeToken;
@@ -32,30 +29,6 @@ public class InitialLandscapeMessage extends SendableMessage {
 
     public void setTimestamp(final long timestamp) {
       this.timestamp = timestamp;
-    }
-
-    public double[] getPosition() {
-      return this.position.clone();
-    }
-
-    public void setPosition(final double[] position) {
-      this.position = position.clone();
-    }
-
-    public double[] getQuaternion() {
-      return this.quaternion.clone();
-    }
-
-    public void setQuaternion(final double[] quaternion) {
-      this.quaternion = quaternion.clone();
-    }
-
-    public double[] getScale() {
-      return this.scale.clone();
-    }
-
-    public void setScale(final double[] scale) {
-      this.scale = scale.clone();
     }
   }
 
