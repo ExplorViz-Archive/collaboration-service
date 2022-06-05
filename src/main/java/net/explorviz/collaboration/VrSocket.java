@@ -175,7 +175,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
 
     // Notify all other users. Since the menu id is not part of the original
     // message,
-    final var forwardMessage = new MenuDetachedForwardMessage(objectId, message.getEntityType(),
+    final var forwardMessage = new MenuDetachedForwardMessage(objectId, message.getSenderSession().getUser().getId(), message.getEntityType(),
         message.getDetachId(), message.getPosition(), message.getQuaternion(), message.getScale());
     room.getBroadcastService().broadcastExcept(forwardMessage, session);
     return ShouldForward.NO_FORWARD;
