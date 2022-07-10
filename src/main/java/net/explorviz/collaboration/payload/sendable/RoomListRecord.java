@@ -7,7 +7,8 @@ public class RoomListRecord {
 
   private final int size;
 
-  public RoomListRecord(final String roomId, final String roomName, final String landscapeToken, final int size) {
+  public RoomListRecord(final String roomId, final String roomName, final String landscapeToken,
+      final int size) {
     super();
     this.roomId = roomId;
     this.roomName = roomName;

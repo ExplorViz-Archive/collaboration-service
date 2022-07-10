@@ -13,9 +13,9 @@ public class MenuDetachedForwardMessage extends BroadcastableMessage {
   private double[] quaternion;
   private double[] scale;
 
-  public MenuDetachedForwardMessage(final String objectId, final String userId, final String entityType,
-      final String detachId, final double[] position, final double[] quaternion,
-      final double[] scale) {
+  public MenuDetachedForwardMessage(final String objectId, final String userId,
+      final String entityType, final String detachId, final double[] position,
+      final double[] quaternion, final double[] scale) {
     super(EVENT);
     this.objectId = objectId;
     this.userId = userId;

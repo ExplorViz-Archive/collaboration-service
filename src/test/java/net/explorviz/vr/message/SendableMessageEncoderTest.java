@@ -373,10 +373,7 @@ public class SendableMessageEncoderTest {
         + "  }]," //
         + "  \"landscape\": {" //
         + "    \"landscapeToken\": \"foo\"," //
-        + "    \"timestamp\": 884345696789," //
-        + "    \"position\": [1.0, 2.0, 3.0]," //
-        + "    \"quaternion\": [1.0, 2.0, 3.0, 4.0]," //
-        + "    \"scale\": [1.0, 1.0, 1.0]" //
+        + "    \"timestamp\": 884345696789" //
         + "  }," //
         + "  \"detachedMenus\": [{" //
         + "    \"objectId\": \"menu\"," //

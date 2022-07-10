@@ -1,15 +1,11 @@
 package net.explorviz.collaboration.service.room;
 
-import java.awt.*;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 /**
  * A service that saves the state of the heatmap.
  */
 public class HeatmapService {
 
-  private boolean active = false;
+  private boolean active;
 
   private String metric = "";
 
@@ -21,7 +17,7 @@ public class HeatmapService {
     return active;
   }
 
-  public void setActive(boolean active) {
+  public void setActive(final boolean active) {
     this.active = active;
   }
 
@@ -29,7 +25,7 @@ public class HeatmapService {
     return metric;
   }
 
-  public void setMetric(String metric) {
+  public void setMetric(final String metric) {
     this.metric = metric;
   }
 
@@ -37,7 +33,7 @@ public class HeatmapService {
     return mode;
   }
 
-  public void setMode(String mode) {
+  public void setMode(final String mode) {
     this.mode = mode;
   }
 
@@ -45,7 +41,7 @@ public class HeatmapService {
     return applicationId;
   }
 
-  public void setApplicationId(String applicationId) {
+  public void setApplicationId(final String applicationId) {
     this.applicationId = applicationId;
   }
 }

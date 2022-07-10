@@ -23,7 +23,7 @@ public class HeatmapUpdateMessage extends ReceivableMessage {
     return metric;
   }
 
-  public void setMetric(String metric) {
+  public void setMetric(final String metric) {
     this.metric = metric;
   }
 
@@ -31,7 +31,7 @@ public class HeatmapUpdateMessage extends ReceivableMessage {
     return mode;
   }
 
-  public void setMode(String mode) {
+  public void setMode(final String mode) {
     this.mode = mode;
   }
 

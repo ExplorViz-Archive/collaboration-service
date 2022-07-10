@@ -1,10 +1,26 @@
 package net.explorviz.collaboration.message;
 
-import net.explorviz.collaboration.message.receivable.*;
+import net.explorviz.collaboration.message.receivable.AppClosedMessage;
+import net.explorviz.collaboration.message.receivable.AppOpenedMessage;
+import net.explorviz.collaboration.message.receivable.ComponentUpdateMessage;
+import net.explorviz.collaboration.message.receivable.DetachedMenuClosedMessage;
+import net.explorviz.collaboration.message.receivable.HeatmapUpdateMessage;
+import net.explorviz.collaboration.message.receivable.HighlightingUpdateMessage;
+import net.explorviz.collaboration.message.receivable.MenuDetachedMessage;
+import net.explorviz.collaboration.message.receivable.MousePingUpdateMessage;
+import net.explorviz.collaboration.message.receivable.ObjectGrabbedMessage;
+import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
+import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
+import net.explorviz.collaboration.message.receivable.PingUpdateMessage;
+import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
+import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
+import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
+import net.explorviz.collaboration.message.receivable.UserControllerDisconnectMessage;
+import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
 
 /**
  * Interface for classes that can handle {@link VrMessage}s.
- *
+ * <p>
  * Provides a double dispatch mechanism (visitor pattern) for messages.
  *
  * @param <R> The return type of the handler methods.

@@ -1,5 +1,6 @@
 package net.explorviz.collaboration; // NOPMD
 
+import io.quarkus.scheduler.Scheduled;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
@@ -18,21 +19,44 @@ import net.explorviz.collaboration.message.ReceivableMessage;
 import net.explorviz.collaboration.message.ReceivableMessageDecoder;
 import net.explorviz.collaboration.message.ReceivableMessageHandler;
 import net.explorviz.collaboration.message.SendableMessageEncoder;
-import net.explorviz.collaboration.message.receivable.*;
+import net.explorviz.collaboration.message.receivable.AppClosedMessage;
+import net.explorviz.collaboration.message.receivable.AppOpenedMessage;
+import net.explorviz.collaboration.message.receivable.ComponentUpdateMessage;
+import net.explorviz.collaboration.message.receivable.DetachedMenuClosedMessage;
+import net.explorviz.collaboration.message.receivable.HeatmapUpdateMessage;
+import net.explorviz.collaboration.message.receivable.HighlightingUpdateMessage;
+import net.explorviz.collaboration.message.receivable.MenuDetachedMessage;
+import net.explorviz.collaboration.message.receivable.MousePingUpdateMessage;
+import net.explorviz.collaboration.message.receivable.ObjectGrabbedMessage;
+import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
+import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
+import net.explorviz.collaboration.message.receivable.PingUpdateMessage;
+import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
+import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
+import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
+import net.explorviz.collaboration.message.receivable.UserControllerDisconnectMessage;
+import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
 import net.explorviz.collaboration.message.respondable.ObjectClosedResponse;
 import net.explorviz.collaboration.message.respondable.ObjectGrabbedResponse;
-import net.explorviz.collaboration.message.sendable.*;
-import net.explorviz.collaboration.message.sendable.factory.*;
+import net.explorviz.collaboration.message.sendable.InitialLandscapeMessage;
+import net.explorviz.collaboration.message.sendable.MenuDetachedForwardMessage;
+import net.explorviz.collaboration.message.sendable.MenuDetachedResponse;
+import net.explorviz.collaboration.message.sendable.SelfConnectedMessage;
+import net.explorviz.collaboration.message.sendable.UserConnectedMessage;
+import net.explorviz.collaboration.message.sendable.factory.InitialLandscapeMessageFactory;
+import net.explorviz.collaboration.message.sendable.factory.SelfConnectedMessageFactory;
+import net.explorviz.collaboration.message.sendable.factory.TimestampUpdateTimerMessageFactory;
+import net.explorviz.collaboration.message.sendable.factory.UserConnectedMessageFactory;
+import net.explorviz.collaboration.message.sendable.factory.UserDisconnectedMessageFactory;
 import net.explorviz.collaboration.service.Room;
 import net.explorviz.collaboration.service.RoomService;
 import net.explorviz.collaboration.service.SessionRegistry;
-import io.quarkus.scheduler.Scheduled;
 import net.explorviz.collaboration.service.TicketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@ServerEndpoint(value = "/v2/vr/{ticket-id}", decoders = {ReceivableMessageDecoder.class},
-    encoders = {SendableMessageEncoder.class})
+@ServerEndpoint(value = "/v2/vr/{ticket-id}", decoders = {
+    ReceivableMessageDecoder.class}, encoders = {SendableMessageEncoder.class})
 @ApplicationScoped
 public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSession> { // NOPMD
 
@@ -42,28 +66,27 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
   /* default */ RoomService roomService; // NOCS
 
   @Inject
-  /* default */TicketService ticketService; // NOCS
+  /* default */ TicketService ticketService; // NOCS
 
   @Inject
-  /* default */SessionRegistry sessionRegistry; // NOCS
+  /* default */ SessionRegistry sessionRegistry; // NOCS
 
   @Inject
-  /* default */SelfConnectedMessageFactory selfConnectedMessageFactory; // NOCS
+  /* default */ SelfConnectedMessageFactory selfConnectedMessageFactory; // NOCS
 
   @Inject
-  /* default */UserConnectedMessageFactory userConnectedMessageFactory; // NOCS
+  /* default */ UserConnectedMessageFactory userConnectedMessageFactory; // NOCS
 
   @Inject
   /* default */ UserDisconnectedMessageFactory userDisconnectedMessageFactory; // NOCS
 
   @Inject
-  /* default */InitialLandscapeMessageFactory sendLandscapeMessageFactory;// NOCS
+  /* default */ InitialLandscapeMessageFactory sendLandscapeMessageFactory;// NOCS
 
   @Inject
-  /* default */TimestampUpdateTimerMessageFactory timestampUpdateTimerMessageFactory;// NOCS
+  /* default */ TimestampUpdateTimerMessageFactory timestampUpdateTimerMessageFactory;// NOCS
 
-  @OnOpen
-  public void onOpen(@PathParam("ticket-id") final String ticketId,
+  @OnOpen public void onOpen(@PathParam("ticket-id") final String ticketId,
       final Session websocketSession) {
     LOGGER.debug("opened websocket");
 
@@ -81,8 +104,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
 
   }
 
-  @OnClose
-  public void onClose(final Session websocketSession) {
+  @OnClose public void onClose(final Session websocketSession) {
     LOGGER.debug("closed websocket");
 
     // If the session was closed before it was initialized, no cleanup is necessary.
@@ -101,8 +123,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     room.getUserService().removeUser(user);
   }
 
-  @OnError
-  public void onError(final Session session, final Throwable throwable) {
+  @OnError public void onError(final Session session, final Throwable throwable) {
     LOGGER.error("websocket error", throwable);
   }
 
@@ -124,8 +145,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     }
   }
 
-  @Override
-  public ShouldForward handleAppClosedMessage(final AppClosedMessage message,
+  @Override public ShouldForward handleAppClosedMessage(final AppClosedMessage message,
       final VrSession session) {
     final var room = session.getRoom();
     final var success = room.getApplicationService().closeApplication(message.getAppId());
@@ -142,8 +162,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     return ShouldForward.FORWARD;
   }
 
-  @Override
-  public ShouldForward handleObjectGrabbedMessage(final ObjectGrabbedMessage message,
+  @Override public ShouldForward handleObjectGrabbedMessage(final ObjectGrabbedMessage message,
       final VrSession session) {
     // Try to grab object and respond whether the operation was successful.
     final var room = session.getRoom();
@@ -153,36 +172,36 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     return ShouldForward.NO_FORWARD;
   }
 
-  @Override
-  public ShouldForward handleAppOpenedMessage(final AppOpenedMessage message,
+  @Override public ShouldForward handleAppOpenedMessage(final AppOpenedMessage message,
       final VrSession session) {
     final var room = session.getRoom();
-    room.getApplicationService().openApplication(message.getId(), message.getPosition(),
-        message.getQuaternion(), message.getScale());
+    room.getApplicationService()
+        .openApplication(message.getId(), message.getPosition(), message.getQuaternion(),
+            message.getScale());
     return ShouldForward.FORWARD;
   }
 
-  @Override
-  public ShouldForward handleMenuDetachedMessage(final MenuDetachedMessage message,
+  @Override public ShouldForward handleMenuDetachedMessage(final MenuDetachedMessage message,
       final VrSession session) {
     final var room = session.getRoom();
-    final var objectId =
-        room.getDetachedMenuService().detachMenu(message.getDetachId(), message.getEntityType(),
-            message.getPosition(), message.getQuaternion(), message.getScale());
+    final var objectId = room.getDetachedMenuService()
+        .detachMenu(message.getDetachId(), message.getEntityType(), message.getPosition(),
+            message.getQuaternion(), message.getScale());
 
     // Send ID of detached menu to sender.
     message.sendResponse(new MenuDetachedResponse(objectId));
 
     // Notify all other users. Since the menu id is not part of the original
     // message,
-    final var forwardMessage = new MenuDetachedForwardMessage(objectId, message.getSenderSession().getUser().getId(), message.getEntityType(),
-        message.getDetachId(), message.getPosition(), message.getQuaternion(), message.getScale());
+    final var forwardMessage =
+        new MenuDetachedForwardMessage(objectId, message.getSenderSession().getUser().getId(),
+            message.getEntityType(), message.getDetachId(), message.getPosition(),
+            message.getQuaternion(), message.getScale());
     room.getBroadcastService().broadcastExcept(forwardMessage, session);
     return ShouldForward.NO_FORWARD;
   }
 
-  @Override
-  public ShouldForward handleObjectReleasedMessage(final ObjectReleasedMessage message,
+  @Override public ShouldForward handleObjectReleasedMessage(final ObjectReleasedMessage message,
       final VrSession session) {
     final var room = session.getRoom();
     final var userId = session.getUser().getId();
@@ -190,25 +209,25 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     return ShouldForward.NO_FORWARD;
   }
 
-  @Override
-  public ShouldForward handleObjectMovedMessage(final ObjectMovedMessage message,
+  @Override public ShouldForward handleObjectMovedMessage(final ObjectMovedMessage message,
       final VrSession session) {
     final var room = session.getRoom();
     final var userId = session.getUser().getId();
-    final var allowedToMove = room.getGrabService().moveObject(userId, message.getObjectId(),
-        message.getPosition(), message.getQuaternion(), message.getScale());
+    final var allowedToMove = room.getGrabService()
+        .moveObject(userId, message.getObjectId(), message.getPosition(), message.getQuaternion(),
+            message.getScale());
     if (allowedToMove) {
       return ShouldForward.FORWARD;
     }
     return ShouldForward.NO_FORWARD;
   }
 
-  @Override
-  public ShouldForward handleComponentUpdateMessage(final ComponentUpdateMessage message,
+  @Override public ShouldForward handleComponentUpdateMessage(final ComponentUpdateMessage message,
       final VrSession session) {
     final var room = session.getRoom();
-    room.getApplicationService().updateComponent(message.getComponentId(), message.getAppId(),
-        message.isFoundation(), message.isOpened());
+    room.getApplicationService()
+        .updateComponent(message.getComponentId(), message.getAppId(), message.isFoundation(),
+            message.isOpened());
     return ShouldForward.FORWARD;
   }
 
@@ -231,10 +250,8 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     return ShouldForward.FORWARD;
   }
 
-  @Override
-  public ShouldForward handleHeatmapUpdateMessage(final HeatmapUpdateMessage message,
+  @Override public ShouldForward handleHeatmapUpdateMessage(final HeatmapUpdateMessage message,
       final VrSession session) {
-    LOGGER.debug("heatmap update message received" + message.isActive());
     final var room = session.getRoom();
     room.getHeatmapService().setActive(message.isActive());
     room.getHeatmapService().setMode(message.getMode());
@@ -243,8 +260,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     return ShouldForward.FORWARD;
   }
 
-  @Override
-  public ShouldForward handleUserControllerConnectMessage(
+  @Override public ShouldForward handleUserControllerConnectMessage(
       final UserControllerConnectMessage message, final VrSession session) {
     final var room = session.getRoom();
     final var user = session.getUser();
@@ -252,8 +268,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     return ShouldForward.FORWARD;
   }
 
-  @Override
-  public ShouldForward handleUserControllerDisconnectMessage(
+  @Override public ShouldForward handleUserControllerDisconnectMessage(
       final UserControllerDisconnectMessage message, final VrSession session) {
     final var room = session.getRoom();
     final var user = session.getUser();
@@ -261,20 +276,17 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     return ShouldForward.FORWARD;
   }
 
-  @Override
-  public ShouldForward handlePingUpdateMessage(final PingUpdateMessage message,
+  @Override public ShouldForward handlePingUpdateMessage(final PingUpdateMessage message,
       final VrSession session) {
     return ShouldForward.FORWARD;
   }
 
-  @Override
-  public ShouldForward handleMousePingUpdateMessage(final MousePingUpdateMessage message,
+  @Override public ShouldForward handleMousePingUpdateMessage(final MousePingUpdateMessage message,
       final VrSession session) {
     return ShouldForward.FORWARD;
   }
 
-  @Override
-  public ShouldForward handleUserPositionsMessage(final UserPositionsMessage message,
+  @Override public ShouldForward handleUserPositionsMessage(final UserPositionsMessage message,
       final VrSession session) {
     final var room = session.getRoom();
     final var user = session.getUser();
@@ -284,8 +296,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     return ShouldForward.FORWARD;
   }
 
-  @Override
-  public ShouldForward handleTimestampUpdateMessage(final TimestampUpdateMessage message,
+  @Override public ShouldForward handleTimestampUpdateMessage(final TimestampUpdateMessage message,
       final VrSession session) {
     final var room = session.getRoom();
     room.getLandscapeService().updateTimestamp(message.getTimestamp());
@@ -324,7 +335,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
 
   /**
    * Broadcasts a {@link UserDisconnectedMessageFactory} to all other users when a user disconnects.
-   *
+   * <p>
    * The web socket connection of the disconnected user should be removed from the
    * {@link SessionRegistry} before the event is fired.
    *
@@ -350,9 +361,9 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     session.send(message);
   }
 
-  @Scheduled(every="10s")
-  void increment() {
-    for (Room room: this.roomService.getRooms()) {
+  @Scheduled(every = "10s")
+  public void increment() {
+    for (final Room room : this.roomService.getRooms()) {
       final var message = this.timestampUpdateTimerMessageFactory.makeMessage(room);
       room.getBroadcastService().broadcast(message);
     }

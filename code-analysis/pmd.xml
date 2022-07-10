@@ -74,7 +74,7 @@
 
   <rule ref="category/java/codestyle.xml/LongVariable">
     <properties>
-      <property name="minimum" value="30" />
+      <property name="minimum" value="34" />
     </properties>
   </rule>
 
@@ -94,7 +94,13 @@
   
   <rule ref="category/java/design.xml/NPathComplexity">
     <properties>
-        <property name="minimum" value="250.0" />
+        <property name="minimum" value="260.0" />
+    </properties>
+  </rule>
+
+  <rule ref="category/java/design.xml/CognitiveComplexity">
+    <properties>
+      <property name="reportLevel" value="17" />
     </properties>
   </rule>
   
