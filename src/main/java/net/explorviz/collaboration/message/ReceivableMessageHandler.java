@@ -4,6 +4,7 @@ import net.explorviz.collaboration.message.receivable.AppClosedMessage;
 import net.explorviz.collaboration.message.receivable.AppOpenedMessage;
 import net.explorviz.collaboration.message.receivable.ComponentUpdateMessage;
 import net.explorviz.collaboration.message.receivable.DetachedMenuClosedMessage;
+import net.explorviz.collaboration.message.receivable.HeatmapUpdateMessage;
 import net.explorviz.collaboration.message.receivable.HighlightingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.MenuDetachedMessage;
 import net.explorviz.collaboration.message.receivable.MousePingUpdateMessage;
@@ -19,7 +20,7 @@ import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
 
 /**
  * Interface for classes that can handle {@link VrMessage}s.
- *
+ * <p>
  * Provides a double dispatch mechanism (visitor pattern) for messages.
  *
  * @param <R> The return type of the handler methods.
@@ -39,6 +40,8 @@ public interface ReceivableMessageHandler<R, A> { // NOPMD
   R handleHighlightingUpdateMessage(HighlightingUpdateMessage message, A arg);
 
   R handleSpectatingUpdateMessage(SpectatingUpdateMessage message, A arg);
+
+  R handleHeatmapUpdateMessage(HeatmapUpdateMessage message, A arg);
 
   R handleUserControllerConnectMessage(UserControllerConnectMessage userControllerConnectedMessage,
       A arg);

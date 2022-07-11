@@ -5,6 +5,7 @@ import net.explorviz.collaboration.service.room.BroadcastService;
 import net.explorviz.collaboration.service.room.ColorAssignmentService;
 import net.explorviz.collaboration.service.room.DetachedMenuService;
 import net.explorviz.collaboration.service.room.GrabService;
+import net.explorviz.collaboration.service.room.HeatmapService;
 import net.explorviz.collaboration.service.room.LandscapeService;
 import net.explorviz.collaboration.service.room.UserService;
 
@@ -35,6 +36,8 @@ public abstract class Room {
   public abstract ApplicationService getApplicationService();
 
   public abstract DetachedMenuService getDetachedMenuService();
+
+  public abstract HeatmapService getHeatmapService();
 
   public abstract UserService getUserService();
 

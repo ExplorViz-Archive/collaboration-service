@@ -59,9 +59,6 @@ public class InitialLandscapeMessageFactory {
     final LandscapeModel landscape = room.getLandscapeService().getLandscape();
     landscapeObj.setLandscapeToken(landscape.getLandscapeToken());
     landscapeObj.setTimestamp(landscape.getTimestamp());
-    landscapeObj.setPosition(landscape.getPosition());
-    landscapeObj.setQuaternion(landscape.getQuaternion());
-    landscapeObj.setScale(landscape.getScale());
 
     // detached menus
     final ArrayList<DetachedMenu> detachedMenusArray = new ArrayList<>();

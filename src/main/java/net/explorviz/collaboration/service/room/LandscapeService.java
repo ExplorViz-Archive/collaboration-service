@@ -21,13 +21,9 @@ public class LandscapeService {
     return this.landscape;
   }
 
-  public void initLandscape(final String landscapeToken, final long timestamp,
-      final double[] position, final double[] quaternion, final double[] scale) {
+  public void initLandscape(final String landscapeToken, final long timestamp) {
     this.landscape.setLandscapeToken(landscapeToken);
     this.landscape.setTimestamp(timestamp);
-    this.landscape.setPosition(position);
-    this.landscape.setQuaternion(quaternion);
-    this.landscape.setScale(scale);
     this.grabService.addGrabbableObject(this.landscape);
   }
 

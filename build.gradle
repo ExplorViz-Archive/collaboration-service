@@ -21,6 +21,7 @@ dependencies {
   implementation 'io.quarkus:quarkus-resteasy'
   implementation 'io.quarkus:quarkus-undertow-websockets'
   implementation 'io.quarkus:quarkus-resteasy-jackson'
+  implementation("io.quarkus:quarkus-scheduler")
   implementation 'org.assertj:assertj-core'
 
   testImplementation 'io.quarkus:quarkus-junit5'

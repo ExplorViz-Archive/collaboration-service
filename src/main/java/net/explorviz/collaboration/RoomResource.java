@@ -36,7 +36,9 @@ public class RoomResource {
   @Produces(MediaType.APPLICATION_JSON)
   public List<RoomListRecord> listRooms() {
     return this.roomService.getRooms().stream()
-        .map((room) -> new RoomListRecord(room.getRoomId(), room.getName()))
+        .map((room) -> new RoomListRecord(room.getRoomId(), room.getName(),
+            room.getLandscapeService().getLandscape().getLandscapeToken(),
+            room.getUserService().getUsers().size()))
         .collect(Collectors.toList());
   }
 
@@ -55,8 +57,7 @@ public class RoomResource {
     // Initialize landscape.
     final var landscape = body.getLandscape();
     room.getLandscapeService().initLandscape(landscape.getLandscapeToken(),
-        landscape.getTimestamp(), landscape.getPosition(), landscape.getQuaternion(),
-        landscape.getScale());
+        landscape.getTimestamp());
 
     // Initialize applications.
     for (final App app : body.getOpenApps()) {
