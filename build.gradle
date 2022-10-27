@@ -1,7 +1,7 @@
 plugins {
   id 'java'
   id 'io.quarkus'
-  id 'com.adarshr.test-logger' version '2.1.0'
+  id 'com.adarshr.test-logger' version '3.2.0'
 }
 
 apply from: 'buildscripts/code-analysis.gradle'
@@ -19,9 +19,9 @@ dependencies {
 
   implementation 'io.quarkus:quarkus-container-image-jib'
   implementation 'io.quarkus:quarkus-resteasy'
-  implementation 'io.quarkus:quarkus-undertow-websockets'
+  implementation 'io.quarkus:quarkus-websockets'
   implementation 'io.quarkus:quarkus-resteasy-jackson'
-  implementation("io.quarkus:quarkus-scheduler")
+  implementation 'io.quarkus:quarkus-scheduler'
   implementation 'org.assertj:assertj-core'
 
   testImplementation 'io.quarkus:quarkus-junit5'
