@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import net.explorviz.collaboration.VrSession;
 import net.explorviz.collaboration.message.BroadcastableMessage;
 import net.explorviz.collaboration.service.SessionRegistry;
@@ -60,7 +59,7 @@ public class BroadcastService {
   public Future<Void> broadcastWhere(final BroadcastableMessage message,
       final Predicate<VrSession> predicate) {
     final var futures = this.sessionRegistry.getSessions().stream().filter(this.roomSessionFilter)
-        .filter(predicate).map((session) -> session.send(message)).collect(Collectors.toList());
-    return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
+        .filter(predicate).map((session) -> session.send(message)).toArray();
+    return CompletableFuture.allOf((CompletableFuture<?>[]) futures);
   }
 }
