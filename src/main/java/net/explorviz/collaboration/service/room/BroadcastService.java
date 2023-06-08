@@ -59,7 +59,8 @@ public class BroadcastService {
   public Future<Void> broadcastWhere(final BroadcastableMessage message,
       final Predicate<VrSession> predicate) {
     final var futures = this.sessionRegistry.getSessions().stream().filter(this.roomSessionFilter)
-        .filter(predicate).map((session) -> session.send(message)).toArray();
+        .filter(predicate)
+            .map((session) -> session.send(message)).toArray(CompletableFuture[]::new);
     return CompletableFuture.allOf((CompletableFuture<?>[]) futures);
   }
 }
