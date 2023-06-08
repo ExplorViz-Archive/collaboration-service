@@ -13,6 +13,11 @@ public abstract class ReceivableMessage extends VrMessage {
   @JsonIgnore
   private VrSession senderSession;
 
+  /**
+   * A number for clients to identify forwarded messages.
+   */
+  private int messageId;
+
   public ReceivableMessage(final String event) {
     super(event);
   }
@@ -23,6 +28,14 @@ public abstract class ReceivableMessage extends VrMessage {
 
   public void setSenderSession(final VrSession senderSession) {
     this.senderSession = senderSession;
+  }
+
+  public int getMessageId() {
+    return messageId;
+  }
+
+  public void setMessageId(final int messageId) {
+    this.messageId = messageId;
   }
 
   /**

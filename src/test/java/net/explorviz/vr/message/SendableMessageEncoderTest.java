@@ -74,9 +74,10 @@ public class SendableMessageEncoderTest {
     final var message = new AppClosedMessage();
     message.setNonce(42);
     message.setAppId("foo");
+    message.setMessageId(0);
     final var actual = this.encoder.encodeMessage(new ForwardedMessage("alice", message));
     final var expected =
-        "{ \"event\" : \"forward\" , \"userId\" : \"alice\" , \"originalMessage\" : { \"event\" : \"app_closed\" , \"nonce\" : 42 , \"appId\" : \"foo\" } }";
+        "{ \"event\" : \"forward\" , \"userId\" : \"alice\" , \"originalMessage\" : { \"event\" : \"app_closed\" , \"messageId\": 0, \"nonce\" : 42 , \"appId\" : \"foo\" } }";
     assertEquals(this.mapper.readTree(expected), this.mapper.readTree(actual));
   }
 
@@ -102,12 +103,14 @@ public class SendableMessageEncoderTest {
     message.setPosition(new double[] {1.0, 2.0, 3.0});
     message.setQuaternion(new double[] {1.0, 2.0, 3.0, 4.0});
     message.setScale(new double[] {1.0, 1.0, 1.0});
+    message.setMessageId(0);
     final var actual = this.encoder.encodeMessage(new ForwardedMessage("alice", message));
     final var expected = "{" //
         + "  \"event\": \"forward\"," //
         + "  \"userId\": \"alice\"," //
         + "  \"originalMessage\": {" //
         + "    \"event\": \"app_opened\"," //
+        + "    \"messageId\": 0," //
         + "    \"id\": \"foo\"," //
         + "    \"position\": [1.0, 2.0, 3.0]," //
         + "    \"quaternion\": [1.0, 2.0, 3.0, 4.0]," //
@@ -121,12 +124,14 @@ public class SendableMessageEncoderTest {
   public void testForwardedObjectReleasedMessage() throws EncodeException, IOException {
     final var message = new ObjectReleasedMessage();
     message.setObjectId("foo");
+    message.setMessageId(0);
     final var actual = this.encoder.encodeMessage(new ForwardedMessage("alice", message));
     final var expected = "{" //
         + "  \"event\": \"forward\"," //
         + "  \"userId\": \"alice\"," //
         + "  \"originalMessage\": {" //
         + "    \"event\": \"object_released\"," //
+        + "    \"messageId\": 0," //
         + "    \"objectId\": \"foo\"" //
         + "  }" //
         + "}";
@@ -140,12 +145,14 @@ public class SendableMessageEncoderTest {
     message.setPosition(new double[] {1.0, 2.0, 3.0});
     message.setQuaternion(new double[] {1.0, 2.0, 3.0, 4.0});
     message.setScale(new double[] {1.0, 1.0, 1.0});
+    message.setMessageId(0);
     final var actual = this.encoder.encodeMessage(new ForwardedMessage("alice", message));
     final var expected = "{" //
         + "  \"event\": \"forward\"," //
         + "  \"userId\": \"alice\"," //
         + "  \"originalMessage\": {" //
         + "    \"event\": \"object_moved\"," //
+        + "    \"messageId\": 0," //
         + "    \"objectId\": \"foo\"," //
         + "    \"position\": [1.0, 2.0, 3.0]," //
         + "    \"quaternion\": [1.0, 2.0, 3.0, 4.0]," //
@@ -162,12 +169,14 @@ public class SendableMessageEncoderTest {
     message.setComponentId("bar");
     message.setIsOpened(true);
     message.setIsFoundation(true);
+    message.setMessageId(0);
     final var actual = this.encoder.encodeMessage(new ForwardedMessage("alice", message));
     final var expected = "{" //
         + "  \"event\": \"forward\"," //
         + "  \"userId\": \"alice\"," //
         + "  \"originalMessage\": {" //
         + "    \"event\": \"component_update\"," //
+        + "    \"messageId\": 0," //
         + "    \"appId\": \"foo\"," //
         + "    \"componentId\": \"bar\"," //
         + "    \"isOpened\": true," //
@@ -183,12 +192,14 @@ public class SendableMessageEncoderTest {
     message.setUserId("foo");
     message.setIsSpectating(true);
     message.setSpectatedUser("bar");
+    message.setMessageId(0);
     final var actual = this.encoder.encodeMessage(new ForwardedMessage("alice", message));
     final var expected = "{" //
         + "  \"event\": \"forward\"," //
         + "  \"userId\": \"alice\"," //
         + "  \"originalMessage\": {" //
         + "    \"event\": \"spectating_update\"," //
+        + "    \"messageId\": 0," //
         + "    \"userId\": \"foo\"," //
         + "    \"isSpectating\": true," //
         + "    \"spectatedUser\": \"bar\"" //
@@ -212,12 +223,14 @@ public class SendableMessageEncoderTest {
     message.setCamera(new UserPositionsMessage.Pose());
     message.getCamera().setPosition(new double[] {1.0, 2.0, 3.0});
     message.getCamera().setQuaternion(new double[] {1.0, 2.0, 3.0, 4.0});
+    message.setMessageId(0);
     final var actual = this.encoder.encodeMessage(new ForwardedMessage("alice", message));
     final var expected = "{" //
         + "  \"event\": \"forward\"," //
         + "  \"userId\": \"alice\"," //
         + "  \"originalMessage\": {" //
         + "    \"event\": \"user_positions\"," //
+        + "    \"messageId\": 0," //
         + "    \"controller1\": {" //
         + "      \"position\": [1.0, 2.0, 3.0]," //
         + "      \"quaternion\": [1.0, 2.0, 3.0, 4.0]," //
