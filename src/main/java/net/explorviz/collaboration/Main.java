@@ -13,7 +13,7 @@ public final class Main {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
-  private static String logPerf = System.getenv("LOG_PERF");
+  private static String logPerf =  System.getenv("LOG_PERF");
 
   private static String delayOfPerfLogs = System.getenv("DELAY_OF_PERF_LOGS");
 
@@ -37,7 +37,10 @@ public final class Main {
         try {
           Thread.sleep(delay);
           if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("JVM process CPU usage: " + bean.getProcessCpuLoad());
+            LOGGER.info("CPU usage: " + bean.getSystemCpuLoad());
+            LOGGER.info("RAM usage: "
+                    + (1.0
+                    - bean.getFreePhysicalMemorySize() * 1.0 / bean.getTotalPhysicalMemorySize()));
           }
         } catch (InterruptedException e) {
           LOGGER.info("Could not log performance");
