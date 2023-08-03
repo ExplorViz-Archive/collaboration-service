@@ -41,7 +41,7 @@ public class RoomService {
     return room;
   }
 
-  public Room createRoom(String roomId) {  
+  public Room createRoom(String roomId) {
     final var roomName = ROOM_PREFIX + roomId;
     final var room = this.roomFactory.makeRoom(roomId, roomName);
     this.rooms.put(roomId, room);
