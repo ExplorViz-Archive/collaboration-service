@@ -9,6 +9,7 @@ public class InitialRoomPayload {
   private Landscape landscape;
   private App[] openApps;
   private DetachedMenu[] detachedMenus;
+  private String roomId;
 
   public static class Landscape {
     private String landscapeToken;
@@ -150,5 +151,13 @@ public class InitialRoomPayload {
 
   public void setOpenApps(final App[] openApps) {
     this.openApps = openApps.clone();
+  }
+
+  public String getRoomId() {
+    return roomId;
+  }
+
+  public void setRoomId(String roomId) {
+    this.roomId = roomId;
   }
 }

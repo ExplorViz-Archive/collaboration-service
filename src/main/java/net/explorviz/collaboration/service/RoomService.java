@@ -41,6 +41,16 @@ public class RoomService {
     return room;
   }
 
+  public Room createRoom(String roomId) {  
+    final var roomName = ROOM_PREFIX + roomId;
+    final var room = this.roomFactory.makeRoom(roomId, roomName);
+    this.rooms.put(roomId, room);
+    if (LOGGER.isInfoEnabled()) {
+      LOGGER.info("Created room with id " + roomId);
+    }
+    return room;
+  }
+
   private void createDefaultRoom() {
     if (defaultRoomId == null || defaultRoomId.isEmpty() || defaultRoomId.equals("-1")) {
       if (LOGGER.isInfoEnabled()) {

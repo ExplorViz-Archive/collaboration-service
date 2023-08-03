@@ -52,7 +52,12 @@ public class RoomResource {
   @Path("/room")
   @Produces(MediaType.APPLICATION_JSON)
   public RoomCreatedResponse addRoom(final InitialRoomPayload body) {
-    final var room = this.roomService.createRoom();
+    System.out.println(body);
+    // final var room = body.getRoomId() == "synchronization" 
+    // ? this.roomService.createRoom(body.getRoomId())
+    // : this.roomService.createRoom();
+    // final var room = this.roomService.createRoom(body.getRoomId());
+    final var room = this.roomService.createRoom("synchronization");
 
     // Initialize landscape.
     final var landscape = body.getLandscape();
