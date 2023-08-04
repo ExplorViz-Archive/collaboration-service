@@ -53,7 +53,7 @@ public class RoomResource {
   @Produces(MediaType.APPLICATION_JSON)
   public RoomCreatedResponse addRoom(final InitialRoomPayload body) {
     // Check for wanted room id
-    final var room = body.getRoomId() == null
+    final var room = body.getRoomId() != null
     ? this.roomService.createRoom(body.getRoomId())
     : this.roomService.createRoom();
 
