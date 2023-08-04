@@ -41,6 +41,8 @@ public class RoomService {
     return room;
   }
 
+  // Overloading function to satisfy the need for setting up a specific 
+  // room id instead of generating a random one.
   public Room createRoom(String roomId) {
     final var roomName = ROOM_PREFIX + roomId;
     final var room = this.roomFactory.makeRoom(roomId, roomName);

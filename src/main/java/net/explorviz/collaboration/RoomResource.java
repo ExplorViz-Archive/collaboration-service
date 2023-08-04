@@ -52,7 +52,8 @@ public class RoomResource {
   @Path("/room")
   @Produces(MediaType.APPLICATION_JSON)
   public RoomCreatedResponse addRoom(final InitialRoomPayload body) {
-    final var room = "Synchronization".equals(body.getRoomId())
+    // Check for wanted room id
+    final var room = body.getRoomId() == null
     ? this.roomService.createRoom(body.getRoomId())
     : this.roomService.createRoom();
 
