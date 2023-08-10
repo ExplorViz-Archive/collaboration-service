@@ -29,6 +29,7 @@ public class LandscapeModel extends ScalableBaseModel implements GrabbableObject
 
   @Override
   public String getGrabId() {
-    return this.landscapeToken;
+    //return this.landscapeToken;
+    return "three-force-graph";
   }
 }

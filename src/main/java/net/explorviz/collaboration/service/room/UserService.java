@@ -1,5 +1,6 @@
 package net.explorviz.collaboration.service.room;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -10,6 +11,7 @@ import net.explorviz.collaboration.message.receivable.UserControllerConnectMessa
 import net.explorviz.collaboration.message.receivable.UserPositionsMessage.ControllerPose;
 import net.explorviz.collaboration.message.receivable.UserPositionsMessage.Pose;
 import net.explorviz.collaboration.model.ControllerModel;
+import net.explorviz.collaboration.model.HighlightingModel;
 import net.explorviz.collaboration.model.UserModel;
 import net.explorviz.collaboration.model.UserModel.State;
 import net.explorviz.collaboration.service.IdGenerationService;
@@ -77,20 +79,16 @@ public class UserService {
 
   public void updateHighlighting(final UserModel user, final String appId, final String entityId,
       final String entityType, final boolean isHighlighted) {
-    if (!isHighlighted) {
-      user.setHighlighted(false);
-      return;
-    }
 
-    // Overwrite highlighting of other users (if they highlighted same entity)
-    for (final UserModel otherUser : this.users.values()) {
-      if (otherUser.containsHighlightedEntity()
-          && otherUser.getHighlightedEntity().getHighlightedApp().equals(appId)
-          && otherUser.getHighlightedEntity().getHighlightedEntity().equals(entityId)) {
-        otherUser.setHighlighted(false);
+     if (!isHighlighted) {
+      user.removeHighlightedEntity(entityId); // necessary because own user is not in otherUser?
+      for (final UserModel otherUser : this.users.values()) {
+        otherUser.removeHighlightedEntity(entityId);
       }
-    }
-    user.setHighlightedEntity(isHighlighted, appId, entityType, entityId);
+     }else{
+        // Overwrite highlighting of other users (if they highlighted same entity)
+        user.setHighlightedEntity(appId, entityType, entityId);
+     }
   }
 
   public UserModel makeUserModel(final String userName) {

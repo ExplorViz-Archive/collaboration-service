@@ -3,12 +3,12 @@ package net.explorviz.collaboration.model;
 public class HighlightingModel {
 
   private final String highlightedApp;
-  private final String highlightedEntity;
+  private final String highlightedEntityId;
   private final String entityType;
 
   public HighlightingModel(final String appId, final String entityId, final String entityType) {
     this.highlightedApp = appId;
-    this.highlightedEntity = entityId;
+    this.highlightedEntityId = entityId;
     this.entityType = entityType;
   }
 
@@ -16,8 +16,8 @@ public class HighlightingModel {
     return this.highlightedApp;
   }
 
-  public String getHighlightedEntity() {
-    return this.highlightedEntity;
+  public String getHighlightedEntityId() {
+    return this.highlightedEntityId;
   }
 
   public String getEntityType() {

@@ -6,6 +6,7 @@ import net.explorviz.collaboration.message.receivable.ComponentUpdateMessage;
 import net.explorviz.collaboration.message.receivable.DetachedMenuClosedMessage;
 import net.explorviz.collaboration.message.receivable.HeatmapUpdateMessage;
 import net.explorviz.collaboration.message.receivable.HighlightingUpdateMessage;
+import net.explorviz.collaboration.message.receivable.JoinVrMessage;
 import net.explorviz.collaboration.message.receivable.MenuDetachedMessage;
 import net.explorviz.collaboration.message.receivable.MousePingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.ObjectGrabbedMessage;
@@ -47,6 +48,9 @@ public interface ReceivableMessageHandler<R, A> { // NOPMD
       A arg);
 
   R handleUserControllerDisconnectMessage(UserControllerDisconnectMessage userControllerDisconnMsg,
+      A arg);
+
+  R handleJoinVrMessage(JoinVrMessage joinVrMessage,
       A arg);
 
   R handleUserPositionsMessage(UserPositionsMessage message, A arg);

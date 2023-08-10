@@ -10,6 +10,7 @@ import net.explorviz.collaboration.message.receivable.ComponentUpdateMessage;
 import net.explorviz.collaboration.message.receivable.DetachedMenuClosedMessage;
 import net.explorviz.collaboration.message.receivable.HeatmapUpdateMessage;
 import net.explorviz.collaboration.message.receivable.HighlightingUpdateMessage;
+import net.explorviz.collaboration.message.receivable.JoinVrMessage;
 import net.explorviz.collaboration.message.receivable.MenuDetachedMessage;
 import net.explorviz.collaboration.message.receivable.MousePingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.ObjectGrabbedMessage;
@@ -45,6 +46,7 @@ import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
     @Type(value = UserControllerConnectMessage.class, name = UserControllerConnectMessage.EVENT),
     @Type(value = UserControllerDisconnectMessage.class,
         name = UserControllerDisconnectMessage.EVENT),
+    @Type(value = JoinVrMessage.class, name = JoinVrMessage.EVENT),
     @Type(value = UserPositionsMessage.class, name = UserPositionsMessage.EVENT),
     @Type(value = PingUpdateMessage.class, name = PingUpdateMessage.EVENT),
     @Type(value = MousePingUpdateMessage.class, name = MousePingUpdateMessage.EVENT),

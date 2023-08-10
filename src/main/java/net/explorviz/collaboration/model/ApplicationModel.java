@@ -1,10 +1,12 @@
 package net.explorviz.collaboration.model;
 
 import java.util.ArrayList;
+//import java.util.HashMap;
 import java.util.List;
 
 public class ApplicationModel extends ScalableBaseModel implements GrabbableObjectModel {
   private final List<String> openComponents;
+  //private final  HashMap<String, String> highlightedComponents; // key is component id, value is user id who highlighted the component
 
   public ApplicationModel(final String id) {
     super(id);

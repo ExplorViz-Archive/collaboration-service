@@ -25,6 +25,7 @@ import net.explorviz.collaboration.message.receivable.ComponentUpdateMessage;
 import net.explorviz.collaboration.message.receivable.DetachedMenuClosedMessage;
 import net.explorviz.collaboration.message.receivable.HeatmapUpdateMessage;
 import net.explorviz.collaboration.message.receivable.HighlightingUpdateMessage;
+import net.explorviz.collaboration.message.receivable.JoinVrMessage;
 import net.explorviz.collaboration.message.receivable.MenuDetachedMessage;
 import net.explorviz.collaboration.message.receivable.MousePingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.ObjectGrabbedMessage;
@@ -185,7 +186,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
       final VrSession session) {
     final var room = session.getRoom();
     final var objectId = room.getDetachedMenuService()
-        .detachMenu(message.getDetachId(), message.getEntityType(), message.getPosition(),
+        .detachMenu(message.getDetachId(), message.getSenderSession().getUser().getId(), message.getEntityType(), message.getPosition(),
             message.getQuaternion(), message.getScale());
 
     // Send ID of detached menu to sender.
@@ -276,6 +277,11 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     return ShouldForward.FORWARD;
   }
 
+  @Override public ShouldForward handleJoinVrMessage(
+      final JoinVrMessage message, final VrSession session) {
+      return ShouldForward.FORWARD;
+  }
+
   @Override public ShouldForward handlePingUpdateMessage(final PingUpdateMessage message,
       final VrSession session) {
     return ShouldForward.FORWARD;
@@ -354,6 +360,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
    * @param event The connection event.
    */
   public void sendLandscape(@ObservesAsync final UserConnectedEvent event) {
+    LOGGER.debug("sending initial landscape message!");
     final var room = event.getRoom();
     final var userModel = event.getUserModel();
     final var session = this.sessionRegistry.lookupSessionOfUser(room, userModel.getId());

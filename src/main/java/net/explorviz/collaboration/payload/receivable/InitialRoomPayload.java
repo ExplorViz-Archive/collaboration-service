@@ -81,6 +81,7 @@ public class InitialRoomPayload {
 
   public static class DetachedMenu {
     private String entityId;
+    private String userId;
     private String entityType;
     private double[] position;
     private double[] quaternion;
@@ -93,6 +94,15 @@ public class InitialRoomPayload {
     public void setEntityType(final String entityType) {
       this.entityType = entityType;
     }
+
+    public String getUserId() {
+      return this.userId;
+    }
+
+    public void setUserId(final String userId) {
+      this.userId = userId;
+    }
+
 
     public String getEntityId() {
       return this.entityId;
