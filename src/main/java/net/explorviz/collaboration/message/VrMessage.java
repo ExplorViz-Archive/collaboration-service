@@ -19,6 +19,7 @@ import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.PingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
+import net.explorviz.collaboration.message.receivable.TransparencyUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerDisconnectMessage;
 import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
@@ -39,6 +40,7 @@ import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
     @Type(value = ObjectMovedMessage.class, name = ObjectMovedMessage.EVENT),
     @Type(value = ComponentUpdateMessage.class, name = ComponentUpdateMessage.EVENT),
     @Type(value = HighlightingUpdateMessage.class, name = HighlightingUpdateMessage.EVENT),
+    @Type(value = TransparencyUpdateMessage.class, name = TransparencyUpdateMessage.EVENT),
     @Type(value = MenuDetachedMessage.class, name = MenuDetachedMessage.EVENT),
     @Type(value = DetachedMenuClosedMessage.class, name = DetachedMenuClosedMessage.EVENT),
     @Type(value = SpectatingUpdateMessage.class, name = SpectatingUpdateMessage.EVENT),

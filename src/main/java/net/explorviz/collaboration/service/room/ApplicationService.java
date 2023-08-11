@@ -57,6 +57,11 @@ public class ApplicationService {
     }
   }
 
+  public void updateTransparency(final String appId, final String[] entityIds){
+     final ApplicationModel appModel = this.getOrCreateApplication(appId);
+     appModel.turnComponentsTransparent(entityIds);
+  }
+
   /**
    * Gets the application model with the given ID or creates a model if it does not exist.
    *

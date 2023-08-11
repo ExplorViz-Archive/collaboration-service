@@ -30,13 +30,18 @@ public class InitialLandscapeMessageFactory {
       appObj.setScale(app.getScale());
 
       final ArrayList<String> componentArray = new ArrayList<>(); // NOPMD
+      final ArrayList<String> transparencyArray = new ArrayList<>();
       for (final String componentId : app.getOpenComponents()) {
         componentArray.add(componentId);
       }
 
+      for(final String componentId : app.getTransparentComponents()){
+        transparencyArray.add(componentId);
+      }
+
+
       final ArrayList<HighlightingObject> componentHighlightedArray = new ArrayList<>(); // NOPMD
       for (final UserModel user : room.getUserService().getUsers()) {
-        System.out.println("USER: " + user.getUserName() + ", boolean: " + user.containsHighlightedEntity());
         if (user.containsHighlightedEntity()){
           final HighlightingModel[] highlighted =  user.getHighlightedEntities().toArray(n -> new HighlightingModel[n]);
   
@@ -53,8 +58,6 @@ public class InitialLandscapeMessageFactory {
               highlightingObj.setEntityId(highlightedEntity.getHighlightedEntityId());
               highlightingObj.setHighlighted(true);
               componentHighlightedArray.add(highlightingObj);
-
-              System.out.println("ENTITY ID: " + highlightingObj.getEntityId());
             }
           }
         }
@@ -62,10 +65,10 @@ public class InitialLandscapeMessageFactory {
 
 
       appObj.setOpenComponents(componentArray.toArray(n -> new String[n])); // NOPMD
+      appObj.setTransparentComponents(transparencyArray.toArray(n -> new String[n]));
       appObj.setHighlightedComponents(
           componentHighlightedArray.toArray(n -> new HighlightingObject[n])); // NOPMD
 
-      System.out.println("HEREEEEE");
       System.out.println(appObj.getHighlightedComponents());
       appArray.add(appObj);
 

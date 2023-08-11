@@ -34,6 +34,7 @@ import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.PingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
+import net.explorviz.collaboration.message.receivable.TransparencyUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerDisconnectMessage;
 import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
@@ -240,6 +241,14 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     room.getUserService().updateHighlighting(user, message.getAppId(), message.getEntityId(),
         message.getEntityType(), message.isHighlighted());
     return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleTransparencyUpdateMessage(final TransparencyUpdateMessage message,
+      final VrSession session) {
+    final var room = session.getRoom();
+    room.getApplicationService().updateTransparency(message.getAppId(), message.getEntityIds());
+    return ShouldForward.NO_FORWARD;
   }
 
   @Override

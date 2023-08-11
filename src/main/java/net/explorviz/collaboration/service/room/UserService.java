@@ -1,6 +1,5 @@
 package net.explorviz.collaboration.service.room;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -11,7 +10,6 @@ import net.explorviz.collaboration.message.receivable.UserControllerConnectMessa
 import net.explorviz.collaboration.message.receivable.UserPositionsMessage.ControllerPose;
 import net.explorviz.collaboration.message.receivable.UserPositionsMessage.Pose;
 import net.explorviz.collaboration.model.ControllerModel;
-import net.explorviz.collaboration.model.HighlightingModel;
 import net.explorviz.collaboration.model.UserModel;
 import net.explorviz.collaboration.model.UserModel.State;
 import net.explorviz.collaboration.service.IdGenerationService;
@@ -90,6 +88,7 @@ public class UserService {
         user.setHighlightedEntity(appId, entityType, entityId);
      }
   }
+
 
   public UserModel makeUserModel(final String userName) {
     final var userId = this.idGenerationService.nextId();
