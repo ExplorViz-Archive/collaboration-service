@@ -22,6 +22,7 @@ import net.explorviz.collaboration.message.receivable.ComponentUpdateMessage;
 import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
+import net.explorviz.collaboration.message.receivable.SynchronizationUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
 import net.explorviz.collaboration.message.respondable.ObjectGrabbedResponse;
 import net.explorviz.collaboration.message.sendable.InitialLandscapeMessage;
@@ -192,6 +193,27 @@ public class SendableMessageEncoderTest {
         + "    \"userId\": \"foo\"," //
         + "    \"isSpectating\": true," //
         + "    \"spectatedUser\": \"bar\"" //
+        + "  }" //
+        + "}";
+
+    assertEquals(this.mapper.readTree(expected), this.mapper.readTree(actual));
+  }
+
+    @Test
+  public void testForwardedSynchronizationUpdateMessage() throws EncodeException, IOException {
+    final var message = new SynchronizationUpdateMessage();
+    message.setUserId("foo");
+    message.setIsSynchronzing(true);
+    message.setMain("bar");
+    final var actual = this.encoder.encodeMessage(new ForwardedMessage("alice", message));
+    final var expected = "{" //
+        + "  \"event\": \"forward\"," //
+        + "  \"userId\": \"alice\"," //
+        + "  \"originalMessage\": {" //
+        + "    \"event\": \"synchronization_update\"," //
+        + "    \"userId\": \"foo\"," //
+        + "    \"isSynchronizing\": true," //
+        + "    \"main\": \"bar\"" //
         + "  }" //
         + "}";
 

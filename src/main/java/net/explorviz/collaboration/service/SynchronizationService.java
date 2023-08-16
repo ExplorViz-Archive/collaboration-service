@@ -1,11 +1,16 @@
 package net.explorviz.collaboration.service;
 import java.awt.Color;
+
+import javax.inject.Inject;
+
 import net.explorviz.collaboration.model.UserModel;
 
 /**
  * Provides all informations about the synchronization feature of ExplorViz in the ARENA2 of GEOMAR.
  */
 public class SynchronizationService {
+    @Inject
+    RoomService roomService;
     // synchronization room
     private Room room;
     // control instance
@@ -14,8 +19,7 @@ public class SynchronizationService {
     private UserModel[] projectors = new UserModel[0];
 
     public void setRoom(String roomId) {
-        RoomService roomService = new RoomService();
-        this.room = roomService.createRoom(roomId);
+        this.room = this.roomService.createRoom(roomId);
     }
 
     public Room getRoom() {

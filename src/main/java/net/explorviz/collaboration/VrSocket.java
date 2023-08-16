@@ -32,6 +32,7 @@ import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.PingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
+import net.explorviz.collaboration.message.receivable.SynchronizationUpdateMessage;
 import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerDisconnectMessage;
@@ -247,6 +248,15 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     final var room = session.getRoom();
     final var user = session.getUser();
     room.getUserService().updateSpectating(user, message.isSpectating());
+    return ShouldForward.FORWARD;
+  }
+
+    @Override
+  public ShouldForward handleSynchronizationUpdateMessage(final SynchronizationUpdateMessage message,
+      final VrSession session) {
+    final var room = session.getRoom();
+    final var user = session.getUser();
+    room.getUserService().updateSynchronization(user, message.isSynchronizing());
     return ShouldForward.FORWARD;
   }
 

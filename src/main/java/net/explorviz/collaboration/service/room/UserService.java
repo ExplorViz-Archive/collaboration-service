@@ -75,6 +75,10 @@ public class UserService {
     user.setState(isSpectating ? State.SPECTATING : State.CONNECTED);
   }
 
+    public void updateSynchronization(final UserModel user, final boolean isSynchronizing) {
+    user.setState(isSynchronizing ? State.SYNCHRONIZED : State.CONNECTED);
+  }
+
   public void updateHighlighting(final UserModel user, final String appId, final String entityId,
       final String entityType, final boolean isHighlighted) {
     if (!isHighlighted) {

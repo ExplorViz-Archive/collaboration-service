@@ -17,6 +17,7 @@ import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.PingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
+import net.explorviz.collaboration.message.receivable.SynchronizationUpdateMessage;
 import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerDisconnectMessage;
@@ -41,6 +42,7 @@ import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
     @Type(value = MenuDetachedMessage.class, name = MenuDetachedMessage.EVENT),
     @Type(value = DetachedMenuClosedMessage.class, name = DetachedMenuClosedMessage.EVENT),
     @Type(value = SpectatingUpdateMessage.class, name = SpectatingUpdateMessage.EVENT),
+    @Type(value = SynchronizationUpdateMessage.class, name = SynchronizationUpdateMessage.EVENT),
     @Type(value = HeatmapUpdateMessage.class, name = HeatmapUpdateMessage.EVENT),
     @Type(value = UserControllerConnectMessage.class, name = UserControllerConnectMessage.EVENT),
     @Type(value = UserControllerDisconnectMessage.class,

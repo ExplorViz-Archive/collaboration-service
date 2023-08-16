@@ -16,7 +16,7 @@ public class UserModel extends BaseModel {
   private HighlightingModel highlightedEntity;
 
   public enum State {
-    CONNECTING, CONNECTED, SPECTATING
+    CONNECTING, CONNECTED, SPECTATING, SYNCHRONIZED
   }
 
   public UserModel(final String id, final String userName, final Color color) {
