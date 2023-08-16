@@ -186,7 +186,7 @@ public class ReceivableMessageDecoderTest {
     final var json = "{" //
         + "  \"event\": \"synchronization_update\"," //
         + "  \"userId\": \"foo\"," //
-        + "  \"isSynchronized\": true," //
+        + "  \"isSynchronizing\": true," //
         + "  \"main\": \"bar\"" //
         + "}";
     final var actual = this.decoder.decodeMessage(json);
