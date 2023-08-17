@@ -54,7 +54,8 @@ public class RoomService {
       
       return room;
     }
-    return null;
+    // When dublicated, then return a id generated room
+    return this.createRoom();
   }
 
   private void createDefaultRoom() {
