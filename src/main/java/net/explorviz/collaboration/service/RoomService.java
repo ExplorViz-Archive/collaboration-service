@@ -44,13 +44,17 @@ public class RoomService {
   // Overloading function to satisfy the need for setting up a specific 
   // room id instead of generating a random one.
   public Room createRoom(String roomId) {
-    final var roomName = ROOM_PREFIX + roomId;
-    final var room = this.roomFactory.makeRoom(roomId, roomName);
-    this.rooms.put(roomId, room);
-    if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("Created room with id " + roomId);
+    if(!this.rooms.containsKey(roomId)) {
+      final var roomName = ROOM_PREFIX + roomId;
+      final var room = this.roomFactory.makeRoom(roomId, roomName);
+      this.rooms.put(roomId, room);
+      if (LOGGER.isInfoEnabled()) {
+        LOGGER.info("Created room with id " + roomId);
+      }
+      
+      return room;
     }
-    return room;
+    return null;
   }
 
   private void createDefaultRoom() {
