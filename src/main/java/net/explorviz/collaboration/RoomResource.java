@@ -45,7 +45,8 @@ public class RoomResource {
   }
 
   /**
-   * Creates a new room with the given initial landscape, applications and detached menus.
+   * Creates a new room with the given initial landscape, applications and
+   * detached menus.
    *
    * @param body The initial room layout.
    * @return The ID of the newly created room.
@@ -56,8 +57,8 @@ public class RoomResource {
   public RoomCreatedResponse addRoom(final InitialRoomPayload body) {
     // Check for wanted room id
     final var room = body.getRoomId() != null
-    ? this.roomService.createRoom(body.getRoomId())
-    : this.roomService.createRoom();
+        ? this.roomService.createRoom(body.getRoomId())
+        : this.roomService.createRoom();
 
     // Initialize landscape.
     final var landscape = body.getLandscape();
@@ -84,7 +85,7 @@ public class RoomResource {
 
   /**
    * 
-   * @param body  The initial synchronization layout containing room.
+   * @param body The initial synchronization layout containing room.
    * @return the id of the synchronization room.
    */
 
@@ -110,6 +111,29 @@ public class RoomResource {
     return new LobbyJoinedResponse(ticket.getTicketId(), ticket.getValidUntil().toEpochMilli());
   }
 
+  /**
+   * Adds a user to the lobby of the room with the given ID.
+   *
+   * @param roomId          The ID of the room whose lobby to add the new user to.
+   * @param synchronization Notfier for sychronization session.
+   * @return A ticket ID that can be used to establish a websocket connection.
+   */
+  @POST
+  @Path("/room/{room-id}/lobby")
+  @Produces(MediaType.APPLICATION_JSON)
+  public LobbyJoinedResponse joinLobby(@PathParam("room-id") final String roomId,
+      final JoinLobbyPayload body, final Boolean synchronization) {
+    final var room = this.roomService.lookupRoom(roomId);
+
+    // Initialize user model.
+    final var userModel = room.getUserService().makeUserModel(body.getUserName());
+    userModel.setPosition(body.getPosition());
+    userModel.setQuaternion(body.getQuaternion());
+
+    final var ticket = this.ticketService.drawTicket(room, userModel);
+    return new LobbyJoinedResponse(ticket.getTicketId(), ticket.getValidUntil().toEpochMilli());
+  }
+
   @POST
   @Path("/synchronization")
   @Produces(MediaType.APPLICATION_JSON)
@@ -120,15 +144,14 @@ public class RoomResource {
     Boolean needRoom = !this.roomService.roomExists(roomId);
 
     JoinLobbyPayload joinPayload = body.getJoinPayload();
-    
+
     RoomCreatedResponse roomResponse = new RoomCreatedResponse(roomId);
     // Same outcome, but acutally adds the room if room is needed.
-    if(needRoom) {
+    if (needRoom) {
       roomResponse = this.addRoom(roomPayload);
     }
 
     LobbyJoinedResponse joinResponse = this.joinLobby(roomResponse.getRoomId(), joinPayload);
-
 
     return new SynchronizationStartedResponse(roomResponse, joinResponse);
   }
