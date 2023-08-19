@@ -8,6 +8,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import net.explorviz.collaboration.model.ProjectorConfigurations;
+import net.explorviz.collaboration.model.ProjectorConfigurations.ProjectorAngles;
+import net.explorviz.collaboration.model.ProjectorConfigurations.YawPitchRoll;
 import net.explorviz.collaboration.payload.receivable.InitialRoomPayload;
 import net.explorviz.collaboration.payload.receivable.InitialSynchronizationPayload;
 import net.explorviz.collaboration.payload.receivable.InitialRoomPayload.App;
@@ -18,8 +22,11 @@ import net.explorviz.collaboration.payload.sendable.RoomCreatedResponse;
 import net.explorviz.collaboration.payload.sendable.RoomListRecord;
 import net.explorviz.collaboration.payload.sendable.SynchronizationStartedResponse;
 import net.explorviz.collaboration.service.RoomService;
+import net.explorviz.collaboration.service.SynchronizationService;
 import net.explorviz.collaboration.service.TicketService;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Path("/v2/vr")
 public class RoomResource {
@@ -29,6 +36,9 @@ public class RoomResource {
 
   @Inject
   /* default */ TicketService ticketService; // NOCS
+
+  @Inject
+  SynchronizationService synchronizationService;
 
   /**
    * Gets the IDs of all rooms.
@@ -127,7 +137,10 @@ public class RoomResource {
 
     // Initialize user model.
     final var userModel = room.getUserService().makeUserModel(body.getUserName());
-    userModel.setPosition(body.getPosition());
+
+    if (synchronization)
+
+      userModel.setPosition(body.getPosition());
     userModel.setQuaternion(body.getQuaternion());
 
     final var ticket = this.ticketService.drawTicket(room, userModel);
@@ -137,7 +150,8 @@ public class RoomResource {
   @POST
   @Path("/synchronization")
   @Produces(MediaType.APPLICATION_JSON)
-  public SynchronizationStartedResponse startSynchronization(final InitialSynchronizationPayload body) {
+  public SynchronizationStartedResponse startSynchronization(final InitialSynchronizationPayload body)
+      throws JsonProcessingException {
     InitialRoomPayload roomPayload = body.getRoomPayload();
     String roomId = roomPayload.getRoomId();
     // Check if room already exists
@@ -151,8 +165,24 @@ public class RoomResource {
       roomResponse = this.addRoom(roomPayload);
     }
 
-    LobbyJoinedResponse joinResponse = this.joinLobby(roomResponse.getRoomId(), joinPayload);
+    LobbyJoinedResponse joinResponse = this.joinLobby(roomResponse.getRoomId(), joinPayload, true);
 
-    return new SynchronizationStartedResponse(roomResponse, joinResponse);
+    YawPitchRoll ypr = new YawPitchRoll(37.73257, 24.45517, (-14.315));
+    ProjectorAngles pa = new ProjectorAngles(62.0003, 62.0003, 49.6109237, 49.6109237);
+    ProjectorConfigurations projectorConfigurations = new ProjectorConfigurations();
+    projectorConfigurations.setYawPitchRoll(ypr);
+    projectorConfigurations.setProjectorAngles(pa);
+    projectorConfigurations.setId("Projector 1");
+
+    // ObjectMapper mapper = new ObjectMapper();
+    // String jsonfiedProjectorConfigurations =
+    // mapper.writeValueAsString(projectorConfigurations);
+
+    SynchronizationStartedResponse synchronizationStartedResponse = new SynchronizationStartedResponse(roomResponse,
+        joinResponse, projectorConfigurations);
+    // Set up service
+    // this.synchronizationService.setService(synchronizationStartedResponse);
+
+    return synchronizationStartedResponse;
   }
 }
