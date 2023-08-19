@@ -11,6 +11,7 @@ import net.explorviz.collaboration.model.UserModel;
 public class SynchronizationService {
     @Inject
     RoomService roomService;
+    
     // synchronization room
     private Room room;
     // control instance

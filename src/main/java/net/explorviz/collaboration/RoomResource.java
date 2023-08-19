@@ -9,12 +9,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import net.explorviz.collaboration.payload.receivable.InitialRoomPayload;
+import net.explorviz.collaboration.payload.receivable.InitialSynchronizationPayload;
 import net.explorviz.collaboration.payload.receivable.InitialRoomPayload.App;
 import net.explorviz.collaboration.payload.receivable.InitialRoomPayload.DetachedMenu;
 import net.explorviz.collaboration.payload.receivable.JoinLobbyPayload;
 import net.explorviz.collaboration.payload.sendable.LobbyJoinedResponse;
 import net.explorviz.collaboration.payload.sendable.RoomCreatedResponse;
 import net.explorviz.collaboration.payload.sendable.RoomListRecord;
+import net.explorviz.collaboration.payload.sendable.SynchronizationStartedMessage;
 import net.explorviz.collaboration.service.RoomService;
 import net.explorviz.collaboration.service.TicketService;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
@@ -78,6 +80,22 @@ public class RoomResource {
     }
 
     return new RoomCreatedResponse(room.getRoomId());
+  }
+
+  /**
+   * 
+   * @param body  The initial synchronization layout containing room.
+   * @return the id of the synchronization room.
+   */
+
+  @POST
+  @Path("/synchronization")
+  @Produces(MediaType.APPLICATION_JSON)
+  public SynchronizationStartedMessage startSynchronization(final InitialSynchronizationPayload body) {
+    InitialRoomPayload roomPayload = body.getRoomPayload();
+    RoomCreatedResponse roomResponse = this.addRoom(roomPayload);
+
+    return new SynchronizationStartedMessage(roomResponse.getRoomId());
   }
 
   /**

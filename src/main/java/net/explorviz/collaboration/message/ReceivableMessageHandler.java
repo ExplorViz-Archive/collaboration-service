@@ -17,7 +17,6 @@ import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerDisconnectMessage;
 import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
-import net.explorviz.collaboration.payload.sendable.SynchronizationStartedMessage;
 
 /**
  * Interface for classes that can handle {@link VrMessage}s.
@@ -41,8 +40,6 @@ public interface ReceivableMessageHandler<R, A> { // NOPMD
   R handleHighlightingUpdateMessage(HighlightingUpdateMessage message, A arg);
 
   R handleSpectatingUpdateMessage(SpectatingUpdateMessage message, A arg);
-
-  R handleSynchronizationUpdateMessage(SynchronizationStartedMessage message, A arg);
 
   R handleHeatmapUpdateMessage(HeatmapUpdateMessage message, A arg);
 

@@ -24,7 +24,6 @@ import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
-import net.explorviz.collaboration.payload.sendable.SynchronizationStartedMessage;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -182,21 +181,6 @@ public class ReceivableMessageDecoderTest {
     assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
   }
 
-  @Test
-  public void testSynchronizationUpdateMessage() throws DecodeException, IOException {
-    final var json = "{" //
-        + "  \"event\": \"synchronization_update\"," //
-        + "  \"userId\": \"foo\"," //
-        + "  \"isSynchronizing\": true," //
-        + "  \"main\": \"bar\"" //
-        + "}";
-    final var actual = this.decoder.decodeMessage(json);
-    final var expected = new SynchronizationStartedMessage();
-    expected.setUserId("foo");
-    expected.setIsSynchronzing(true);
-    expected.setMain("bar");
-    assertThat(actual).hasSameClassAs(expected).usingRecursiveComparison().isEqualTo(expected);
-  }
 
   @Test
   public void testUserPositionsMessage() throws DecodeException, IOException {

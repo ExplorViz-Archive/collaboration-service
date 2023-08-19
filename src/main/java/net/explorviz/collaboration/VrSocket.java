@@ -48,7 +48,6 @@ import net.explorviz.collaboration.message.sendable.factory.SelfConnectedMessage
 import net.explorviz.collaboration.message.sendable.factory.TimestampUpdateTimerMessageFactory;
 import net.explorviz.collaboration.message.sendable.factory.UserConnectedMessageFactory;
 import net.explorviz.collaboration.message.sendable.factory.UserDisconnectedMessageFactory;
-import net.explorviz.collaboration.payload.sendable.SynchronizationStartedMessage;
 import net.explorviz.collaboration.service.Room;
 import net.explorviz.collaboration.service.RoomService;
 import net.explorviz.collaboration.service.SessionRegistry;
@@ -251,15 +250,6 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     return ShouldForward.FORWARD;
   }
 
-    @Override
-  public ShouldForward handleSynchronizationUpdateMessage(final SynchronizationStartedMessage message,
-      final VrSession session) {
-    final var room = session.getRoom();
-    final var user = session.getUser();
-    room.getUserService().updateSynchronization(user, message.isSynchronizing());
-    return ShouldForward.FORWARD;
-  }
-
   @Override public ShouldForward handleHeatmapUpdateMessage(final HeatmapUpdateMessage message,
       final VrSession session) {
     final var room = session.getRoom();
@@ -378,4 +368,5 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
       room.getBroadcastService().broadcast(message);
     }
   }
+
 }

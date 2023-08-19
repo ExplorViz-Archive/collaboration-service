@@ -28,7 +28,6 @@ import net.explorviz.collaboration.message.sendable.InitialLandscapeMessage;
 import net.explorviz.collaboration.message.sendable.SelfConnectedMessage;
 import net.explorviz.collaboration.message.sendable.UserConnectedMessage;
 import net.explorviz.collaboration.message.sendable.UserDisconnectedMessage;
-import net.explorviz.collaboration.payload.sendable.SynchronizationStartedMessage;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -194,27 +193,6 @@ public class SendableMessageEncoderTest {
         + "    \"userId\": \"foo\"," //
         + "    \"isSpectating\": true," //
         + "    \"spectatedUser\": \"bar\"" //
-        + "  }" //
-        + "}";
-
-    assertEquals(this.mapper.readTree(expected), this.mapper.readTree(actual));
-  }
-
-    @Test
-  public void testForwardedSynchronizationUpdateMessage() throws EncodeException, IOException {
-    final var message = new SynchronizationStartedMessage();
-    message.setUserId("foo");
-    message.setIsSynchronzing(true);
-    message.setMain("bar");
-    final var actual = this.encoder.encodeMessage(new ForwardedMessage("alice", message));
-    final var expected = "{" //
-        + "  \"event\": \"forward\"," //
-        + "  \"userId\": \"alice\"," //
-        + "  \"originalMessage\": {" //
-        + "    \"event\": \"synchronization_update\"," //
-        + "    \"userId\": \"foo\"," //
-        + "    \"isSynchronizing\": true," //
-        + "    \"main\": \"bar\"" //
         + "  }" //
         + "}";
 

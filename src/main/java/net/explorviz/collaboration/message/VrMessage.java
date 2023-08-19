@@ -21,8 +21,6 @@ import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerDisconnectMessage;
 import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
-import net.explorviz.collaboration.payload.sendable.SynchronizationStartedMessage;
-
 /**
  * Base class for all messages that are exchanged via the websocket connection between the frontend
  * and VR service.
