@@ -22,13 +22,14 @@ import net.explorviz.collaboration.message.receivable.ComponentUpdateMessage;
 import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
-import net.explorviz.collaboration.message.receivable.SynchronizationUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
 import net.explorviz.collaboration.message.respondable.ObjectGrabbedResponse;
 import net.explorviz.collaboration.message.sendable.InitialLandscapeMessage;
 import net.explorviz.collaboration.message.sendable.SelfConnectedMessage;
 import net.explorviz.collaboration.message.sendable.UserConnectedMessage;
 import net.explorviz.collaboration.message.sendable.UserDisconnectedMessage;
+import net.explorviz.collaboration.payload.sendable.SynchronizationStartedMessage;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -201,7 +202,7 @@ public class SendableMessageEncoderTest {
 
     @Test
   public void testForwardedSynchronizationUpdateMessage() throws EncodeException, IOException {
-    final var message = new SynchronizationUpdateMessage();
+    final var message = new SynchronizationStartedMessage();
     message.setUserId("foo");
     message.setIsSynchronzing(true);
     message.setMain("bar");

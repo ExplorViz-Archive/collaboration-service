@@ -13,11 +13,11 @@ import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.PingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
-import net.explorviz.collaboration.message.receivable.SynchronizationUpdateMessage;
 import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerDisconnectMessage;
 import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
+import net.explorviz.collaboration.payload.sendable.SynchronizationStartedMessage;
 
 /**
  * Interface for classes that can handle {@link VrMessage}s.
@@ -42,7 +42,7 @@ public interface ReceivableMessageHandler<R, A> { // NOPMD
 
   R handleSpectatingUpdateMessage(SpectatingUpdateMessage message, A arg);
 
-  R handleSynchronizationUpdateMessage(SynchronizationUpdateMessage message, A arg);
+  R handleSynchronizationUpdateMessage(SynchronizationStartedMessage message, A arg);
 
   R handleHeatmapUpdateMessage(HeatmapUpdateMessage message, A arg);
 

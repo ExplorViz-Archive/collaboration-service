@@ -32,7 +32,6 @@ import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.PingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
-import net.explorviz.collaboration.message.receivable.SynchronizationUpdateMessage;
 import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerDisconnectMessage;
@@ -49,6 +48,7 @@ import net.explorviz.collaboration.message.sendable.factory.SelfConnectedMessage
 import net.explorviz.collaboration.message.sendable.factory.TimestampUpdateTimerMessageFactory;
 import net.explorviz.collaboration.message.sendable.factory.UserConnectedMessageFactory;
 import net.explorviz.collaboration.message.sendable.factory.UserDisconnectedMessageFactory;
+import net.explorviz.collaboration.payload.sendable.SynchronizationStartedMessage;
 import net.explorviz.collaboration.service.Room;
 import net.explorviz.collaboration.service.RoomService;
 import net.explorviz.collaboration.service.SessionRegistry;
@@ -252,7 +252,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
   }
 
     @Override
-  public ShouldForward handleSynchronizationUpdateMessage(final SynchronizationUpdateMessage message,
+  public ShouldForward handleSynchronizationUpdateMessage(final SynchronizationStartedMessage message,
       final VrSession session) {
     final var room = session.getRoom();
     final var user = session.getUser();

@@ -23,8 +23,9 @@ import net.explorviz.collaboration.message.receivable.ObjectGrabbedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
-import net.explorviz.collaboration.message.receivable.SynchronizationUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
+import net.explorviz.collaboration.payload.sendable.SynchronizationStartedMessage;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -190,7 +191,7 @@ public class ReceivableMessageDecoderTest {
         + "  \"main\": \"bar\"" //
         + "}";
     final var actual = this.decoder.decodeMessage(json);
-    final var expected = new SynchronizationUpdateMessage();
+    final var expected = new SynchronizationStartedMessage();
     expected.setUserId("foo");
     expected.setIsSynchronzing(true);
     expected.setMain("bar");
