@@ -6,13 +6,31 @@ package net.explorviz.collaboration.payload.receivable;
  */
 public class InitialSynchronizationPayload {
 
+    private Boolean needRoom;
     private InitialRoomPayload roomPayload;
+    private JoinLobbyPayload joinPayload;
     
+    public Boolean getNeedRoom() {
+        return this.needRoom;
+    }
+
+    public void setNeedRoom(Boolean needRoom) {
+        this.needRoom = needRoom;
+    }
+
     public InitialRoomPayload getRoomPayload() {
         return this.roomPayload;
     }
 
     public void setRoomPayload(final InitialRoomPayload roomPayload) {
         this.roomPayload = roomPayload;
+    }
+
+    public JoinLobbyPayload getJoinPayload() {
+        return this.joinPayload;
+    }
+
+    public void setJoinPayload(final JoinLobbyPayload joinPayload) {
+        this.joinPayload = joinPayload;
     }
 }

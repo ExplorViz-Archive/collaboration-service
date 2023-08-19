@@ -16,7 +16,8 @@ import net.explorviz.collaboration.payload.receivable.JoinLobbyPayload;
 import net.explorviz.collaboration.payload.sendable.LobbyJoinedResponse;
 import net.explorviz.collaboration.payload.sendable.RoomCreatedResponse;
 import net.explorviz.collaboration.payload.sendable.RoomListRecord;
-import net.explorviz.collaboration.payload.sendable.SynchronizationStartedMessage;
+import net.explorviz.collaboration.payload.sendable.SynchronizationStartedResponse;
+import net.explorviz.collaboration.service.Room;
 import net.explorviz.collaboration.service.RoomService;
 import net.explorviz.collaboration.service.TicketService;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
@@ -88,16 +89,6 @@ public class RoomResource {
    * @return the id of the synchronization room.
    */
 
-  @POST
-  @Path("/synchronization")
-  @Produces(MediaType.APPLICATION_JSON)
-  public SynchronizationStartedMessage startSynchronization(final InitialSynchronizationPayload body) {
-    InitialRoomPayload roomPayload = body.getRoomPayload();
-    RoomCreatedResponse roomResponse = this.addRoom(roomPayload);
-
-    return new SynchronizationStartedMessage(roomResponse.getRoomId());
-  }
-
   /**
    * Adds a user to the lobby of the room with the given ID.
    *
@@ -118,5 +109,28 @@ public class RoomResource {
 
     final var ticket = this.ticketService.drawTicket(room, userModel);
     return new LobbyJoinedResponse(ticket.getTicketId(), ticket.getValidUntil().toEpochMilli());
+  }
+
+  @POST
+  @Path("/synchronization")
+  @Produces(MediaType.APPLICATION_JSON)
+  public SynchronizationStartedResponse startSynchronization(final InitialSynchronizationPayload body) {
+    InitialRoomPayload roomPayload = body.getRoomPayload();
+    String roomId = roomPayload.getRoomId();
+    // Check if room already exists
+    Boolean needRoom = !this.roomService.roomExists(roomId);
+
+    JoinLobbyPayload joinPayload = body.getJoinPayload();
+    
+    RoomCreatedResponse roomResponse = new RoomCreatedResponse(roomId);
+    // Same outcome, but acutally adds the room if room is needed.
+    if(needRoom) {
+      roomResponse = this.addRoom(roomPayload);
+    }
+
+    LobbyJoinedResponse joinResponse = this.joinLobby(roomResponse.getRoomId(), joinPayload);
+
+
+    return new SynchronizationStartedResponse(roomResponse, joinResponse);
   }
 }

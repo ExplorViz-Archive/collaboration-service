@@ -91,6 +91,15 @@ public class RoomService {
     return this.rooms.containsKey(room.getRoomId());
   }
 
+  /** 
+   * 
+   * @param roomId
+   * @return
+   */
+  public boolean roomExists(final String roomId) {
+    return this.rooms.containsKey(roomId);
+  }
+
   public Collection<Room> getRooms() {
     return this.rooms.values();
   }
