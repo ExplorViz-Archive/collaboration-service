@@ -17,7 +17,6 @@ import net.explorviz.collaboration.payload.sendable.LobbyJoinedResponse;
 import net.explorviz.collaboration.payload.sendable.RoomCreatedResponse;
 import net.explorviz.collaboration.payload.sendable.RoomListRecord;
 import net.explorviz.collaboration.payload.sendable.SynchronizationStartedResponse;
-import net.explorviz.collaboration.service.Room;
 import net.explorviz.collaboration.service.RoomService;
 import net.explorviz.collaboration.service.TicketService;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
