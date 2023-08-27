@@ -12,6 +12,7 @@ public class HighlightingUpdateMessage extends ReceivableMessage {
   private String entityType;
   private String entityId;
   private boolean highlighted;
+  private boolean isMultiSelected;
 
   public HighlightingUpdateMessage() {
     super(EVENT);
@@ -50,10 +51,18 @@ public class HighlightingUpdateMessage extends ReceivableMessage {
     this.highlighted = isHighlighted;
   }
 
+  public void setIsMultiSelected(boolean isMultiSelected){
+    this.isMultiSelected = isMultiSelected;
+  }
+
+  public boolean getIsMultiSelected(){
+    return this.isMultiSelected;
+  }
+
   @Override
   public String toString() {
     return "appId: " + this.appId + ", entityId: " + this.entityId + ", entityType: "
-        + this.entityType + ", isHighlighted: " + this.highlighted;
+        + this.entityType + ", isHighlighted: " + this.highlighted + ", isMultiSelected: " + this.isMultiSelected;
   }
 
   @Override

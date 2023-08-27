@@ -12,6 +12,8 @@ public class InitialLandscapeMessage extends SendableMessage {
   private App[] openApps;
   private Landscape landscape;
   private DetachedMenu[] detachedMenus;
+  private HighlightingObject[] highlightedExternCommunicationLinks;
+  //private String[] transparentExternCommunicationLinks;
 
   public static class Landscape {
     private String landscapeToken;
@@ -265,5 +267,22 @@ public class InitialLandscapeMessage extends SendableMessage {
   public void setLandscape(final Landscape landscape) {
     this.landscape = landscape;
   }
+
+  public void setHighlightedExternCommunicationLinks(HighlightingObject[] highlightingObjects){
+    this.highlightedExternCommunicationLinks = highlightingObjects.clone();
+  }
+
+  public HighlightingObject[] getHighlightedExternCommunicationLinks(){
+    return this.highlightedExternCommunicationLinks.clone();
+  }
+
+  // public void setTransparentExternCommunicationLinks(String[] ids){
+  //   this.transparentExternCommunicationLinks = ids.clone();
+  // }
+
+  // public String[] getTransparentExternCommunicationLinks(){
+  //   return this.transparentExternCommunicationLinks.clone();
+  // }
+
 
 }

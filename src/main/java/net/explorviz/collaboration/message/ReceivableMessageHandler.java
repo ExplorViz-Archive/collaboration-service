@@ -1,5 +1,6 @@
 package net.explorviz.collaboration.message;
 
+import net.explorviz.collaboration.message.receivable.AllHighlightsResetMessage;
 import net.explorviz.collaboration.message.receivable.AppClosedMessage;
 import net.explorviz.collaboration.message.receivable.AppOpenedMessage;
 import net.explorviz.collaboration.message.receivable.ComponentUpdateMessage;
@@ -15,7 +16,6 @@ import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.PingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
-import net.explorviz.collaboration.message.receivable.TransparencyUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerDisconnectMessage;
 import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
@@ -40,8 +40,6 @@ public interface ReceivableMessageHandler<R, A> { // NOPMD
   R handleComponentUpdateMessage(ComponentUpdateMessage message, A arg);
 
   R handleHighlightingUpdateMessage(HighlightingUpdateMessage message, A arg);
-
-  R handleTransparencyUpdateMessage(TransparencyUpdateMessage message, A arg);
 
   R handleSpectatingUpdateMessage(SpectatingUpdateMessage message, A arg);
 
@@ -69,4 +67,6 @@ public interface ReceivableMessageHandler<R, A> { // NOPMD
   R handleMousePingUpdateMessage(MousePingUpdateMessage message, A arg);
 
   R handleTimestampUpdateMessage(TimestampUpdateMessage message, A arg);
+
+R handleAllHighlightsResetMessage(AllHighlightsResetMessage allHighlightsResetMessage, A arg);
 }

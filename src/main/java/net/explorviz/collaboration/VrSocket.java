@@ -19,6 +19,7 @@ import net.explorviz.collaboration.message.ReceivableMessage;
 import net.explorviz.collaboration.message.ReceivableMessageDecoder;
 import net.explorviz.collaboration.message.ReceivableMessageHandler;
 import net.explorviz.collaboration.message.SendableMessageEncoder;
+import net.explorviz.collaboration.message.receivable.AllHighlightsResetMessage;
 import net.explorviz.collaboration.message.receivable.AppClosedMessage;
 import net.explorviz.collaboration.message.receivable.AppOpenedMessage;
 import net.explorviz.collaboration.message.receivable.ComponentUpdateMessage;
@@ -34,7 +35,6 @@ import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.PingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
-import net.explorviz.collaboration.message.receivable.TransparencyUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerDisconnectMessage;
 import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
@@ -230,6 +230,19 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     room.getApplicationService()
         .updateComponent(message.getComponentId(), message.getAppId(), message.isFoundation(),
             message.isOpened());
+
+    if(message.getForwardFlag()){
+      return ShouldForward.FORWARD;
+    }else{
+      return ShouldForward.NO_FORWARD;
+    }
+  }
+
+  @Override
+  public ShouldForward handleAllHighlightsResetMessage(final AllHighlightsResetMessage message,
+      final VrSession session) {
+    final var room = session.getRoom();
+    room.getUserService().resetAllHighlights(room);
     return ShouldForward.FORWARD;
   }
 
@@ -239,16 +252,8 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     final var room = session.getRoom();
     final var user = session.getUser();
     room.getUserService().updateHighlighting(user, message.getAppId(), message.getEntityId(),
-        message.getEntityType(), message.isHighlighted());
+        message.getEntityType(), message.isHighlighted(), message.getIsMultiSelected());
     return ShouldForward.FORWARD;
-  }
-
-  @Override
-  public ShouldForward handleTransparencyUpdateMessage(final TransparencyUpdateMessage message,
-      final VrSession session) {
-    final var room = session.getRoom();
-    room.getApplicationService().updateTransparency(message.getAppId(), message.getEntityIds());
-    return ShouldForward.NO_FORWARD;
   }
 
   @Override

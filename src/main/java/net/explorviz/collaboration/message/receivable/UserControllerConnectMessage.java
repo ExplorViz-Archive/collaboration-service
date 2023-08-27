@@ -48,7 +48,10 @@ public class UserControllerConnectMessage extends ReceivableMessage {
     }
 
     public double[] getIntersection() {
-      return this.intersection.clone();
+      if(this.intersection != null)
+        return this.intersection.clone();
+      else
+        return null;
     }
 
     public void setIntersection(final double[] intersection) {
