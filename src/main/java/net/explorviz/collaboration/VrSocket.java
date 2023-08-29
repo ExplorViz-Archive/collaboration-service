@@ -187,8 +187,9 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
       final VrSession session) {
     final var room = session.getRoom();
     final var objectId = room.getDetachedMenuService()
-        .detachMenu(message.getDetachId(), message.getSenderSession().getUser().getId(), message.getEntityType(), message.getPosition(),
-            message.getQuaternion(), message.getScale());
+        .detachMenu(message.getDetachId(), message.getSenderSession().getUser().getId(), 
+        message.getEntityType(), message.getPosition(),
+        message.getQuaternion(), message.getScale());
 
     // Send ID of detached menu to sender.
     message.sendResponse(new MenuDetachedResponse(objectId));
@@ -231,9 +232,9 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
         .updateComponent(message.getComponentId(), message.getAppId(), message.isFoundation(),
             message.isOpened());
 
-    if(message.getForwardFlag()){
+    if (message.getForwardFlag()) {
       return ShouldForward.FORWARD;
-    }else{
+    } else {
       return ShouldForward.NO_FORWARD;
     }
   }
@@ -292,8 +293,8 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
   }
 
   @Override public ShouldForward handleJoinVrMessage(
-      final JoinVrMessage message, final VrSession session) {
-      return ShouldForward.FORWARD;
+    final JoinVrMessage message, final VrSession session) {
+    return ShouldForward.FORWARD;
   }
 
   @Override public ShouldForward handlePingUpdateMessage(final PingUpdateMessage message,

@@ -1,8 +1,7 @@
 package net.explorviz.collaboration.message.sendable; // NOPMD
 
-import java.awt.Color;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.awt.Color;
 import net.explorviz.collaboration.message.SendableMessage;
 
 public class InitialLandscapeMessage extends SendableMessage {
@@ -234,7 +233,7 @@ public class InitialLandscapeMessage extends SendableMessage {
       return this.transparentComponents.clone();
     }
 
-    public void setTransparentComponents(final String[] transparentComponents){
+    public void setTransparentComponents(final String[] transparentComponents) {
       this.transparentComponents = transparentComponents.clone();
     }
 
@@ -268,21 +267,11 @@ public class InitialLandscapeMessage extends SendableMessage {
     this.landscape = landscape;
   }
 
-  public void setHighlightedExternCommunicationLinks(HighlightingObject[] highlightingObjects){
+  public void setHighlightedExternCommunicationLinks(HighlightingObject[] highlightingObjects) {
     this.highlightedExternCommunicationLinks = highlightingObjects.clone();
   }
 
-  public HighlightingObject[] getHighlightedExternCommunicationLinks(){
+  public HighlightingObject[] getHighlightedExternCommunicationLinks() {
     return this.highlightedExternCommunicationLinks.clone();
   }
-
-  // public void setTransparentExternCommunicationLinks(String[] ids){
-  //   this.transparentExternCommunicationLinks = ids.clone();
-  // }
-
-  // public String[] getTransparentExternCommunicationLinks(){
-  //   return this.transparentExternCommunicationLinks.clone();
-  // }
-
-
 }

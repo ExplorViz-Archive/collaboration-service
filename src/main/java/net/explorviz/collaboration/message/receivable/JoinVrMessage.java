@@ -1,4 +1,5 @@
 package net.explorviz.collaboration.message.receivable;
+
 import net.explorviz.collaboration.message.ReceivableMessage;
 import net.explorviz.collaboration.message.ReceivableMessageHandler;
 

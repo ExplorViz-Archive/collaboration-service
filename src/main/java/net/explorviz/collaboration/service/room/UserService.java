@@ -79,25 +79,26 @@ public class UserService {
   public void updateHighlighting(final UserModel user, final String appId, final String entityId,
       final String entityType, final boolean isHighlighted, final boolean isMultiSelected) {
 
-     if (!isHighlighted && !isMultiSelected) {
+    if (!isHighlighted && !isMultiSelected) {
       //user.removeHighlightedEntity(entityId); // not necessary because own user is in otherUser
       for (final UserModel otherUser : this.users.values()) {
         otherUser.removeHighlightedEntity(entityId);
       }
-     }else if(!isHighlighted && isMultiSelected){ 
+    } else if (!isHighlighted && isMultiSelected) { 
 
-      for(HighlightingModel highlightingModel : user.getHighlightedEntities()){
+      for (HighlightingModel highlightingModel : user.getHighlightedEntities()) {
         for (final UserModel otherUser : this.users.values()) {
-          if(!otherUser.getId().equals(user.getId())){ // we are not allowed to modify the object we are iterating through
+          if (!otherUser.getId().equals(user.getId())) {
+            // we are not allowed to modify the object we are iterating through
             otherUser.removeHighlightedEntity(highlightingModel.getEntityId());
           }
         }
       }
       user.removeAllHighlightedEntities();
-     }else{
-        // Overwrite highlighting of other users (if they highlighted same entity)
-        user.setHighlightedEntity(appId, entityType, entityId);
-     }
+    } else {
+      // Overwrite highlighting of other users (if they highlighted same entity)
+      user.setHighlightedEntity(appId, entityType, entityId);
+    }
   }
 
 
@@ -127,7 +128,7 @@ public class UserService {
     }
   }
 
-  public void resetAllHighlights(final Room room){
+  public void resetAllHighlights(final Room room) {
     for (final UserModel otherUser : this.users.values()) {
       otherUser.removeAllHighlightedEntities();
     }

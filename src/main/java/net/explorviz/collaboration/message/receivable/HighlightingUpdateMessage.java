@@ -51,18 +51,19 @@ public class HighlightingUpdateMessage extends ReceivableMessage {
     this.highlighted = isHighlighted;
   }
 
-  public void setIsMultiSelected(boolean isMultiSelected){
+  public void setIsMultiSelected(boolean isMultiSelected) {
     this.isMultiSelected = isMultiSelected;
   }
 
-  public boolean getIsMultiSelected(){
+  public boolean getIsMultiSelected() {
     return this.isMultiSelected;
   }
 
   @Override
   public String toString() {
     return "appId: " + this.appId + ", entityId: " + this.entityId + ", entityType: "
-        + this.entityType + ", isHighlighted: " + this.highlighted + ", isMultiSelected: " + this.isMultiSelected;
+        + this.entityType + ", isHighlighted: " + this.highlighted + ", isMultiSelected: " 
+        + this.isMultiSelected;
   }
 
   @Override

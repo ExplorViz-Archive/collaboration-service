@@ -82,16 +82,17 @@ public class UserModel extends BaseModel {
     this.highlightedEntities.add(new HighlightingModel(appId, entityId, entityType));
   }
 
-  public void removeHighlightedEntity(final String entityId){
+  public void removeHighlightedEntity(final String entityId) {
 
-    this.highlightedEntities.removeIf(highlightedEntity -> highlightedEntity.getEntityId().equals(entityId));
+    this.highlightedEntities.removeIf(highlightedEntity -> 
+        highlightedEntity.getEntityId().equals(entityId));
 
-    if(this.highlightedEntities.size() == 0){
+    if (this.highlightedEntities.size() == 0) {
       this.setHighlighted(false);
     }
   }
 
-  public void removeAllHighlightedEntities(){
+  public void removeAllHighlightedEntities() {
     this.highlightedEntities.clear();
   }
 

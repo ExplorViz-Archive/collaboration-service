@@ -68,5 +68,5 @@ public interface ReceivableMessageHandler<R, A> { // NOPMD
 
   R handleTimestampUpdateMessage(TimestampUpdateMessage message, A arg);
 
-R handleAllHighlightsResetMessage(AllHighlightsResetMessage allHighlightsResetMessage, A arg);
+  R handleAllHighlightsResetMessage(AllHighlightsResetMessage allHighlightsResetMessage, A arg);
 }

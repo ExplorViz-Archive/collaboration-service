@@ -52,7 +52,7 @@ public class ComponentUpdateMessage extends ReceivableMessage {
     this.foundation = isFoundation;
   }
 
-  public boolean getForwardFlag(){
+  public boolean getForwardFlag() {
     return this.forwardFlag;
   }
 
