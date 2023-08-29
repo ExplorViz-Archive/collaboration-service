@@ -16,7 +16,7 @@ import net.explorviz.collaboration.model.UserModel.State;
 import net.explorviz.collaboration.service.IdGenerationService;
 import net.explorviz.collaboration.service.Room;
 
-public class UserService {
+public class UserService { // NOPMD
   private final Room room;
 
   private final IdGenerationService idGenerationService;
@@ -79,14 +79,14 @@ public class UserService {
   public void updateHighlighting(final UserModel user, final String appId, final String entityId,
       final String entityType, final boolean isHighlighted, final boolean isMultiSelected) {
 
-    if (!isHighlighted && !isMultiSelected) {
+    if (!isHighlighted && !isMultiSelected) { // NOPMD
       //user.removeHighlightedEntity(entityId); // not necessary because own user is in otherUser
       for (final UserModel otherUser : this.users.values()) {
         otherUser.removeHighlightedEntity(entityId);
       }
     } else if (!isHighlighted && isMultiSelected) { 
 
-      for (HighlightingModel highlightingModel : user.getHighlightedEntities()) {
+      for (final HighlightingModel highlightingModel : user.getHighlightedEntities()) {
         for (final UserModel otherUser : this.users.values()) {
           if (!otherUser.getId().equals(user.getId())) {
             // we are not allowed to modify the object we are iterating through

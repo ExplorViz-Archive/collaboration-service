@@ -64,17 +64,17 @@ public class InitialLandscapeMessageFactory {
               highlightingObj.setHighlighted(true);
 
               boolean isEntityIdInList = false;
-              String id = highlightingObj.getEntityId();
+              final String id = highlightingObj.getEntityId();
 
               for (final HighlightingObject externCommunicationLink : externCommunicationLinks) { 
                 // TODO: use a HashSet instead of ArrayList for constant access time
-                if (externCommunicationLink.getEntityId().equals(id)) {
+                if (externCommunicationLink.getEntityId().equals(id)) { // NOPMD
                   isEntityIdInList = true;
                   break;
                 }
               }
 
-              if (!isEntityIdInList) {
+              if (!isEntityIdInList) { // NOPMD
                 externCommunicationLinks.add(highlightingObj);
               }
             }
@@ -87,7 +87,6 @@ public class InitialLandscapeMessageFactory {
       appObj.setHighlightedComponents(
           componentHighlightedArray.toArray(n -> new HighlightingObject[n])); // NOPMD
 
-      System.out.println(appObj.getHighlightedComponents());
       appArray.add(appObj);
 
     }
