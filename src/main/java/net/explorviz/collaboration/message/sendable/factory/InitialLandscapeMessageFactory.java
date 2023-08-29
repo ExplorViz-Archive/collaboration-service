@@ -30,7 +30,6 @@ public class InitialLandscapeMessageFactory {
       appObj.setScale(app.getScale());
 
       final ArrayList<String> componentArray = new ArrayList<>(); // NOPMD
-      final ArrayList<String> transparencyArray = new ArrayList<>(); // NOPMD
       for (final String componentId : app.getOpenComponents()) {
         componentArray.add(componentId);
       }
@@ -54,8 +53,7 @@ public class InitialLandscapeMessageFactory {
               highlightingObj.setEntityId(highlightedEntity.getEntityId());
               highlightingObj.setHighlighted(true);
               componentHighlightedArray.add(highlightingObj);
-            } else if ("".equals(highlightedEntity.getAppId())) { // NO PMD 
-              // extern communication line
+            } else if ("".equals(highlightedEntity.getAppId())) { // extern communication line
               final HighlightingObject highlightingObj = new HighlightingObject(); // NOPMD
               highlightingObj.setUserId(user.getId());
               highlightingObj.setColor(user.getColor());
@@ -86,7 +84,6 @@ public class InitialLandscapeMessageFactory {
 
 
       appObj.setOpenComponents(componentArray.toArray(n -> new String[n])); // NOPMD
-      appObj.setTransparentComponents(transparencyArray.toArray(n -> new String[n])); // NOPMD
       appObj.setHighlightedComponents(
           componentHighlightedArray.toArray(n -> new HighlightingObject[n])); // NOPMD
 
@@ -121,7 +118,7 @@ public class InitialLandscapeMessageFactory {
     message.setDetachedMenus(detachedMenusArray.toArray(n -> new DetachedMenu[n]));
 
     // highlighting for extern communication links only
-    message.setHighlightedExternCommuLinks(externCommunicationLinks
+    message.setHighlightedExternCommunicationLinks(externCommunicationLinks
         .toArray(n -> new HighlightingObject[n])); 
     return message;
   }

@@ -48,10 +48,10 @@ public class UserControllerConnectMessage extends ReceivableMessage {
     }
 
     public double[] getIntersection() {
-      if (this.intersection == null) {
-        return null;
-      } else {
+      if (this.intersection != null) { // NOPMD
         return this.intersection.clone();
+      } else {
+        return null;
       }
     }
 

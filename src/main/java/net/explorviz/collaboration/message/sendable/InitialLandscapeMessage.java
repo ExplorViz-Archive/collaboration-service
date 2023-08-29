@@ -11,7 +11,7 @@ public class InitialLandscapeMessage extends SendableMessage {
   private App[] openApps;
   private Landscape landscape;
   private DetachedMenu[] detachedMenus;
-  private HighlightingObject[] highlightedExternCommuLinks; //NOPMD
+  private HighlightingObject[] highlightedExternCommunicationLinks; // NOPMD
 
   public static class Landscape {
     private String landscapeToken;
@@ -175,7 +175,6 @@ public class InitialLandscapeMessage extends SendableMessage {
     private double[] position;
     private double[] quaternion;
     private double[] scale;
-    private String[] transparentComponents;
     private String[] openComponents;
     private HighlightingObject[] highlightedComponents;
 
@@ -228,14 +227,6 @@ public class InitialLandscapeMessage extends SendableMessage {
       this.openComponents = openComponents.clone();
     }
 
-    public String[] getTransparentComponents() {
-      return this.transparentComponents.clone();
-    }
-
-    public void setTransparentComponents(final String[] transparentComponents) {
-      this.transparentComponents = transparentComponents.clone();
-    }
-
   }
 
   public InitialLandscapeMessage() {
@@ -266,11 +257,12 @@ public class InitialLandscapeMessage extends SendableMessage {
     this.landscape = landscape;
   }
 
-  public void setHighlightedExternCommuLinks(final HighlightingObject[] highlightingObjects) {
-    this.highlightedExternCommuLinks = highlightingObjects.clone();
+  public void setHighlightedExternCommunicationLinks(
+      final HighlightingObject[] highlightingObjects) { 
+    this.highlightedExternCommunicationLinks = highlightingObjects.clone();
   }
 
-  public HighlightingObject[] getHighlightedExternCommuLinks() {
-    return this.highlightedExternCommuLinks.clone();
+  public HighlightingObject[] getHighlightedExternCommunicationLinks() {
+    return this.highlightedExternCommunicationLinks.clone();
   }
 }

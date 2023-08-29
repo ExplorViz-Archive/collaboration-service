@@ -12,7 +12,7 @@ public class ComponentUpdateMessage extends ReceivableMessage {
   private String componentId;
   private boolean opened;
   private boolean foundation;
-  private boolean forwardFlag;
+  private boolean forward;
 
   public ComponentUpdateMessage() {
     super(EVENT);
@@ -53,7 +53,7 @@ public class ComponentUpdateMessage extends ReceivableMessage {
   }
 
   public boolean isForward() {
-    return this.forwardFlag;
+    return this.forward;
   }
 
   @Override
