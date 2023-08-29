@@ -12,7 +12,7 @@ public class ComponentUpdateMessage extends ReceivableMessage {
   private String componentId;
   private boolean opened;
   private boolean foundation;
-  private boolean forward;
+  private boolean forward; // readonly
 
   public ComponentUpdateMessage() {
     super(EVENT);

@@ -170,6 +170,7 @@ public class SendableMessageEncoderTest {
         + "    \"event\": \"component_update\"," //
         + "    \"appId\": \"foo\"," //
         + "    \"componentId\": \"bar\"," //
+        + "    \"forward\": false," //
         + "    \"isOpened\": true," //
         + "    \"isFoundation\": true" //
         + "  }" //
