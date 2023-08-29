@@ -232,7 +232,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
         .updateComponent(message.getComponentId(), message.getAppId(), message.isFoundation(),
             message.isOpened());
 
-    if (message.getForwardFlag()) {
+    if (message.isForward()) {
       return ShouldForward.FORWARD;
     } else {
       return ShouldForward.NO_FORWARD;

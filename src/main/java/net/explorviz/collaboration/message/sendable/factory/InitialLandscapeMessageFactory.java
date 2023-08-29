@@ -30,7 +30,6 @@ public class InitialLandscapeMessageFactory {
       appObj.setScale(app.getScale());
 
       final ArrayList<String> componentArray = new ArrayList<>(); // NOPMD
-      final ArrayList<String> transparencyArray = new ArrayList<>();
       for (final String componentId : app.getOpenComponents()) {
         componentArray.add(componentId);
       }
@@ -85,7 +84,6 @@ public class InitialLandscapeMessageFactory {
 
 
       appObj.setOpenComponents(componentArray.toArray(n -> new String[n])); // NOPMD
-      appObj.setTransparentComponents(transparencyArray.toArray(n -> new String[n]));
       appObj.setHighlightedComponents(
           componentHighlightedArray.toArray(n -> new HighlightingObject[n])); // NOPMD
 

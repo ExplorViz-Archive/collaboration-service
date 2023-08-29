@@ -12,7 +12,6 @@ public class InitialLandscapeMessage extends SendableMessage {
   private Landscape landscape;
   private DetachedMenu[] detachedMenus;
   private HighlightingObject[] highlightedExternCommunicationLinks;
-  //private String[] transparentExternCommunicationLinks;
 
   public static class Landscape {
     private String landscapeToken;
@@ -176,7 +175,6 @@ public class InitialLandscapeMessage extends SendableMessage {
     private double[] position;
     private double[] quaternion;
     private double[] scale;
-    private String[] transparentComponents;
     private String[] openComponents;
     private HighlightingObject[] highlightedComponents;
 
@@ -227,14 +225,6 @@ public class InitialLandscapeMessage extends SendableMessage {
 
     public void setOpenComponents(final String[] openComponents) {
       this.openComponents = openComponents.clone();
-    }
-
-    public String[] getTransparentComponents() {
-      return this.transparentComponents.clone();
-    }
-
-    public void setTransparentComponents(final String[] transparentComponents) {
-      this.transparentComponents = transparentComponents.clone();
     }
 
   }
