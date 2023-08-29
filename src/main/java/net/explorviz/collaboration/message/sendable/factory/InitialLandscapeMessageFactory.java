@@ -17,7 +17,7 @@ import net.explorviz.collaboration.service.Room;
 @ApplicationScoped
 public class InitialLandscapeMessageFactory {
 
-  public InitialLandscapeMessage makeMessage(final Room room) {
+  public InitialLandscapeMessage makeMessage(final Room room) { // NOPMD
     final ArrayList<HighlightingObject> externCommunicationLinks = new ArrayList<>();
     // apps
     final ArrayList<App> appArray = new ArrayList<>();
@@ -38,7 +38,7 @@ public class InitialLandscapeMessageFactory {
       for (final UserModel user : room.getUserService().getUsers()) {
         if (user.containsHighlightedEntity()) {
           final HighlightingModel[] highlighted =  user.getHighlightedEntities()
-          .toArray(n -> new HighlightingModel[n]);
+          .toArray(n -> new HighlightingModel[n]); // NOPMD
   
           for (final HighlightingModel highlightedEntity : highlighted) {
 
@@ -53,7 +53,7 @@ public class InitialLandscapeMessageFactory {
               highlightingObj.setEntityId(highlightedEntity.getEntityId());
               highlightingObj.setHighlighted(true);
               componentHighlightedArray.add(highlightingObj);
-            } else if (highlightedEntity.getAppId().equals("")) { // extern communication line
+            } else if ("".equals(highlightedEntity.getAppId())) { // extern communication line
               final HighlightingObject highlightingObj = new HighlightingObject(); // NOPMD
               highlightingObj.setUserId(user.getId());
               highlightingObj.setColor(user.getColor());

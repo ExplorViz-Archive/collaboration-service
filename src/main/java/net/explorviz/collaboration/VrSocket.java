@@ -253,7 +253,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     final var room = session.getRoom();
     final var user = session.getUser();
     room.getUserService().updateHighlighting(user, message.getAppId(), message.getEntityId(),
-        message.getEntityType(), message.isHighlighted(), message.getIsMultiSelected());
+        message.getEntityType(), message.isHighlighted(), message.isMultiSelected());
     return ShouldForward.FORWARD;
   }
 

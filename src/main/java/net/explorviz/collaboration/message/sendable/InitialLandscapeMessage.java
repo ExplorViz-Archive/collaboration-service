@@ -11,7 +11,7 @@ public class InitialLandscapeMessage extends SendableMessage {
   private App[] openApps;
   private Landscape landscape;
   private DetachedMenu[] detachedMenus;
-  private HighlightingObject[] highlightedExternCommunicationLinks;
+  private HighlightingObject[] highlightedExternCommunicationLinks; // NOPMD
 
   public static class Landscape {
     private String landscapeToken;
@@ -128,7 +128,7 @@ public class InitialLandscapeMessage extends SendableMessage {
     }
 
     public float[] getColor() {
-      return this.color;
+      return this.color.clone();
     }
 
     public void setColor(final Color color) {
@@ -257,7 +257,7 @@ public class InitialLandscapeMessage extends SendableMessage {
     this.landscape = landscape;
   }
 
-  public void setHighlightedExternCommunicationLinks(HighlightingObject[] highlightingObjects) {
+  public void setHighlightedExternCommunicationLinks(final HighlightingObject[] highlightingObjects) {
     this.highlightedExternCommunicationLinks = highlightingObjects.clone();
   }
 
