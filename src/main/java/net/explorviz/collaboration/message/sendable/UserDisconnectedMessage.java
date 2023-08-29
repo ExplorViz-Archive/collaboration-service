@@ -22,7 +22,7 @@ public class UserDisconnectedMessage extends BroadcastableMessage {
     this.id = id;
   }
 
-  public void setHighlightedComponents(HighlightingModel[] highlightedComponents) {
+  public void setHighlightedComponents(final HighlightingModel[] highlightedComponents) {
     this.highlightedComponents = highlightedComponents.clone(); 
   }
 

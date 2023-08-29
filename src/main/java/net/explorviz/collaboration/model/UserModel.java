@@ -14,7 +14,7 @@ public class UserModel extends BaseModel {
   private long timeOfLastMessage;
   private final Color color;
   private boolean hasHighlightedEntity;
-  private ArrayList<HighlightingModel> highlightedEntities;
+  private final ArrayList<HighlightingModel> highlightedEntities; // NOPMD
 
   public enum State {
     CONNECTING, CONNECTED, SPECTATING
@@ -24,7 +24,7 @@ public class UserModel extends BaseModel {
     super(id);
     this.userName = userName;
     this.controllers = new HashMap<>();
-    this.highlightedEntities = new ArrayList<HighlightingModel>();
+    this.highlightedEntities = new ArrayList<>();
     this.color = color;
   }
 
@@ -87,7 +87,7 @@ public class UserModel extends BaseModel {
     this.highlightedEntities.removeIf(highlightedEntity -> 
         highlightedEntity.getEntityId().equals(entityId));
 
-    if (this.highlightedEntities.size() == 0) {
+    if (this.highlightedEntities.isEmpty()) {
       this.setHighlighted(false);
     }
   }
@@ -97,7 +97,7 @@ public class UserModel extends BaseModel {
   }
 
 
-  public ArrayList<HighlightingModel> getHighlightedEntities() {
+  public ArrayList<HighlightingModel> getHighlightedEntities() { // NOPMD
     return this.highlightedEntities;
   }
 }

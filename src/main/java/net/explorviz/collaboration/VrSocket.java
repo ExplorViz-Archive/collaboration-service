@@ -232,7 +232,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
         .updateComponent(message.getComponentId(), message.getAppId(), message.isFoundation(),
             message.isOpened());
 
-    if (message.getForwardFlag()) {
+    if (message.isForward()) {
       return ShouldForward.FORWARD;
     } else {
       return ShouldForward.NO_FORWARD;
@@ -253,7 +253,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     final var room = session.getRoom();
     final var user = session.getUser();
     room.getUserService().updateHighlighting(user, message.getAppId(), message.getEntityId(),
-        message.getEntityType(), message.isHighlighted(), message.getIsMultiSelected());
+        message.getEntityType(), message.isHighlighted(), message.isMultiSelected());
     return ShouldForward.FORWARD;
   }
 

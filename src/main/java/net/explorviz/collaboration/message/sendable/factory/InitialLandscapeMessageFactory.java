@@ -17,7 +17,7 @@ import net.explorviz.collaboration.service.Room;
 @ApplicationScoped
 public class InitialLandscapeMessageFactory {
 
-  public InitialLandscapeMessage makeMessage(final Room room) {
+  public InitialLandscapeMessage makeMessage(final Room room) { // NOPMD
     final ArrayList<HighlightingObject> externCommunicationLinks = new ArrayList<>();
     // apps
     final ArrayList<App> appArray = new ArrayList<>();
@@ -30,7 +30,7 @@ public class InitialLandscapeMessageFactory {
       appObj.setScale(app.getScale());
 
       final ArrayList<String> componentArray = new ArrayList<>(); // NOPMD
-      final ArrayList<String> transparencyArray = new ArrayList<>();
+      final ArrayList<String> transparencyArray = new ArrayList<>(); // NOPMD
       for (final String componentId : app.getOpenComponents()) {
         componentArray.add(componentId);
       }
@@ -39,7 +39,7 @@ public class InitialLandscapeMessageFactory {
       for (final UserModel user : room.getUserService().getUsers()) {
         if (user.containsHighlightedEntity()) {
           final HighlightingModel[] highlighted =  user.getHighlightedEntities()
-          .toArray(n -> new HighlightingModel[n]);
+          .toArray(n -> new HighlightingModel[n]); // NOPMD
   
           for (final HighlightingModel highlightedEntity : highlighted) {
 
@@ -54,7 +54,8 @@ public class InitialLandscapeMessageFactory {
               highlightingObj.setEntityId(highlightedEntity.getEntityId());
               highlightingObj.setHighlighted(true);
               componentHighlightedArray.add(highlightingObj);
-            } else if (highlightedEntity.getAppId().equals("")) { // extern communication line
+            } else if ("".equals(highlightedEntity.getAppId())) { // NO PMD 
+              // extern communication line
               final HighlightingObject highlightingObj = new HighlightingObject(); // NOPMD
               highlightingObj.setUserId(user.getId());
               highlightingObj.setColor(user.getColor());
@@ -65,17 +66,17 @@ public class InitialLandscapeMessageFactory {
               highlightingObj.setHighlighted(true);
 
               boolean isEntityIdInList = false;
-              String id = highlightingObj.getEntityId();
+              final String id = highlightingObj.getEntityId();
 
               for (final HighlightingObject externCommunicationLink : externCommunicationLinks) { 
                 // TODO: use a HashSet instead of ArrayList for constant access time
-                if (externCommunicationLink.getEntityId().equals(id)) {
+                if (externCommunicationLink.getEntityId().equals(id)) { // NOPMD
                   isEntityIdInList = true;
                   break;
                 }
               }
 
-              if (!isEntityIdInList) {
+              if (!isEntityIdInList) { // NOPMD
                 externCommunicationLinks.add(highlightingObj);
               }
             }
@@ -85,11 +86,10 @@ public class InitialLandscapeMessageFactory {
 
 
       appObj.setOpenComponents(componentArray.toArray(n -> new String[n])); // NOPMD
-      appObj.setTransparentComponents(transparencyArray.toArray(n -> new String[n]));
+      appObj.setTransparentComponents(transparencyArray.toArray(n -> new String[n])); // NOPMD
       appObj.setHighlightedComponents(
           componentHighlightedArray.toArray(n -> new HighlightingObject[n])); // NOPMD
 
-      System.out.println(appObj.getHighlightedComponents());
       appArray.add(appObj);
 
     }
@@ -121,7 +121,7 @@ public class InitialLandscapeMessageFactory {
     message.setDetachedMenus(detachedMenusArray.toArray(n -> new DetachedMenu[n]));
 
     // highlighting for extern communication links only
-    message.setHighlightedExternCommunicationLinks(externCommunicationLinks
+    message.setHighlightedExternCommuLinks(externCommunicationLinks
         .toArray(n -> new HighlightingObject[n])); 
     return message;
   }

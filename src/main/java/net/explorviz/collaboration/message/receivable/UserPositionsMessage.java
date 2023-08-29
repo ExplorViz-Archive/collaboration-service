@@ -36,11 +36,11 @@ public class UserPositionsMessage extends ReceivableMessage {
     private double[] intersection;
 
     public double[] getIntersection() {
-      if (this.intersection != null) {
-        return this.intersection.clone();
-      } else {
+      if (this.intersection == null) {
         // intersection might be null (even at runtime)
         return null;
+      } else {
+        return this.intersection.clone();
       } 
     }
 
