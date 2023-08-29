@@ -31,6 +31,11 @@ import net.explorviz.collaboration.message.receivable.ObjectGrabbedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.PingUpdateMessage;
+import net.explorviz.collaboration.message.receivable.RestructureModeMessage;
+import net.explorviz.collaboration.message.receivable.RestructureMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCreateOrDeleteMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCutAndInsertMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCommunicationMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
@@ -238,6 +243,36 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     final var user = session.getUser();
     room.getUserService().updateHighlighting(user, message.getAppId(), message.getEntityId(),
         message.getEntityType(), message.isHighlighted());
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureModeMessage(final RestructureModeMessage message,
+      final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureMessage(final RestructureMessage message,
+      final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureCreateOrDeleteMessage(final RestructureCreateOrDeleteMessage message,
+      final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureCutAndInsertMessage(final RestructureCutAndInsertMessage message,
+      final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureCommunicationMessage(final RestructureCommunicationMessage message,
+      final VrSession session) {
     return ShouldForward.FORWARD;
   }
 

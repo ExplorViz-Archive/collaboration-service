@@ -12,6 +12,11 @@ import net.explorviz.collaboration.message.receivable.ObjectGrabbedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.PingUpdateMessage;
+import net.explorviz.collaboration.message.receivable.RestructureModeMessage;
+import net.explorviz.collaboration.message.receivable.RestructureMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCreateOrDeleteMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCutAndInsertMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCommunicationMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
@@ -38,6 +43,16 @@ public interface ReceivableMessageHandler<R, A> { // NOPMD
   R handleComponentUpdateMessage(ComponentUpdateMessage message, A arg);
 
   R handleHighlightingUpdateMessage(HighlightingUpdateMessage message, A arg);
+
+  R handleRestructureModeMessage(RestructureModeMessage message, A arg);
+
+  R handleRestructureMessage(RestructureMessage message, A arg);
+
+  R handleRestructureCreateOrDeleteMessage(RestructureCreateOrDeleteMessage message, A arg);
+  
+  R handleRestructureCutAndInsertMessage(RestructureCutAndInsertMessage message, A arg);
+
+  R handleRestructureCommunicationMessage(RestructureCommunicationMessage message, A arg);
 
   R handleSpectatingUpdateMessage(SpectatingUpdateMessage message, A arg);
 

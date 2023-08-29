@@ -16,6 +16,11 @@ import net.explorviz.collaboration.message.receivable.ObjectGrabbedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.PingUpdateMessage;
+import net.explorviz.collaboration.message.receivable.RestructureModeMessage;
+import net.explorviz.collaboration.message.receivable.RestructureMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCreateOrDeleteMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCutAndInsertMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCommunicationMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
@@ -38,6 +43,11 @@ import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
     @Type(value = ObjectMovedMessage.class, name = ObjectMovedMessage.EVENT),
     @Type(value = ComponentUpdateMessage.class, name = ComponentUpdateMessage.EVENT),
     @Type(value = HighlightingUpdateMessage.class, name = HighlightingUpdateMessage.EVENT),
+    @Type(value = RestructureModeMessage.class, name = RestructureModeMessage.EVENT),
+    @Type(value = RestructureMessage.class, name = RestructureMessage.EVENT),
+    @Type(value = RestructureCreateOrDeleteMessage.class, name = RestructureCreateOrDeleteMessage.EVENT),
+    @Type(value = RestructureCutAndInsertMessage.class, name = RestructureCutAndInsertMessage.EVENT),
+    @Type(value = RestructureCommunicationMessage.class, name = RestructureCommunicationMessage.EVENT),
     @Type(value = MenuDetachedMessage.class, name = MenuDetachedMessage.EVENT),
     @Type(value = DetachedMenuClosedMessage.class, name = DetachedMenuClosedMessage.EVENT),
     @Type(value = SpectatingUpdateMessage.class, name = SpectatingUpdateMessage.EVENT),
