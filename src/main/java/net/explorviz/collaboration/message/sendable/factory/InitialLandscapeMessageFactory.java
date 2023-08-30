@@ -17,7 +17,8 @@ import net.explorviz.collaboration.service.Room;
 @ApplicationScoped
 public class InitialLandscapeMessageFactory {
 
-  public InitialLandscapeMessage makeMessage(final Room room) {
+  public InitialLandscapeMessage makeMessage(final Room room) { // NOPMD
+    final ArrayList<HighlightingObject> externCommunicationLinks = new ArrayList<>();
     // apps
     final ArrayList<App> appArray = new ArrayList<>();
     for (final ApplicationModel app : room.getApplicationService().getApplications()) {
@@ -36,20 +37,56 @@ public class InitialLandscapeMessageFactory {
       final ArrayList<HighlightingObject> componentHighlightedArray = new ArrayList<>(); // NOPMD
       for (final UserModel user : room.getUserService().getUsers()) {
         if (user.containsHighlightedEntity()) {
-          final HighlightingModel highlighted = user.getHighlightedEntity();
-          final HighlightingObject highlightingObj = new HighlightingObject(); // NOPMD
-          highlightingObj.setUserId(user.getId());
-          highlightingObj.setAppId(highlighted.getHighlightedApp());
-          highlightingObj.setEntityType(highlighted.getEntityType());
-          highlightingObj.setEntityId(highlighted.getHighlightedEntity());
-          highlightingObj.setHighlighted(true);
-          componentHighlightedArray.add(highlightingObj);
+          final HighlightingModel[] highlighted =  user.getHighlightedEntities()
+          .toArray(n -> new HighlightingModel[n]); // NOPMD
+  
+          for (final HighlightingModel highlightedEntity : highlighted) {
+
+            if (highlightedEntity.getAppId().equals(appObj.getId())) {
+
+              final HighlightingObject highlightingObj = new HighlightingObject(); // NOPMD
+              highlightingObj.setUserId(user.getId());
+              highlightingObj.setColor(user.getColor());
+
+              highlightingObj.setAppId(highlightedEntity.getAppId());
+              highlightingObj.setEntityType(highlightedEntity.getEntityType());
+              highlightingObj.setEntityId(highlightedEntity.getEntityId());
+              highlightingObj.setHighlighted(true);
+              componentHighlightedArray.add(highlightingObj);
+            } else if ("".equals(highlightedEntity.getAppId())) { // extern communication line
+              final HighlightingObject highlightingObj = new HighlightingObject(); // NOPMD
+              highlightingObj.setUserId(user.getId());
+              highlightingObj.setColor(user.getColor());
+
+              highlightingObj.setAppId(highlightedEntity.getAppId());
+              highlightingObj.setEntityType(highlightedEntity.getEntityType());
+              highlightingObj.setEntityId(highlightedEntity.getEntityId());
+              highlightingObj.setHighlighted(true);
+
+              boolean isEntityIdInList = false;
+              final String id = highlightingObj.getEntityId();
+
+              for (final HighlightingObject externCommunicationLink : externCommunicationLinks) { 
+                // TODO: use a HashSet instead of ArrayList for constant access time
+                if (externCommunicationLink.getEntityId().equals(id)) { // NOPMD
+                  isEntityIdInList = true;
+                  break;
+                }
+              }
+
+              if (!isEntityIdInList) { // NOPMD
+                externCommunicationLinks.add(highlightingObj);
+              }
+            }
+          }
         }
       }
+
 
       appObj.setOpenComponents(componentArray.toArray(n -> new String[n])); // NOPMD
       appObj.setHighlightedComponents(
           componentHighlightedArray.toArray(n -> new HighlightingObject[n])); // NOPMD
+
       appArray.add(appObj);
 
     }
@@ -65,6 +102,8 @@ public class InitialLandscapeMessageFactory {
     for (final DetachedMenuModel menu : room.getDetachedMenuService().getDetachedMenus()) {
       final DetachedMenu menuObj = new DetachedMenu(); // NOPMD
       menuObj.setObjectId(menu.getId());
+      menuObj.setUserId(menu.getUserId());
+      menuObj.setDetachId(menu.getDetachId());
       menuObj.setEntityId(menu.getDetachId());
       menuObj.setPosition(menu.getPosition());
       menuObj.setQuaternion(menu.getQuaternion());
@@ -77,6 +116,10 @@ public class InitialLandscapeMessageFactory {
     message.setOpenApps(appArray.toArray(n -> new App[n]));
     message.setLandscape(landscapeObj);
     message.setDetachedMenus(detachedMenusArray.toArray(n -> new DetachedMenu[n]));
+
+    // highlighting for extern communication links only
+    message.setHighlightedExternCommunicationLinks(externCommunicationLinks
+        .toArray(n -> new HighlightingObject[n])); 
     return message;
   }
 

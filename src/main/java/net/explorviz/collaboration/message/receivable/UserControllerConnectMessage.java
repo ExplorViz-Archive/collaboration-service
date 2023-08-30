@@ -35,7 +35,7 @@ public class UserControllerConnectMessage extends ReceivableMessage {
       return this.position.clone();
     }
 
-    public void setPosition(final double...position) {
+    public void setPosition(final double... position) {
       this.position = position.clone();
     }
 
@@ -48,7 +48,11 @@ public class UserControllerConnectMessage extends ReceivableMessage {
     }
 
     public double[] getIntersection() {
-      return this.intersection.clone();
+      if (this.intersection != null) { // NOPMD
+        return this.intersection.clone();
+      } else {
+        return null;
+      }
     }
 
     public void setIntersection(final double[] intersection) {
