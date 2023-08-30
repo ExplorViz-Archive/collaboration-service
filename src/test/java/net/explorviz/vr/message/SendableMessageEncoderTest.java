@@ -170,6 +170,7 @@ public class SendableMessageEncoderTest {
         + "    \"event\": \"component_update\"," //
         + "    \"appId\": \"foo\"," //
         + "    \"componentId\": \"bar\"," //
+        + "    \"forward\": false," //
         + "    \"isOpened\": true," //
         + "    \"isFoundation\": true" //
         + "  }" //
@@ -313,7 +314,7 @@ public class SendableMessageEncoderTest {
     final var message = new UserDisconnectedMessage();
     message.setId("foo");
     final var actual = this.encoder.encodeMessage(message);
-    final var expected = "{ \"event\": \"user_disconnect\", \"id\": \"foo\" }";
+    final var expected = "{ \"event\": \"user_disconnect\", \"highlightedComponents\": [], \"id\": \"foo\" }";
     assertEquals(this.mapper.readTree(expected), this.mapper.readTree(actual));
   }
 
@@ -338,11 +339,22 @@ public class SendableMessageEncoderTest {
     message.getOpenApps()[0].getHighlightedComponents()[0].setEntityType("v");
     message.getOpenApps()[0].getHighlightedComponents()[0].setEntityId("w");
     message.getOpenApps()[0].getHighlightedComponents()[0].setHighlighted(true);
+    message.getOpenApps()[0].getHighlightedComponents()[0].setColor(new Color(255, 255, 255));
 
     // Set landscape position and rotation.
     message.setLandscape(new InitialLandscapeMessage.Landscape());
     message.getLandscape().setLandscapeToken("foo");
     message.getLandscape().setTimestamp(884345696789L);
+
+    // Create a highlighted extern communcation link.
+    message.setHighlightedExternCommunicationLinks(new InitialLandscapeMessage.HighlightingObject[] {
+      new InitialLandscapeMessage.HighlightingObject()});
+    message.getHighlightedExternCommunicationLinks()[0].setAppId("");
+    message.getHighlightedExternCommunicationLinks()[0].setEntityId("m");
+    message.getHighlightedExternCommunicationLinks()[0].setEntityType("n");
+    message.getHighlightedExternCommunicationLinks()[0].setHighlighted(true);
+    message.getHighlightedExternCommunicationLinks()[0].setColor(new Color(255, 255, 255));
+    message.getHighlightedExternCommunicationLinks()[0].setUserId("alice");
 
     // Create a detached menu.
     message.setDetachedMenus(
@@ -365,6 +377,7 @@ public class SendableMessageEncoderTest {
         + "    \"openComponents\": [\"x\", \"y\", \"z\"]," //
         + "    \"highlightedComponents\": [{" //
         + "      \"userId\": \"alice\"," //
+        + "      \"color\": [255.0, 255.0, 255.0]," //
         + "      \"appId\": \"baz\"," //
         + "      \"entityType\": \"v\"," //
         + "      \"entityId\": \"w\"," //
@@ -377,12 +390,22 @@ public class SendableMessageEncoderTest {
         + "  }," //
         + "  \"detachedMenus\": [{" //
         + "    \"objectId\": \"menu\"," //
+        + "    \"userId\": null," //
+        + "    \"detachId\": null," //
         + "    \"entityType\": \"v\"," //
         + "    \"entityId\": \"w\"," //
         + "    \"position\": [1.0, 2.0, 3.0]," //
         + "    \"quaternion\": [1.0, 2.0, 3.0, 4.0]," //
         + "    \"scale\": [1.0, 1.0, 1.0]" //
-        + "  }]" //
+        + "  }]," //
+        + " \"highlightedExternCommunicationLinks\": [{" //
+        + "      \"userId\": \"alice\"," //
+        + "      \"color\": [255.0, 255.0, 255.0]," //
+        + "      \"appId\": \"\"," //
+        + "      \"entityType\": \"n\"," //
+        + "      \"entityId\": \"m\"," //
+        + "      \"isHighlighted\": true" //
+        + " }]" //
         + "}";
     assertEquals(this.mapper.readTree(expected), this.mapper.readTree(actual));
   }

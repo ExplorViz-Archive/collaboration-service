@@ -12,6 +12,7 @@ public class ComponentUpdateMessage extends ReceivableMessage {
   private String componentId;
   private boolean opened;
   private boolean foundation;
+  private boolean forward; // readonly
 
   public ComponentUpdateMessage() {
     super(EVENT);
@@ -49,6 +50,10 @@ public class ComponentUpdateMessage extends ReceivableMessage {
 
   public void setIsFoundation(final boolean isFoundation) {
     this.foundation = isFoundation;
+  }
+
+  public boolean isForward() {
+    return this.forward;
   }
 
   @Override
