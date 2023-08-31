@@ -158,6 +158,7 @@ public class RoomResource {
     Boolean needRoom = !this.roomService.roomExists(roomId);
 
     JoinLobbyPayload joinPayload = body.getJoinPayload();
+    String deviceId = joinPayload.getUserName();
 
     RoomCreatedResponse roomResponse = new RoomCreatedResponse(roomId);
     // Same outcome, but acutally adds the room if room is needed.
@@ -168,20 +169,16 @@ public class RoomResource {
     LobbyJoinedResponse joinResponse = this.joinLobby(roomResponse.getRoomId(), joinPayload, true);
 
     YawPitchRoll ypr = new YawPitchRoll(37.73257, 24.45517, (-14.315));
-    ProjectorAngles pa = new ProjectorAngles(62.0003, 62.0003, 49.6109237, 49.6109237);
+    ProjectorAngles pa = new ProjectorAngles(49.6109237, 49.6109237, 62.0003, 62.0003);
     ProjectorConfigurations projectorConfigurations = new ProjectorConfigurations();
     projectorConfigurations.setYawPitchRoll(ypr);
     projectorConfigurations.setProjectorAngles(pa);
     projectorConfigurations.setId("Projector 1");
 
-    // ObjectMapper mapper = new ObjectMapper();
-    // String jsonfiedProjectorConfigurations =
-    // mapper.writeValueAsString(projectorConfigurations);
-
     SynchronizationStartedResponse synchronizationStartedResponse = new SynchronizationStartedResponse(roomResponse,
         joinResponse, projectorConfigurations);
     // Set up service
-    // this.synchronizationService.setService(synchronizationStartedResponse);
+    this.synchronizationService.setService(synchronizationStartedResponse, deviceId);
 
     return synchronizationStartedResponse;
   }

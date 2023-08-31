@@ -32,16 +32,35 @@ public class SynchronizationService {
     // synchronized devices
     private final Map<String, SynchronizationUser> projectors = new ConcurrentHashMap<>();
 
-    public void setService(SynchronizationStartedResponse response) {
+    // set up all relevant informations to this synchronization
+    public void setService(SynchronizationStartedResponse response, String deviceId) {
         RoomCreatedResponse roomResponse = response.getRoomResponse();
         String roomId = roomResponse.getRoomId();
         this.setRoom(roomId);
 
+        for (Map.Entry<String, SynchronizationUser> entry : projectors.entrySet()) {
+            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+        }
+
         Collection<UserModel> originalUsers = this.room.getUserService().getUsers();
         for (UserModel userModel : originalUsers) {
+
             SynchronizationUser projector = new SynchronizationUser();
             projector.setUserModel(userModel);
-            addProjector(projector);
+            projector.setId(deviceId);
+
+            if (deviceId == "Main") {
+                this.main = projector;
+                if (LOGGER.isInfoEnabled()) {
+                    LOGGER.info("Main detected!");
+                }
+            } else {
+                addProjector(projector);
+                if (LOGGER.isInfoEnabled()) {
+                    LOGGER.info("Add projector " + projector.getId());
+                }
+            }
+
         }
         // LobbyJoinedResponse joinResponse = response.getJoinResponse();
 
@@ -81,13 +100,14 @@ public class SynchronizationService {
     }
 
     public void addProjector(final SynchronizationUser projector) {
-        this.projectors.put(projector.userModel.getId(), projector);
+        this.projectors.put(projector.getId(), projector);
     }
 
     /**
      * 
      */
     public class SynchronizationUser {
+        private String id;
         private UserModel userModel;
         private ProjectorConfigurations projectorConfiguration;
 
@@ -113,6 +133,14 @@ public class SynchronizationService {
 
         public ProjectorConfigurations getProjectorConfiguration() {
             return this.projectorConfiguration;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getId() {
+            return this.id;
         }
     }
 
