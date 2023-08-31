@@ -1,7 +1,9 @@
 package net.explorviz.collaboration.service;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -13,6 +15,7 @@ import net.explorviz.collaboration.model.ProjectorConfigurations;
 import net.explorviz.collaboration.model.UserModel;
 import net.explorviz.collaboration.payload.sendable.RoomCreatedResponse;
 import net.explorviz.collaboration.payload.sendable.SynchronizationStartedResponse;
+import net.explorviz.collaboration.util.JsonLoader;
 
 /**
  * Provides all informations about the synchronization feature of ExplorViz in
@@ -33,7 +36,7 @@ public class SynchronizationService {
     private final Map<String, SynchronizationUser> projectors = new ConcurrentHashMap<>();
 
     // set up all relevant informations to this synchronization
-    public void setService(SynchronizationStartedResponse response, String deviceId) {
+    public void setService(SynchronizationStartedResponse response, String deviceId) throws IOException {
         RoomCreatedResponse roomResponse = response.getRoomResponse();
         String roomId = roomResponse.getRoomId();
         this.setRoom(roomId);
@@ -49,12 +52,16 @@ public class SynchronizationService {
             projector.setUserModel(userModel);
             projector.setId(deviceId);
 
+            // Main is never detected!!!!!
             if (deviceId == "Main") {
                 this.main = projector;
                 if (LOGGER.isInfoEnabled()) {
                     LOGGER.info("Main detected!");
                 }
             } else {
+                Optional<ProjectorConfigurations> projectorConfigurations = JsonLoader
+                        .loadFromJsonResourceById("/projectorConfigurations.json", projector.getId());
+                // projector.setProjectorConfiguration(projectorConfigurations);
                 addProjector(projector);
                 if (LOGGER.isInfoEnabled()) {
                     LOGGER.info("Add projector " + projector.getId());

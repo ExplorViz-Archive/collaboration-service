@@ -1,6 +1,8 @@
 package net.explorviz.collaboration;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -24,6 +26,8 @@ import net.explorviz.collaboration.payload.sendable.SynchronizationStartedRespon
 import net.explorviz.collaboration.service.RoomService;
 import net.explorviz.collaboration.service.SynchronizationService;
 import net.explorviz.collaboration.service.TicketService;
+import net.explorviz.collaboration.util.JsonLoader;
+
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -151,7 +155,7 @@ public class RoomResource {
   @Path("/synchronization")
   @Produces(MediaType.APPLICATION_JSON)
   public SynchronizationStartedResponse startSynchronization(final InitialSynchronizationPayload body)
-      throws JsonProcessingException {
+      throws IOException {
     InitialRoomPayload roomPayload = body.getRoomPayload();
     String roomId = roomPayload.getRoomId();
     // Check if room already exists
@@ -168,18 +172,23 @@ public class RoomResource {
 
     LobbyJoinedResponse joinResponse = this.joinLobby(roomResponse.getRoomId(), joinPayload, true);
 
-    YawPitchRoll ypr = new YawPitchRoll(37.73257, 24.45517, (-14.315));
-    ProjectorAngles pa = new ProjectorAngles(49.6109237, 49.6109237, 62.0003, 62.0003);
-    ProjectorConfigurations projectorConfigurations = new ProjectorConfigurations();
-    projectorConfigurations.setYawPitchRoll(ypr);
-    projectorConfigurations.setProjectorAngles(pa);
-    projectorConfigurations.setId("Projector 1");
+    // YawPitchRoll ypr = new YawPitchRoll(37.73257, 24.45517, (-14.315));
+    // ProjectorAngles pa = new ProjectorAngles(49.6109237, 49.6109237, 62.0003,
+    // 62.0003);
+    // ProjectorConfigurations projectorConfigurations = new
+    // ProjectorConfigurations();
+    // projectorConfigurations.setYawPitchRoll(ypr);
+    // projectorConfigurations.setProjectorAngles(pa);
+    // projectorConfigurations.setId("Projector 1");
+
+    Optional<ProjectorConfigurations> projectorConfigurations = JsonLoader
+        .loadFromJsonResourceById("/projectorConfigurations.json", deviceId);
 
     SynchronizationStartedResponse synchronizationStartedResponse = new SynchronizationStartedResponse(roomResponse,
-        joinResponse, projectorConfigurations);
+        joinResponse, projectorConfigurations.get());
+
     // Set up service
     this.synchronizationService.setService(synchronizationStartedResponse, deviceId);
-
     return synchronizationStartedResponse;
   }
 }
