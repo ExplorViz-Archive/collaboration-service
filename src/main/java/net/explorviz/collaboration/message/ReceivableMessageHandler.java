@@ -19,6 +19,13 @@ import net.explorviz.collaboration.message.receivable.RestructureMessage;
 import net.explorviz.collaboration.message.receivable.RestructureCreateOrDeleteMessage;
 import net.explorviz.collaboration.message.receivable.RestructureCutAndInsertMessage;
 import net.explorviz.collaboration.message.receivable.RestructureCommunicationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureDeleteCommunicationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRenameOperationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRestoreAppMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRestorePackageMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRestoreClassMessage;
+import net.explorviz.collaboration.message.receivable.ChangeLogRemoveEntryMessage;
+import net.explorviz.collaboration.message.receivable.ChangeLogRestoreEntriesMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
@@ -55,6 +62,20 @@ public interface ReceivableMessageHandler<R, A> { // NOPMD
   R handleRestructureCutAndInsertMessage(RestructureCutAndInsertMessage message, A arg);
 
   R handleRestructureCommunicationMessage(RestructureCommunicationMessage message, A arg);
+  
+  R handleRestructureDeleteCommunicationMessage(RestructureDeleteCommunicationMessage message, A arg);
+
+  R handleRestructureRenameOperationMessage(RestructureRenameOperationMessage message, A arg);
+
+  R handleRestructureRestoreAppMessage(RestructureRestoreAppMessage message, A arg);
+
+  R handleRestructureRestorePackageMessage(RestructureRestorePackageMessage message, A arg);
+
+  R handleRestructureRestoreClassMessage(RestructureRestoreClassMessage message, A arg);
+
+  R handleChangeLogRemoveEntryMessage(ChangeLogRemoveEntryMessage message, A arg);
+  
+  R handleChangeLogRestoreEntriesMessage(ChangeLogRestoreEntriesMessage message, A arg);
 
   R handleSpectatingUpdateMessage(SpectatingUpdateMessage message, A arg);
 

@@ -23,6 +23,13 @@ import net.explorviz.collaboration.message.receivable.RestructureMessage;
 import net.explorviz.collaboration.message.receivable.RestructureCreateOrDeleteMessage;
 import net.explorviz.collaboration.message.receivable.RestructureCutAndInsertMessage;
 import net.explorviz.collaboration.message.receivable.RestructureCommunicationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureDeleteCommunicationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRenameOperationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRestoreAppMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRestorePackageMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRestoreClassMessage;
+import net.explorviz.collaboration.message.receivable.ChangeLogRemoveEntryMessage;
+import net.explorviz.collaboration.message.receivable.ChangeLogRestoreEntriesMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
@@ -50,6 +57,13 @@ import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
     @Type(value = RestructureCreateOrDeleteMessage.class, name = RestructureCreateOrDeleteMessage.EVENT),
     @Type(value = RestructureCutAndInsertMessage.class, name = RestructureCutAndInsertMessage.EVENT),
     @Type(value = RestructureCommunicationMessage.class, name = RestructureCommunicationMessage.EVENT),
+    @Type(value = RestructureDeleteCommunicationMessage.class, name = RestructureDeleteCommunicationMessage.EVENT),
+    @Type(value = RestructureRenameOperationMessage.class, name = RestructureRenameOperationMessage.EVENT),
+    @Type(value = RestructureRestoreAppMessage.class, name = RestructureRestoreAppMessage.EVENT),
+    @Type(value = RestructureRestorePackageMessage.class, name = RestructureRestorePackageMessage.EVENT),
+    @Type(value = RestructureRestoreClassMessage.class, name = RestructureRestoreClassMessage.EVENT),
+    @Type(value = ChangeLogRemoveEntryMessage.class, name = ChangeLogRemoveEntryMessage.EVENT),
+    @Type(value = ChangeLogRestoreEntriesMessage.class, name = ChangeLogRestoreEntriesMessage.EVENT),
     @Type(value = AllHighlightsResetMessage.class, name = AllHighlightsResetMessage.EVENT),
     @Type(value = MenuDetachedMessage.class, name = MenuDetachedMessage.EVENT),
     @Type(value = DetachedMenuClosedMessage.class, name = DetachedMenuClosedMessage.EVENT),

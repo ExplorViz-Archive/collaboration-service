@@ -10,6 +10,7 @@ public class RestructureMessage extends ReceivableMessage {
     private String entityId;
     private String newName;
     private String appId;
+    private boolean undo;
 
     public RestructureMessage() {
         super(EVENT);
@@ -45,6 +46,14 @@ public class RestructureMessage extends ReceivableMessage {
 
     public void setAppId(final String appId) {
         this.appId = appId;
+    }
+
+    public boolean getUndo() {
+        return this.undo;
+    }
+
+    public void setUndo(final boolean undo) {
+        this.undo = undo; 
     }
 
     @Override

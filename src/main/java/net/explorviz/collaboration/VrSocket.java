@@ -38,6 +38,13 @@ import net.explorviz.collaboration.message.receivable.RestructureMessage;
 import net.explorviz.collaboration.message.receivable.RestructureCreateOrDeleteMessage;
 import net.explorviz.collaboration.message.receivable.RestructureCutAndInsertMessage;
 import net.explorviz.collaboration.message.receivable.RestructureCommunicationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureDeleteCommunicationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRenameOperationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRestoreAppMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRestorePackageMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRestoreClassMessage;
+import net.explorviz.collaboration.message.receivable.ChangeLogRemoveEntryMessage;
+import net.explorviz.collaboration.message.receivable.ChangeLogRestoreEntriesMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
@@ -288,6 +295,48 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
 
   @Override
   public ShouldForward handleRestructureCommunicationMessage(final RestructureCommunicationMessage message,
+      final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureDeleteCommunicationMessage(final RestructureDeleteCommunicationMessage message,
+      final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureRenameOperationMessage(final RestructureRenameOperationMessage message,
+      final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureRestoreAppMessage(final RestructureRestoreAppMessage message,
+      final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureRestorePackageMessage(final RestructureRestorePackageMessage message,
+      final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureRestoreClassMessage(final RestructureRestoreClassMessage message,
+      final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleChangeLogRemoveEntryMessage(final ChangeLogRemoveEntryMessage message,
+      final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleChangeLogRestoreEntriesMessage(final ChangeLogRestoreEntriesMessage message,
       final VrSession session) {
     return ShouldForward.FORWARD;
   }
