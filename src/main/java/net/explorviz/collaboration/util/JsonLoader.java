@@ -11,6 +11,9 @@ import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Util class to load json file.
+ */
 public class JsonLoader {
 
     public static Optional<ProjectorConfigurations> loadFromJsonResourceById(String resourceName, String id)

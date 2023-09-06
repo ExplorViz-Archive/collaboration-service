@@ -1,5 +1,8 @@
 package net.explorviz.collaboration.model;
 
+/**
+ * Model for projectorconfigurations of Synchronization feature.
+ */
 public class ProjectorConfigurations {
     private String id;
     private YawPitchRoll yawPitchRoll;
@@ -29,6 +32,9 @@ public class ProjectorConfigurations {
         return this.projectorAngles;
     }
 
+    /**
+     * Projector's Euler's angles: yaw pitch roll
+     */
     public static class YawPitchRoll {
         private double yaw;
         private double pitch;
@@ -69,6 +75,9 @@ public class ProjectorConfigurations {
 
     }
 
+    /**
+     * Angles how the projector is set up at the dome.
+     */
     public static class ProjectorAngles {
         private double up;
         private double down;

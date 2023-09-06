@@ -92,6 +92,7 @@ public class RoomService {
   }
 
   /**
+   * Override function to use id instead of room object
    * 
    * @param roomId
    * @return

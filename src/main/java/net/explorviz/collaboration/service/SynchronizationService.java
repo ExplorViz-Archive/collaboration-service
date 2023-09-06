@@ -36,15 +36,10 @@ public class SynchronizationService {
     // synchronized devices
     private final Map<String, SynchronizationUser> projectors = new ConcurrentHashMap<>();
 
+    // Still has problems with async
     // set up all relevant informations to this synchronization
     public void setService(String roomId, String deviceId) throws IOException {
         this.setRoom(roomId);
-
-        for (Map.Entry<String, SynchronizationUser> entry : projectors.entrySet()) {
-            if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("Key: " + entry.getKey() + ", Value: " + entry.getValue());
-            }
-        }
 
         Collection<UserModel> originalUsers = this.room.getUserService().getUsers();
         for (UserModel userModel : originalUsers) {
@@ -122,9 +117,6 @@ public class SynchronizationService {
         this.mainIsConnected = mainIsConnected;
     }
 
-    /**
-     * 
-     */
     public class SynchronizationUser {
         private String id;
         private UserModel userModel;
