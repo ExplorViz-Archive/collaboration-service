@@ -25,12 +25,11 @@ import net.explorviz.collaboration.payload.sendable.RoomListRecord;
 import net.explorviz.collaboration.payload.sendable.SynchronizationStartedResponse;
 import net.explorviz.collaboration.service.RoomService;
 import net.explorviz.collaboration.service.SynchronizationService;
+import net.explorviz.collaboration.service.SynchronizationService.SynchronizationUser;
+import net.explorviz.collaboration.service.room.UserService;
 import net.explorviz.collaboration.service.TicketService;
-import net.explorviz.collaboration.util.JsonLoader;
 
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Path("/v2/vr")
 public class RoomResource {
@@ -40,6 +39,9 @@ public class RoomResource {
 
   @Inject
   /* default */ TicketService ticketService; // NOCS
+
+  @Inject
+  UserService userService;
 
   @Inject
   SynchronizationService synchronizationService;
@@ -98,12 +100,6 @@ public class RoomResource {
   }
 
   /**
-   * 
-   * @param body The initial synchronization layout containing room.
-   * @return the id of the synchronization room.
-   */
-
-  /**
    * Adds a user to the lobby of the room with the given ID.
    *
    * @param roomId The ID of the room whose lobby to add the new user to.
@@ -126,31 +122,10 @@ public class RoomResource {
   }
 
   /**
-   * Adds a user to the lobby of the room with the given ID.
-   *
-   * @param roomId          The ID of the room whose lobby to add the new user to.
-   * @param synchronization Notfier for sychronization session.
-   * @return A ticket ID that can be used to establish a websocket connection.
+   * 
+   * @param body The initial synchronization layout containing room.
+   * @return the id of the synchronization room.
    */
-  @POST
-  @Path("/room/{room-id}/lobby")
-  @Produces(MediaType.APPLICATION_JSON)
-  public LobbyJoinedResponse joinLobby(@PathParam("room-id") final String roomId,
-      final JoinLobbyPayload body, final Boolean synchronization) {
-    final var room = this.roomService.lookupRoom(roomId);
-
-    // Initialize user model.
-    final var userModel = room.getUserService().makeUserModel(body.getUserName());
-
-    if (synchronization)
-
-      userModel.setPosition(body.getPosition());
-    userModel.setQuaternion(body.getQuaternion());
-
-    final var ticket = this.ticketService.drawTicket(room, userModel);
-    return new LobbyJoinedResponse(ticket.getTicketId(), ticket.getValidUntil().toEpochMilli());
-  }
-
   @POST
   @Path("/synchronization")
   @Produces(MediaType.APPLICATION_JSON)
@@ -170,25 +145,26 @@ public class RoomResource {
       roomResponse = this.addRoom(roomPayload);
     }
 
-    LobbyJoinedResponse joinResponse = this.joinLobby(roomResponse.getRoomId(), joinPayload, true);
+    LobbyJoinedResponse joinResponse = this.joinLobby(roomResponse.getRoomId(), joinPayload);
 
-    // YawPitchRoll ypr = new YawPitchRoll(37.73257, 24.45517, (-14.315));
-    // ProjectorAngles pa = new ProjectorAngles(49.6109237, 49.6109237, 62.0003,
-    // 62.0003);
-    // ProjectorConfigurations projectorConfigurations = new
-    // ProjectorConfigurations();
-    // projectorConfigurations.setYawPitchRoll(ypr);
-    // projectorConfigurations.setProjectorAngles(pa);
-    // projectorConfigurations.setId("Projector 1");
+    SynchronizationUser projector;
+    userService.addUserJoinedListener(roomId, (user) -> {
+      System.out.println(user.getUserName() + " joined the room!");
+      // Set up service
+      try {
+        this.synchronizationService.setService(roomId, deviceId);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    });
 
-    Optional<ProjectorConfigurations> projectorConfigurations = JsonLoader
-        .loadFromJsonResourceById("/projectorConfigurations.json", deviceId);
+    projector = this.synchronizationService.lookUpProjector(deviceId);
+    // Optional<ProjectorConfigurations> projectorConfigurations = JsonLoader
+    // .loadFromJsonResourceById("/projectorConfigurations.json", deviceId);
 
     SynchronizationStartedResponse synchronizationStartedResponse = new SynchronizationStartedResponse(roomResponse,
-        joinResponse, projectorConfigurations.get());
+        joinResponse, projector.getProjectorConfiguration());
 
-    // Set up service
-    this.synchronizationService.setService(synchronizationStartedResponse, deviceId);
     return synchronizationStartedResponse;
   }
 }

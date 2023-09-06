@@ -31,18 +31,18 @@ public class SynchronizationService {
     // synchronization room
     private Room room;
     // control instance
-    private SynchronizationUser main;
+    private SynchronizationUser main = null;
     // synchronized devices
     private final Map<String, SynchronizationUser> projectors = new ConcurrentHashMap<>();
 
     // set up all relevant informations to this synchronization
-    public void setService(SynchronizationStartedResponse response, String deviceId) throws IOException {
-        RoomCreatedResponse roomResponse = response.getRoomResponse();
-        String roomId = roomResponse.getRoomId();
+    public void setService(String roomId, String deviceId) throws IOException {
         this.setRoom(roomId);
 
         for (Map.Entry<String, SynchronizationUser> entry : projectors.entrySet()) {
-            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+            if (LOGGER.isInfoEnabled()) {
+                LOGGER.info("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+            }
         }
 
         Collection<UserModel> originalUsers = this.room.getUserService().getUsers();
@@ -61,7 +61,7 @@ public class SynchronizationService {
             } else {
                 Optional<ProjectorConfigurations> projectorConfigurations = JsonLoader
                         .loadFromJsonResourceById("/projectorConfigurations.json", projector.getId());
-                // projector.setProjectorConfiguration(projectorConfigurations);
+                projector.setProjectorConfiguration(projectorConfigurations.get());
                 addProjector(projector);
                 if (LOGGER.isInfoEnabled()) {
                     LOGGER.info("Add projector " + projector.getId());
@@ -69,7 +69,6 @@ public class SynchronizationService {
             }
 
         }
-        // LobbyJoinedResponse joinResponse = response.getJoinResponse();
 
     }
 

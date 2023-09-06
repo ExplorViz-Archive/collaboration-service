@@ -2,8 +2,11 @@ package net.explorviz.collaboration.service;
 
 import io.quarkus.runtime.StartupEvent;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.enterprise.event.ObservesAsync;
@@ -41,17 +44,17 @@ public class RoomService {
     return room;
   }
 
-  // Overloading function to satisfy the need for setting up a specific 
+  // Overloading function to satisfy the need for setting up a specific
   // room id instead of generating a random one.
   public Room createRoom(String roomId) {
-    if(!this.rooms.containsKey(roomId)) {
+    if (!this.rooms.containsKey(roomId)) {
       final var roomName = ROOM_PREFIX + roomId;
       final var room = this.roomFactory.makeRoom(roomId, roomName);
       this.rooms.put(roomId, room);
       if (LOGGER.isInfoEnabled()) {
         LOGGER.info("Created room with id " + roomId);
       }
-      
+
       return room;
     }
     // When dublicated, then return a id generated room
@@ -91,7 +94,7 @@ public class RoomService {
     return this.rooms.containsKey(room.getRoomId());
   }
 
-  /** 
+  /**
    * 
    * @param roomId
    * @return
