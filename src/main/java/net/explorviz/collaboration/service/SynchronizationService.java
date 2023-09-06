@@ -13,8 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import net.explorviz.collaboration.model.ProjectorConfigurations;
 import net.explorviz.collaboration.model.UserModel;
-import net.explorviz.collaboration.payload.sendable.RoomCreatedResponse;
-import net.explorviz.collaboration.payload.sendable.SynchronizationStartedResponse;
 import net.explorviz.collaboration.util.JsonLoader;
 
 /**
@@ -31,7 +29,10 @@ public class SynchronizationService {
     // synchronization room
     private Room room;
     // control instance
-    private SynchronizationUser main = null;
+    private SynchronizationUser main;
+    // control barrier
+    private boolean mainIsConnected;
+
     // synchronized devices
     private final Map<String, SynchronizationUser> projectors = new ConcurrentHashMap<>();
 
@@ -53,6 +54,7 @@ public class SynchronizationService {
             projector.setId(deviceId);
 
             // Main is never detected!!!!!
+            // This is set up after the user connects
             if (deviceId == "Main") {
                 this.main = projector;
                 if (LOGGER.isInfoEnabled()) {
@@ -107,6 +109,17 @@ public class SynchronizationService {
 
     public void addProjector(final SynchronizationUser projector) {
         this.projectors.put(projector.getId(), projector);
+    }
+
+    public boolean getMainIsConnected() {
+        return this.mainIsConnected;
+    }
+
+    public void setMainIsConnected(boolean mainIsConnected) {
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("Main is connected!");
+        }
+        this.mainIsConnected = mainIsConnected;
     }
 
     /**

@@ -12,8 +12,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import net.explorviz.collaboration.model.ProjectorConfigurations;
-import net.explorviz.collaboration.model.ProjectorConfigurations.ProjectorAngles;
-import net.explorviz.collaboration.model.ProjectorConfigurations.YawPitchRoll;
 import net.explorviz.collaboration.payload.receivable.InitialRoomPayload;
 import net.explorviz.collaboration.payload.receivable.InitialSynchronizationPayload;
 import net.explorviz.collaboration.payload.receivable.InitialRoomPayload.App;
@@ -25,8 +23,7 @@ import net.explorviz.collaboration.payload.sendable.RoomListRecord;
 import net.explorviz.collaboration.payload.sendable.SynchronizationStartedResponse;
 import net.explorviz.collaboration.service.RoomService;
 import net.explorviz.collaboration.service.SynchronizationService;
-import net.explorviz.collaboration.service.SynchronizationService.SynchronizationUser;
-import net.explorviz.collaboration.service.room.UserService;
+import net.explorviz.collaboration.util.JsonLoader;
 import net.explorviz.collaboration.service.TicketService;
 
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
@@ -39,9 +36,6 @@ public class RoomResource {
 
   @Inject
   /* default */ TicketService ticketService; // NOCS
-
-  @Inject
-  UserService userService;
 
   @Inject
   SynchronizationService synchronizationService;
@@ -139,6 +133,26 @@ public class RoomResource {
     JoinLobbyPayload joinPayload = body.getJoinPayload();
     String deviceId = joinPayload.getUserName();
 
+    // Handels
+    // Notify service, main is connected
+    if (deviceId.equals("Main")) {
+      this.synchronizationService.setMainIsConnected(true);
+    } else {
+      // Let projector wait for control instance
+      long startTime = System.currentTimeMillis();
+      long timeout = 2000;
+      while (System.currentTimeMillis() - startTime < timeout) {
+        if (this.synchronizationService.getMainIsConnected()) {
+          break;
+        }
+        try {
+          Thread.sleep(100);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+
     RoomCreatedResponse roomResponse = new RoomCreatedResponse(roomId);
     // Same outcome, but acutally adds the room if room is needed.
     if (needRoom) {
@@ -147,23 +161,15 @@ public class RoomResource {
 
     LobbyJoinedResponse joinResponse = this.joinLobby(roomResponse.getRoomId(), joinPayload);
 
-    SynchronizationUser projector;
-    userService.addUserJoinedListener(roomId, (user) -> {
-      System.out.println(user.getUserName() + " joined the room!");
-      // Set up service
-      try {
-        this.synchronizationService.setService(roomId, deviceId);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    });
+    // Get the specific projectorconfigurations of json file
+    Optional<ProjectorConfigurations> projectorConfigurations = JsonLoader
+        .loadFromJsonResourceById("/projectorConfigurations.json", deviceId);
 
-    projector = this.synchronizationService.lookUpProjector(deviceId);
-    // Optional<ProjectorConfigurations> projectorConfigurations = JsonLoader
-    // .loadFromJsonResourceById("/projectorConfigurations.json", deviceId);
+    // Not working due async
+    // this.synchronizationService.setService(roomId, deviceId);
 
     SynchronizationStartedResponse synchronizationStartedResponse = new SynchronizationStartedResponse(roomResponse,
-        joinResponse, projector.getProjectorConfiguration());
+        joinResponse, projectorConfigurations.get());
 
     return synchronizationStartedResponse;
   }

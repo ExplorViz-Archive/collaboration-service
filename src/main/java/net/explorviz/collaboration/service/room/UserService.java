@@ -1,13 +1,8 @@
 package net.explorviz.collaboration.service.room;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Consumer;
-
 import javax.enterprise.event.Event;
 import net.explorviz.collaboration.event.UserConnectedEvent;
 import net.explorviz.collaboration.event.UserDisconnectedEvent;
@@ -34,9 +29,6 @@ public class UserService {
   private final GrabService grabService;
 
   private final Map<String, UserModel> users = new ConcurrentHashMap<>();
-  // A map where the key is the roomId and the value is a list of listeners for
-  // that room.
-  private final Map<String, List<Consumer<UserModel>>> listeners = new HashMap<>();
 
   public UserService(final Room room, final IdGenerationService idGenerationService,
       final ColorAssignmentService colorAssignmentService,
@@ -119,9 +111,6 @@ public class UserService {
   public void addUser(final UserModel user) {
     this.users.put(user.getId(), user);
     this.userConnectedEvent.fireAsync(new UserConnectedEvent(user, this.room));
-
-    // trigger for listener
-    userJoinedRoom(this.room.getRoomId(), user);
   }
 
   public void removeUser(final UserModel user) {
@@ -136,24 +125,5 @@ public class UserService {
 
   public Collection<UserModel> getUsers() {
     return this.users.values();
-  }
-
-  public void addUserJoinedListener(String roomId, Consumer<UserModel> listener) {
-    // Get the list of listeners for the given roomId.
-    List<Consumer<UserModel>> roomListeners = listeners.getOrDefault(roomId, new ArrayList<>());
-    // Add the new listener to the list.
-    roomListeners.add(listener);
-    // Update the map.
-    listeners.put(roomId, roomListeners);
-  }
-
-  // This method should be called when a user joins a room.
-  public void userJoinedRoom(String roomId, UserModel user) {
-    List<Consumer<UserModel>> roomListeners = listeners.get(roomId);
-    if (roomListeners != null) {
-      for (Consumer<UserModel> listener : roomListeners) {
-        listener.accept(user); // Notify each listener.
-      }
-    }
   }
 }
