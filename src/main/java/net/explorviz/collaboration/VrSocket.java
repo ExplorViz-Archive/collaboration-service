@@ -22,6 +22,8 @@ import net.explorviz.collaboration.message.SendableMessageEncoder;
 import net.explorviz.collaboration.message.receivable.AllHighlightsResetMessage;
 import net.explorviz.collaboration.message.receivable.AppClosedMessage;
 import net.explorviz.collaboration.message.receivable.AppOpenedMessage;
+import net.explorviz.collaboration.message.receivable.ChangeLogRemoveEntryMessage;
+import net.explorviz.collaboration.message.receivable.ChangeLogRestoreEntriesMessage;
 import net.explorviz.collaboration.message.receivable.ComponentUpdateMessage;
 import net.explorviz.collaboration.message.receivable.DetachedMenuClosedMessage;
 import net.explorviz.collaboration.message.receivable.HeatmapUpdateMessage;
@@ -33,18 +35,16 @@ import net.explorviz.collaboration.message.receivable.ObjectGrabbedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.PingUpdateMessage;
-import net.explorviz.collaboration.message.receivable.RestructureModeMessage;
-import net.explorviz.collaboration.message.receivable.RestructureMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCommunicationMessage;
 import net.explorviz.collaboration.message.receivable.RestructureCreateOrDeleteMessage;
 import net.explorviz.collaboration.message.receivable.RestructureCutAndInsertMessage;
-import net.explorviz.collaboration.message.receivable.RestructureCommunicationMessage;
 import net.explorviz.collaboration.message.receivable.RestructureDeleteCommunicationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureMessage;
+import net.explorviz.collaboration.message.receivable.RestructureModeMessage;
 import net.explorviz.collaboration.message.receivable.RestructureRenameOperationMessage;
 import net.explorviz.collaboration.message.receivable.RestructureRestoreAppMessage;
-import net.explorviz.collaboration.message.receivable.RestructureRestorePackageMessage;
 import net.explorviz.collaboration.message.receivable.RestructureRestoreClassMessage;
-import net.explorviz.collaboration.message.receivable.ChangeLogRemoveEntryMessage;
-import net.explorviz.collaboration.message.receivable.ChangeLogRestoreEntriesMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRestorePackageMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
@@ -282,62 +282,62 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
   }
 
   @Override
-  public ShouldForward handleRestructureCreateOrDeleteMessage(final RestructureCreateOrDeleteMessage message,
-      final VrSession session) {
+  public ShouldForward handleRestructureCreateOrDeleteMessage(
+      final RestructureCreateOrDeleteMessage message, final VrSession session) {
     return ShouldForward.FORWARD;
   }
 
   @Override
-  public ShouldForward handleRestructureCutAndInsertMessage(final RestructureCutAndInsertMessage message,
-      final VrSession session) {
+  public ShouldForward handleRestructureCutAndInsertMessage(
+      final RestructureCutAndInsertMessage message, final VrSession session) {
     return ShouldForward.FORWARD;
   }
 
   @Override
-  public ShouldForward handleRestructureCommunicationMessage(final RestructureCommunicationMessage message,
-      final VrSession session) {
+  public ShouldForward handleRestructureCommunicationMessage(
+      final RestructureCommunicationMessage message, final VrSession session) {
     return ShouldForward.FORWARD;
   }
 
   @Override
-  public ShouldForward handleRestructureDeleteCommunicationMessage(final RestructureDeleteCommunicationMessage message,
-      final VrSession session) {
+  public ShouldForward handleRestructureDeleteCommunicationMessage(
+      final RestructureDeleteCommunicationMessage message, final VrSession session) {
     return ShouldForward.FORWARD;
   }
 
   @Override
-  public ShouldForward handleRestructureRenameOperationMessage(final RestructureRenameOperationMessage message,
-      final VrSession session) {
+  public ShouldForward handleRestructureRenameOperationMessage(
+      final RestructureRenameOperationMessage message, final VrSession session) {
     return ShouldForward.FORWARD;
   }
 
   @Override
-  public ShouldForward handleRestructureRestoreAppMessage(final RestructureRestoreAppMessage message,
-      final VrSession session) {
+  public ShouldForward handleRestructureRestoreAppMessage(
+      final RestructureRestoreAppMessage message, final VrSession session) {
     return ShouldForward.FORWARD;
   }
 
   @Override
-  public ShouldForward handleRestructureRestorePackageMessage(final RestructureRestorePackageMessage message,
-      final VrSession session) {
+  public ShouldForward handleRestructureRestorePackageMessage(
+      final RestructureRestorePackageMessage message, final VrSession session) {
     return ShouldForward.FORWARD;
   }
 
   @Override
-  public ShouldForward handleRestructureRestoreClassMessage(final RestructureRestoreClassMessage message,
-      final VrSession session) {
+  public ShouldForward handleRestructureRestoreClassMessage(
+      final RestructureRestoreClassMessage message, final VrSession session) {
     return ShouldForward.FORWARD;
   }
 
   @Override
-  public ShouldForward handleChangeLogRemoveEntryMessage(final ChangeLogRemoveEntryMessage message,
-      final VrSession session) {
+  public ShouldForward handleChangeLogRemoveEntryMessage(
+      final ChangeLogRemoveEntryMessage message, final VrSession session) {
     return ShouldForward.FORWARD;
   }
 
   @Override
-  public ShouldForward handleChangeLogRestoreEntriesMessage(final ChangeLogRestoreEntriesMessage message,
-      final VrSession session) {
+  public ShouldForward handleChangeLogRestoreEntriesMessage(
+      final ChangeLogRestoreEntriesMessage message, final VrSession session) {
     return ShouldForward.FORWARD;
   }
 
