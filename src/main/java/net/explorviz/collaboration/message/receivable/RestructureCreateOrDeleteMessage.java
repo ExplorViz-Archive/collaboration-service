@@ -57,7 +57,7 @@ public class RestructureCreateOrDeleteMessage extends ReceivableMessage {
     this.language = language;
   }
 
-  public boolean getUndo() {
+  public boolean isUndo() {
     return this.undo;
   }
 

@@ -18,7 +18,7 @@ public class RestructureCommunicationMessage extends ReceivableMessage {
     return sourceClassId;
   }
 
-  public void setSourceClassId(String sourceClassId) {
+  public void setSourceClassId(final String sourceClassId) {
     this.sourceClassId = sourceClassId;
   }
 
@@ -26,7 +26,7 @@ public class RestructureCommunicationMessage extends ReceivableMessage {
     return targetClassId;
   }
 
-  public void setTargetClassId(String targetClassId) {
+  public void setTargetClassId(final String targetClassId) {
     this.targetClassId = targetClassId;
   }
 
@@ -34,7 +34,7 @@ public class RestructureCommunicationMessage extends ReceivableMessage {
     return methodName;
   }
 
-  public void setMethodName(String methodName) {
+  public void setMethodName(final String methodName) {
     this.methodName = methodName;
   }
 

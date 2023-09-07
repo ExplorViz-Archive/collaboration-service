@@ -12,7 +12,7 @@ public class RestructureDeleteCommunicationMessage extends ReceivableMessage {
     super(EVENT);
   }
 
-  public boolean getUndo() {
+  public boolean isUndo() {
     return this.undo;
   }
 

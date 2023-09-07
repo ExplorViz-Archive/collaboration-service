@@ -1,7 +1,10 @@
 package net.explorviz.collaboration.message.receivable;
 
+import java.util.Arrays;
 import net.explorviz.collaboration.message.ReceivableMessage;
 import net.explorviz.collaboration.message.ReceivableMessageHandler;
+
+
 
 public class ChangeLogRemoveEntryMessage extends ReceivableMessage {
   public static final String EVENT = "changelog_remove_entry";
@@ -13,11 +16,11 @@ public class ChangeLogRemoveEntryMessage extends ReceivableMessage {
   }
 
   public String[] getEntryIds() {
-    return entryIds;
+    return Arrays.copyOf(entryIds, entryIds.length);
   }
 
   public void setEntryIds(final String[] entryIds) {
-    this.entryIds = entryIds;
+    this.entryIds = Arrays.copyOf(entryIds, entryIds.length);
   }
 
   @Override

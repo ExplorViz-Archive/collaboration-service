@@ -48,7 +48,7 @@ public class RestructureMessage extends ReceivableMessage {
     this.appId = appId;
   }
 
-  public boolean getUndo() {
+  public boolean isUndo() {
     return this.undo;
   }
 
