@@ -6,28 +6,20 @@ import net.explorviz.collaboration.message.ReceivableMessageHandler;
 public class RestructureRenameOperationMessage extends ReceivableMessage {
   public static final String EVENT = "restructure_rename_operation";
 
-  private String clazzId;
-  private String originalName;
+  private String commId;
   private String newName;
+  private boolean undo;
 
   public RestructureRenameOperationMessage() {
     super(EVENT);
   }
 
-  public String getClazzId() {
-    return clazzId;
+  public String getCommId() {
+    return commId;
   }
 
-  public void setClazzId(final String clazzId) {
-    this.clazzId = clazzId;
-  }
-
-  public String getOriginalName() {
-    return originalName;
-  }
-
-  public void setOriginalName(final String originalName) {
-    this.originalName = originalName;
+  public void setCommId(final String commId) {
+    this.commId = commId;
   }
 
   public String getNewName() {
@@ -36,6 +28,14 @@ public class RestructureRenameOperationMessage extends ReceivableMessage {
 
   public void setNewName(final String newName) {
     this.newName = newName;
+  }
+
+  public boolean isUndo() {
+    return this.undo;
+  }
+
+  public void setUndo(final boolean undo) {
+    this.undo = undo;
   }
 
   @Override
