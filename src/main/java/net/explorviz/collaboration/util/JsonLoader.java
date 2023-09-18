@@ -2,7 +2,6 @@ package net.explorviz.collaboration.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import net.explorviz.collaboration.model.ProjectorConfigurations;
 
 import java.io.FileNotFoundException;
@@ -14,20 +13,22 @@ import java.util.Optional;
 /**
  * Util class to load json file.
  */
-public class JsonLoader {
+final public class JsonLoader {
+    // private constructor to prevent instantiation
+    private JsonLoader() {
+    };
 
-    public static Optional<ProjectorConfigurations> loadFromJsonResourceById(String resourceName, String id)
+    // loads projectorconfigurations using deviceId
+    public static Optional<ProjectorConfigurations> loadFromJsonResourceById(final String resourceName, final String id)
             throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-
         // Get the URL of the resource
-        URL resourceUrl = JsonLoader.class.getResource(resourceName);
+        final URL resourceUrl = JsonLoader.class.getResource(resourceName);
         if (resourceUrl == null) {
             throw new FileNotFoundException("Resource not found: " + resourceName);
         }
 
         // Read the JSON file into a list of ProjectorConfigurations objects
-        List<ProjectorConfigurations> configurations = objectMapper.readValue(resourceUrl,
+        final List<ProjectorConfigurations> configurations = new ObjectMapper().readValue(resourceUrl,
                 new TypeReference<List<ProjectorConfigurations>>() {
                 });
 

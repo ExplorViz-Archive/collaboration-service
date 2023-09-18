@@ -4,12 +4,12 @@ import net.explorviz.collaboration.model.ProjectorConfigurations;
 
 public class SynchronizationStartedResponse {
 
-  private RoomCreatedResponse roomResponse;
-  private LobbyJoinedResponse joinResponse;
-  private ProjectorConfigurations projectorConfigurations;
+  final private RoomCreatedResponse roomResponse;
+  final private LobbyJoinedResponse joinResponse;
+  final private ProjectorConfigurations projectorConfigurations;
 
-  public SynchronizationStartedResponse(final RoomCreatedResponse roomResponse, LobbyJoinedResponse joinResponse,
-      ProjectorConfigurations projectorConfigurations) {
+  public SynchronizationStartedResponse(final RoomCreatedResponse roomResponse, final LobbyJoinedResponse joinResponse,
+      final ProjectorConfigurations projectorConfigurations) {
     this.roomResponse = roomResponse;
     this.joinResponse = joinResponse;
     this.projectorConfigurations = projectorConfigurations;

@@ -27,9 +27,12 @@ import net.explorviz.collaboration.util.JsonLoader;
 import net.explorviz.collaboration.service.TicketService;
 
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Path("/v2/vr")
 public class RoomResource {
+  private static final Logger LOGGER = LoggerFactory.getLogger(RoomResource.class);
 
   @Inject
   /* default */RoomService roomService; // NOCS
@@ -38,7 +41,7 @@ public class RoomResource {
   /* default */ TicketService ticketService; // NOCS
 
   @Inject
-  SynchronizationService synchronizationService;
+  /* default */ SynchronizationService synchronizationService; // NOCS
 
   /**
    * Gets the IDs of all rooms.
@@ -66,9 +69,9 @@ public class RoomResource {
   @Produces(MediaType.APPLICATION_JSON)
   public RoomCreatedResponse addRoom(final InitialRoomPayload body) {
     // Check for wanted room id
-    final var room = body.getRoomId() != null
-        ? this.roomService.createRoom(body.getRoomId())
-        : this.roomService.createRoom();
+    final var room = body.getRoomId() == null
+        ? this.roomService.createRoom()
+        : this.roomService.createRoom(body.getRoomId());
 
     // Initialize landscape.
     final var landscape = body.getLandscape();
@@ -119,37 +122,37 @@ public class RoomResource {
    * 
    * @param body The initial synchronization layout containing room.
    * @return the id of the synchronization room.
+   * @throws InterruptedException
    */
   @POST
   @Path("/synchronization")
   @Produces(MediaType.APPLICATION_JSON)
   public SynchronizationStartedResponse startSynchronization(final InitialSynchronizationPayload body)
-      throws IOException {
-    InitialRoomPayload roomPayload = body.getRoomPayload();
-    String roomId = roomPayload.getRoomId();
+      throws IOException, InterruptedException {
+    final InitialRoomPayload roomPayload = body.getRoomPayload();
+    final String roomId = roomPayload.getRoomId();
     // Check if room already exists
-    Boolean needRoom = !this.roomService.roomExists(roomId);
+    final Boolean needRoom = !this.roomService.roomExists(roomId);
 
-    JoinLobbyPayload joinPayload = body.getJoinPayload();
-    String deviceId = joinPayload.getUserName();
+    final JoinLobbyPayload joinPayload = body.getJoinPayload();
+    final String deviceId = joinPayload.getUserName();
 
-    // Handels
     // Notify service, main is connected
-    if (deviceId.equals("Main")) {
-      this.synchronizationService.setMainIsConnected(true);
+    if ("Main".equals(deviceId)) {
+      this.synchronizationService.setMainConnected(true);
     } else {
       // Let projector wait for control instance
-      long startTime = System.currentTimeMillis();
-      long timeout = 2000;
+      final long startTime = System.currentTimeMillis();
+      final long timeout = 2000;
       while (System.currentTimeMillis() - startTime < timeout) {
-        if (this.synchronizationService.getMainIsConnected()) {
+        if (this.synchronizationService.isMainConnected()) {
           break;
         }
-        try {
-          Thread.sleep(100);
-        } catch (InterruptedException e) {
-          e.printStackTrace();
+        if (LOGGER.isInfoEnabled()) {
+          LOGGER.info("Main is not connected.");
         }
+        Thread.sleep(1000);
+
       }
     }
 
@@ -159,18 +162,14 @@ public class RoomResource {
       roomResponse = this.addRoom(roomPayload);
     }
 
-    LobbyJoinedResponse joinResponse = this.joinLobby(roomResponse.getRoomId(), joinPayload);
+    final LobbyJoinedResponse joinResponse = this.joinLobby(roomResponse.getRoomId(), joinPayload);
 
     // Get the specific projectorconfigurations of json file
-    Optional<ProjectorConfigurations> projectorConfigurations = JsonLoader
+    final Optional<ProjectorConfigurations> projectorConfigurations = JsonLoader
         .loadFromJsonResourceById("/projectorConfigurations.json", deviceId);
 
-    // Not working due async
-    // this.synchronizationService.setService(roomId, deviceId);
-
-    SynchronizationStartedResponse synchronizationStartedResponse = new SynchronizationStartedResponse(roomResponse,
+    return new SynchronizationStartedResponse(
+        roomResponse,
         joinResponse, projectorConfigurations.get());
-
-    return synchronizationStartedResponse;
   }
 }

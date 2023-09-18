@@ -8,7 +8,7 @@ public class ProjectorConfigurations {
     private YawPitchRoll yawPitchRoll;
     private ProjectorAngles projectorAngles;
 
-    public void setId(String id) {
+    public void setId(final String id) {
         this.id = id;
     }
 
@@ -16,7 +16,7 @@ public class ProjectorConfigurations {
         return id;
     }
 
-    public void setYawPitchRoll(YawPitchRoll yawPitchRoll) {
+    public void setYawPitchRoll(final YawPitchRoll yawPitchRoll) {
         this.yawPitchRoll = yawPitchRoll;
     }
 
@@ -24,7 +24,7 @@ public class ProjectorConfigurations {
         return this.yawPitchRoll;
     }
 
-    public void setProjectorAngles(ProjectorAngles projectorAngles) {
+    public void setProjectorAngles(final ProjectorAngles projectorAngles) {
         this.projectorAngles = projectorAngles;
     }
 
@@ -40,10 +40,7 @@ public class ProjectorConfigurations {
         private double pitch;
         private double roll;
 
-        public YawPitchRoll() {
-        }
-
-        public YawPitchRoll(double yaw, double pitch, double roll) {
+        public YawPitchRoll(final double yaw, final double pitch, final double roll) {
             this.yaw = yaw;
             this.pitch = pitch;
             this.roll = roll;
@@ -53,7 +50,7 @@ public class ProjectorConfigurations {
             return yaw;
         }
 
-        public void setYaw(double yaw) {
+        public void setYaw(final double yaw) {
             this.yaw = yaw;
         }
 
@@ -61,7 +58,7 @@ public class ProjectorConfigurations {
             return pitch;
         }
 
-        public void setPitch(double pitch) {
+        public void setPitch(final double pitch) {
             this.pitch = pitch;
         }
 
@@ -69,7 +66,7 @@ public class ProjectorConfigurations {
             return roll;
         }
 
-        public void setRoll(double roll) {
+        public void setRoll(final double roll) {
             this.roll = roll;
         }
 
@@ -84,45 +81,42 @@ public class ProjectorConfigurations {
         private double left;
         private double right;
 
-        public ProjectorAngles() {
-        }
-
-        public ProjectorAngles(double up, double down, double left, double right) {
+        public ProjectorAngles(final double up, final double down, final double left, final double right) {
             this.up = up;
             this.down = down;
             this.left = left;
             this.right = right;
         }
 
-        public double getUp() {
+        public double getUpAngle() {
             return up;
         }
 
-        public void setUp(double up) {
+        public void setUpAngle(final double up) {
             this.up = up;
         }
 
-        public double getDown() {
+        public double getDownAngle() {
             return down;
         }
 
-        public void setDown(double down) {
+        public void setDownAngle(final double down) {
             this.down = down;
         }
 
-        public double getLeft() {
+        public double getLeftAngle() {
             return left;
         }
 
-        public void setLeft(double left) {
+        public void setLeftAngle(final double left) {
             this.left = left;
         }
 
-        public double getRight() {
+        public double getRightAngle() {
             return right;
         }
 
-        public void setRight(double right) {
+        public void setRightAngle(final double right) {
             this.right = right;
         }
 
