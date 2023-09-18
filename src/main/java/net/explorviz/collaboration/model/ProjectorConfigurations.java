@@ -40,10 +40,8 @@ public class ProjectorConfigurations {
         private double pitch;
         private double roll;
 
-        public YawPitchRoll(final double yaw, final double pitch, final double roll) {
-            this.yaw = yaw;
-            this.pitch = pitch;
-            this.roll = roll;
+        public YawPitchRoll() {
+
         }
 
         public double getYaw() {
@@ -81,42 +79,38 @@ public class ProjectorConfigurations {
         private double left;
         private double right;
 
-        public ProjectorAngles(final double up, final double down, final double left, final double right) {
-            this.up = up;
-            this.down = down;
-            this.left = left;
-            this.right = right;
+        public ProjectorAngles() {
         }
 
-        public double getUpAngle() {
+        public double getUp() {
             return up;
         }
 
-        public void setUpAngle(final double up) {
+        public void setUp(final double up) {
             this.up = up;
         }
 
-        public double getDownAngle() {
+        public double getDown() {
             return down;
         }
 
-        public void setDownAngle(final double down) {
+        public void setDown(final double down) {
             this.down = down;
         }
 
-        public double getLeftAngle() {
+        public double getLeft() {
             return left;
         }
 
-        public void setLeftAngle(final double left) {
+        public void setLeft(final double left) {
             this.left = left;
         }
 
-        public double getRightAngle() {
+        public double getRight() {
             return right;
         }
 
-        public void setRightAngle(final double right) {
+        public void setRight(final double right) {
             this.right = right;
         }
 

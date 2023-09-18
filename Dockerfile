@@ -1,15 +1,10 @@
-# Use the official Quarkus runtime image
-FROM quay.io/quarkus/quarkus-jvm-image:11
+FROM registry.access.redhat.com/ubi8/ubi-minimal:8.4
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the built jar file into the container
-COPY ./build/collaboration-service-*-runner.jar /app/app.jar
+COPY /home/axxer/Desktop/Bachelorarbeit/git_stuff/collaboration-service/build/libs/collaboration-service-1.0-SNAPSHOT.jar /app/app.jar
 
-# Expose the application port
 EXPOSE 4444
 
-# Command to run the application
 CMD ["java", "-jar", "/app/app.jar"]
 
