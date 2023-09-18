@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import net.explorviz.collaboration.message.receivable.AllHighlightsResetMessage;
 import net.explorviz.collaboration.message.receivable.AppClosedMessage;
 import net.explorviz.collaboration.message.receivable.AppOpenedMessage;
+import net.explorviz.collaboration.message.receivable.ChangeLogRemoveEntryMessage;
+import net.explorviz.collaboration.message.receivable.ChangeLogRestoreEntriesMessage;
 import net.explorviz.collaboration.message.receivable.ComponentUpdateMessage;
 import net.explorviz.collaboration.message.receivable.DetachedMenuClosedMessage;
 import net.explorviz.collaboration.message.receivable.HeatmapUpdateMessage;
@@ -18,6 +20,16 @@ import net.explorviz.collaboration.message.receivable.ObjectGrabbedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.PingUpdateMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCommunicationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCreateOrDeleteMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCutAndInsertMessage;
+import net.explorviz.collaboration.message.receivable.RestructureDeleteCommunicationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureMessage;
+import net.explorviz.collaboration.message.receivable.RestructureModeMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRenameOperationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRestoreAppMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRestoreClassMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRestorePackageMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
@@ -40,6 +52,26 @@ import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
     @Type(value = ObjectMovedMessage.class, name = ObjectMovedMessage.EVENT),
     @Type(value = ComponentUpdateMessage.class, name = ComponentUpdateMessage.EVENT),
     @Type(value = HighlightingUpdateMessage.class, name = HighlightingUpdateMessage.EVENT),
+    @Type(value = RestructureModeMessage.class, name = RestructureModeMessage.EVENT),
+    @Type(value = RestructureMessage.class, name = RestructureMessage.EVENT),
+    @Type(value = RestructureCreateOrDeleteMessage.class,
+      name = RestructureCreateOrDeleteMessage.EVENT),
+    @Type(value = RestructureCutAndInsertMessage.class,
+      name = RestructureCutAndInsertMessage.EVENT),
+    @Type(value = RestructureCommunicationMessage.class,
+    name = RestructureCommunicationMessage.EVENT),
+    @Type(value = RestructureDeleteCommunicationMessage.class,
+    name = RestructureDeleteCommunicationMessage.EVENT),
+    @Type(value = RestructureRenameOperationMessage.class,
+    name = RestructureRenameOperationMessage.EVENT),
+    @Type(value = RestructureRestoreAppMessage.class, name = RestructureRestoreAppMessage.EVENT),
+    @Type(value = RestructureRestorePackageMessage.class,
+    name = RestructureRestorePackageMessage.EVENT),
+    @Type(value = RestructureRestoreClassMessage.class,
+    name = RestructureRestoreClassMessage.EVENT),
+    @Type(value = ChangeLogRemoveEntryMessage.class, name = ChangeLogRemoveEntryMessage.EVENT),
+    @Type(value = ChangeLogRestoreEntriesMessage.class,
+    name = ChangeLogRestoreEntriesMessage.EVENT),
     @Type(value = AllHighlightsResetMessage.class, name = AllHighlightsResetMessage.EVENT),
     @Type(value = MenuDetachedMessage.class, name = MenuDetachedMessage.EVENT),
     @Type(value = DetachedMenuClosedMessage.class, name = DetachedMenuClosedMessage.EVENT),
@@ -47,7 +79,7 @@ import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
     @Type(value = HeatmapUpdateMessage.class, name = HeatmapUpdateMessage.EVENT),
     @Type(value = UserControllerConnectMessage.class, name = UserControllerConnectMessage.EVENT),
     @Type(value = UserControllerDisconnectMessage.class,
-        name = UserControllerDisconnectMessage.EVENT),
+    name = UserControllerDisconnectMessage.EVENT),
     @Type(value = JoinVrMessage.class, name = JoinVrMessage.EVENT),
     @Type(value = UserPositionsMessage.class, name = UserPositionsMessage.EVENT),
     @Type(value = PingUpdateMessage.class, name = PingUpdateMessage.EVENT),
