@@ -17,6 +17,8 @@ import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.PingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.RestructureCommunicationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCopyAndPasteClassMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCopyAndPastePackageMessage;
 import net.explorviz.collaboration.message.receivable.RestructureCreateOrDeleteMessage;
 import net.explorviz.collaboration.message.receivable.RestructureCutAndInsertMessage;
 import net.explorviz.collaboration.message.receivable.RestructureDeleteCommunicationMessage;
@@ -62,6 +64,11 @@ public interface ReceivableMessageHandler<R, A> { // NOPMD
   R handleRestructureCutAndInsertMessage(RestructureCutAndInsertMessage message, A arg);
 
   R handleRestructureCommunicationMessage(RestructureCommunicationMessage message, A arg);
+
+  R handleRestructureCopyAndPasteClassMessage(RestructureCopyAndPasteClassMessage message, A arg);
+
+  R handleRestructureCopyAndPastePackageMessage(
+      RestructureCopyAndPastePackageMessage message, A arg);
   
   R handleRestructureDeleteCommunicationMessage(
       RestructureDeleteCommunicationMessage message, A arg);
