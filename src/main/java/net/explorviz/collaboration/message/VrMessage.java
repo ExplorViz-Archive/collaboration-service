@@ -26,6 +26,7 @@ import net.explorviz.collaboration.message.receivable.RestructureCopyAndPastePac
 import net.explorviz.collaboration.message.receivable.RestructureCreateOrDeleteMessage;
 import net.explorviz.collaboration.message.receivable.RestructureCutAndInsertMessage;
 import net.explorviz.collaboration.message.receivable.RestructureDeleteCommunicationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureDuplicateAppMessage;
 import net.explorviz.collaboration.message.receivable.RestructureMessage;
 import net.explorviz.collaboration.message.receivable.RestructureModeMessage;
 import net.explorviz.collaboration.message.receivable.RestructureRenameOperationMessage;
@@ -68,6 +69,8 @@ import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
     name = RestructureCopyAndPastePackageMessage.EVENT),
     @Type(value = RestructureDeleteCommunicationMessage.class,
     name = RestructureDeleteCommunicationMessage.EVENT),
+    @Type(value = RestructureDuplicateAppMessage.class,
+    name = RestructureDuplicateAppMessage.EVENT),
     @Type(value = RestructureRenameOperationMessage.class,
     name = RestructureRenameOperationMessage.EVENT),
     @Type(value = RestructureRestoreAppMessage.class, name = RestructureRestoreAppMessage.EVENT),

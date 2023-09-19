@@ -22,6 +22,7 @@ import net.explorviz.collaboration.message.receivable.RestructureCopyAndPastePac
 import net.explorviz.collaboration.message.receivable.RestructureCreateOrDeleteMessage;
 import net.explorviz.collaboration.message.receivable.RestructureCutAndInsertMessage;
 import net.explorviz.collaboration.message.receivable.RestructureDeleteCommunicationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureDuplicateAppMessage;
 import net.explorviz.collaboration.message.receivable.RestructureMessage;
 import net.explorviz.collaboration.message.receivable.RestructureModeMessage;
 import net.explorviz.collaboration.message.receivable.RestructureRenameOperationMessage;
@@ -72,6 +73,9 @@ public interface ReceivableMessageHandler<R, A> { // NOPMD
   
   R handleRestructureDeleteCommunicationMessage(
       RestructureDeleteCommunicationMessage message, A arg);
+
+  R handleRestructureDuplicateAppMessage(
+      RestructureDuplicateAppMessage message, A arg);
 
   R handleRestructureRenameOperationMessage(RestructureRenameOperationMessage message, A arg);
 
