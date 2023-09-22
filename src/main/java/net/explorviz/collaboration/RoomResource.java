@@ -162,6 +162,7 @@ public class RoomResource {
       roomResponse = this.addRoom(roomPayload);
     }
 
+    // Use roomResponse, to be safe the room got hosted.
     final LobbyJoinedResponse joinResponse = this.joinLobby(roomResponse.getRoomId(), joinPayload);
 
     // Get the specific projectorconfigurations of json file
