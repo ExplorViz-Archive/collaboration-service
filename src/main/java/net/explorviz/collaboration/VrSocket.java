@@ -36,9 +36,12 @@ import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.PingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.RestructureCommunicationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCopyAndPasteClassMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCopyAndPastePackageMessage;
 import net.explorviz.collaboration.message.receivable.RestructureCreateOrDeleteMessage;
 import net.explorviz.collaboration.message.receivable.RestructureCutAndInsertMessage;
 import net.explorviz.collaboration.message.receivable.RestructureDeleteCommunicationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureDuplicateAppMessage;
 import net.explorviz.collaboration.message.receivable.RestructureMessage;
 import net.explorviz.collaboration.message.receivable.RestructureModeMessage;
 import net.explorviz.collaboration.message.receivable.RestructureRenameOperationMessage;
@@ -300,8 +303,26 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
   }
 
   @Override
+  public ShouldForward handleRestructureCopyAndPasteClassMessage(
+      final RestructureCopyAndPasteClassMessage message, final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureCopyAndPastePackageMessage(
+      final RestructureCopyAndPastePackageMessage message, final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
   public ShouldForward handleRestructureDeleteCommunicationMessage(
       final RestructureDeleteCommunicationMessage message, final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureDuplicateAppMessage(
+      final RestructureDuplicateAppMessage message, final VrSession session) {
     return ShouldForward.FORWARD;
   }
 
