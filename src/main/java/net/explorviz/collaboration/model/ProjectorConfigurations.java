@@ -2,6 +2,7 @@ package net.explorviz.collaboration.model;
 
 /**
  * Model for projectorconfigurations of Synchronization feature.
+ * Data for the ARENA2's projectors lay in ressources.
  */
 public class ProjectorConfigurations {
     private String id;

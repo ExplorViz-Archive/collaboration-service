@@ -2,6 +2,10 @@ package net.explorviz.collaboration.payload.sendable;
 
 import net.explorviz.collaboration.model.ProjectorConfigurations;
 
+/**
+ * Class provides the scaffold for the respone 
+ * to the initiation of the synchronization feature.
+ */
 public class SynchronizationStartedResponse {
 
   final private RoomCreatedResponse roomResponse;
