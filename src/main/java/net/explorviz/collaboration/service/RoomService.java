@@ -19,13 +19,15 @@ public class RoomService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(RoomService.class);
   private static final String ROOM_PREFIX = "Room ";
-  private final Map<String, Room> rooms = new ConcurrentHashMap<>();
+
   @ConfigProperty(name = "explorviz.default.roomid")
   /* default */ String defaultRoomId; // NOCS
   @Inject
   /* default */ RoomFactory roomFactory; // NOCS
   @Inject
   /* default */ IdGenerationService idGenerationService; // NOCS
+
+  private final Map<String, Room> rooms = new ConcurrentHashMap<>();
 
   public Room createRoom() {
     final var roomId = this.idGenerationService.nextId();

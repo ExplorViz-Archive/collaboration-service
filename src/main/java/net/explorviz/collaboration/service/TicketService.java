@@ -27,12 +27,14 @@ public class TicketService {
    * period.
    */
   private static final TemporalAmount TICKET_EXPIRY_PERIOD = Duration.ofSeconds(30);
+
+  @Inject
+  /* default */ RoomService roomService; // NOCS
+
   /**
    * The tickets that have not yet been redeemed.
    */
   private final Map<String, VrSocketTicket> tickets = new ConcurrentHashMap<>();
-  @Inject
-  /* default */ RoomService roomService; // NOCS
 
   /**
    * Generates an unpredictable identifier for a ticket.
