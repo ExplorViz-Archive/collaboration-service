@@ -1,6 +1,7 @@
 package net.explorviz.vr.message;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.Color;
 import java.io.IOException;
@@ -315,7 +316,8 @@ public class SendableMessageEncoderTest {
     final var message = new UserDisconnectedMessage();
     message.setId("foo");
     final var actual = this.encoder.encodeMessage(message);
-    final var expected = "{ \"event\": \"user_disconnect\", \"highlightedComponents\": [], \"id\": \"foo\" }";
+    final var expected =
+        "{ \"event\": \"user_disconnect\", \"highlightedComponents\": [], \"id\": \"foo\" }";
     assertEquals(this.mapper.readTree(expected), this.mapper.readTree(actual));
   }
 
@@ -332,8 +334,8 @@ public class SendableMessageEncoderTest {
     message.getOpenApps()[0].setOpenComponents(new String[] {"x", "y", "z"});
 
     // Create a highlighted component.
-    message.getOpenApps()[0]
-        .setHighlightedComponents(new InitialLandscapeMessage.HighlightingObject[] {
+    message.getOpenApps()[0].setHighlightedComponents(
+        new InitialLandscapeMessage.HighlightingObject[] {
             new InitialLandscapeMessage.HighlightingObject()});
     message.getOpenApps()[0].getHighlightedComponents()[0].setUserId("alice");
     message.getOpenApps()[0].getHighlightedComponents()[0].setAppId("baz");
@@ -348,8 +350,9 @@ public class SendableMessageEncoderTest {
     message.getLandscape().setTimestamp(884345696789L);
 
     // Create a highlighted extern communcation link.
-    message.setHighlightedExternCommunicationLinks(new InitialLandscapeMessage.HighlightingObject[] {
-      new InitialLandscapeMessage.HighlightingObject()});
+    message.setHighlightedExternCommunicationLinks(
+        new InitialLandscapeMessage.HighlightingObject[] {
+            new InitialLandscapeMessage.HighlightingObject()});
     message.getHighlightedExternCommunicationLinks()[0].setAppId("");
     message.getHighlightedExternCommunicationLinks()[0].setEntityId("m");
     message.getHighlightedExternCommunicationLinks()[0].setEntityType("n");

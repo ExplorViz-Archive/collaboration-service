@@ -1,8 +1,7 @@
 package net.explorviz.collaboration.payload.receivable;
 
 /**
- * A JSON object that is sent by the frontend to the room resource when a new
- * room is created.
+ * A JSON object that is sent by the frontend to the room resource when a new room is created.
  * Contains all information to initialize a room.
  */
 public class InitialRoomPayload {
@@ -11,6 +10,7 @@ public class InitialRoomPayload {
   private App[] openApps;
   private DetachedMenu[] detachedMenus;
   private String roomId;
+
 
   public static class Landscape {
     private String landscapeToken;
@@ -32,6 +32,7 @@ public class InitialRoomPayload {
       this.timestamp = timestamp;
     }
   }
+
 
   public static class App {
     private String id;
@@ -80,6 +81,7 @@ public class InitialRoomPayload {
       this.scale = scale.clone();
     }
   }
+
 
   public static class DetachedMenu {
     private String entityId;

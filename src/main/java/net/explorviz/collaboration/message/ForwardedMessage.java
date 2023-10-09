@@ -6,12 +6,14 @@ package net.explorviz.collaboration.message;
 public class ForwardedMessage extends BroadcastableMessage {
   public static final String EVENT = "forward";
 
+
   /**
    * Type for flags that are used to indicate whether a message should be forwarded or not.
    */
   public enum ShouldForward {
     FORWARD, NO_FORWARD
   }
+
 
   /**
    * The ID of the user that sent the original message.
@@ -27,7 +29,7 @@ public class ForwardedMessage extends BroadcastableMessage {
    * A regular constructor that should be used instead of the default constructor to construct a
    * message of this type manually.
    *
-   * @param userId The id of the user that sent the original message.
+   * @param userId         The id of the user that sent the original message.
    * @param originaMessage The original message that is forwarded by this message.
    */
   public ForwardedMessage(final String userId, final ReceivableMessage originalMessage) {

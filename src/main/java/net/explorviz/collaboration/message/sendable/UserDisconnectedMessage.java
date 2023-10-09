@@ -23,7 +23,7 @@ public class UserDisconnectedMessage extends BroadcastableMessage {
   }
 
   public void setHighlightedComponents(final HighlightingModel[] highlightedComponents) {
-    this.highlightedComponents = highlightedComponents.clone(); 
+    this.highlightedComponents = highlightedComponents.clone();
   }
 
   public HighlightingModel[] getHighlightedComponents() {

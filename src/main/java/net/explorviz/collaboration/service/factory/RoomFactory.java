@@ -20,7 +20,8 @@ import net.explorviz.collaboration.service.room.factory.HeatmapServiceFactory;
 import net.explorviz.collaboration.service.room.factory.LandscapeServiceFactory;
 import net.explorviz.collaboration.service.room.factory.UserServiceFactory;
 
-@ApplicationScoped public class RoomFactory {
+@ApplicationScoped
+public class RoomFactory {
 
   @Inject
   /* default */ UserServiceFactory userServiceFactory; // NOCS
@@ -58,28 +59,32 @@ import net.explorviz.collaboration.service.room.factory.UserServiceFactory;
       private BroadcastService broadcastService;
       private ColorAssignmentService colorAssignmentService;
 
-      @Override public UserService getUserService() {
+      @Override
+      public UserService getUserService() {
         if (this.userService == null) {
           this.userService = RoomFactory.this.userServiceFactory.makeUserService(this);
         }
         return this.userService;
       }
 
-      @Override public HeatmapService getHeatmapService() {
+      @Override
+      public HeatmapService getHeatmapService() {
         if (this.heatmapService == null) {
           this.heatmapService = RoomFactory.this.heatmapServiceFactory.makeHeatmapService(this);
         }
         return this.heatmapService;
       }
 
-      @Override public GrabService getGrabService() {
+      @Override
+      public GrabService getGrabService() {
         if (this.grabService == null) {
           this.grabService = RoomFactory.this.grabServiceFactory.makeGrabService(this);
         }
         return this.grabService;
       }
 
-      @Override public LandscapeService getLandscapeService() {
+      @Override
+      public LandscapeService getLandscapeService() {
         if (this.landscapeService == null) {
           this.landscapeService =
               RoomFactory.this.landscapeServiceFactory.makeLandscapeService(this);
@@ -87,7 +92,8 @@ import net.explorviz.collaboration.service.room.factory.UserServiceFactory;
         return this.landscapeService;
       }
 
-      @Override public ApplicationService getApplicationService() {
+      @Override
+      public ApplicationService getApplicationService() {
         if (this.applicationService == null) {
           this.applicationService =
               RoomFactory.this.applicationServiceFactory.makeApplicationService(this);
@@ -95,7 +101,8 @@ import net.explorviz.collaboration.service.room.factory.UserServiceFactory;
         return this.applicationService;
       }
 
-      @Override public DetachedMenuService getDetachedMenuService() {
+      @Override
+      public DetachedMenuService getDetachedMenuService() {
         if (this.detachedMenuService == null) {
           this.detachedMenuService =
               RoomFactory.this.detachedMenuServiceFactory.makeDetachedMenuService(this);
@@ -103,7 +110,8 @@ import net.explorviz.collaboration.service.room.factory.UserServiceFactory;
         return this.detachedMenuService;
       }
 
-      @Override public BroadcastService getBroadcastService() {
+      @Override
+      public BroadcastService getBroadcastService() {
         if (this.broadcastService == null) {
           this.broadcastService =
               RoomFactory.this.broadcastServiceFactory.makeBroadcastService(this);
@@ -111,7 +119,8 @@ import net.explorviz.collaboration.service.room.factory.UserServiceFactory;
         return this.broadcastService;
       }
 
-      @Override public ColorAssignmentService getColorAssignmentService() {
+      @Override
+      public ColorAssignmentService getColorAssignmentService() {
         if (this.colorAssignmentService == null) {
           this.colorAssignmentService =
               RoomFactory.this.colorAssignmentServiceFactory.makeColorAssignmentService(this);

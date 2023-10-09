@@ -11,6 +11,7 @@ public class SelfConnectedMessage extends SendableMessage {
   private User self;
   private OtherUser[] users;
 
+
   public static class Controller {
     private int controllerId;
     private String assetUrl;
@@ -59,6 +60,7 @@ public class SelfConnectedMessage extends SendableMessage {
     }
   }
 
+
   public static class User {
     private String id;
     private String name;
@@ -91,6 +93,7 @@ public class SelfConnectedMessage extends SendableMessage {
     }
   }
 
+
   public static class OtherUser extends User {
     private Controller[] controllers;
     private double[] position;
@@ -100,7 +103,7 @@ public class SelfConnectedMessage extends SendableMessage {
       return this.controllers.clone();
     }
 
-    public void setControllers(final Controller...controllers) {
+    public void setControllers(final Controller... controllers) {
       this.controllers = controllers.clone();
     }
 
@@ -108,7 +111,7 @@ public class SelfConnectedMessage extends SendableMessage {
       return this.position.clone();
     }
 
-    public void setPosition(final double...position) {
+    public void setPosition(final double... position) {
       this.position = position.clone();
     }
 
@@ -116,7 +119,7 @@ public class SelfConnectedMessage extends SendableMessage {
       return this.quaternion.clone();
     }
 
-    public void setQuaternion(final double...quaternion) {
+    public void setQuaternion(final double... quaternion) {
       this.quaternion = quaternion.clone();
     }
   }

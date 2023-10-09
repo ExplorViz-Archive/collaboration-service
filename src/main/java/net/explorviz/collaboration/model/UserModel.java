@@ -16,6 +16,7 @@ public class UserModel extends BaseModel {
   private boolean hasHighlightedEntity;
   private final ArrayList<HighlightingModel> highlightedEntities; // NOPMD
 
+
   public enum State {
     CONNECTING, CONNECTED, SPECTATING, SYNCHRONIZED
   }
@@ -76,16 +77,16 @@ public class UserModel extends BaseModel {
     this.hasHighlightedEntity = isHighlighted;
   }
 
-  public void setHighlightedEntity(final String appId,
-      final String entityType, final String entityId) {
+  public void setHighlightedEntity(final String appId, final String entityType,
+      final String entityId) {
     this.setHighlighted(true);
     this.highlightedEntities.add(new HighlightingModel(appId, entityId, entityType));
   }
 
   public void removeHighlightedEntity(final String entityId) {
 
-    this.highlightedEntities.removeIf(highlightedEntity -> 
-        highlightedEntity.getEntityId().equals(entityId));
+    this.highlightedEntities.removeIf(
+        highlightedEntity -> highlightedEntity.getEntityId().equals(entityId));
 
     if (this.highlightedEntities.isEmpty()) {
       this.setHighlighted(false);

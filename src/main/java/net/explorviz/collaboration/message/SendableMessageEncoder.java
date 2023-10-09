@@ -14,7 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Encoder for the JSON serialization of messages that can be sent from the backend to the frontend.
+ * Encoder for the JSON serialization of messages that can be sent from the backend to the
+ * frontend.
  */
 public class SendableMessageEncoder implements Encoder.TextStream<SendableMessage> {
 
@@ -53,8 +54,8 @@ public class SendableMessageEncoder implements Encoder.TextStream<SendableMessag
    * @param json A JSON object.
    * @return The parsed message.
    * @throws DecodeException This exception should never be thrown.
-   * @throws IOException When there is an error encoding the message. See also
-   *         {@link JsonGenerationException} and {@link JsonMappingException}.
+   * @throws IOException     When there is an error encoding the message. See also
+   *                         {@link JsonGenerationException} and {@link JsonMappingException}.
    */
   public String encodeMessage(final SendableMessage message) throws EncodeException, IOException {
     final StringWriter writer = new StringWriter();

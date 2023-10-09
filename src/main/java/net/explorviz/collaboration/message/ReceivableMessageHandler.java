@@ -61,21 +61,20 @@ public interface ReceivableMessageHandler<R, A> { // NOPMD
   R handleRestructureMessage(RestructureMessage message, A arg);
 
   R handleRestructureCreateOrDeleteMessage(RestructureCreateOrDeleteMessage message, A arg);
-  
+
   R handleRestructureCutAndInsertMessage(RestructureCutAndInsertMessage message, A arg);
 
   R handleRestructureCommunicationMessage(RestructureCommunicationMessage message, A arg);
 
   R handleRestructureCopyAndPasteClassMessage(RestructureCopyAndPasteClassMessage message, A arg);
 
-  R handleRestructureCopyAndPastePackageMessage(
-      RestructureCopyAndPastePackageMessage message, A arg);
-  
-  R handleRestructureDeleteCommunicationMessage(
-      RestructureDeleteCommunicationMessage message, A arg);
+  R handleRestructureCopyAndPastePackageMessage(RestructureCopyAndPastePackageMessage message,
+      A arg);
 
-  R handleRestructureDuplicateAppMessage(
-      RestructureDuplicateAppMessage message, A arg);
+  R handleRestructureDeleteCommunicationMessage(RestructureDeleteCommunicationMessage message,
+      A arg);
+
+  R handleRestructureDuplicateAppMessage(RestructureDuplicateAppMessage message, A arg);
 
   R handleRestructureRenameOperationMessage(RestructureRenameOperationMessage message, A arg);
 
@@ -86,7 +85,7 @@ public interface ReceivableMessageHandler<R, A> { // NOPMD
   R handleRestructureRestoreClassMessage(RestructureRestoreClassMessage message, A arg);
 
   R handleChangeLogRemoveEntryMessage(ChangeLogRemoveEntryMessage message, A arg);
-  
+
   R handleChangeLogRestoreEntriesMessage(ChangeLogRestoreEntriesMessage message, A arg);
 
   R handleSpectatingUpdateMessage(SpectatingUpdateMessage message, A arg);
@@ -99,8 +98,7 @@ public interface ReceivableMessageHandler<R, A> { // NOPMD
   R handleUserControllerDisconnectMessage(UserControllerDisconnectMessage userControllerDisconnMsg,
       A arg);
 
-  R handleJoinVrMessage(JoinVrMessage joinVrMessage,
-      A arg);
+  R handleJoinVrMessage(JoinVrMessage joinVrMessage, A arg);
 
   R handleUserPositionsMessage(UserPositionsMessage message, A arg);
 

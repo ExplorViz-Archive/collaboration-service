@@ -2,6 +2,7 @@ package net.explorviz.vr.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import net.explorviz.collaboration.service.room.ColorAssignmentService;
 import org.junit.jupiter.api.Test;
 

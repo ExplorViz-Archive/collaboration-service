@@ -53,13 +53,13 @@ public class RestructureMessage extends ReceivableMessage {
   }
 
   public void setUndo(final boolean undo) {
-    this.undo = undo; 
+    this.undo = undo;
   }
 
   @Override
   public String toString() {
-    return "entityId: " + this.entityId + ", entityType: "
-        + this.entityType + ", newName: " + this.newName;
+    return "entityId: " + this.entityId + ", entityType: " + this.entityType + ", newName: "
+        + this.newName;
   }
 
   @Override

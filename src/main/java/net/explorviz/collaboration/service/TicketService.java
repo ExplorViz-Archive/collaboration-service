@@ -29,7 +29,7 @@ public class TicketService {
   private static final TemporalAmount TICKET_EXPIRY_PERIOD = Duration.ofSeconds(30);
 
   @Inject
-  /* default */RoomService roomService; // NOCS
+  /* default */ RoomService roomService; // NOCS
 
   /**
    * The tickets that have not yet been redeemed.

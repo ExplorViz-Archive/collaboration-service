@@ -60,8 +60,8 @@ public class UserService { // NOPMD
 
   public void connectController(final UserModel user,
       final UserControllerConnectMessage.Controller controller) {
-    final ControllerModel controllerModel = this.makeControllerModel(controller.getControllerId(),
-        controller.getAssetUrl());
+    final ControllerModel controllerModel =
+        this.makeControllerModel(controller.getControllerId(), controller.getAssetUrl());
     controllerModel.setPosition(controller.getPosition());
     controllerModel.setQuaternion(controller.getQuaternion());
     controllerModel.setIntersection(controller.getIntersection());
@@ -84,7 +84,7 @@ public class UserService { // NOPMD
       for (final UserModel otherUser : this.users.values()) {
         otherUser.removeHighlightedEntity(entityId);
       }
-    } else if (!isHighlighted && isMultiSelected) { 
+    } else if (!isHighlighted && isMultiSelected) {
 
       for (final HighlightingModel highlightingModel : user.getHighlightedEntities()) {
         for (final UserModel otherUser : this.users.values()) {

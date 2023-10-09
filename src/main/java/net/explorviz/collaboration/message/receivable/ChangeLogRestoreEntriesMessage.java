@@ -11,7 +11,7 @@ public class ChangeLogRestoreEntriesMessage extends ReceivableMessage {
   public ChangeLogRestoreEntriesMessage() {
     super(EVENT);
   }
-  
+
   public String getKey() {
     return this.key;
   }
