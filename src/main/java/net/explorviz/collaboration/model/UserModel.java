@@ -1,6 +1,7 @@
 package net.explorviz.collaboration.model;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +14,7 @@ public class UserModel extends BaseModel {
   private long timeOfLastMessage;
   private final Color color;
   private boolean hasHighlightedEntity;
-  private HighlightingModel highlightedEntity;
+  private final ArrayList<HighlightingModel> highlightedEntities; // NOPMD
 
   public enum State {
     CONNECTING, CONNECTED, SPECTATING, SYNCHRONIZED
@@ -23,6 +24,7 @@ public class UserModel extends BaseModel {
     super(id);
     this.userName = userName;
     this.controllers = new HashMap<>();
+    this.highlightedEntities = new ArrayList<>();
     this.color = color;
   }
 
@@ -74,12 +76,28 @@ public class UserModel extends BaseModel {
     this.hasHighlightedEntity = isHighlighted;
   }
 
-  public void setHighlightedEntity(final boolean isHighlighted, final String appId,
+  public void setHighlightedEntity(final String appId,
       final String entityType, final String entityId) {
-    this.highlightedEntity = new HighlightingModel(appId, entityId, entityType);
+    this.setHighlighted(true);
+    this.highlightedEntities.add(new HighlightingModel(appId, entityId, entityType));
   }
 
-  public HighlightingModel getHighlightedEntity() {
-    return this.highlightedEntity;
+  public void removeHighlightedEntity(final String entityId) {
+
+    this.highlightedEntities.removeIf(highlightedEntity -> 
+        highlightedEntity.getEntityId().equals(entityId));
+
+    if (this.highlightedEntities.isEmpty()) {
+      this.setHighlighted(false);
+    }
+  }
+
+  public void removeAllHighlightedEntities() {
+    this.highlightedEntities.clear();
+  }
+
+
+  public ArrayList<HighlightingModel> getHighlightedEntities() { // NOPMD
+    return this.highlightedEntities;
   }
 }

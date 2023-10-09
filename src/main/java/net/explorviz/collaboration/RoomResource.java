@@ -89,7 +89,8 @@ public class RoomResource {
 
     // Initialize detached menus.
     for (final DetachedMenu menu : body.getDetachedMenus()) {
-      room.getDetachedMenuService().detachMenu(menu.getEntityId(), menu.getEntityType(),
+      room.getDetachedMenuService().detachMenu(menu.getEntityId(), 
+          menu.getUserId(), menu.getEntityType(),
           menu.getPosition(), menu.getQuaternion(), menu.getScale());
     }
 

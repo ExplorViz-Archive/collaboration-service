@@ -19,18 +19,35 @@ import net.explorviz.collaboration.message.ReceivableMessage;
 import net.explorviz.collaboration.message.ReceivableMessageDecoder;
 import net.explorviz.collaboration.message.ReceivableMessageHandler;
 import net.explorviz.collaboration.message.SendableMessageEncoder;
+import net.explorviz.collaboration.message.receivable.AllHighlightsResetMessage;
 import net.explorviz.collaboration.message.receivable.AppClosedMessage;
 import net.explorviz.collaboration.message.receivable.AppOpenedMessage;
+import net.explorviz.collaboration.message.receivable.ChangeLogRemoveEntryMessage;
+import net.explorviz.collaboration.message.receivable.ChangeLogRestoreEntriesMessage;
 import net.explorviz.collaboration.message.receivable.ComponentUpdateMessage;
 import net.explorviz.collaboration.message.receivable.DetachedMenuClosedMessage;
 import net.explorviz.collaboration.message.receivable.HeatmapUpdateMessage;
 import net.explorviz.collaboration.message.receivable.HighlightingUpdateMessage;
+import net.explorviz.collaboration.message.receivable.JoinVrMessage;
 import net.explorviz.collaboration.message.receivable.MenuDetachedMessage;
 import net.explorviz.collaboration.message.receivable.MousePingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.ObjectGrabbedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.PingUpdateMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCommunicationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCopyAndPasteClassMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCopyAndPastePackageMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCreateOrDeleteMessage;
+import net.explorviz.collaboration.message.receivable.RestructureCutAndInsertMessage;
+import net.explorviz.collaboration.message.receivable.RestructureDeleteCommunicationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureDuplicateAppMessage;
+import net.explorviz.collaboration.message.receivable.RestructureMessage;
+import net.explorviz.collaboration.message.receivable.RestructureModeMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRenameOperationMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRestoreAppMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRestoreClassMessage;
+import net.explorviz.collaboration.message.receivable.RestructureRestorePackageMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
@@ -185,8 +202,9 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
       final VrSession session) {
     final var room = session.getRoom();
     final var objectId = room.getDetachedMenuService()
-        .detachMenu(message.getDetachId(), message.getEntityType(), message.getPosition(),
-            message.getQuaternion(), message.getScale());
+        .detachMenu(message.getDetachId(), message.getSenderSession().getUser().getId(), 
+        message.getEntityType(), message.getPosition(),
+        message.getQuaternion(), message.getScale());
 
     // Send ID of detached menu to sender.
     message.sendResponse(new MenuDetachedResponse(objectId));
@@ -228,6 +246,19 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     room.getApplicationService()
         .updateComponent(message.getComponentId(), message.getAppId(), message.isFoundation(),
             message.isOpened());
+
+    if (message.isForward()) {
+      return ShouldForward.FORWARD;
+    } else {
+      return ShouldForward.NO_FORWARD;
+    }
+  }
+
+  @Override
+  public ShouldForward handleAllHighlightsResetMessage(final AllHighlightsResetMessage message,
+      final VrSession session) {
+    final var room = session.getRoom();
+    room.getUserService().resetAllHighlights(room);
     return ShouldForward.FORWARD;
   }
 
@@ -237,7 +268,97 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     final var room = session.getRoom();
     final var user = session.getUser();
     room.getUserService().updateHighlighting(user, message.getAppId(), message.getEntityId(),
-        message.getEntityType(), message.isHighlighted());
+        message.getEntityType(), message.isHighlighted(), message.isMultiSelected());
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureModeMessage(final RestructureModeMessage message,
+      final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureMessage(final RestructureMessage message,
+      final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureCreateOrDeleteMessage(
+      final RestructureCreateOrDeleteMessage message, final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureCutAndInsertMessage(
+      final RestructureCutAndInsertMessage message, final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureCommunicationMessage(
+      final RestructureCommunicationMessage message, final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureCopyAndPasteClassMessage(
+      final RestructureCopyAndPasteClassMessage message, final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureCopyAndPastePackageMessage(
+      final RestructureCopyAndPastePackageMessage message, final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureDeleteCommunicationMessage(
+      final RestructureDeleteCommunicationMessage message, final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureDuplicateAppMessage(
+      final RestructureDuplicateAppMessage message, final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureRenameOperationMessage(
+      final RestructureRenameOperationMessage message, final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureRestoreAppMessage(
+      final RestructureRestoreAppMessage message, final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureRestorePackageMessage(
+      final RestructureRestorePackageMessage message, final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleRestructureRestoreClassMessage(
+      final RestructureRestoreClassMessage message, final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleChangeLogRemoveEntryMessage(
+      final ChangeLogRemoveEntryMessage message, final VrSession session) {
+    return ShouldForward.FORWARD;
+  }
+
+  @Override
+  public ShouldForward handleChangeLogRestoreEntriesMessage(
+      final ChangeLogRestoreEntriesMessage message, final VrSession session) {
     return ShouldForward.FORWARD;
   }
 
@@ -273,6 +394,11 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
     final var room = session.getRoom();
     final var user = session.getUser();
     room.getUserService().disconnectController(user, message.getControllerId());
+    return ShouldForward.FORWARD;
+  }
+
+  @Override public ShouldForward handleJoinVrMessage(
+    final JoinVrMessage message, final VrSession session) {
     return ShouldForward.FORWARD;
   }
 
@@ -354,6 +480,7 @@ public class VrSocket implements ReceivableMessageHandler<ShouldForward, VrSessi
    * @param event The connection event.
    */
   public void sendLandscape(@ObservesAsync final UserConnectedEvent event) {
+    LOGGER.debug("sending initial landscape message!");
     final var room = event.getRoom();
     final var userModel = event.getUserModel();
     final var session = this.sessionRegistry.lookupSessionOfUser(room, userModel.getId());

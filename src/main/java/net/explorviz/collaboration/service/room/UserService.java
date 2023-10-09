@@ -10,12 +10,13 @@ import net.explorviz.collaboration.message.receivable.UserControllerConnectMessa
 import net.explorviz.collaboration.message.receivable.UserPositionsMessage.ControllerPose;
 import net.explorviz.collaboration.message.receivable.UserPositionsMessage.Pose;
 import net.explorviz.collaboration.model.ControllerModel;
+import net.explorviz.collaboration.model.HighlightingModel;
 import net.explorviz.collaboration.model.UserModel;
 import net.explorviz.collaboration.model.UserModel.State;
 import net.explorviz.collaboration.service.IdGenerationService;
 import net.explorviz.collaboration.service.Room;
 
-public class UserService {
+public class UserService { // NOPMD
   private final Room room;
 
   private final IdGenerationService idGenerationService;
@@ -76,22 +77,30 @@ public class UserService {
   }
 
   public void updateHighlighting(final UserModel user, final String appId, final String entityId,
-      final String entityType, final boolean isHighlighted) {
-    if (!isHighlighted) {
-      user.setHighlighted(false);
-      return;
-    }
+      final String entityType, final boolean isHighlighted, final boolean isMultiSelected) {
 
-    // Overwrite highlighting of other users (if they highlighted same entity)
-    for (final UserModel otherUser : this.users.values()) {
-      if (otherUser.containsHighlightedEntity()
-          && otherUser.getHighlightedEntity().getHighlightedApp().equals(appId)
-          && otherUser.getHighlightedEntity().getHighlightedEntity().equals(entityId)) {
-        otherUser.setHighlighted(false);
+    if (!isHighlighted && !isMultiSelected) { // NOPMD
+      //user.removeHighlightedEntity(entityId); // not necessary because own user is in otherUser
+      for (final UserModel otherUser : this.users.values()) {
+        otherUser.removeHighlightedEntity(entityId);
       }
+    } else if (!isHighlighted && isMultiSelected) { 
+
+      for (final HighlightingModel highlightingModel : user.getHighlightedEntities()) {
+        for (final UserModel otherUser : this.users.values()) {
+          if (!otherUser.getId().equals(user.getId())) {
+            // we are not allowed to modify the object we are iterating through
+            otherUser.removeHighlightedEntity(highlightingModel.getEntityId());
+          }
+        }
+      }
+      user.removeAllHighlightedEntities();
+    } else {
+      // Overwrite highlighting of other users (if they highlighted same entity)
+      user.setHighlightedEntity(appId, entityType, entityId);
     }
-    user.setHighlightedEntity(isHighlighted, appId, entityType, entityId);
   }
+
 
   public UserModel makeUserModel(final String userName) {
     final var userId = this.idGenerationService.nextId();
@@ -116,6 +125,12 @@ public class UserService {
     if (this.users.containsKey(user.getId())) {
       this.users.remove(user.getId());
       this.userDisconnectedEvent.fireAsync(new UserDisconnectedEvent(user, this.room));
+    }
+  }
+
+  public void resetAllHighlights(final Room room) {
+    for (final UserModel otherUser : this.users.values()) {
+      otherUser.removeAllHighlightedEntities();
     }
   }
 

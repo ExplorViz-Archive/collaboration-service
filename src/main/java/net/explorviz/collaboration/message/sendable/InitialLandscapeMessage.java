@@ -1,6 +1,7 @@
 package net.explorviz.collaboration.message.sendable; // NOPMD
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.awt.Color;
 import net.explorviz.collaboration.message.SendableMessage;
 
 public class InitialLandscapeMessage extends SendableMessage {
@@ -10,6 +11,7 @@ public class InitialLandscapeMessage extends SendableMessage {
   private App[] openApps;
   private Landscape landscape;
   private DetachedMenu[] detachedMenus;
+  private HighlightingObject[] highlightedExternCommunicationLinks; // NOPMD
 
   public static class Landscape {
     private String landscapeToken;
@@ -34,6 +36,8 @@ public class InitialLandscapeMessage extends SendableMessage {
 
   public static class DetachedMenu {
     private String objectId;
+    private String userId;
+    private String detachId;
     private String entityType;
     private String entityId;
     private double[] position;
@@ -46,6 +50,22 @@ public class InitialLandscapeMessage extends SendableMessage {
 
     public void setObjectId(final String objectId) {
       this.objectId = objectId;
+    }
+
+    public String getUserId() {
+      return this.userId;
+    }
+
+    public void setUserId(final String userId) {
+      this.userId = userId;
+    }
+
+    public String getDetachId() {
+      return this.detachId;
+    }
+
+    public void setDetachId(final String detachId) {
+      this.detachId = detachId;
     }
 
     public String getEntityType() {
@@ -92,10 +112,12 @@ public class InitialLandscapeMessage extends SendableMessage {
 
   public static class HighlightingObject {
     private String userId;
+    private float[] color;
     private String appId;
     private String entityType;
     private String entityId;
     private boolean highlighted; // NOPMD NOCS
+
 
     public String getUserId() {
       return this.userId;
@@ -103,6 +125,14 @@ public class InitialLandscapeMessage extends SendableMessage {
 
     public void setUserId(final String userId) {
       this.userId = userId;
+    }
+
+    public float[] getColor() {
+      return this.color.clone();
+    }
+
+    public void setColor(final Color color) {
+      this.color = new float[]{color.getRed(), color.getGreen(), color.getBlue()};
     }
 
     public String getAppId() {
@@ -196,6 +226,7 @@ public class InitialLandscapeMessage extends SendableMessage {
     public void setOpenComponents(final String[] openComponents) {
       this.openComponents = openComponents.clone();
     }
+
   }
 
   public InitialLandscapeMessage() {
@@ -226,4 +257,12 @@ public class InitialLandscapeMessage extends SendableMessage {
     this.landscape = landscape;
   }
 
+  public void setHighlightedExternCommunicationLinks(
+      final HighlightingObject[] highlightingObjects) { 
+    this.highlightedExternCommunicationLinks = highlightingObjects.clone();
+  }
+
+  public HighlightingObject[] getHighlightedExternCommunicationLinks() {
+    return this.highlightedExternCommunicationLinks.clone();
+  }
 }

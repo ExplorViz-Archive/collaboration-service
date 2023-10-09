@@ -3,8 +3,10 @@ package net.explorviz.collaboration.model;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ApplicationModel extends ScalableBaseModel implements GrabbableObjectModel {
   private final List<String> openComponents;
+
 
   public ApplicationModel(final String id) {
     super(id);

@@ -23,10 +23,11 @@ public class DetachedMenuService {
     return this.detachedMenus.values();
   }
 
-  public String detachMenu(final String detachId, final String entityType, final double[] position,
+  public String detachMenu(final String detachId, final String userId, 
+      final String entityType, final double[] position,
       final double[] quaternion, final double[] scale) {
     final var objectId = this.idGenerationService.nextId();
-    final var menu = new DetachedMenuModel(detachId, entityType, objectId);
+    final var menu = new DetachedMenuModel(detachId, userId, entityType, objectId);
     menu.setPosition(position);
     menu.setQuaternion(quaternion);
     menu.setScale(scale);
