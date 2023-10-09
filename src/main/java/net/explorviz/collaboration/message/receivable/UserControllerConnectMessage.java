@@ -8,6 +8,25 @@ public class UserControllerConnectMessage extends ReceivableMessage {
 
   private Controller controller;
 
+
+  public UserControllerConnectMessage() {
+    super(EVENT);
+  }
+
+  public Controller getController() {
+    return this.controller;
+  }
+
+  public void setController(final Controller controller) {
+    this.controller = controller;
+  }
+
+  @Override
+  public <R, A> R handleWith(final ReceivableMessageHandler<R, A> handler, final A arg) {
+    return handler.handleUserControllerConnectMessage(this, arg);
+  }
+
+
   public static class Controller {
     private int controllerId;
     private String assetUrl;
@@ -58,22 +77,5 @@ public class UserControllerConnectMessage extends ReceivableMessage {
     public void setIntersection(final double[] intersection) {
       this.intersection = intersection.clone();
     }
-  }
-
-  public UserControllerConnectMessage() {
-    super(EVENT);
-  }
-
-  public Controller getController() {
-    return this.controller;
-  }
-
-  public void setController(final Controller controller) {
-    this.controller = controller;
-  }
-
-  @Override
-  public <R, A> R handleWith(final ReceivableMessageHandler<R, A> handler, final A arg) {
-    return handler.handleUserControllerConnectMessage(this, arg);
   }
 }

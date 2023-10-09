@@ -13,12 +13,12 @@ public abstract class RequestMessage extends ReceivableMessage {
     super(event);
   }
 
-  public void setNonce(final int nonce) {
-    this.nonce = nonce;
-  }
-
   public int getNonce() {
     return this.nonce;
+  }
+
+  public void setNonce(final int nonce) {
+    this.nonce = nonce;
   }
 
   public void sendResponse(final RespondableMessage responseBody) {

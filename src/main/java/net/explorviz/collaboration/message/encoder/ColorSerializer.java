@@ -1,7 +1,6 @@
 package net.explorviz.collaboration.message.encoder;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import java.awt.Color;
@@ -16,7 +15,7 @@ public class ColorSerializer extends JsonSerializer<Color> {
 
   @Override
   public void serialize(final Color color, final JsonGenerator jsonGenerator,
-      final SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
+      final SerializerProvider serializerProvider) throws IOException {
     final var r = color.getRed() / 255.0;
     final var g = color.getGreen() / 255.0;
     final var b = color.getBlue() / 255.0;

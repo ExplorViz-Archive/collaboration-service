@@ -2,6 +2,7 @@ package net.explorviz.vr.message;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
@@ -24,7 +25,6 @@ import net.explorviz.collaboration.message.receivable.ObjectMovedMessage;
 import net.explorviz.collaboration.message.receivable.ObjectReleasedMessage;
 import net.explorviz.collaboration.message.receivable.SpectatingUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

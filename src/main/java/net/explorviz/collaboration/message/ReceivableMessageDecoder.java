@@ -56,8 +56,8 @@ public class ReceivableMessageDecoder implements Decoder.TextStream<ReceivableMe
    * @param json A JSON object.
    * @return The parsed message.
    * @throws DecodeException This exception should never be thrown.
-   * @throws IOException When there is an error parsing the message. See also
-   *         {@link JsonParseException} and {@link JsonMappingException}.
+   * @throws IOException     When there is an error parsing the message. See also
+   *                         {@link JsonParseException} and {@link JsonMappingException}.
    */
   public VrMessage decodeMessage(final String json) throws DecodeException, IOException {
     final Reader reader = new StringReader(json);

@@ -28,10 +28,10 @@ public abstract class ReceivableMessage extends VrMessage {
   /**
    * Invokes the correct {@code handle*} method of the given handler.
    *
-   * @param <R> The return type of the handeler's {@code handle*} methods.
-   * @param <A> The type for additional arguments of the handeler's {@code handle*} methods.
+   * @param <R>     The return type of the handeler's {@code handle*} methods.
+   * @param <A>     The type for additional arguments of the handeler's {@code handle*} methods.
    * @param handler The handler whose {@code handle*} method to invoke.
-   * @param arg An additional argument to pass to the handlers {@code handle*} method.
+   * @param arg     An additional argument to pass to the handlers {@code handle*} method.
    * @return The return value of the {@code handle*} method.
    */
   public abstract <R, A> R handleWith(ReceivableMessageHandler<R, A> handler, A arg);

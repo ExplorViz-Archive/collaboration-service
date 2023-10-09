@@ -21,31 +21,31 @@ public class MenuDetachedMessage extends RequestMessage {
     return this.detachId;
   }
 
-  public String getEntityType() {
-    return this.entityType;
-  }
-
-  public double[] getPosition() {
-    return this.position.clone();
-  }
-
-  public double[] getQuaternion() {
-    return this.quaternion.clone();
-  }
-
   public void setDetachId(final String detachId) {
     this.detachId = detachId;
+  }
+
+  public String getEntityType() {
+    return this.entityType;
   }
 
   public void setEntityType(final String entityType) {
     this.entityType = entityType;
   }
 
-  public void setPosition(final double...position) {
+  public double[] getPosition() {
+    return this.position.clone();
+  }
+
+  public void setPosition(final double... position) {
     this.position = position.clone();
   }
 
-  public void setQuaternion(final double...quaternion) {
+  public double[] getQuaternion() {
+    return this.quaternion.clone();
+  }
+
+  public void setQuaternion(final double... quaternion) {
     this.quaternion = quaternion.clone();
   }
 
@@ -53,7 +53,7 @@ public class MenuDetachedMessage extends RequestMessage {
     return this.scale.clone();
   }
 
-  public void setScale(final double...scale) {
+  public void setScale(final double... scale) {
     this.scale = scale.clone();
   }
 

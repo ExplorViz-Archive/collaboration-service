@@ -11,43 +11,6 @@ public class UserPositionsMessage extends ReceivableMessage {
   private ControllerPose controller2;
   private Pose camera;
 
-  public static class Pose {
-    private double[] position;
-    private double[] quaternion;
-
-    public double[] getPosition() {
-      return this.position.clone();
-    }
-
-    public void setPosition(final double[] position) {
-      this.position = position.clone();
-    }
-
-    public double[] getQuaternion() {
-      return this.quaternion.clone();
-    }
-
-    public void setQuaternion(final double[] quaternion) {
-      this.quaternion = quaternion.clone();
-    }
-  }
-
-  public static class ControllerPose extends Pose {
-    private double[] intersection;
-
-    public double[] getIntersection() {
-      if (this.intersection != null) { // NOPMD
-        return this.intersection.clone();
-      } else {
-        // intersection might be null (even at runtime)
-        return null;
-      }
-    }
-
-    public void setIntersection(final double[] intersection) {
-      this.intersection = intersection.clone();
-    }
-  }
 
   public UserPositionsMessage() {
     super(EVENT);
@@ -80,5 +43,45 @@ public class UserPositionsMessage extends ReceivableMessage {
   @Override
   public <R, A> R handleWith(final ReceivableMessageHandler<R, A> handler, final A arg) {
     return handler.handleUserPositionsMessage(this, arg);
+  }
+
+
+  public static class Pose {
+    private double[] position;
+    private double[] quaternion;
+
+    public double[] getPosition() {
+      return this.position.clone();
+    }
+
+    public void setPosition(final double[] position) {
+      this.position = position.clone();
+    }
+
+    public double[] getQuaternion() {
+      return this.quaternion.clone();
+    }
+
+    public void setQuaternion(final double[] quaternion) {
+      this.quaternion = quaternion.clone();
+    }
+  }
+
+
+  public static class ControllerPose extends Pose {
+    private double[] intersection;
+
+    public double[] getIntersection() {
+      if (this.intersection != null) { // NOPMD
+        return this.intersection.clone();
+      } else {
+        // intersection might be null (even at runtime)
+        return null;
+      }
+    }
+
+    public void setIntersection(final double[] intersection) {
+      this.intersection = intersection.clone();
+    }
   }
 }

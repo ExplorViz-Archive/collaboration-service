@@ -7,7 +7,7 @@ public class AllHighlightsResetMessage extends ReceivableMessage {
 
   public static final String EVENT = "all_highlights_reset";
 
-  
+
   public AllHighlightsResetMessage() {
     super(EVENT);
   }

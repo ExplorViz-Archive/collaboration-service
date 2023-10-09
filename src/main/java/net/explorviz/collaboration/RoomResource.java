@@ -10,12 +10,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
 import net.explorviz.collaboration.model.ProjectorConfigurations;
 import net.explorviz.collaboration.payload.receivable.InitialRoomPayload;
-import net.explorviz.collaboration.payload.receivable.InitialSynchronizationPayload;
 import net.explorviz.collaboration.payload.receivable.InitialRoomPayload.App;
 import net.explorviz.collaboration.payload.receivable.InitialRoomPayload.DetachedMenu;
+import net.explorviz.collaboration.payload.receivable.InitialSynchronizationPayload;
 import net.explorviz.collaboration.payload.receivable.JoinLobbyPayload;
 import net.explorviz.collaboration.payload.sendable.LobbyJoinedResponse;
 import net.explorviz.collaboration.payload.sendable.RoomCreatedResponse;
@@ -23,9 +22,8 @@ import net.explorviz.collaboration.payload.sendable.RoomListRecord;
 import net.explorviz.collaboration.payload.sendable.SynchronizationStartedResponse;
 import net.explorviz.collaboration.service.RoomService;
 import net.explorviz.collaboration.service.SynchronizationService;
-import net.explorviz.collaboration.util.JsonLoader;
 import net.explorviz.collaboration.service.TicketService;
-
+import net.explorviz.collaboration.util.JsonLoader;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +33,7 @@ public class RoomResource {
   private static final Logger LOGGER = LoggerFactory.getLogger(RoomResource.class);
 
   @Inject
-  /* default */RoomService roomService; // NOCS
+  /* default */ RoomService roomService; // NOCS
 
   @Inject
   /* default */ TicketService ticketService; // NOCS
@@ -50,16 +48,14 @@ public class RoomResource {
   @Path("/rooms")
   @Produces(MediaType.APPLICATION_JSON)
   public List<RoomListRecord> listRooms() {
-    return this.roomService.getRooms().stream()
-        .map((room) -> new RoomListRecord(room.getRoomId(), room.getName(),
+    return this.roomService.getRooms().stream().map(
+        (room) -> new RoomListRecord(room.getRoomId(), room.getName(),
             room.getLandscapeService().getLandscape().getLandscapeToken(),
-            room.getUserService().getUsers().size()))
-        .collect(Collectors.toList());
+            room.getUserService().getUsers().size())).collect(Collectors.toList());
   }
 
   /**
-   * Creates a new room with the given initial landscape, applications and
-   * detached menus.
+   * Creates a new room with the given initial landscape, applications and detached menus.
    *
    * @param body The initial room layout.
    * @return The ID of the newly created room.
@@ -75,13 +71,13 @@ public class RoomResource {
 
     // Initialize landscape.
     final var landscape = body.getLandscape();
-    room.getLandscapeService().initLandscape(landscape.getLandscapeToken(),
-        landscape.getTimestamp());
+    room.getLandscapeService()
+        .initLandscape(landscape.getLandscapeToken(), landscape.getTimestamp());
 
     // Initialize applications.
     for (final App app : body.getOpenApps()) {
-      room.getApplicationService().openApplication(app.getId(), app.getPosition(),
-          app.getQuaternion(), app.getScale());
+      room.getApplicationService()
+          .openApplication(app.getId(), app.getPosition(), app.getQuaternion(), app.getScale());
       for (final String componentId : app.getOpenComponents()) {
         room.getApplicationService().updateComponent(componentId, app.getId(), false, true);
       }
@@ -89,9 +85,9 @@ public class RoomResource {
 
     // Initialize detached menus.
     for (final DetachedMenu menu : body.getDetachedMenus()) {
-      room.getDetachedMenuService().detachMenu(menu.getEntityId(), 
-          menu.getUserId(), menu.getEntityType(),
-          menu.getPosition(), menu.getQuaternion(), menu.getScale());
+      room.getDetachedMenuService()
+          .detachMenu(menu.getEntityId(), menu.getUserId(), menu.getEntityType(),
+              menu.getPosition(), menu.getQuaternion(), menu.getScale());
     }
 
     return new RoomCreatedResponse(room.getRoomId());
@@ -120,16 +116,17 @@ public class RoomResource {
   }
 
   /**
-   * 
+   *  Initializes the room when a synchronization is started.
+   *
    * @param body The initial synchronization layout containing room.
    * @return the id of the synchronization room.
-   * @throws InterruptedException
+   * @throws InterruptedException Exception which could occur when thread sleeps.
    */
   @POST
   @Path("/synchronization")
   @Produces(MediaType.APPLICATION_JSON)
-  public SynchronizationStartedResponse startSynchronization(final InitialSynchronizationPayload body)
-      throws IOException, InterruptedException {
+  public SynchronizationStartedResponse startSynchronization(
+      final InitialSynchronizationPayload body) throws IOException, InterruptedException {
     final InitialRoomPayload roomPayload = body.getRoomPayload();
     final String roomId = roomPayload.getRoomId();
     // Check if room already exists
@@ -152,8 +149,9 @@ public class RoomResource {
         if (LOGGER.isInfoEnabled()) {
           LOGGER.info("Main is not connected.");
         }
-        Thread.sleep(1000);
+        final long oneSecondInMs = 1000;
 
+        Thread.sleep(oneSecondInMs);
       }
     }
 
@@ -167,11 +165,10 @@ public class RoomResource {
     final LobbyJoinedResponse joinResponse = this.joinLobby(roomResponse.getRoomId(), joinPayload);
 
     // Get the specific projectorconfigurations of json file
-    final Optional<ProjectorConfigurations> projectorConfigurations = JsonLoader
-        .loadFromJsonResourceById("/projectorConfigurations.json", deviceId);
+    final Optional<ProjectorConfigurations> projectorConfigurations =
+        JsonLoader.loadFromJsonResourceById("/projectorConfigurations.json", deviceId);
 
-    return new SynchronizationStartedResponse(
-        roomResponse,
-        joinResponse, projectorConfigurations.get());
+    return new SynchronizationStartedResponse(roomResponse, joinResponse,
+        projectorConfigurations.get());
   }
 }

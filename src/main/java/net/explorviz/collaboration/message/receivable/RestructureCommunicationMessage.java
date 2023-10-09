@@ -40,8 +40,8 @@ public class RestructureCommunicationMessage extends ReceivableMessage {
 
   @Override
   public String toString() {
-    return "sourceClassId: " + this.sourceClassId + ", targetClassId: "
-        + this.targetClassId + ", methodName: " + this.methodName;
+    return "sourceClassId: " + this.sourceClassId + ", targetClassId: " + this.targetClassId
+        + ", methodName: " + this.methodName;
   }
 
   @Override
