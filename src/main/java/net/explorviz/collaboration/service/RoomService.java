@@ -29,30 +29,25 @@ public class RoomService {
 
   public Room createRoom() {
     final var roomId = this.idGenerationService.nextId();
+    return createRoom(roomId);
+  }
+
+  // Overloading function to satisfy the need for setting up a specific
+  // room id instead of generating a random one.
+  public Room createRoom(final String roomId) {
+    if (this.rooms.containsKey(roomId)) {
+      // When desired id is a duplicate, generate a new id
+      return this.createRoom(this.idGenerationService.nextId());
+    }
+
     final var roomName = ROOM_PREFIX + roomId;
     final var room = this.roomFactory.makeRoom(roomId, roomName);
     this.rooms.put(roomId, room);
     if (LOGGER.isInfoEnabled()) {
       LOGGER.info("Created room with id " + roomId);
     }
+
     return room;
-  }
-
-  // Overloading function to satisfy the need for setting up a specific
-  // room id instead of generating a random one.
-  public Room createRoom(final String roomId) {
-    if (!this.rooms.containsKey(roomId)) {
-      final var roomName = ROOM_PREFIX + roomId;
-      final var room = this.roomFactory.makeRoom(roomId, roomName);
-      this.rooms.put(roomId, room);
-      if (LOGGER.isInfoEnabled()) {
-        LOGGER.info("Created room with id " + roomId);
-      }
-
-      return room;
-    }
-    // When dublicated, then return a id generated room
-    return this.createRoom();
   }
 
   private void createDefaultRoom() {
