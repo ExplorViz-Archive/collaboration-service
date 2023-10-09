@@ -11,7 +11,6 @@ public class UserPositionsMessage extends ReceivableMessage {
   private ControllerPose controller2;
   private Pose camera;
 
-
   public static class Pose {
     private double[] position;
     private double[] quaternion;
@@ -32,7 +31,6 @@ public class UserPositionsMessage extends ReceivableMessage {
       this.quaternion = quaternion.clone();
     }
   }
-
 
   public static class ControllerPose extends Pose {
     private double[] intersection;

@@ -13,7 +13,6 @@ public class InitialLandscapeMessage extends SendableMessage {
   private DetachedMenu[] detachedMenus;
   private HighlightingObject[] highlightedExternCommunicationLinks; // NOPMD
 
-
   public static class Landscape {
     private String landscapeToken;
     private long timestamp;
@@ -34,7 +33,6 @@ public class InitialLandscapeMessage extends SendableMessage {
       this.timestamp = timestamp;
     }
   }
-
 
   public static class DetachedMenu {
     private String objectId;
@@ -90,7 +88,7 @@ public class InitialLandscapeMessage extends SendableMessage {
       return this.position.clone();
     }
 
-    public void setPosition(final double... position) {
+    public void setPosition(final double...position) {
       this.position = position.clone();
     }
 
@@ -98,7 +96,7 @@ public class InitialLandscapeMessage extends SendableMessage {
       return this.quaternion.clone();
     }
 
-    public void setQuaternion(final double... quaternion) {
+    public void setQuaternion(final double...quaternion) {
       this.quaternion = quaternion.clone();
     }
 
@@ -106,12 +104,11 @@ public class InitialLandscapeMessage extends SendableMessage {
       return this.scale.clone();
     }
 
-    public void setScale(final double... scale) {
+    public void setScale(final double...scale) {
       this.scale = scale.clone();
     }
 
   }
-
 
   public static class HighlightingObject {
     private String userId;
@@ -135,7 +132,7 @@ public class InitialLandscapeMessage extends SendableMessage {
     }
 
     public void setColor(final Color color) {
-      this.color = new float[] {color.getRed(), color.getGreen(), color.getBlue()};
+      this.color = new float[]{color.getRed(), color.getGreen(), color.getBlue()};
     }
 
     public String getAppId() {
@@ -172,7 +169,6 @@ public class InitialLandscapeMessage extends SendableMessage {
     }
 
   }
-
 
   public static class App {
     private String id;
@@ -262,7 +258,7 @@ public class InitialLandscapeMessage extends SendableMessage {
   }
 
   public void setHighlightedExternCommunicationLinks(
-      final HighlightingObject[] highlightingObjects) {
+      final HighlightingObject[] highlightingObjects) { 
     this.highlightedExternCommunicationLinks = highlightingObjects.clone();
   }
 

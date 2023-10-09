@@ -10,8 +10,8 @@ public class UserDisconnectedMessageFactory {
   public UserDisconnectedMessage makeMessage(final UserModel userModel) {
     final var message = new UserDisconnectedMessage();
     message.setId(userModel.getId());
-    message.setHighlightedComponents(
-        userModel.getHighlightedEntities().toArray(n -> new HighlightingModel[n]));
+    message.setHighlightedComponents(userModel.getHighlightedEntities()
+        .toArray(n -> new HighlightingModel[n]));
     return message;
   }
 }

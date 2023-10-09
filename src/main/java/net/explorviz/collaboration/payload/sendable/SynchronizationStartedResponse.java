@@ -3,7 +3,8 @@ package net.explorviz.collaboration.payload.sendable;
 import net.explorviz.collaboration.model.ProjectorConfigurations;
 
 /**
- * Class provides the scaffold for the respone to the initiation of the synchronization feature.
+ * Class provides the scaffold for the respone 
+ * to the initiation of the synchronization feature.
  */
 public class SynchronizationStartedResponse {
 
@@ -11,8 +12,7 @@ public class SynchronizationStartedResponse {
   final private LobbyJoinedResponse joinResponse;
   final private ProjectorConfigurations projectorConfigurations;
 
-  public SynchronizationStartedResponse(final RoomCreatedResponse roomResponse,
-      final LobbyJoinedResponse joinResponse,
+  public SynchronizationStartedResponse(final RoomCreatedResponse roomResponse, final LobbyJoinedResponse joinResponse,
       final ProjectorConfigurations projectorConfigurations) {
     this.roomResponse = roomResponse;
     this.joinResponse = joinResponse;

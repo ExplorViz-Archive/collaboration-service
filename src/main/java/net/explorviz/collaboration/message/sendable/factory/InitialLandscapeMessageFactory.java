@@ -37,9 +37,9 @@ public class InitialLandscapeMessageFactory {
       final ArrayList<HighlightingObject> componentHighlightedArray = new ArrayList<>(); // NOPMD
       for (final UserModel user : room.getUserService().getUsers()) {
         if (user.containsHighlightedEntity()) {
-          final HighlightingModel[] highlighted =
-              user.getHighlightedEntities().toArray(n -> new HighlightingModel[n]); // NOPMD
-
+          final HighlightingModel[] highlighted =  user.getHighlightedEntities()
+          .toArray(n -> new HighlightingModel[n]); // NOPMD
+  
           for (final HighlightingModel highlightedEntity : highlighted) {
 
             if (highlightedEntity.getAppId().equals(appObj.getId())) {
@@ -66,7 +66,7 @@ public class InitialLandscapeMessageFactory {
               boolean isEntityIdInList = false;
               final String id = highlightingObj.getEntityId();
 
-              for (final HighlightingObject externCommunicationLink : externCommunicationLinks) {
+              for (final HighlightingObject externCommunicationLink : externCommunicationLinks) { 
                 // TODO: use a HashSet instead of ArrayList for constant access time
                 if (externCommunicationLink.getEntityId().equals(id)) { // NOPMD
                   isEntityIdInList = true;
@@ -118,8 +118,8 @@ public class InitialLandscapeMessageFactory {
     message.setDetachedMenus(detachedMenusArray.toArray(n -> new DetachedMenu[n]));
 
     // highlighting for extern communication links only
-    message.setHighlightedExternCommunicationLinks(
-        externCommunicationLinks.toArray(n -> new HighlightingObject[n]));
+    message.setHighlightedExternCommunicationLinks(externCommunicationLinks
+        .toArray(n -> new HighlightingObject[n])); 
     return message;
   }
 

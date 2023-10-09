@@ -4,8 +4,7 @@ import javax.enterprise.context.ApplicationScoped;
 import net.explorviz.collaboration.message.sendable.TimestampUpdateTimerMessage;
 import net.explorviz.collaboration.service.Room;
 
-@ApplicationScoped
-public class TimestampUpdateTimerMessageFactory {
+@ApplicationScoped public class TimestampUpdateTimerMessageFactory {
 
   public TimestampUpdateTimerMessage makeMessage(final Room room) {
     final var timestamp = System.currentTimeMillis() - 60_000;

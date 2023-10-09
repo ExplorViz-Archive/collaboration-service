@@ -38,7 +38,6 @@ import net.explorviz.collaboration.message.receivable.TimestampUpdateMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerConnectMessage;
 import net.explorviz.collaboration.message.receivable.UserControllerDisconnectMessage;
 import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
-
 /**
  * Base class for all messages that are exchanged via the websocket connection between the frontend
  * and VR service.
@@ -46,8 +45,8 @@ import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
  * There should be a {@like Type} entry in the {@link JsonSubTypes} annotation for every receivable
  * message that maps the message's event name to its class object.
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "event",
-    visible = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY, property = "event", visible = true)
 @JsonSubTypes({@Type(value = AppClosedMessage.class, name = AppClosedMessage.EVENT),
     @Type(value = ObjectGrabbedMessage.class, name = ObjectGrabbedMessage.EVENT),
     @Type(value = AppOpenedMessage.class, name = AppOpenedMessage.EVENT),
@@ -58,29 +57,29 @@ import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
     @Type(value = RestructureModeMessage.class, name = RestructureModeMessage.EVENT),
     @Type(value = RestructureMessage.class, name = RestructureMessage.EVENT),
     @Type(value = RestructureCreateOrDeleteMessage.class,
-        name = RestructureCreateOrDeleteMessage.EVENT),
+      name = RestructureCreateOrDeleteMessage.EVENT),
     @Type(value = RestructureCutAndInsertMessage.class,
-        name = RestructureCutAndInsertMessage.EVENT),
+      name = RestructureCutAndInsertMessage.EVENT),
     @Type(value = RestructureCommunicationMessage.class,
-        name = RestructureCommunicationMessage.EVENT),
+    name = RestructureCommunicationMessage.EVENT),
     @Type(value = RestructureCopyAndPasteClassMessage.class,
-        name = RestructureCopyAndPasteClassMessage.EVENT),
+    name = RestructureCopyAndPasteClassMessage.EVENT),
     @Type(value = RestructureCopyAndPastePackageMessage.class,
-        name = RestructureCopyAndPastePackageMessage.EVENT),
+    name = RestructureCopyAndPastePackageMessage.EVENT),
     @Type(value = RestructureDeleteCommunicationMessage.class,
-        name = RestructureDeleteCommunicationMessage.EVENT),
+    name = RestructureDeleteCommunicationMessage.EVENT),
     @Type(value = RestructureDuplicateAppMessage.class,
-        name = RestructureDuplicateAppMessage.EVENT),
+    name = RestructureDuplicateAppMessage.EVENT),
     @Type(value = RestructureRenameOperationMessage.class,
-        name = RestructureRenameOperationMessage.EVENT),
+    name = RestructureRenameOperationMessage.EVENT),
     @Type(value = RestructureRestoreAppMessage.class, name = RestructureRestoreAppMessage.EVENT),
     @Type(value = RestructureRestorePackageMessage.class,
-        name = RestructureRestorePackageMessage.EVENT),
+    name = RestructureRestorePackageMessage.EVENT),
     @Type(value = RestructureRestoreClassMessage.class,
-        name = RestructureRestoreClassMessage.EVENT),
+    name = RestructureRestoreClassMessage.EVENT),
     @Type(value = ChangeLogRemoveEntryMessage.class, name = ChangeLogRemoveEntryMessage.EVENT),
     @Type(value = ChangeLogRestoreEntriesMessage.class,
-        name = ChangeLogRestoreEntriesMessage.EVENT),
+    name = ChangeLogRestoreEntriesMessage.EVENT),
     @Type(value = AllHighlightsResetMessage.class, name = AllHighlightsResetMessage.EVENT),
     @Type(value = MenuDetachedMessage.class, name = MenuDetachedMessage.EVENT),
     @Type(value = DetachedMenuClosedMessage.class, name = DetachedMenuClosedMessage.EVENT),
@@ -88,15 +87,14 @@ import net.explorviz.collaboration.message.receivable.UserPositionsMessage;
     @Type(value = HeatmapUpdateMessage.class, name = HeatmapUpdateMessage.EVENT),
     @Type(value = UserControllerConnectMessage.class, name = UserControllerConnectMessage.EVENT),
     @Type(value = UserControllerDisconnectMessage.class,
-        name = UserControllerDisconnectMessage.EVENT),
+    name = UserControllerDisconnectMessage.EVENT),
     @Type(value = JoinVrMessage.class, name = JoinVrMessage.EVENT),
     @Type(value = UserPositionsMessage.class, name = UserPositionsMessage.EVENT),
     @Type(value = PingUpdateMessage.class, name = PingUpdateMessage.EVENT),
     @Type(value = MousePingUpdateMessage.class, name = MousePingUpdateMessage.EVENT),
     @Type(value = TimestampUpdateMessage.class, name = TimestampUpdateMessage.EVENT)})
 public class VrMessage {
-  @JsonTypeId
-  private String event;
+  @JsonTypeId private String event;
 
   /**
    * Creates a new message of the given type.

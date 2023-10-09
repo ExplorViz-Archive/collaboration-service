@@ -9,7 +9,7 @@ import net.explorviz.collaboration.service.room.LandscapeService;
 @ApplicationScoped
 public class LandscapeServiceFactory {
   @Inject
-  /* default */ IdGenerationService idGenerationService;// NOCS
+  /* default */IdGenerationService idGenerationService;// NOCS
 
   public LandscapeService makeLandscapeService(final Room room) {
     final var grabService = room.getGrabService();

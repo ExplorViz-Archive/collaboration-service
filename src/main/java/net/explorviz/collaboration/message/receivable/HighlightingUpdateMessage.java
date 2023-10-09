@@ -62,7 +62,7 @@ public class HighlightingUpdateMessage extends ReceivableMessage {
   @Override
   public String toString() {
     return "appId: " + this.appId + ", entityId: " + this.entityId + ", entityType: "
-        + this.entityType + ", isHighlighted: " + this.highlighted + ", isMultiSelected: "
+        + this.entityType + ", isHighlighted: " + this.highlighted + ", isMultiSelected: " 
         + this.multiSelected;
   }
 

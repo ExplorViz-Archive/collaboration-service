@@ -8,7 +8,6 @@ public class UserControllerConnectMessage extends ReceivableMessage {
 
   private Controller controller;
 
-
   public static class Controller {
     private int controllerId;
     private String assetUrl;

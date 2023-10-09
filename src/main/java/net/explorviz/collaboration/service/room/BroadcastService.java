@@ -38,12 +38,12 @@ public class BroadcastService {
    * This method is used for example to forward a message to all other clients except for the
    * original sender of the message.
    *
-   * @param message          The message to broadcast.
+   * @param message The message to broadcast.
    * @param excludedSessions The web socket connections to exclude from the broadcast.
    * @return A future that completes when the message has been send to all other web sockets.
    */
   public Future<Void> broadcastExcept(final BroadcastableMessage message,
-      final VrSession... excludedSessions) {
+      final VrSession...excludedSessions) {
     return this.broadcastWhere(message,
         (session) -> !Arrays.stream(excludedSessions).anyMatch(session::equals));
   }
@@ -52,14 +52,14 @@ public class BroadcastService {
    * Broadcasts a message to all connected clients whose web socket connection satisfies the given
    * predicate.
    *
-   * @param message   The message to broadcast.
+   * @param message The message to broadcast.
    * @param predicate The predicate that tests whether a message should be set or not.
    * @return A future that completes when the message has been set to all users.
    */
   public Future<Void> broadcastWhere(final BroadcastableMessage message,
       final Predicate<VrSession> predicate) {
-    final var futures =
-        this.sessionRegistry.getSessions().stream().filter(this.roomSessionFilter).filter(predicate)
+    final var futures = this.sessionRegistry.getSessions().stream().filter(this.roomSessionFilter)
+        .filter(predicate)
             .map((session) -> session.send(message)).toArray(CompletableFuture[]::new);
     return CompletableFuture.allOf((CompletableFuture<?>[]) futures);
   }

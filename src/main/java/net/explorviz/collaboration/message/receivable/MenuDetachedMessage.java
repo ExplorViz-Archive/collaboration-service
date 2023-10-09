@@ -41,11 +41,11 @@ public class MenuDetachedMessage extends RequestMessage {
     this.entityType = entityType;
   }
 
-  public void setPosition(final double... position) {
+  public void setPosition(final double...position) {
     this.position = position.clone();
   }
 
-  public void setQuaternion(final double... quaternion) {
+  public void setQuaternion(final double...quaternion) {
     this.quaternion = quaternion.clone();
   }
 
@@ -53,7 +53,7 @@ public class MenuDetachedMessage extends RequestMessage {
     return this.scale.clone();
   }
 
-  public void setScale(final double... scale) {
+  public void setScale(final double...scale) {
     this.scale = scale.clone();
   }
 

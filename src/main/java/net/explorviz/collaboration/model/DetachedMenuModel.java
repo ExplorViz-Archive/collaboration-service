@@ -6,8 +6,8 @@ public class DetachedMenuModel extends ScalableBaseModel implements GrabbableObj
   private String detachId;
   private String userId;
 
-  public DetachedMenuModel(final String detachId, final String userId, final String entityType,
-      final String id) {
+  public DetachedMenuModel(final String detachId, final String userId,
+      final String entityType, final String id) {
     super(id);
     this.detachId = detachId;
     this.userId = userId;

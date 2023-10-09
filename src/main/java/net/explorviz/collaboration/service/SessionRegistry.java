@@ -79,7 +79,7 @@ public class SessionRegistry {
    *
    * @param websocketSession The websocket connection whose session to look up.
    * @return The session associated with the websocket connection or {@code null} if no session has
-   * been associated with the websocket connection.
+   *         been associated with the websocket connection.
    */
   public VrSession lookupSession(final Session websocketSession) {
     return this.sessions.get(websocketSession);
@@ -89,7 +89,7 @@ public class SessionRegistry {
    * Searches for the session that is associated with the websocket connection of the user with the
    * given id in the given room.
    *
-   * @param room   The room the user whose session to lookup is in.
+   * @param room The room the user whose session to lookup is in.
    * @param userId The ID of the user whose session to look up.
    * @return The session associated with the users websocket connection.
    * @throw If the user ID and room have not been associated with the given session.

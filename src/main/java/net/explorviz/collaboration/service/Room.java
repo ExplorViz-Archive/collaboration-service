@@ -10,8 +10,7 @@ import net.explorviz.collaboration.service.room.LandscapeService;
 import net.explorviz.collaboration.service.room.UserService;
 
 /**
- * A room is modeled by a collection of services that each manage one particular aspect of the
- * room.
+ * A room is modeled by a collection of services that each manage one particular aspect of the room.
  */
 public abstract class Room {
   private final String roomId;

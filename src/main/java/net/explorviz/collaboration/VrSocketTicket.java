@@ -9,8 +9,7 @@ import net.explorviz.collaboration.service.Room;
  *
  * The Authentication header and additional information about the user that should join a room
  * cannot be passed via the websocket API. To enable authentication and to initialize the user's
- * model, the user has to draw a ticket via the REST api before establishing a websocket
- * connection.
+ * model, the user has to draw a ticket via the REST api before establishing a websocket connection.
  */
 public class VrSocketTicket {
   /**
